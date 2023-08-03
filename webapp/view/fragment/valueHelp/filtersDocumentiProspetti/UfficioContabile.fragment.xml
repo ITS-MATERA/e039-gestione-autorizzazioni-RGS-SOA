@@ -1,0 +1,20 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdUfficioContabile"
+    noDataText="{i18n>noUfficioContabile}"
+		title="{i18n>labelUfficioContabile}"
+		search="onValueHelpChange"
+		confirm="onValueHelpUffContabileClose"
+		cancel="onValueHelpUffContabileClose"
+		app:FilterValueHelp="Fkber"
+		items="{path: 'UfficioContabile>/'}">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{UfficioContabile>Fkber}"/>
+	</SelectDialog>
+</c:FragmentDefinition>

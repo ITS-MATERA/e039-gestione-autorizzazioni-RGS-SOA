@@ -1,0 +1,40 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+<Dialog 
+  id="dlgNewBeneficiario"
+  contentWidth="100%"
+  title="{NewAnagraficaBen>/TitleDialogNewBeneficiario}"
+  
+>
+  <content>
+    <c:Fragment fragmentName="rgssoa.view.fragment.panel.pop-up.NewBeneficiarioDatiAnagrafica" type="XML"/>
+    <c:Fragment fragmentName="rgssoa.view.fragment.panel.pop-up.NewBeneficiarioDatiFiscali" type="XML"/>
+    <c:Fragment fragmentName="rgssoa.view.fragment.panel.pop-up.NewBeneficiarioDatiPagamento" type="XML"/>
+  </content>
+
+  <buttons>
+    <Button text="{i18n>btnBack}" press="onBackNewBeneficiario" type="Emphasized"/>
+    <Button 
+      text="{i18n>btnNewDestinatario}" 
+      press="onNewDestinatario" 
+      type="Emphasized" 
+      visible="{NewAnagraficaBen>/VisibleNewBeneficiario}"
+      enabled="{= ${NewAnagraficaBen>/ModalitaPagamento/SZwels} === 'ID2' ? true : false}"/>
+    <Button 
+      text="{i18n>btnNewQuietanzante}" 
+      press="onNewQuietanzante" 
+      type="Emphasized" 
+      visible="{NewAnagraficaBen>/VisibleNewBeneficiario}"
+      enabled="{= ${NewAnagraficaBen>/ModalitaPagamento/SZwels} === 'ID1' ? true : false}"
+      />
+    <Button 
+      text="{i18n>btnSave}" 
+      press="onSaveNewBeneficiario" 
+      type="Emphasized"
+      visible="{NewAnagraficaBen>/VisibleNewBeneficiario}"
+    />
+  </buttons>
+</Dialog>
+</c:FragmentDefinition>

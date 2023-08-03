@@ -1,0 +1,49 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+>
+	<Panel
+		id="pnlPaginator"
+		visible="false"
+		backgroundDesign="Transparent"
+	>
+		<FlexBox
+			alignItems="Start"
+			justifyContent="Center"
+		>
+			<Button
+				id="btnFirstPagePaginator"
+				icon="sap-icon://close-command-field"
+				tooltip="{i18n>paginatorFirstPage}"
+				enabled="{paginatorModel>/btnFirstEnabled}"
+				press="onFirstPaginator"
+				class="sapUiSmallMarginEnd"
+			/>
+			<l:VerticalLayout>
+				<StepInput
+					id="stepInputTotalPage"
+					value="{paginatorModel>/currentPage}"
+					min="1"
+					max="{paginatorModel>/maxPage}"
+					textAlign="Center"
+					enabled="{paginatorModel>/currentPageEnabled}"
+					change="onChangePage"
+				/>
+				<Label
+					text="{paginatorModel>/currentPage} {i18n>paginatorGoToPage} {paginatorModel>/maxPage}"
+					textAlign="Center"
+					width="100%"
+				/>
+			</l:VerticalLayout>
+			<Button
+				id="btnLastPagePaginator"
+				icon="sap-icon://open-command-field"
+				tooltip="{i18n>paginatorLastPage}"
+				enabled="{paginatorModel>/btnLastEnabled}"
+				press="onLastPaginator"
+				class="sapUiSmallMarginBegin"
+			/>
+		</FlexBox>
+	</Panel>
+</c:FragmentDefinition>

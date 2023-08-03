@@ -1,0 +1,27 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+	<Panel
+		class="sapUiNoContentPadding"
+		backgroundDesign="Transparent"
+		visible="{StepScenario>/wizard1Step1}"
+	>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.panel.filter.Ritenuta"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.panel.filter.Beneficiario"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.panel.filter.ProspettiLiquidazione"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.panel.filter.DocumentiCosto"
+			type="XML"
+		/>
+	</Panel>
+</c:FragmentDefinition>

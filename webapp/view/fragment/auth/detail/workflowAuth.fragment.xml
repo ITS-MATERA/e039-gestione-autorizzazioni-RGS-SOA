@@ -1,0 +1,32 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.suite.ui.commons"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:plugins="sap.m.plugins"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+	<VBox  width="100%"  >
+		<items>			
+			<c:Timeline
+				id="idTimeline"
+				showHeaderBar="false"
+				enableModelFilter="false"
+				enableDoubleSided="true"
+				sort="false"
+				noDataText="{i18n>authWorkflowNoData}"
+				content="{
+					path: 'WFStateAutSet>/'
+				}">	
+			<c:content>
+				<c:TimelineItem
+						dateTime="{WFStateAutSet>DataOraString}"								
+						text="{WFStateAutSet>DescStato} da {WFStateAutSet>Utente}"
+						userName="{WFStateAutSet>DescStato}"
+						icon="{= ${WFStateAutSet>IsLast} === 'X' ? 'sap-icon://favorite' : 'sap-icon://person-placeholder' }">
+				</c:TimelineItem>
+			</c:content>
+		</c:Timeline>
+		</items>
+	</VBox>
+</core:FragmentDefinition>

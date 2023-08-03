@@ -1,0 +1,20 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdUfficioPagatore"
+    noDataText="{i18n>noUfficioPagatore}"
+		title="{i18n>labelUfficioPagatore}"
+		search="onValueHelpChange"
+		confirm="onValueHelpUffPagatoreClose"
+		cancel="onValueHelpUffPagatoreClose"
+		app:FilterValueHelp="Fkber"
+		items="{path: 'UfficioPagatore>/'}">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{UfficioPagatore>Fkber}"/>
+	</SelectDialog>
+</c:FragmentDefinition>

@@ -1,0 +1,181 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+	<Panel
+		backgroundDesign="Transparent"
+		id="pnlListSoa"
+		visible="false"
+	>
+		<Table
+			id="tblListSoa"
+			mode="MultiSelect"
+			fixedLayout="false"
+			contextualWidth="Auto"
+			growing="true"
+			selectionChange="onSelectedItem"
+			updateFinished="onUpdateFinished"
+			items="{
+				path: 'SOASet>/'
+			}"
+		>
+			<headerToolbar>
+				<OverflowToolbar>
+					<Title text="{SoaSettings>/listSOATableTitle}"/>
+					<ToolbarSpacer/>
+					<Button
+						text="{i18n>btnAnnullamentoSoa}"
+						type="Emphasized"
+					/>
+					<Button
+						text="{i18n>btnInvioFirma}"
+						type="Emphasized"
+					/>
+					<Button
+						text="{i18n>btnRevocaInvioFirma}"
+						type="Emphasized"
+					/>
+					<Button
+						text="{i18n>btnFirmaSoa}"
+						type="Emphasized"
+					/>
+					<Button
+						text="{i18n>btnRevocaFirma}"
+						type="Emphasized"
+					/>
+					<Button
+						text="{i18n>btnRegistraRichiestaAnnullamento}"
+						type="Emphasized"
+					/>
+					<Button
+						text="{i18n>btnCancellazioneRichiestaAnnullamento}"
+						type="Emphasized"
+					/>
+					<Button
+						text="{i18n>btnDettaglio}"
+						type="Emphasized"
+						icon="sap-icon://sys-find"
+						press="onDetail"
+						enabled="{SoaSettings>/enabledBtnDetail}"
+					/>
+					<Button
+						text="{i18n>btnExport}"
+						type="Emphasized"
+						icon="sap-icon://excel-attachment"
+					/>
+				</OverflowToolbar>
+			</headerToolbar>
+			<columns>
+				<Column
+					minScreenWidth="Desktop"
+					demandPopin="true"
+				>
+					<header>
+						<Text text="{i18n>columnNameChiaveSOA}"/>
+					</header>
+				</Column>
+				<Column
+					minScreenWidth="Desktop"
+					demandPopin="true"
+				>
+					<header>
+						<Text text="{i18n>columnNameDataRegSOA}"/>
+					</header>
+				</Column>
+				<Column
+					minScreenWidth="Desktop"
+					demandPopin="true"
+				>
+					<header>
+						<Text text="{i18n>columnNameDenBeneficiario}"/>
+					</header>
+				</Column>
+				<Column
+					minScreenWidth="Desktop"
+					demandPopin="true"
+				>
+					<header>
+						<Text text="{i18n>columnNameRitenuta}"/>
+					</header>
+				</Column>
+				<Column
+					minScreenWidth="Desktop"
+					demandPopin="true"
+				>
+					<header>
+						<Text text="{i18n>columnNameEnteBeneficiario}"/>
+					</header>
+				</Column>
+				<Column
+					minScreenWidth="Desktop"
+					demandPopin="true"
+				>
+					<header>
+						<Text text="{i18n>columnNamePosizioneFinanziaria}"/>
+					</header>
+				</Column>
+				<Column
+					minScreenWidth="Desktop"
+					demandPopin="true"
+				>
+					<header>
+						<Text text="{i18n>columnNameStruttAmmResp}"/>
+					</header>
+				</Column>
+				<Column
+					minScreenWidth="Desktop"
+					demandPopin="true"
+				>
+					<header>
+						<Text text="{i18n>columnNameImporto}"/>
+					</header>
+				</Column>
+				<Column
+					minScreenWidth="Desktop"
+					demandPopin="true"
+				>
+					<header>
+						<Text text="{i18n>columnNameTipologiaDisposizione}"/>
+					</header>
+				</Column>
+				<Column
+					minScreenWidth="Desktop"
+					demandPopin="true"
+				>
+					<header>
+						<Text text="{i18n>columnNameStatoSOA}"/>
+					</header>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem vAlign="Middle">
+					<cells>
+						<ObjectIdentifier text="{SOASet>Zchiavesop}"/>
+						<Text text="{
+							path: 'SOASet>Zdatasop',
+							type: 'sap.ui.model.type.Date',
+							formatOptions: {
+								pattern: 'dd.MM.yyyy'
+							}
+						}"/>
+						<Text text="{SOASet>ZzragSoc}"/>
+						<Text text="{SOASet>Text40}"/>
+						<Text text="{SOASet>ZzDescebe}"/>
+						<Text text="{SOASet>Fipos}"/>
+						<Text text="{SOASet>Fistl}"/>
+						<Text text="{
+							path: 'SOASet>Zimptot',
+							formatter: '.formatter.convertFormattedNumber'
+						}"/>
+						<Text text="{SOASet>Zdesctipodisp3}"/>
+						<Text text="{SOASet>DescStateSoa}"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.soa.Paginator"
+			type="XML"
+		/>
+	</Panel>
+</c:FragmentDefinition>

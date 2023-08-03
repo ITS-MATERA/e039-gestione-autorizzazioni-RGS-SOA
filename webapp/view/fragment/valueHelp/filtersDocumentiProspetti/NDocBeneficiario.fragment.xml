@@ -1,0 +1,21 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdNDocBeneficiario"
+    noDataText="{i18n>noNDocBeneficiario}"
+		title="{i18n>labelNDocBeneficiario}"
+		search="onValueHelpChange"
+		confirm="onValueHelpNumDocBeneClose"
+		cancel="onValueHelpNumDocBeneClose"
+		app:FilterValueHelp="NDocBen"
+		items="{path: 'NDocBeneficiario>/'}"
+		multiSelect="true">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{NDocBeneficiario>NDocBen}"/>
+	</SelectDialog>
+</c:FragmentDefinition>

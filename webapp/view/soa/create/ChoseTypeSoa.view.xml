@@ -1,0 +1,61 @@
+<mvc:View
+	controllerName="rgssoa.controller.soa.create.ChoseTypeSoa"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+>
+	<f:DynamicPage
+		showFooter="true"
+		class="sapUiNoContentPadding"
+	>
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{i18n>registerSoaTitle}"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<FlexBox
+				alignItems="Center"
+				height="15%"
+			>
+				<VBox
+					width="100%"
+					alignItems="Center"
+					justifyContent="Center"
+				>
+					<Button
+						text="{i18n>btnDocumentiCosto}"
+						type="Emphasized"
+						press="onDocumentiCosto"
+					/>
+				</VBox>
+				<VBox
+					width="100%"
+					alignItems="Center"
+					justifyContent="Center"
+				>
+					<Button
+						text="{i18n>btnNonDocumentiCosto}"
+						type="Emphasized"
+						press="onNoDocumentiCosto"
+					/>
+				</VBox>
+			</FlexBox>
+		</f:content>
+		<f:footer>
+			<OverflowToolbar>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnBack}"
+					press="onNavBack"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+			</OverflowToolbar>
+		</f:footer>
+	</f:DynamicPage>
+</mvc:View>

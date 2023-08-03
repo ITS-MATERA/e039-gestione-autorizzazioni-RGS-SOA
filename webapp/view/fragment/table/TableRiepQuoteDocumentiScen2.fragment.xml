@@ -1,0 +1,120 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+	<Panel
+		class="onlyTopPadding"
+		visible="{StepScenario>/wizard1Step3}"
+		backgroundDesign="Transparent"
+	>
+		<headerToolbar>
+			<OverflowToolbar>
+				<Title text="{i18n>titleRiepilogoDocumentiCosto}"/>
+			</OverflowToolbar>
+		</headerToolbar>
+		<content>
+			<Table items="{
+				path: 'Soa>/data'
+			}">
+				<columns>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelAnnoRegDocumento}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelAbbrNRegDocumento}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelAbbrTipoDocumento}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelDataDocBeneficiario}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelDenomBeneficiario}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelImpDaOrdinare}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+						visible="{= ${Soa>/ZzCebenra} ? false : true}"
+					>
+						<header>
+							<Text text="{i18n>labelDurc}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+						visible="{= ${Soa>/ZzCebenra} ? false : true}"
+					>
+						<header>
+							<Text text="{i18n>labelFermoAmministrativo}"/>
+						</header>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem
+						vAlign="Middle"
+						class="bgNotEditable"
+					>
+						<cells>
+							<ObjectIdentifier text="{Soa>Gjahr}"/>
+							<ObjectIdentifier text="{Soa>Belnr}"/>
+							<Text text="{Soa>Blart}"/>
+							<Text text="{
+								path: 'Soa>Bldat',
+								type: 'sap.ui.model.type.Date',
+								formatOptions: {
+									pattern: 'dd.MM.yyyy'
+								}
+							}"/>
+							<Text text="{Soa>ZzragSoc}"/>
+							<Text text="{
+								path: 'Soa>Zimpdaord',
+								formatter: '.formatter.convertFormattedNumber'
+							}"/>
+							<Text text="{Soa>Zdurc}"/>
+							<Text text="{Soa>ZfermAmm}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+			<c:Fragment
+				fragmentName="rgssoa.view.fragment.panel.CalculatorNoEditable"
+				type="XML"
+			/>
+		</content>
+	</Panel>
+</c:FragmentDefinition>

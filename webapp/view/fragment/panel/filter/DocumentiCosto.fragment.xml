@@ -1,0 +1,260 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+	<Panel
+		backgroundDesign="Transparent"
+		visible="{= ${Soa>/Ztipopag} === '1' || ${Soa>/Ztipopag} === '2' ? true : false}"
+	>
+		<headerToolbar>
+			<OverflowToolbar>
+				<Title text="{i18n>searchDocumentoCosto}"/>
+			</OverflowToolbar>
+		</headerToolbar>
+		<content>
+			<l:Grid
+				defaultSpan="XL12 L12 M12 S12"
+				hSpacing="0.5"
+			>
+				<Text
+					text="{i18n>filterUffContabile}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					valueHelpRequest="onValueHelpUffContabile"
+					showValueHelp="true"
+					valueHelpOnly="true"
+					value="{FilterDocumenti>/UfficioContabile}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>filterUffPagatore}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					valueHelpRequest="onValueHelpUffPagatore"
+					showValueHelp="true"
+					valueHelpOnly="true"
+					value="{FilterDocumenti>/UfficioPagatore}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+			</l:Grid>
+		</content>
+		<content>
+			<l:Grid
+				defaultSpan="XL12 L12 M12 S12"
+				hSpacing="0.5"
+			>
+				<Text
+					text="{i18n>filterAnnoRegDoc}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<MultiComboBox
+					items="{
+						path: '/RicercaAnnoRegDocSet'
+					}"
+					selectedKeys="{FilterDocumenti>/AnnoRegDocumento}"
+				>
+					<c:Item
+						key="{Gjahr}"
+						text="{Gjahr}"
+					/>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</MultiComboBox>
+				<Text
+					text="{i18n>filterNRegDocFrom}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					valueHelpRequest="onValueHelpNRegDocumento"
+					showValueHelp="true"
+					valueHelpOnly="true"
+					app:PropertyModel="NumRegDocFrom"
+					value="{FilterDocumenti>/NumRegDocFrom}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>filterNRegDocTo}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					valueHelpRequest="onValueHelpNRegDocumento"
+					showValueHelp="true"
+					valueHelpOnly="true"
+					app:PropertyModel="NumRegDocTo"
+					value="{FilterDocumenti>/NumRegDocTo}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+			</l:Grid>
+		</content>
+		<content>
+			<l:Grid
+				defaultSpan="XL12 L12 M12 S12"
+				hSpacing="0.5"
+			>
+				<Text
+					text="{i18n>filterAnnoDocBene}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<MultiComboBox
+					items="{
+						path: 'AnnoDocBeneficiario>/'
+					}"
+					selectedKeys="{FilterDocumenti>/AnnoDocBeneficiario}"
+				>
+					<c:Item
+						key="{AnnoDocBeneficiario>Gjahr}"
+						text="{AnnoDocBeneficiario>Gjahr}"
+					/>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</MultiComboBox>
+				<Text
+					text="{i18n>filterNDocBene}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<MultiInput
+					valueHelpRequest="onValueHelpNumDocBene"
+					showValueHelp="true"
+					valueHelpOnly="true"
+					value="{FilterDocumenti>/NDocBen}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</MultiInput>
+			</l:Grid>
+		</content>
+		<content>
+			<l:Grid
+				defaultSpan="XL12 L12 M12 S12"
+				hSpacing="0.5"
+			>
+				<Text
+					text="{i18n>filterCIG}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input value="{FilterDocumenti>/Cig}">
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>filterCUP}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input value="{FilterDocumenti>/Cup}">
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+			</l:Grid>
+		</content>
+		<content>
+			<l:Grid
+				defaultSpan="XL12 L12 M12 S12"
+				hSpacing="0.5"
+			>
+				<Text
+					text="{i18n>filterScadDocFrom}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<DatePicker
+					valueFormat="yyyy-MM-dd"
+					displayFormat="dd.MM.yyyy"
+					value="{
+						path: 'FilterDocumenti>/ScadenzaDocFrom',
+						type: 'sap.ui.model.type.Date',
+						formatOptions: {
+							pattern: 'dd.MM.yyyy'
+						}
+					}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</DatePicker>
+				<Text
+					text="{i18n>filterScadDocTo}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<DatePicker
+					valueFormat="yyyy-MM-dd"
+					displayFormat="dd.MM.yyyy"
+					value="{
+						path: 'FilterDocumenti>/ScadenzaDocTo',
+						type: 'sap.ui.model.type.Date',
+						formatOptions: {
+							pattern: 'dd.MM.yyyy'
+						}
+					}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</DatePicker>
+			</l:Grid>
+		</content>
+	</Panel>
+</c:FragmentDefinition>

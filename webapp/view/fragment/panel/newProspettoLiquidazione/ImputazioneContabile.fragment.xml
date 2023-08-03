@@ -1,0 +1,60 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+  xmlns:l="sap.ui.layout"
+>
+<Panel backgroundDesign="Transparent">
+		<headerToolbar>
+      <OverflowToolbar>
+        <Title text="{i18n>titleImputazioneContabile}" />
+      </OverflowToolbar>
+    </headerToolbar>
+
+		<content>
+			<l:Grid defaultSpan="XL12 L12 M12 S12" hSpacing="0.5">
+				<Text text="{i18n>inputCentroCosto}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
+          <layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+        </Text>
+				<Input
+					valueHelpRequest="onValueHelpCentroCosto"
+					showValueHelp="true"
+					valueHelpOnly="true"
+					value="{Soa>/Kostl}"
+				>
+					<layoutData><l:GridData span="XL2 L3 M5 S12" /></layoutData>
+				</Input>
+        <Text text="{i18n>inputDescrizione}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
+          <layoutData><l:GridData span="XL2 L3 M5 S12" indent="XL1"/></layoutData>
+        </Text>
+        <Input 
+					editable="false"
+					value="{Soa>/DescKostl}"
+				>
+					<layoutData><l:GridData span="XL2 L3 M5 S12" /></layoutData>
+				</Input>	
+				
+        <Text text="{i18n>inputContoCoGe}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
+          <layoutData><l:GridData span="XL2 L3 M5 S12" linebreak="true"/></layoutData>
+        </Text>
+				<Input
+					valueHelpRequest="onValueHelpContoCoGe"
+					showValueHelp="true"
+					valueHelpOnly="true"
+					value="{Soa>/Hkont}"
+				>
+					<layoutData><l:GridData span="XL2 L3 M5 S12" /></layoutData>
+				</Input>
+				<Text text="{i18n>inputDescrizione}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
+          <layoutData><l:GridData span="XL2 L3 M5 S12" indent="XL1"/></layoutData>
+        </Text>
+				<Input 
+					value="{Soa>/DescHkont}"
+					editable="false"
+				>
+					<layoutData><l:GridData span="XL2 L3 M5 S12" /></layoutData>
+				</Input>
+			</l:Grid>
+		</content>
+
+	</Panel>
+</c:FragmentDefinition>

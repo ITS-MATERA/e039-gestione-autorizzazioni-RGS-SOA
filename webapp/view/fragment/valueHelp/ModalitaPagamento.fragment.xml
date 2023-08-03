@@ -1,0 +1,21 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdModalitaPagamento"
+    noDataText="{i18n>noModalitaPagamento}"
+		title="{i18n>labelModalitaPagamento}"
+		search="onValueHelpChange"
+		confirm="onValueHelpModPagamentoClose"
+		cancel="onValueHelpModPagamentoClose"
+		app:FilterValueHelp="Zdescwels"
+		items="{path: 'ModalitaPagamento>/'}">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{ModalitaPagamento>Zdescwels}"
+      app:Zwels="{ModalitaPagamento>Zwels}"/>
+	</SelectDialog>
+</c:FragmentDefinition>

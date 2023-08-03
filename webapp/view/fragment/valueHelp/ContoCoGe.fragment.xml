@@ -1,0 +1,22 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdContoCoGe"
+    noDataText="{i18n>noContoCoGe}"
+		title="{i18n>titleContoCoGe}"
+		search="onValueHelpChange"
+		confirm="onValueHelpContoCoGeClose"
+		cancel="onValueHelpContoCoGeClose"
+		app:FilterValueHelp="Saknr"
+		items="{path: 'ContoCoGe>/'}">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{ContoCoGe>Saknr}"
+      app:Description="{ContoCoGe>Descrizione}"
+    />
+	</SelectDialog>
+</c:FragmentDefinition>

@@ -1,0 +1,21 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdRitenuta"
+    noDataText="{i18n>noRitenuta}"
+		title="{i18n>columnNameRitenuta}"
+		search="onValueHelpChange"
+		confirm="onValueHelpRitenutaClose"
+		cancel="onValueHelpRitenutaClose"
+		app:FilterValueHelp="DescRitenuta"
+		items="{path: 'Ritenuta>/'}">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{Ritenuta>DescRitenuta}"
+      app:CodRitenuta="{Ritenuta>CodRitenuta}"/>
+	</SelectDialog>
+</c:FragmentDefinition>

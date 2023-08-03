@@ -1,0 +1,23 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+	<Panel
+		class="sapUiNoContentPadding"
+		backgroundDesign="Transparent"
+		visible="{StepScenario>/wizard1Step1}"
+	>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.panel.newProspettoLiquidazione.Beneficiario"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.panel.newProspettoLiquidazione.ImputazioneContabile"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.panel.newProspettoLiquidazione.ImportoLiquidazione"
+			type="XML"
+		/>
+	</Panel>
+</c:FragmentDefinition>

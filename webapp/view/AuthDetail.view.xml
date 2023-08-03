@@ -1,0 +1,107 @@
+<mvc:View
+    controllerName="rgssoa.controller.AuthDetail"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:fsemantic="sap.f.semantic"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:semantic="sap.m.semantic">
+
+    <semantic:FullscreenPage
+        id="authDetail"
+		navButtonPress="onNavBack"
+		showNavButton="false">
+
+        <semantic:content>
+            <core:Fragment fragmentName="rgssoa.view.fragment.auth.detail.headerAuth" type="XML"/>
+            
+            <IconTabBar id="authDetailTabBar" class="sapUiResponsiveContentPadding" select="onAuthDetailTabBarSelect">
+			<items>
+				<IconTabFilter
+					key="detail"                    
+					text="{i18n>authDetail-detail}"
+                    icon="sap-icon://detail-view">
+                    <core:Fragment fragmentName="rgssoa.view.fragment.auth.detail.detailAuth" type="XML"/>
+				</IconTabFilter>
+				<IconTabFilter
+					key="workflow"
+					text="{i18n>authDetail-workflow}"
+                    icon="sap-icon://history"
+                    enabled="{= ${AuthButtonSet>/btnSaveRettificaAuthVisible} ? false : true }">
+                    <core:Fragment fragmentName="rgssoa.view.fragment.auth.detail.workflowAuth" type="XML"/>
+				</IconTabFilter>
+				<IconTabFilter
+					key="file"
+					text="{i18n>authDetail-file}"
+					icon="sap-icon://documents"
+                    enabled="{= ${AuthButtonSet>/btnSaveRettificaAuthVisible} ? false : true }">
+                    <core:Fragment fragmentName="rgssoa.view.fragment.auth.detail.fileAuth" type="XML"/>
+				</IconTabFilter>
+			</items>
+		</IconTabBar>
+        </semantic:content>     
+        
+        <Panel  >		
+            <l:Grid defaultSpan="XL12 L12 M12 S12" vSpacing="0">						
+                <Button 
+                    id="btnBack"
+                    class="button"
+                    tooltip="{i18n>authDetailButtonBack}"
+                    text="{i18n>authDetailButtonBack}"
+                    width="100%"
+                    type="Emphasized"
+                    press="onNavBack">
+                    <layoutData><l:GridData  span="XL2 L2 M6 S12" /></layoutData>
+                </Button>
+                <Button 
+                    id="btnSaveRettificaAuth"
+                    class="button"
+                    tooltip="{i18n>authDetailButtonRettificaAutorizzazione}"
+                    text="{i18n>authDetailButtonRettificaAutorizzazione}"
+                    width="100%"
+                    type="Emphasized"
+                    visible="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                    press="onSaveRettificaAuth">
+                    <layoutData><l:GridData  span="XL2 L2 M6 S12" indent="XL4 L4" /></layoutData>
+                </Button>
+                <Button 
+                    id="btnAnnullamentoAuth"
+                    class="button"
+                    tooltip="{i18n>authDetailButtonAnnullamentoAuth}"
+                    text="{i18n>authDetailButtonAnnullamentoAuth}"
+                    width="100%"
+                    type="Emphasized"
+                    enabled="{= ${AutorizzazioneDetailSet>/ZzstatoAut} === '00' ? true : false }"
+                    visible="{AuthButtonSet>/btnAnnullamentoAuthVisible}"
+                    press="onAnnullamentoAuth">
+                    <layoutData><l:GridData  span="XL2 L2 M6 S12" indent="XL4 L4" /></layoutData>
+                </Button>
+                <Button 
+                    id="btnFirmaAuth"
+                    class="button"
+                    tooltip="{i18n>authDetailButtonFirmaAuth}"
+                    text="{i18n>authDetailButtonFirmaAuth}"
+                    width="100%"
+                    type="Emphasized"
+                    enabled="{= ${AutorizzazioneDetailSet>/ZzstatoAut} === '00' ? true : false }"
+                    visible="{AuthButtonSet>/btnFirmaAuthVisible}"
+                    press="onFirmaAuth">
+                    <layoutData><l:GridData  span="XL2 L2 M6 S12" /></layoutData>
+                </Button>
+                <Button 
+                    id="btnRevocaFirmaAuth"
+                    class="button"
+                    tooltip="{i18n>authDetailButtonRevocaFirmaAuth}"
+                    text="{i18n>authDetailButtonRevocaFirmaAuth}"
+                    width="100%"
+                    type="Emphasized"
+                    enabled="{= ${AutorizzazioneDetailSet>/ZzstatoAut} === '01' ? true : false }"
+                    visible="{AuthButtonSet>/btnRevocaFirmaAuthVisible}"
+                    press="onRevocaFirmaAuth">
+                    <layoutData><l:GridData  span="XL2 L2 M6 S12" /></layoutData>
+                </Button>
+            </l:Grid>
+        </Panel>	
+               
+    </semantic:FullscreenPage>
+</mvc:View>

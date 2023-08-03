@@ -1,0 +1,53 @@
+<mvc:View
+	controllerName="rgssoa.controller.soa.list.ListSoa"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:c="sap.ui.core"
+	xmlns:f="sap.f"
+>
+	<f:DynamicPage
+		showFooter="true"
+		class="sapUiNoContentPadding"
+	>
+		<f:title>
+			<f:DynamicPageTitle/>
+		</f:title>
+		<f:header>
+			<f:DynamicPageHeader class="noPadding">
+				<c:Fragment
+					fragmentName="rgssoa.view.fragment.soa.HeaderFilterbar"
+					type="XML"
+				/>
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<c:Fragment
+				fragmentName="rgssoa.view.fragment.table.TableListSOA"
+				type="XML"
+			/>
+		</f:content>
+		<f:footer>
+			<OverflowToolbar>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnBack}"
+					press="onNavBack"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<ToolbarSpacer/>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnRegisterSoa}"
+					press="onRegisterSoa"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+			</OverflowToolbar>
+		</f:footer>
+	</f:DynamicPage>
+</mvc:View>

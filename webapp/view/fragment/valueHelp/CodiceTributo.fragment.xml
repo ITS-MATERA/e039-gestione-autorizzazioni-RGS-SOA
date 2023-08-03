@@ -1,0 +1,21 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdCodiceTributo"
+    noDataText="{i18n>noCodiceTributo}"
+		title="{i18n>labelCodiceTributo}"
+		search="onValueHelpChange"
+		confirm="onValueHelpCodiceTributoClose"
+		cancel="onValueHelpCodiceTributoClose"
+		app:FilterValueHelp="Zcodtrib"
+		items="{path: 'CodiceTributo>/'}">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{CodiceTributo>Zcodtrib}"
+    />
+	</SelectDialog>
+</c:FragmentDefinition>

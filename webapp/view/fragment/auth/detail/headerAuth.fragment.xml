@@ -1,0 +1,185 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:plugins="sap.m.plugins"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+	<Panel visible="{AuthStateSet>/isDetailVisible}">
+		<l:Grid
+			defaultSpan="XL12 L12 M12 S12"
+			vSpacing="0"
+		>
+			<FlexBox justifyContent="Start">
+				<Label
+					design="Bold"
+					text="{i18n>detailAuth-headerEsercizioGestione}"
+					class="sapUiSmallMarginEnd"
+				/>
+				<Text
+					width="100%"
+					text="{AutorizzazioneDetailSet>/GjahrHeader}"
+				/>
+				<layoutData>
+					<l:GridData span="XL3 L3 M6 S12"/>
+				</layoutData>
+			</FlexBox>
+			<FlexBox justifyContent="Start">
+				<Label
+					design="Bold"
+					text="{i18n>detailAuth-headerIdAutorizzazione}"
+					class="sapUiSmallMarginEnd"
+				/>
+				<Text
+					width="100%"
+					text="{AutorizzazioneDetailSet>/ZchiaveautHeader}"
+				/>
+				<layoutData>
+					<l:GridData span="XL3 L3 M6 S12"/>
+				</layoutData>
+			</FlexBox>
+			<FlexBox justifyContent="Start">
+				<Label
+					design="Bold"
+					text="{i18n>detailAuth-headerImportoAutorizzato}"
+					class="sapUiSmallMarginEnd"
+				/>
+				<Text
+					width="100%"
+					text="{AutorizzazioneDetailSet>/ZimpautHeader}"
+				/>
+				<layoutData>
+					<l:GridData span="XL3 L3 M6 S12"/>
+				</layoutData>
+			</FlexBox>
+			<FlexBox justifyContent="Start">
+				<Label
+					design="Bold"
+					text="{i18n>detailAuth-headerAmministrazione}"
+					class="sapUiSmallMarginEnd"
+				/>
+				<Text
+					width="100%"
+					text="{AutorizzazioneDetailSet>/ZzamministrHeader}"
+				/>
+				<layoutData>
+					<l:GridData span="XL3 L3 M6 S12"/>
+				</layoutData>
+			</FlexBox>
+			<FlexBox justifyContent="Start">
+				<Label
+					design="Bold"
+					text="{i18n>detailAuth-headerTipologiaAutorizzazione}"
+					class="sapUiSmallMarginEnd"
+				/>
+				<Text
+					width="100%"
+					text="{AutorizzazioneDetailSet>/DesTipoDisp2Header}"
+				/>
+				<layoutData>
+					<l:GridData
+						span="XL3 L3 M6 S12"
+						linebreak="true"
+					/>
+				</layoutData>
+			</FlexBox>
+			<FlexBox justifyContent="Start">
+				<Label
+					design="Bold"
+					text="{i18n>detailAuth-headerTipologiaDisposizione}"
+					class="sapUiSmallMarginEnd"
+				/>
+				<Text
+					width="100%"
+					text="{AutorizzazioneDetailSet>/DesTipoDisp3Header}"
+				/>
+				<layoutData>
+					<l:GridData span="XL3 L3 M6 S12"/>
+				</layoutData>
+			</FlexBox>
+			<FlexBox justifyContent="Start">
+				<Label
+					design="Bold"
+					text="{i18n>detailAuth-headerUfficioOrdinante}"
+					class="sapUiSmallMarginEnd"
+				/>
+				<Text
+					width="100%"
+					text="{AutorizzazioneDetailSet>/DescufficioHeader}"
+				/>
+				<layoutData>
+					<l:GridData span="XL3 L3 M6 S12"/>
+				</layoutData>
+			</FlexBox>
+			<FlexBox justifyContent="Start">
+				<Label
+					design="Bold"
+					text="{i18n>detailAuth-headerPosFinanziaria}"
+					class="sapUiSmallMarginEnd"
+				/>
+				<Text
+					width="100%"
+					text="{AutorizzazioneDetailSet>/FiposHeader}"
+				/>
+				<layoutData>
+					<l:GridData span="XL3 L3 M6 S12"/>
+				</layoutData>
+			</FlexBox>
+			<FlexBox justifyContent="Start">
+				<Label
+					design="Bold"
+					text="{i18n>detailAuth-headerStruttammResp}"
+					class="sapUiSmallMarginEnd"
+				/>
+				<Text
+					width="100%"
+					text="{AutorizzazioneDetailSet>/FistlHeader}"
+				/>
+				<layoutData>
+					<l:GridData
+						span="XL2 L2 M6 S12"
+						linebreak="true"
+					/>
+				</layoutData>
+			</FlexBox>
+			<FlexBox justifyContent="Start">
+				<Label
+					design="Bold"
+					text="{i18n>detailAuth-headerNote}"
+					class="sapUiSmallMarginEnd"
+				/>
+				<TextArea
+					cols="100"
+					rows="5"
+					maxLength="1000"
+					editable="false"
+					enabled="false"
+					width="100%"
+					value="{AutorizzazioneDetailSet>/ZnoteautHeader}"
+				/>
+				<layoutData>
+					<l:GridData span="XL10 L10 M12 S12"/>
+				</layoutData>
+			</FlexBox>
+			<Button
+				id="btnRettificaAutorizzazione"
+				class="button"
+				enabled="{AuthButtonSet>/btnRettificaAutorizzazioneEnabled}"
+				tooltip="{i18n>authDetailButtonRettificaAutorizzazione}"
+				text="{i18n>authDetailButtonRettificaAutorizzazione}"
+				width="100%"
+				icon="sap-icon://edit"
+				type="Emphasized"
+				press="onRettificaAutorizzazione"
+			>
+				<layoutData>
+					<l:GridData
+						span="XL2 L2 M6 S12"
+						indent="XL10 L10 M6"
+						linebreak="true"
+					/>
+				</layoutData>
+			</Button>
+		</l:Grid>
+	</Panel>
+</core:FragmentDefinition>

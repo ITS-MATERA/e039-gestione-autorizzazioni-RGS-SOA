@@ -1,0 +1,266 @@
+{
+  "_version": "1.17.0",
+  "sap.app": {
+    "id": "rgssoa",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:worklist",
+      "version": "1.9.3",
+      "toolsId": "5bf5554a-673f-4617-a0ed-d69eb2b18fbb"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZS4_SOA_SRV/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "ZSS4_CA_CONI_VISIBILITA_SRV": {
+        "uri": "/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0",
+          "annotations": [],
+          "localUri": "localService/ZSS4_CA_CONI_VISIBILITA_SRV/metadata.xml"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "fullWidth": true,
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.71.50",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.suite.ui.generic.template": {},
+        "sap.ui.comp": {},
+        "sap.ui.generic.app": {},
+        "sap.ui.table": {},
+        "sap.ushell": {},
+        "zsap.com.r3.cobi.s4.custposfin.z_s4_zposfinlink": {},
+        "zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin": {},
+        "custlinksar.custlinksar": {},
+        "zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "rgssoa.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {}
+      },
+      "ZSS4_CA_CONI_VISIBILITA_SRV": {
+        "dataSource": "ZSS4_CA_CONI_VISIBILITA_SRV",
+        "preload": true,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "refreshAfterChange": false
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css",
+          "id": "stylecss"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "rgssoa.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "bypassed": {
+          "target": ["notFound"]
+        },
+        "async": true
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "startpage",
+          "target": ["startpage"]
+        },
+        {
+          "pattern": "AuthPage",
+          "name": "authPage",
+          "target": ["authPage"]
+        },
+        {
+          "pattern": "AutorizzazioneSet/{objectId}",
+          "name": "object",
+          "target": ["object"]
+        },
+        {
+          "pattern": "AuthDetail/{Bukrs},{Gjahr},{Zchiaveaut},{ZstepAut}",
+          "name": "authDetail",
+          "target": ["authDetail"]
+        },
+        {
+          "pattern": "soa.list.ListSoa",
+          "name": "soa.list.ListSoa",
+          "target": ["soa.list.ListSoa"]
+        },
+        {
+          "pattern": "soa.create.ChoseTypeSoa",
+          "name": "soa.create.ChoseTypeSoa",
+          "target": ["soa.create.ChoseTypeSoa"]
+        },
+        {
+          "pattern": "soa.create.InputAutorizzazione/{SoaType}",
+          "name": "soa.create.InputAutorizzazione",
+          "target": ["soa.create.InputAutorizzazione"]
+        },
+        {
+          "pattern": "soa.create.scenery.Scenario1/{Bukrs},{Gjahr},{Zchiaveaut}",
+          "name": "soa.create.scenery.Scenario1",
+          "target": ["soa.create.scenery.Scenario1"]
+        },
+        {
+          "pattern": "soa.create.scenery.Scenario2/{Bukrs},{Gjahr},{Zchiaveaut}",
+          "name": "soa.create.scenery.Scenario2",
+          "target": ["soa.create.scenery.Scenario2"]
+        },
+        {
+          "pattern": "soa.create.scenery.Scenario3/{Bukrs},{Gjahr},{Zchiaveaut}",
+          "name": "soa.create.scenery.Scenario3",
+          "target": ["soa.create.scenery.Scenario3"]
+        },
+        {
+          "pattern": "soa.create.scenery.Scenario4/{Bukrs},{Gjahr},{Zchiaveaut}",
+          "name": "soa.create.scenery.Scenario4",
+          "target": ["soa.create.scenery.Scenario4"]
+        },
+        {
+          "pattern": "soa.detail.scenery.Scenario1/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "soa.detail.scenery.Scenario1",
+          "target": ["soa.detail.scenery.Scenario1"]
+        }
+      ],
+      "targets": {
+        "startpage": {
+          "viewName": "StartPage",
+          "viewId": "StartPage",
+          "viewLevel": 1,
+          "title": "{i18n>worklistViewTitle}"
+        },
+        "authPage": {
+          "viewName": "AuthPage",
+          "viewId": "authPage",
+          "viewLevel": 2,
+          "title": "{i18n>authPageViewTitle}"
+        },
+        "authDetail": {
+          "viewName": "AuthDetail",
+          "viewId": "authDetail",
+          "viewLevel": 2,
+          "title": "{i18n>authDetailTitle}"
+        },
+        "object": {
+          "viewName": "Object",
+          "viewId": "object",
+          "viewLevel": 2,
+          "title": "{i18n>objectViewTitle}"
+        },
+        "objectNotFound": {
+          "viewName": "ObjectNotFound",
+          "viewId": "objectNotFound"
+        },
+        "notFound": {
+          "viewName": "NotFound",
+          "viewId": "notFound"
+        },
+        "soa.list.ListSoa": {
+          "viewName": "soa.list.ListSoa",
+          "viewId": "listSoa",
+          "viewLevel": 2,
+          "title": "{i18n>soaPageViewTitle}"
+        },
+        "soa.create.ChoseTypeSoa": {
+          "viewName": "soa.create.ChoseTypeSoa",
+          "viewId": "ChoseTypeSoa",
+          "viewLevel": 3
+        },
+        "soa.create.InputAutorizzazione": {
+          "viewName": "soa.create.InputAutorizzazione",
+          "viewId": "InputAutorizzazione",
+          "viewLevel": 4
+        },
+        "soa.create.scenery.Scenario1": {
+          "viewName": "soa.create.scenery.Scenario1",
+          "viewId": "Scenario1Create",
+          "viewLevel": 5
+        },
+        "soa.create.scenery.Scenario2": {
+          "viewName": "soa.create.scenery.Scenario2",
+          "viewId": "Scenario2Create",
+          "viewLevel": 5
+        },
+        "soa.create.scenery.Scenario3": {
+          "viewName": "soa.create.scenery.Scenario3",
+          "viewId": "Scenario3Create",
+          "viewLevel": 5
+        },
+        "soa.create.scenery.Scenario4": {
+          "viewName": "soa.create.scenery.Scenario4",
+          "viewId": "Scenario4Create",
+          "viewLevel": 5
+        },
+        "soa.detail.scenery.Scenario1": {
+          "viewName": "soa.detail.scenery.Scenario1",
+          "viewId": "Scenario1Detail",
+          "viewLevel": 3
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "rgssoa.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "app"
+    }
+  }
+}

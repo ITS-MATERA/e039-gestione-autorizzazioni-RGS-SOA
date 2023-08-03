@@ -1,0 +1,28 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdBeneficiarioScen4"
+    noDataText="{i18n>noBeneficiario}"
+		title="{i18n>columnNameBeneficiario}"
+		search="onValueHelpChange"
+		confirm="onValueHelpBeneficiarioClose"
+		cancel="onValueHelpBeneficiarioClose"
+    app:FilterValueHelp="Beneficiario"
+		items="{path: 'Beneficiario>/'}">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{Beneficiario>Beneficiario}"
+      app:BuType="{Beneficiario>Type}"
+      app:NameFirst="{Beneficiario>Nome}"
+      app:NameLast="{Beneficiario>Cognome}"
+      app:ZzragSoc="{Beneficiario>RagSoc}"
+      app:TaxnumCf="{Beneficiario>CodFisc}"
+      app:Tax="{Beneficiario>CodFiscEst}"
+      app:TaxnumPiva="{Beneficiario>PIva}"
+    />
+	</SelectDialog>
+</c:FragmentDefinition>

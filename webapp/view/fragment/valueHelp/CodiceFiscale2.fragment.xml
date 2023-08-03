@@ -1,0 +1,21 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdCodiceFiscale2"
+    noDataText="{i18n>noCodiceFiscale2}"
+		title="{i18n>labelCodiceFiscale2}"
+		search="onValueHelpChange"
+		confirm="onValueHelpCodiceFiscale2Close"
+		cancel="onValueHelpCodiceFiscale2Close"
+    app:input="iptCodiceFiscale2"
+		app:FilterValueHelp="Zstcd12"
+		items="{path: 'CodiceFiscale2>/'}">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{CodiceFiscale2>Zstcd12}"/>
+	</SelectDialog>
+</c:FragmentDefinition>

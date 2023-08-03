@@ -1,0 +1,41 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdChiaveAutorizzazione"
+    noDataText="{i18n>noChiaveAutorizzazione}"
+		title="{i18n>chiaveAutChiaveAutorizzazione}"
+		search="onValueHelpChange"
+		confirm="onValueHelpChiaveAutorizzazioneClose"
+		cancel="onValueHelpChiaveAutorizzazioneClose"
+    app:input="fltChiaveAutorizzazione"
+		app:FilterValueHelp="Zchiaveaut"
+		items="{path: 'ChiaveAutorizzazione>/'}">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{ChiaveAutorizzazione>Zchiaveaut}"
+			app:zChiaveAut="{ChiaveAutorizzazione>Zchiaveaut}"
+			app:bukrs="{ChiaveAutorizzazione>Bukrs}"
+			app:gjahr="{ChiaveAutorizzazione>Gjahr}"
+			app:dataAutorizzazione="{ChiaveAutorizzazione>DataStato}"
+			app:impAutorizzato="{ChiaveAutorizzazione>Zimpaut}"
+			app:dispAutorizzato="{ChiaveAutorizzazione>Zimpdispaut}"
+			app:tipoAutorizzato="{ChiaveAutorizzazione>Zdesctipodisp2}"
+			app:tipoDisposizione="{ChiaveAutorizzazione>Zdesctipodisp3}"
+			app:noteAutorizzazione="{ChiaveAutorizzazione>Znoteaut}"
+			app:ufficioOrdinante="{ChiaveAutorizzazione>ZufficioCont}"
+			app:descUfficioOrdinante="{ChiaveAutorizzazione>ZvimDescrufficio}"
+			app:codiceFD="{ChiaveAutorizzazione>Zfunzdel}"
+			app:descCodiceFD="{ChiaveAutorizzazione>Zdescriz}"
+			app:flagFipos="{ChiaveAutorizzazione>ZflagFipos}"
+			app:posFinanziaria="{ChiaveAutorizzazione>Fipos}"
+			app:strAmmResponsabile="{ChiaveAutorizzazione>Fistl}"
+			app:pianoGestione="{ChiaveAutorizzazione>DescrEstesa}"
+			app:dataStatoString="{ChiaveAutorizzazione>DataStatoString}"
+			/>
+			<!-- TODO - Esercizio Finanziario -->
+	</SelectDialog>
+</c:FragmentDefinition>

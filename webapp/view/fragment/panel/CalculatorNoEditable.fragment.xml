@@ -1,0 +1,36 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+>
+	<Panel
+		id="pnlCalculatorRiepilogo"
+		backgroundDesign="Transparent"
+		class="onlyTopPadding bgNotEditable"
+	>
+		<l:Grid
+			defaultSpan="XL12 L12 M12 S12"
+			class="bgNotEditable calculator"
+		>
+			<Text text="{i18n>labelCalculator}">
+				<layoutData>
+					<l:GridData
+						span="XL2 L3 M4 S12"
+						indent="XL8 L5"
+					/>
+				</layoutData>
+			</Text>
+			<Input
+				value="{
+					path: 'Soa>/Zimptot',
+					formatter: '.formatter.convertFormattedNumber'
+				}"
+				editable="false"
+			>
+				<layoutData>
+					<l:GridData span="XL1 L2 M4 S12"/>
+				</layoutData>
+			</Input>
+		</l:Grid>
+	</Panel>
+</c:FragmentDefinition>

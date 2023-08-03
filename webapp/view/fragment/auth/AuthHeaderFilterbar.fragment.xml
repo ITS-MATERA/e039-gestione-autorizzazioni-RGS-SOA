@@ -1,0 +1,400 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+	<VBox>
+		<items>
+			<l:Grid
+				id="_authFilterToolbarGrid"
+				defaultSpan="XL12 L12 M12 S12"
+				vSpacing="0"
+				class="sapUiSmallMargin"
+			>
+				<!-- Esercizio -->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authfilterEsercizio}"
+							tooltip="required"
+						/>
+						<ComboBox
+							id="authfEsercizio"
+							width="100%"
+							items="{
+								path: '/EsercizioGestioneSet'
+							}"
+						>
+							<core:Item
+								key="{Gjahr}"
+								text="{Gjahr}"
+							/>
+						</ComboBox>
+					</items>
+					<layoutData>
+						<l:GridData span="XL3 L3 M6 S12"/>
+					</layoutData>
+				</VBox>
+				<!-- Amministrazione -->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authfilterAmministrazione}"
+						/>
+						<FlexBox alignItems="Start">
+							<Input
+								id="authfAmministrazione"
+								app:searchPropertyModel="Zzamministr"
+							>
+								<layoutData>
+									<FlexItemData growFactor="4"/>
+								</layoutData>
+							</Input>
+						</FlexBox>
+					</items>
+					<layoutData>
+						<l:GridData span="XL3 L3 M6 S12"/>
+					</layoutData>
+				</VBox>
+				<!-- N.autorizzazione da -->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authFilterAutorizzazioneDa}"
+						/>
+						<FlexBox alignItems="Start">
+							<Input
+								id="authfAutorizzazioneDa"
+								liveChange="onAuthfAutorizzazioneDaLiveChange"
+								app:searchPropertyModel="Zzamministr"
+							>
+								<layoutData>
+									<FlexItemData growFactor="4"/>
+								</layoutData>
+							</Input>
+						</FlexBox>
+					</items>
+					<layoutData>
+						<l:GridData span="XL3 L3 M6 S12"/>
+					</layoutData>
+				</VBox>
+				<!-- N.autorizzazione a -->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authFilterAutorizzazioneA}"
+						/>
+						<FlexBox alignItems="Start">
+							<Input
+								id="authfAutorizzazioneA"
+								enabled="false"
+								app:searchPropertyModel="Zzamministr"
+							>
+								<layoutData>
+									<FlexItemData growFactor="4"/>
+								</layoutData>
+							</Input>
+						</FlexBox>
+					</items>
+					<layoutData>
+						<l:GridData span="XL3 L3 M6 S12"/>
+					</layoutData>
+				</VBox>
+				<!-- Stato autorizzazione -->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authfilterStatoAutorizzazione}"
+							tooltip="required"
+						/>
+						<ComboBox
+							id="authfStatoAutorizzazione"
+							width="100%"
+							app:searchPropertyModel="Gjahr"
+							items="{
+								path: '/StateAutorizzazioneSet'
+							}"
+						>
+							<core:Item
+								key="{StatoAut}"
+								text="{DescStatoAut}"
+							/>
+						</ComboBox>
+					</items>
+					<layoutData>
+						<l:GridData
+							span="XL3 L3 M6 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</VBox>
+				<!-- Ufficio Ordinante-->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authFilterUfficioOrdinante}"
+						/>
+						<FlexBox
+							alignItems="Start"
+							justifyContent="Start"
+						>
+							<Input
+								id="authfUfficioOrdinante"
+								placeholder="{i18n>authFilterUfficioOrdinante}"
+								showSuggestion="true"
+								showValueHelp="true"
+								suggestionItems="{/Provison>}"
+								app:searchPropertyModel="Zufficioliv1"
+								enabled="false"
+							>
+								<suggestionItems>
+									<core:Item text="{Provison>Zufficioliv1}"/>
+								</suggestionItems>
+								<layoutData>
+									<FlexItemData growFactor="4"/>
+								</layoutData>
+							</Input>
+						</FlexBox>
+					</items>
+					<layoutData>
+						<l:GridData span="XL3 L3 M6 S12"/>
+					</layoutData>
+				</VBox>
+				<!-- Tipologia autorizzazione -->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authfilterTipologiaAutorizzazione}"
+							tooltip="required"
+						/>
+						<ComboBox
+							id="authfTipologiaAutorizzazione"
+							width="100%"
+							selectedKey="000"
+							selectionChange="onTipologiaAutorizzazioneChange"
+							items="{
+								path: '/TipoDisp2Set'
+							}"
+						>
+							<core:Item
+								key="{Ztipodisp2}"
+								text="{Zdesctipodisp2}"
+							/>
+						</ComboBox>
+					</items>
+					<layoutData>
+						<l:GridData span="XL3 L3 M6 S12"/>
+					</layoutData>
+				</VBox>
+				<!-- Tipologia disposizione-->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authfilterTipologiaDisposizione}"
+						/>
+						<ComboBox
+							id="authfTipologiaDisposizione"
+							width="100%"
+							items="{
+								path: 'TipoDisp3Set>/'
+							}"
+						>
+							<core:Item
+								key="{TipoDisp3Set>Ztipodisp3}"
+								text="{TipoDisp3Set>Zdesctipodisp3}"
+							/>
+						</ComboBox>
+					</items>
+					<layoutData>
+						<l:GridData span="XL3 L3 M6 S12"/>
+					</layoutData>
+				</VBox>
+				<!-- Data reg autorizzazione da-->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authFilterDataAutorizzazioneDa}"
+						/>
+						<FlexBox alignItems="Start">
+							<DatePicker
+								id="authfdataAutorizzazioneDa"
+								app:searchPropertyModel="Zdatasop"
+								change="onAuthfdataAutorizzazioneDaChangeDatePicker"
+								valueFormat="yyyy-MM-dd"
+								displayFormat="dd.MM.yyyy"
+							>
+								<layoutData>
+									<FlexItemData growFactor="4"/>
+								</layoutData>
+							</DatePicker>
+						</FlexBox>
+					</items>
+					<layoutData>
+						<l:GridData
+							span="XL3 L3 M6 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</VBox>
+				<!-- Data reg autorizzazione da -->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authFilterDataAutorizzazioneA}"
+						/>
+						<FlexBox alignItems="Start">
+							<DatePicker
+								id="authfdataAutorizzazioneA"
+								app:searchPropertyModel="Zdatasop"
+								change="handleChangeDatePicker"
+								valueFormat="yyyy-MM-dd"
+								displayFormat="dd.MM.yyyy"
+								enabled="false"
+							>
+								<layoutData>
+									<FlexItemData growFactor="4"/>
+								</layoutData>
+							</DatePicker>
+						</FlexBox>
+					</items>
+					<layoutData>
+						<l:GridData span="XL3 L3 M6 S12"/>
+					</layoutData>
+				</VBox>
+				<!-- Posizione finanziaria da -->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authFilterPosizioneFinanziariaDa}"
+						/>
+						<FlexBox alignItems="Start">
+							<Input
+								id="authfPosizioneFinanziariaDa"
+								app:searchPropertyModel="Zzamministr"
+								liveChange="onAuthfPosizioneFinanziariaDaLiveChange"
+							>
+								<layoutData>
+									<FlexItemData growFactor="4"/>
+								</layoutData>
+							</Input>
+						</FlexBox>
+					</items>
+					<layoutData>
+						<l:GridData
+							span="XL3 L3 M6 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</VBox>
+				<!-- Posizione finanziaria a -->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authFilterPosizioneFinanziariaA}"
+						/>
+						<FlexBox alignItems="Start">
+							<Input
+								id="authfPosizioneFinanziariaA"
+								enabled="false"
+								app:searchPropertyModel="Zzamministr"
+							>
+								<layoutData>
+									<FlexItemData growFactor="4"/>
+								</layoutData>
+							</Input>
+						</FlexBox>
+					</items>
+					<layoutData>
+						<l:GridData span="XL3 L3 M6 S12"/>
+					</layoutData>
+				</VBox>
+				<!-- Struttura Amministrativa Responsabile-->
+				<VBox>
+					<items>
+						<Label
+							design="Bold"
+							text="{i18n>authFilterStruttAmmResp}"
+						/>
+						<FlexBox
+							alignItems="Start"
+							justifyContent="Start"
+						>
+							<Input
+								id="authfStruttAmmResp"
+								placeholder="{i18n>authFilterStruttAmmResp}"
+								showSuggestion="true"
+								showValueHelp="true"
+								suggestionItems="{/Provison>}"
+								app:searchPropertyModel="Zufficioliv1"
+								enabled="false"
+							>
+								<suggestionItems>
+									<core:Item text="{Provison>Zufficioliv1}"/>
+								</suggestionItems>
+								<layoutData>
+									<FlexItemData growFactor="4"/>
+								</layoutData>
+							</Input>
+						</FlexBox>
+					</items>
+					<layoutData>
+						<l:GridData span="XL3 L3 M6 S12"/>
+					</layoutData>
+				</VBox>
+				<Button
+					id="btnSearchAuth"
+					text="{i18n>btnSearchAuth}"
+					tooltip="{i18n>btnSearchAuth}"
+					class="button"
+					width="100%"
+					type="Emphasized"
+					press="onSearchAuthPress"
+				>
+					<layoutData>
+						<l:GridData
+							linebreak="true"
+							span="XL2 L2 M2 S12"
+							indent="XL10 L10 M10"
+						/>
+					</layoutData>
+				</Button>
+			</l:Grid>
+			<FlexBox
+				id="_idFlexBoxToggle"
+				alignItems="Center"
+				justifyContent="Center"
+			>
+				<Button
+					id="btnToggle"
+					class="button"
+					icon="sap-icon://slim-arrow-up"
+					tooltip="{i18n>tooltipArrowHide}"
+					width="100%"
+					type="Emphasized"
+					press="onToggle"
+				/>
+				<Button
+					class="sapUiTinyMarginBegin"
+					icon="sap-icon://pushpin-off"
+					tooltip="{i18n>tooltipArrowHide}"
+					width="100%"
+					type="Emphasized"
+					press="onBlockToggle"
+				/>
+			</FlexBox>
+		</items>
+	</VBox>
+</core:FragmentDefinition>

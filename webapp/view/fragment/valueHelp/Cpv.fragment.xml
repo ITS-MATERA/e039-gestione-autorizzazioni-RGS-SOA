@@ -1,0 +1,22 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+<SelectDialog
+		id="sdCpv"
+    noDataText="{i18n>noCpv}"
+		title="{i18n>labelCpv}"
+		search="onValueHelpChange"
+		confirm="onValueHelpCpvClose"
+		cancel="onValueHelpCpvClose"
+    app:input="iptCpv"
+		app:FilterValueHelp="Matnr"
+		items="{path: 'Cpv>/'}">		
+		<StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{Cpv>Matnr}"
+			description="{Cpv>Maktg}"/>
+	</SelectDialog>
+</c:FragmentDefinition>
