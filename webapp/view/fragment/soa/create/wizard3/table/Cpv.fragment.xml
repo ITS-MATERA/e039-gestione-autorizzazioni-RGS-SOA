@@ -16,7 +16,7 @@
 		<content>
 			<Table
 				id="tblCpv"
-				mode="MultiSelect"
+				mode="{= ${Soa>/EnableEdit} ? MultiSelect : None}"
 				fixedLayout="false"
 				contextualWidth="Auto"
 				growing="true"
@@ -34,6 +34,7 @@
 							type="Emphasized"
 							press="onAddRow"
 							app:etichetta="Cpv"
+							enabled="{Soa>/EnableEdit}"
 						>
 							<layoutData>
 								<OverflowToolbarLayoutData priority="NeverOverflow"/>
@@ -47,6 +48,7 @@
 							press="onCancelRow"
 							app:etichetta="Cpv"
 							app:table="tblCpv"
+							enabled="{Soa>/EnableEdit}"
 						>
 							<layoutData>
 								<OverflowToolbarLayoutData priority="NeverOverflow"/>
@@ -95,7 +97,8 @@
 								app:index="{Classificazione>Index}"
 								width="65%"
 								value="{Classificazione>Zcpv}"
-								change="onCodiceGestionaleChange"
+								change="onCosChange"
+								editable="{Soa>/EnableEdit}"
 							/>
 							<Input
 								editable="false"
@@ -109,6 +112,7 @@
 								app:index="{Classificazione>Index}"
 								app:etichetta="Cpv"
 								change="onImpDaAssociareChange"
+								editable="{Soa>/EnableEdit}"
 							/>
 						</cells>
 					</ColumnListItem>

@@ -45,16 +45,16 @@
 									/>
 								</WizardStep>
 								<WizardStep title="{i18n>titleWizard3}">
-									<!-- <c:Fragment
+									<c:Fragment
 										fragmentName="rgssoa.view.fragment.soa.create.wizard3.Classificazione"
 										type="XML"
-									/> -->
+									/>
 								</WizardStep>
 								<WizardStep title="{i18n>titleWizard4}">
-									<!-- <c:Fragment
+									<c:Fragment
 										fragmentName="rgssoa.view.fragment.soa.create.wizard4.DatiSoa"
 										type="XML"
-									/> -->
+									/>
 								</WizardStep>
 							</Wizard>
 						</content>

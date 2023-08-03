@@ -16,7 +16,7 @@
 		<content>
 			<Table
 				id="tblCup"
-				mode="MultiSelect"
+				mode="{= ${Soa>/EnableEdit} ? MultiSelect : None}"
 				fixedLayout="false"
 				contextualWidth="Auto"
 				growing="true"
@@ -91,14 +91,15 @@
 						<cells>
 							<Input
 								id="iptCup"
-								valueHelpRequest="onValueHelpCodiceGestionale"
+								valueHelpRequest="onValueHelpCos"
 								showValueHelp="true"
 								valueHelpOnly="true"
 								app:dialogName="sdCup"
 								app:fragmentName="Cup"
 								app:index="{Classificazione>Index}"
 								width="65%"
-								value="{Classificazione>Zcup}"
+								value="{Classificazione>Zzcup}"
+								editable="{Soa>/EnableEdit}"
 							/>
 							<Input
 								editable="false"
@@ -112,6 +113,7 @@
 								app:index="{Classificazione>Index}"
 								app:etichetta="Cup"
 								change="onImpDaAssociareChange"
+								editable="{Soa>/EnableEdit}"
 							/>
 						</cells>
 					</ColumnListItem>

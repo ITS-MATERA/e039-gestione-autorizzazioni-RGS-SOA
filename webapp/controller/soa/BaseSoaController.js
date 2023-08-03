@@ -572,142 +572,6 @@ sap.ui.define(
 
       //#endregion PRIVATE METHODS
 
-      //#region PUBLIC METHODS
-
-      resetModelSoa: function (sScenario, bEnableEdit) {
-        var self = this;
-        var oModelSoa = new JSONModel({
-          EnableEdit: bEnableEdit,
-          /**   Scenario    */
-          Ztipopag: sScenario, //Tipo Pagamento
-
-          /**   Dati SOA (Parte celeste in alto)   */
-          Gjahr: "", //Esercizio di gestione
-          Zimptot: "0.00", //Importo
-          Zzamministr: "", //Amministrazione
-          ZufficioCont: "", //Ufficio Contabile
-          NameFirst: "", //Nome Beneficiairo
-          NameLast: "", //Cognome Beneficiario
-          ZzragSoc: "", //Ragione Sociale
-          TaxnumCf: "", //Codice Fiscale
-          TaxnumPiva: "", //Partita Iva
-          Fipos: "", //Posizione Finanziaria
-          Fistl: "", //Struttura Amministrativa Responsabile
-          Lifnr: "", //Beneficiario
-          Witht: "", //Codice Ritenuta
-          Text40: "", //Descrizione Ritenuta
-          ZzCebenra: "", //Codice Ente Beneficiario
-          ZzDescebe: "", //Descrizione Ente Beneficiario
-          Zchiaveaut: "", //Identificativo Autorizzazione
-          Ztipodisp2: "", //Codice Tipologia Autorizzazione
-          Zdesctipodisp2: "", //Tipologia Autorizzazione
-          Ztipodisp3: "", //Codice Tipologia Disponibilità
-          Zdesctipodisp3: "", //Tipologia Disponibilità
-          Zimpaut: "", //Importo autorizzato
-          Zimpdispaut: "", //Disponibilità autorizzazione
-          Zztipologia: "", //Tipololgia SOA
-          DescZztipologia: "", //Descrizione Tipologia SOA
-          Zfunzdel: "", //Codice FD
-          Zdescriz: "", //TODO - Open Point - Descrizione Codice FD
-          ZspecieSop: "", //Specie SOA
-          DescZspecieSop: "", //Descrizione Specie SOA
-
-          /**   WIZARD 1 - SCENARIO 4 */
-          Kostl: "", //Centro Costo
-          Hkont: "", // Conto Co.Ge.
-          DescKostl: "", //Descrizione Centro Costo
-          DescHkont: "", //Descrizione Conto Co.Ge.
-
-          data: [], //Quote Documenti
-
-          /**   WIZARD 2 - Beneficiario SOA   */
-          BuType: "", //Tipologia Persona
-          Taxnumxl: "", //Codice Fiscale Estero
-          Zsede: "", //Sede Estera
-          Zdenominazione: "", //Descrizione Sede Estera
-          Zdurc: "", //Numero identificativo Durc
-          ZfermAmm: "", //Fermo amministrativo
-
-          /**   WIZARD 2 - Modalità Pagamento   */
-          Zwels: "", //Codice Modalità Pagamento
-          ZCausaleval: "", //Causale Valutaria
-          Swift: "", //BIC
-          Zcoordest: "", //Cordinate Estere
-          Iban: "", //IBAN
-          Zmotivaz: "", //Motivazione cambio IBAN
-          Zdescwels: "", //Descrizione Modalità Pagamento
-          Banks: "", //Paese di Residenza (Primi 2 digit IBAN)
-          ZDesccauval: "", //Descrizione Causale Valutaria
-
-          /**   WIZARD 2 - Dati Quietanzante/Destinatario Vaglia    */
-          Ztipofirma: "", //Tipologia Firma
-          ZpersCognomeQuiet1: "", //Cognome primo quietanzante
-          ZpersCognomeQuiet2: "", //Cognome secondo quietanzante
-          ZpersNomeQuiet1: "", //Nome primo quietanzante
-          ZpersNomeQuiet2: "", //Nome secondo quietanzante
-          ZpersNomeVaglia: "", //Nome persona vagliaesigibilità
-          ZpersCognomeVaglia: "", //Cognome persona vaglia
-          Zstcd1: "", //Codice Fiscale Utilizzatore
-          Zstcd12: "", //Codice fiscale secondo quietanzante
-          Zstcd13: "", //Codice fiscale destinatario vaglia
-          Zqindiriz: "", //Indirizzo primo quietanzante
-          Zqcitta: "", //Citta primo quietanzantez
-          Zqcap: "", //Cap primo quietanzante
-          Zqprovincia: "", //Provincia primo quietanzante
-          Zqindiriz12: "", //Indirizzo secondo quietanzante
-          Zqcitta12: "", //Citta secondo quietanzante
-          Zqcap12: "", //Cap secondo quietanzante
-          Zqprovincia12: "", //Provincia secondo quietanzante
-
-          /**   WIZARD 2 - INPS    */
-          Zcodprov: "", //INPS - Codice Provenienza
-          Zcfcommit: "", //INPS - Codice Fiscale Committente
-          Zcodtrib: "", //INPS - Codice tributo
-          Zperiodrifda: "", //INPS - Periodo riferimento da
-          Zperiodrifa: "", //INPS - Periodo riferimento a
-          Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
-          Zcfvers: "", //INPS - Codice Fiscale Versante
-          Zcodvers: "", //INPS - Codice Versante
-          FlagInpsEditabile: false,
-
-          /**   WIZARD 2 - Sede Beneficiario */
-          Zidsede: "", //Sede
-          Stras: "", //Via,numero civico
-          Ort01: "", //Località
-          Regio: "", //Regione
-          Pstlz: "", //Codice di avviamento postale
-          Land1: "", //Codice paese
-
-          /**   WIZARD 3    */
-          Classificazione: [], //Classificazioni
-
-          /**   WIZARD 4    */
-          Zcausale: "", //Causale di pagamento
-          ZE2e: "", //E2E ID
-          Zlocpag: "", //Località pagamento
-          Zzonaint: "", //Zona di intervento
-          Znumprot: "", //Numero protocollo
-          Zdataprot: "", //Data protocollo
-          Zdataesig: "", //TODO - Punto Aperto - Data esigibilità
-        });
-
-        var oModelClassificazione = new JSONModel({
-          CodiceGestionale: [],
-          Cpv: [],
-          Cig: [],
-          Cup: [],
-          ImpTotAssociareCodiceGestionale: "0.00",
-          ImpTotAssociareCpv: "0.00",
-          ImpTotAssociareCig: "0.00",
-          ImpTotAssociareCup: "0.00",
-        });
-
-        self.setModel(oModelSoa, "Soa");
-        self.setModel(oModelClassificazione, "Classificazione");
-      },
-
-      //#endregion
-
       //#endregion
 
       //#region WIZARD 2
@@ -1572,7 +1436,7 @@ sap.ui.define(
       },
 
       //#region VALUE HELP
-      onValueHelpCodiceGestionale: function (oEvent) {
+      onValueHelpCos: function (oEvent) {
         var self = this;
         //Load Models
         var oDataModel = self.getModel();
@@ -1593,7 +1457,7 @@ sap.ui.define(
                 var oModelJson = new JSONModel();
                 oModelJson.setData(data.results);
                 var oSelectDialog = sap.ui.getCore().byId(dialogName);
-                oSelectDialog?.setModel(oModelJson, "CodiceGestionale");
+                oSelectDialog?.setModel(oModelJson, "Cos");
                 oSelectDialog?.data("index", oSourceData.index);
                 oDialog.open();
               },
@@ -1602,12 +1466,11 @@ sap.ui.define(
           });
       },
 
-      onValueHelpCodiceGestionaleClose: function (oEvent) {
+      onValueHelpCosClose: function (oEvent) {
         var self = this;
         //Load Models
         var oModelClassificazione = self.getModel("Classificazione");
-        var aListClassificazione =
-          oModelClassificazione.getProperty("/CodiceGestionale");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cos");
 
         var oSelectedItem = oEvent.getParameter("selectedItem");
         var oSource = oEvent.getSource();
@@ -1620,10 +1483,7 @@ sap.ui.define(
 
         aListClassificazione[sIndex].Zcos = oSelectedItem.getTitle();
         aListClassificazione[sIndex].ZcosDesc = oSelectedItem.getDescription();
-        oModelClassificazione.setProperty(
-          "/CodiceGestionale",
-          aListClassificazione
-        );
+        oModelClassificazione.setProperty("/Cos", aListClassificazione);
 
         this.unloadFragment();
       },
@@ -1740,22 +1600,19 @@ sap.ui.define(
         var oModelClassificazione = self.getModel("Classificazione");
         var oBundle = self.getResourceBundle();
 
-        var aListCodiceGestionale =
-          oModelClassificazione.getProperty("/CodiceGestionale");
+        var aListCos = oModelClassificazione.getProperty("/Cos");
         var aListCpv = oModelClassificazione.getProperty("/Cpv");
         var aListCig = oModelClassificazione.getProperty("/Cig");
         var aListCup = oModelClassificazione.getProperty("/Cup");
 
         //Controllo se sono stati inseriti i Codici Gestionali
-        if (aListCodiceGestionale?.length === 0) {
-          sap.m.MessageBox.error(
-            oBundle.getText("msgCodiceGestionaleRequired")
-          );
+        if (aListCos?.length === 0) {
+          sap.m.MessageBox.error(oBundle.getText("msgCosRequired"));
           return false;
         }
 
         //Controllo se i codici sono stati inseriti
-        if (this._checkCodiceClassificazione(aListCodiceGestionale, "Zcos")) {
+        if (this._checkCodiceClassificazione(aListCos, "Zcos")) {
           sap.m.MessageBox.error(oBundle.getText("msgNoZcos"));
           return false;
         }
@@ -1796,7 +1653,7 @@ sap.ui.define(
         //Controllo il totale degli importi con l'importo associato
         var iImpAssociato = parseFloat(oModelSoa.getProperty("/Zimptot"));
         var iImpAssociatoCodiceGestione = parseFloat(
-          oModelClassificazione.getProperty("/ImpTotAssociareCodiceGestionale")
+          oModelClassificazione.getProperty("/ImpTotAssociareCos")
         );
         var iImpCpv = parseFloat(
           oModelClassificazione.getProperty("/ImpTotAssociareCpv")
@@ -1831,17 +1688,16 @@ sap.ui.define(
         var self = this;
         var oModelClassificazione = self.getModel("Classificazione");
 
-        var aListCodiceGestionale =
-          oModelClassificazione.getProperty("/CodiceGestionale");
+        var aListCos = oModelClassificazione.getProperty("/Cos");
         var aListCpv = oModelClassificazione.getProperty("/Cpv");
         var aListCig = oModelClassificazione.getProperty("/Cig");
         var aListCup = oModelClassificazione.getProperty("/Cup");
 
         var aListClassificazione = [];
 
-        aListCodiceGestionale.map((oCodiceGestionale) => {
-          delete oCodiceGestionale.Index;
-          aListClassificazione.push(oCodiceGestionale);
+        aListCos.map((oCos) => {
+          delete oCos.Index;
+          aListClassificazione.push(oCos);
         });
 
         aListCpv.map((oCpv) => {

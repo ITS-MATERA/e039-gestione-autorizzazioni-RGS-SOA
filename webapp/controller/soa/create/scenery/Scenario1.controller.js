@@ -32,6 +32,7 @@ sap.ui.define(
 
           var oModelSoa = new JSONModel({
             EnableEdit: true,
+            visibleBtnEdit: false,
             //Dati SOA (Parte celeste in alto)
             Gjahr: "", //Esercizio di gestione
             Zimptot: "0.00", //Importo
@@ -141,11 +142,11 @@ sap.ui.define(
           });
 
           var oModelClassificazione = new JSONModel({
-            CodiceGestionale: [],
+            Cos: [],
             Cpv: [],
             Cig: [],
             Cup: [],
-            ImpTotAssociareCodiceGestionale: "0.00",
+            ImpTotAssociareCos: "0.00",
             ImpTotAssociareCpv: "0.00",
             ImpTotAssociareCig: "0.00",
             ImpTotAssociareCup: "0.00",
@@ -309,7 +310,6 @@ sap.ui.define(
           var bWizard4 = oModelStepScenario.getProperty("/wizard4");
 
           if (bWizard1Step1) {
-            self.resetModelSoa("1", true);
             history.go(-1);
           } else if (bWizard1Step2) {
             oModelStepScenario.setProperty("/wizard1Step2", false);

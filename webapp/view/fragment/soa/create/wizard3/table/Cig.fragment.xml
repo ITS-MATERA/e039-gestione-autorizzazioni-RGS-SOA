@@ -16,7 +16,7 @@
 		<content>
 			<Table
 				id="tblCig"
-				mode="MultiSelect"
+				mode="{= ${Soa>/EnableEdit} ? MultiSelect : None}"
 				fixedLayout="false"
 				contextualWidth="Auto"
 				growing="true"
@@ -91,7 +91,7 @@
 						<cells>
 							<Input
 								id="iptCig"
-								valueHelpRequest="onValueHelpCodiceGestionale"
+								valueHelpRequest="onValueHelpCos"
 								showValueHelp="true"
 								valueHelpOnly="true"
 								app:dialogName="sdCig"
@@ -99,6 +99,7 @@
 								app:index="{Classificazione>Index}"
 								width="65%"
 								value="{Classificazione>Zzcig}"
+								editable="{Soa>/EnableEdit}"
 							/>
 							<Input
 								editable="false"
@@ -112,6 +113,7 @@
 								app:index="{Classificazione>Index}"
 								app:etichetta="Cig"
 								change="onImpDaAssociareChange"
+								editable="{Soa>/EnableEdit}"
 							/>
 						</cells>
 					</ColumnListItem>

@@ -296,6 +296,20 @@
 					<l:GridData span="XL2 L4 M6 S12"/>
 				</layoutData>
 			</HBox>
+			<Button
+				visible="{Soa>/visibleBtnEdit}"
+				text="{i18n>btnEdit}"
+				icon="sap-icon://edit"
+				press="onEdit"
+				type="Emphasized"
+			>
+				<layoutData>
+					<l:GridData
+						span="XL1 L2 M1 S12"
+						indent="XL1 L6 M10"
+					/>
+				</layoutData>
+			</Button>
 		</l:Grid>
 	</Panel>
 </c:FragmentDefinition>

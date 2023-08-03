@@ -20,11 +20,13 @@ sap.ui.define(
             wizard2: false,
             wizard3: false,
             wizard4: false,
+            visibleBtnForward: true,
           });
           self.setModel(oModelStepScenario, "StepScenario");
 
           var oModelSoa = new JSONModel({
             EnableEdit: false,
+            visibleBtnEdit: true,
             Bukrs: "",
             Zchiavesop: "",
 
@@ -141,6 +143,18 @@ sap.ui.define(
           });
           self.setModel(oModelSoa, "Soa");
 
+          var oModelClassificazione = new JSONModel({
+            Cos: [],
+            Cpv: [],
+            Cig: [],
+            Cup: [],
+            ImpTotAssociareCos: "0.00",
+            ImpTotAssociareCpv: "0.00",
+            ImpTotAssociareCig: "0.00",
+            ImpTotAssociareCup: "0.00",
+          });
+          self.setModel(oModelClassificazione, "Classificazione");
+
           this.getRouter()
             .getRoute("soa.detail.scenery.Scenario1")
             .attachPatternMatched(this._onObjectMatched, this);
@@ -171,6 +185,7 @@ sap.ui.define(
           } else if (bWizard4) {
             oModelStepScenario.setProperty("/wizard4", false);
             oModelStepScenario.setProperty("/wizard3", true);
+            oModelStepScenario.setProperty("/visibleBtnForward", true);
             oWizard.previousStep();
           }
         },
@@ -195,9 +210,19 @@ sap.ui.define(
           } else if (bWizard3) {
             oModelStepScenario.setProperty("/wizard3", false);
             oModelStepScenario.setProperty("/wizard4", true);
+            oModelStepScenario.setProperty("/visibleBtnForward", false);
             oWizard.nextStep();
           }
         },
+
+        onEdit: function () {
+          var self = this;
+          var oModelSoa = self.getModel("Soa");
+
+          oModelSoa.setProperty("/EnableEdit", true);
+        },
+
+        //#region PRIVATE METHODS
 
         _onObjectMatched: function (oEvent) {
           var self = this;
@@ -216,6 +241,7 @@ sap.ui.define(
                   self.setInpsEditable();
                   self.getSedeBeneficiario();
                   self._getPosizioniSoa();
+                  self._getClassificazioniSoa();
                 },
                 error: function () {},
               });
@@ -345,12 +371,106 @@ sap.ui.define(
           oModel.read("/SoaPosizioneSet", {
             filters: aFilters,
             success: function (data) {
-              console.log(data);
               oModelSoa.setProperty("/data", data.results);
             },
             error: function () {},
           });
         },
+
+        _getClassificazioniSoa: function () {
+          var self = this;
+          var oModel = self.getModel();
+          var oModelSoa = self.getModel("Soa");
+
+          var aFilters = [];
+
+          self.setFilterEQ(aFilters, "Bukrs", oModelSoa.getProperty("/Bukrs"));
+          self.setFilterEQ(
+            aFilters,
+            "Zchiavesop",
+            oModelSoa.getProperty("/Zchiavesop")
+          );
+
+          oModel.read("/SoaClassificazioneSet", {
+            filters: aFilters,
+            success: function (data) {
+              oModelSoa.setProperty("/Classificazione", data.results);
+              self._setModelClassificazione(data.results);
+            },
+            error: function () {},
+          });
+        },
+
+        _setModelClassificazione: function (aData) {
+          var self = this;
+          var oModelClassificazione = self.getModel("Classificazione");
+          var aCos = [];
+          var aCpv = [];
+          var aCig = [];
+          var aCup = [];
+          var fImpTotAssociareCos = 0.0;
+          var fImpTotAssociareCpv = 0.0;
+          var fImpTotAssociareCig = 0.0;
+          var fImpTotAssociareCup = 0.0;
+
+          //Separo le classificazione in base all'etichetta
+          aData.map((oClassificazione) => {
+            switch (oClassificazione.Zetichetta) {
+              case "COS":
+                fImpTotAssociareCos += parseFloat(
+                  oClassificazione.ZimptotClass
+                );
+
+                aCos.Index = aCos.length;
+                aCos.push(oClassificazione);
+                break;
+              case "CPV":
+                fImpTotAssociareCpv += parseFloat(
+                  oClassificazione.ZimptotClass
+                );
+                aCpv.Index = aCpv.length;
+                aCpv.push(oClassificazione);
+                break;
+              case "CIG":
+                fImpTotAssociareCig += parseFloat(
+                  oClassificazione.ZimptotClass
+                );
+                aCig.Index = aCig.length;
+                aCig.push(oClassificazione);
+                break;
+              case "CUP":
+                fImpTotAssociareCup += parseFloat(
+                  oClassificazione.ZimptotClass
+                );
+                aCup.Index = aCup.length;
+                aCup.push(oClassificazione);
+                break;
+            }
+          });
+
+          oModelClassificazione.setProperty("/Cos", aCos);
+          oModelClassificazione.setProperty("/Cpv", aCpv);
+          oModelClassificazione.setProperty("/Cig", aCig);
+          oModelClassificazione.setProperty("/Cup", aCup);
+          oModelClassificazione.setProperty(
+            "/ImpTotAssociareCos",
+            fImpTotAssociareCos.toFixed(2)
+          );
+          oModelClassificazione.setProperty(
+            "/ImpTotAssociareCpv",
+            fImpTotAssociareCpv.toFixed(2)
+          );
+          oModelClassificazione.setProperty(
+            "/ImpTotAssociareCig",
+            fImpTotAssociareCig.toFixed(2)
+          );
+          oModelClassificazione.setProperty(
+            "/ImpTotAssociareCup",
+            fImpTotAssociareCup.toFixed(2)
+          );
+        },
+
+        //#endregion PRIVATE METHODS
       }
     );
   }

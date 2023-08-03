@@ -1,22 +1,26 @@
 <c:FragmentDefinition
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
-  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-<SelectDialog
-		id="sdCodiceGestionale"
-    noDataText="{i18n>noCodiceGestionale}"
-		title="{i18n>labelCodiceGestionale}"
+	<SelectDialog
+		id="sdCos"
+		noDataText="{i18n>noCos}"
+		title="{i18n>labelCos}"
 		search="onValueHelpChange"
-		confirm="onValueHelpCodiceGestionaleClose"
-		cancel="onValueHelpCodiceGestionaleClose"
-    app:input="iptCodiceGestionale"
+		confirm="onValueHelpCosClose"
+		cancel="onValueHelpCosClose"
+		app:input="iptCos"
 		app:FilterValueHelp="Zcos"
-		items="{path: 'CodiceGestionale>/'}">		
+		items="{
+			path: 'Cos>/'
+		}"
+	>
 		<StandardListItem
-      iconDensityAware="false"
-      iconInset="false"
-      title="{CodiceGestionale>Zcos}"
-			description="{CodiceGestionale>ZcosDesc}"/>
+			iconDensityAware="false"
+			iconInset="false"
+			title="{Cos>Zcos}"
+			description="{Cos>ZcosDesc}"
+		/>
 	</SelectDialog>
 </c:FragmentDefinition>
