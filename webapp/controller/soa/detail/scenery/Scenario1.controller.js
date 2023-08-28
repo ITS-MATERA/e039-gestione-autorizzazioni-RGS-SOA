@@ -3,8 +3,9 @@ sap.ui.define(
     "../../BaseSoaController",
     "../../../../model/formatter",
     "sap/ui/model/json/JSONModel",
+    "sap/m/MessageBox",
   ],
-  function (BaseSoaController, formatter, JSONModel) {
+  function (BaseSoaController, formatter, JSONModel, MessageBox) {
     "use strict";
 
     return BaseSoaController.extend(
@@ -16,6 +17,7 @@ sap.ui.define(
           var self = this;
 
           var oModelStepScenario = new JSONModel({
+            wizard1Step2: false,
             wizard1Step3: true,
             wizard2: false,
             wizard3: false,
@@ -70,6 +72,7 @@ sap.ui.define(
             DescHkont: "", //Descrizione Conto Co.Ge.
 
             data: [], //Quote Documenti
+            SelectedPositions: [], //Posizioni selezionate
 
             /**   WIZARD 2 - Beneficiario SOA   */
             BuType: "", //Tipologia Persona
@@ -218,8 +221,101 @@ sap.ui.define(
         onEdit: function () {
           var self = this;
           var oModelSoa = self.getModel("Soa");
+          var oModelStepScenario = self.getModel("StepScenario");
+
+          var oPanelCalculator = self.getView().byId("pnlCalculatorList");
+
+          self.setModelCustom("QuoteDocumenti", oModelSoa.getProperty("/data"));
 
           oModelSoa.setProperty("/EnableEdit", true);
+
+          oModelStepScenario.setProperty("/wizard1Step2", true);
+          oModelStepScenario.setProperty("/wizard1Step3", false);
+          oModelStepScenario.setProperty("/wizard2", false);
+          oModelStepScenario.setProperty("/wizard3", false);
+          oModelStepScenario.setProperty("/wizard4", false);
+
+          oPanelCalculator.setVisible(true);
+        },
+
+        onSelectedItem: function (oEvent) {
+          var self = this;
+          var bSelected = oEvent.getParameter("selected");
+          //Load Model
+          var oModelSoa = self.getModel("Soa");
+          var oTablePosizioniSoa = self
+            .getView()
+            .byId("tblEditQuoteDocumentiScen1");
+          var oModelTablePosizioniSoa = oTablePosizioniSoa.getModel("Soa");
+
+          var aSelectedItems = [];
+          var aListItems = oEvent.getParameter("listItems");
+
+          aListItems.map((oListItem) => {
+            var oSelectedItem = oModelTablePosizioniSoa.getObject(
+              oListItem.getBindingContextPath()
+            );
+
+            if (bSelected) {
+              aSelectedItems.push(oSelectedItem);
+            } else {
+              var iIndex = aSelectedItems.findIndex((obj) => {
+                return (
+                  obj.Bukrs === oSelectedItem.Bukrs &&
+                  obj.Gjahr === oSelectedItem.Gjahr &&
+                  obj.Znumliq === oSelectedItem.Znumliq &&
+                  obj.Zversione === oSelectedItem.Zversione &&
+                  obj.ZversioneOrig === oSelectedItem.ZversioneOrig
+                );
+              });
+
+              if (iIndex > -1) {
+                aSelectedItems.splice(iIndex, 1);
+              }
+            }
+          });
+
+          oModelSoa.setProperty("/SelectedPositions", aSelectedItems);
+        },
+
+        onCanelPositionSoa: function () {
+          var self = this;
+
+          MessageBox.warning(
+            "Procedere con la cancellazione delle righe selezionate?",
+            {
+              actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+              title: "Rettifica SOA - Cancellazione Righe",
+              onClose: function (oAction) {
+                if (oAction === "OK") {
+                  var oModelSoa = self.getModel("Soa");
+
+                  var aSelectedItems =
+                    oModelSoa.getProperty("/SelectedPositions");
+                  var aPositionSoa = oModelSoa.getProperty("/data");
+
+                  aSelectedItems.map((oSelectedItem) => {
+                    var iIndex = aPositionSoa.findIndex((oPositionSoa) => {
+                      return (
+                        oPositionSoa.Bukrs === oSelectedItem.Bukrs &&
+                        oPositionSoa.Gjahr === oSelectedItem.Gjahr &&
+                        oPositionSoa.Znumliq === oSelectedItem.Znumliq &&
+                        oPositionSoa.Zversione === oSelectedItem.Zversione &&
+                        oPositionSoa.ZversioneOrig ===
+                          oSelectedItem.ZversioneOrig
+                      );
+                    });
+
+                    if (iIndex > -1) {
+                      aPositionSoa.splice(iIndex, 1);
+                    }
+                  });
+
+                  oModelSoa.setProperty("/data", aPositionSoa);
+                }
+              },
+            }
+          );
         },
 
         //#region PRIVATE METHODS
@@ -468,6 +564,31 @@ sap.ui.define(
             "/ImpTotAssociareCup",
             fImpTotAssociareCup.toFixed(2)
           );
+        },
+
+        _getQuoteDocumentiList: function () {
+          var self = this;
+          var oDataModel = self.getModel();
+          var aFilters = [];
+
+          // self.setFilterEQ(
+          //   aFilters,
+          //   "EsercizioContabile",
+          //   oModelSoa.getProperty("/Gjahr")
+          // );
+          // self.setFilterEQ(aFilters, "Fipex", oModelSoa.getProperty("/Fipos"));
+          // self.setFilterEQ(aFilters, "Fistl", oModelSoa.getProperty("/Fistl"));
+          // self.setFilterEQ(aFilters, "Lifnr", oModelSoa.getProperty("/Lifnr"));
+          // self.setFilterEQ(
+          //   aFilters,
+          //   "CodRitenuta",
+          //   oModelFilter.getProperty("/Witht")
+          // );
+          // self.setFilterEQ(
+          //   aFilters,
+          //   "CodEnte",
+          //   oModelFilter.getProperty("/ZzCebenra")
+          // );
         },
 
         //#endregion PRIVATE METHODS

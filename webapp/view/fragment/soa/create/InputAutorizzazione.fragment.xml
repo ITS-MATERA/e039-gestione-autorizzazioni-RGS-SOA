@@ -3,6 +3,8 @@
 	xmlns:c="sap.ui.core"
 	xmlns:l="sap.ui.layout"
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:zcontrolPosFin="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfinlink.controls"
+	xmlns:zcontrollinkSar="custlinksar.custlinksar.controls"
 >
 	<Panel
 		backgroundDesign="Transparent"
@@ -28,9 +30,6 @@
 					<!-- TODO - Open Point -->
 					<ComboBox
 						id="fltEsercizioGestione"
-						items="{
-							path: '/EsercizioGestioneSet'
-						}"
 						selectionChange="onSelectEsercizioGestione"
 					>
 						<c:Item
@@ -347,14 +346,24 @@
 							/>
 						</layoutData>
 					</Text>
-					<Input
-						editable="false"
-						value="{ChiaveAutorizzazione>/posFinanziaria}"
-					>
+					<VBox>
+						<zcontrolPosFin:LinkPosizioneFinanziaria
+							id="linkPosFinSpesa"
+							anno="{ChiaveAutorizzazione>/gjahr}"
+							eos="S"
+							fikrs="S001"
+							fase="GEST"
+							reale="R"
+							versione="D"
+							fipex="{ChiaveAutorizzazione>/posFinanziaria}"
+							datbis="99991231"
+							text="{ChiaveAutorizzazione>/posFinanziaria}"
+							semanticObject="ESAMINAMODIFICA"
+						/>
 						<layoutData>
 							<l:GridData span="XL2 L4 M4 S12"/>
 						</layoutData>
-					</Input>
+					</VBox>
 					<Text
 						text="{i18n>chiaveAutFistl}"
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
@@ -363,14 +372,25 @@
 							<l:GridData span="XL2 L3 M5 S12"/>
 						</layoutData>
 					</Text>
-					<Input
-						editable="false"
-						value="{ChiaveAutorizzazione>/strAmmResponsabile}"
-					>
+					<VBox>
+						<zcontrollinkSar:LinkSar
+							id="linkSarBilancio"
+							anno="{ChiaveAutorizzazione>/gjahr}"
+							eos="E"
+							fikrs="S001"
+							fase="GEST"
+							SEM_OBJ=""
+							reale="R"
+							versione="D"
+							bilancio=""
+							fictr="{ChiaveAutorizzazione>/strAmmResponsabile}"
+							datbis="99991231"
+							text="{ChiaveAutorizzazione>/strAmmResponsabile}"
+						/>
 						<layoutData>
 							<l:GridData span="XL2 L4 M4 S12"/>
 						</layoutData>
-					</Input>
+					</VBox>
 				</l:Grid>
 			</FlexBox>
 			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
@@ -405,14 +425,18 @@
 			</headerToolbar>
 			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<RadioButtonGroup
-					id="rbTipoDoumenti"
+					id="rbTipoDocumenti"
 					columns="2"
 				>
 					<RadioButton
+						id="rbTipoDocumentiLiquidati"
 						text="{i18n>documentiLiquidati}"
 						selected="true"
 					/>
-					<RadioButton text="{i18n>documentiNonLiquidati}"/>
+					<RadioButton
+						text="{i18n>documentiNonLiquidati}"
+						editable="{= ${ChiaveAutorizzazione>/flagFipos} === '' ? true : false}"
+					/>
 				</RadioButtonGroup>
 			</FlexBox>
 		</Panel>

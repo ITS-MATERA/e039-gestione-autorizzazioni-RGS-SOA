@@ -25,21 +25,27 @@
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Text>
-				<Input
-					valueHelpRequest="onValueHelpRitenuta"
-					showValueHelp="true"
-					valueHelpOnly="true"
-					value="{FilterDocumenti>/DescRitenuta}"
+				<ComboBox
+					width="100%"
+					items="{
+						path: '/RicercaRitenutaSet'
+					}"
+					selectedKey="{FilterDocumenti>/CodRitenuta}"
+					selectionChange="onRitenutaChange"
 					editable="{=
 						${FilterDocumenti>/Lifnr} ||
 						${FilterDocumenti>/TipoBeneficiario}
 						? false : true
 					}"
 				>
+					<c:Item
+						key="{CodRitenuta}"
+						text="{DescRitenuta}"
+					/>
 					<layoutData>
 						<l:GridData span="XL2 L2 M5 S12"/>
 					</layoutData>
-				</Input>
+				</ComboBox>
 				<Text
 					text="{i18n>soaFilterZzCebenra}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
@@ -48,21 +54,27 @@
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Text>
-				<Input
-					valueHelpRequest="onValueHelpEnteBeneficiario"
-					showValueHelp="true"
-					valueHelpOnly="true"
-					value="{FilterDocumenti>/DescEnte}"
+				<ComboBox
+					width="100%"
+					items="{
+						path: 'RicercaEnteBeneficiario>/'
+					}"
+					selectedKey="{FilterDocumenti>/CodEnte}"
+					change="onEnteBeneficiarioChange"
 					editable="{=
 						${FilterDocumenti>/Lifnr} ||
 						${FilterDocumenti>/TipoBeneficiario}
 						? false : true
 					}"
 				>
+					<c:Item
+						key="{RicercaEnteBeneficiario>CodEnte}"
+						text="{RicercaEnteBeneficiario>DescEnte}"
+					/>
 					<layoutData>
 						<l:GridData span="XL2 L2 M5 S12"/>
 					</layoutData>
-				</Input>
+				</ComboBox>
 			</l:Grid>
 		</content>
 		<content>

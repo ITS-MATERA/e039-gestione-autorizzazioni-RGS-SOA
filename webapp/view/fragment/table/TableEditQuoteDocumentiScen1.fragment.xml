@@ -1,0 +1,219 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+	<Panel
+		id="pnlListQuoteDocumenti"
+		class="onlyTopPadding"
+		visible="{StepScenario>/wizard1Step2}"
+		backgroundDesign="Transparent"
+	>
+		<headerToolbar>
+			<OverflowToolbar>
+				<Title text="{i18n>listDocumentiCosto}"/>
+				<ToolbarSpacer/>
+				<Button
+					class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
+					icon="sap-icon://add"
+					text="{i18n>btnAdd}"
+					type="Emphasized"
+					press="onAddPositionSoa"
+					visible="{Soa>/EnableEdit}"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<Button
+					class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
+					icon="sap-icon://less"
+					text="{i18n>btnCancel}"
+					type="Emphasized"
+					press="onCanelPositionSoa"
+					visible="{Soa>/EnableEdit}"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+			</OverflowToolbar>
+		</headerToolbar>
+		<content>
+			<Table
+				id="tblEditQuoteDocumentiScen1"
+				mode="MultiSelect"
+				items="{
+					path: 'Soa>/data'
+				}"
+				selectionChange="onSelectedItem"
+			>
+				<columns>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelAnnoRegDocumento}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelAbbrNRegDocumento}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelAbbrTipoDocumento}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelDataDocBeneficiario}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelDenomBeneficiario}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+						visible="{= ${Soa>/Lifnr} ? true : false}"
+					>
+						<header>
+							<Text text="{i18n>labelImpLiquidato}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+						visible="{= ${Soa>/Lifnr} ? true : false}"
+					>
+						<header>
+							<Text text="{i18n>labelImpOrdinato}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+						visible="{= ${Soa>/Lifnr} ? false : true}"
+					>
+						<header>
+							<Text text="{i18n>labelImpLiqNonOrdinata}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+						visible="{= ${Soa>/Lifnr} ? false : true}"
+					>
+						<header>
+							<Text text="{i18n>labelResiduoVersabile}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+						visible="{= ${Soa>/Lifnr} ? false : true}"
+					>
+						<header>
+							<Text text="{i18n>labelResiduoEsigibile}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelImpDaOrdinare}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelProspetto}"/>
+						</header>
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+					>
+						<header>
+							<Text text="{i18n>labelRigaProspetto}"/>
+						</header>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem vAlign="Middle">
+						<cells>
+							<ObjectIdentifier text="{Soa>AnnoRegDocumento}"/>
+							<ObjectIdentifier text="{Soa>Belnr}"/>
+							<Text text="{Soa>Blart}"/>
+							<Text text="{
+								path: 'Soa>Bldat',
+								type: 'sap.ui.model.type.Date',
+								formatOptions: {
+									pattern: 'dd.MM.yyyy'
+								}
+							}"/>
+							<Text text="{Soa>ZbenaltName}"/>
+							<Text text="{
+								path: 'Soa>Zimpliq',
+								formatter: '.formatter.convertFormattedNumber'
+							}"/>
+							<Text text="{
+								path: 'Soa>Zimppag',
+								formatter: '.formatter.convertFormattedNumber'
+							}"/>
+							<Text text="{
+								path: 'Soa>Zimpliq',
+								formatter: '.formatter.convertFormattedNumber'
+							}"/>
+							<Text text="{
+								path: 'Soa>Zresvers',
+								formatter: '.formatter.convertFormattedNumber'
+							}"/>
+							<Text text="{
+								path: 'Soa>Zresesig',
+								formatter: '.formatter.convertFormattedNumber'
+							}"/>
+							<Input
+								id="iptImpDaOrd"
+								change="onImpDaOrdinareChange"
+								type="Number"
+								value="{
+									path: 'Soa>Zimpdaord'
+								}"
+							/>
+							<Text text="{Soa>Znumliq}"/>
+							<Text text="{Soa>Zposizione}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+			<c:Fragment
+				fragmentName="rgssoa.view.fragment.panel.Calculator"
+				type="XML"
+			/>
+			<c:Fragment
+				fragmentName="rgssoa.view.fragment.soa.Paginator"
+				type="XML"
+			/>
+		</content>
+	</Panel>
+</c:FragmentDefinition>

@@ -788,9 +788,9 @@ sap.ui.define(
             sZcausale =
               sZcausale +
               " " +
-              oDocumento.NumRegDoc +
+              oDocumento.Belnr +
               " " +
-              formatter.dateWithPoints(oDocumento.DataDocBen);
+              formatter.dateWithPoints(oDocumento.Bldat);
           });
 
           oModelSoa.setProperty("/Zcausale", sZcausale);

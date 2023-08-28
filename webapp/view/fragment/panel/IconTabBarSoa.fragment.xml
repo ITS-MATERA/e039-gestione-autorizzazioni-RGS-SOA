@@ -1,0 +1,31 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+	<Panel
+		class="sapUiNoContentPadding"
+		backgroundDesign="Transparent"
+	>
+		<IconTabBar class="sapUiNoContentPadding">
+			<items>
+				<IconTabFilter
+					text="{i18n>iconTabEdit}"
+					icon="sap-icon://edit"
+					visible="{Soa>/EnableEdit}"
+				/>
+				<IconTabFilter
+					text="{i18n>iconTabDetail}"
+					icon="sap-icon://detail-view"
+				/>
+				<IconTabFilter
+					text="{i18n>iconTabWorkflow}"
+					icon="sap-icon://history"
+				/>
+				<IconTabFilter
+					text="{i18n>iconTabFascicoloElettronico}"
+					icon="sap-icon://documents"
+				/>
+			</items>
+		</IconTabBar>
+	</Panel>
+</c:FragmentDefinition>

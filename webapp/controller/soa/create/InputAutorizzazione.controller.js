@@ -21,6 +21,10 @@ sap.ui.define(
       "rgssoa.controller.soa.create.InputAutorizzazione",
       {
         formatter: formatter,
+
+        /**
+         * @override
+         *
         /**
          * @override
          */
@@ -36,7 +40,6 @@ sap.ui.define(
             .getRoute("soa.create.InputAutorizzazione")
             .attachPatternMatched(this._onObjectMatched, this);
         },
-
         _onObjectMatched: function (oEvent) {
           var self = this;
           var oModelInputAutorizzazione = self.getModel("InputAutorizzazione");
@@ -48,7 +51,6 @@ sap.ui.define(
             oArguments?.SoaType
           );
         },
-
         onNavBack: function () {
           var self = this;
           history.go(-1);
@@ -107,11 +109,19 @@ sap.ui.define(
             );
           }
 
+          var oModelInputAutorizzazione = self.getModel("InputAutorizzazione");
+
           self
             .getModel()
             .metadataLoaded()
             .then(function () {
               oDataModel.read("/" + "ChiaveAutorizzazioneSet", {
+                urlParameters: {
+                  isDocumentCost:
+                    oModelInputAutorizzazione.getProperty("/SoaType") === "1"
+                      ? ""
+                      : "X",
+                },
                 filters: oFilter,
                 success: function (data, oResponse) {
                   self.setResponseMessage(oResponse);
@@ -131,6 +141,9 @@ sap.ui.define(
           var oSelectedItem = oEvent.getParameter("selectedItem");
           var oSource = oEvent.getSource();
           var sInput = oSource.data().input;
+          var oRbTipoDocumentiLiquidati = oView.byId(
+            "rbTipoDocumentiLiquidati"
+          );
 
           var oInput = self.getView().byId(sInput);
 
@@ -152,9 +165,12 @@ sap.ui.define(
             strAmmResponsabile: oSelectedItem?.data("strAmmResponsabile"),
             pianoGestione: oSelectedItem?.data("pianoGestione"),
             dataStatoString: oSelectedItem?.data("dataStatoString"),
+            flagFipos: oSelectedItem?.data("flagFipos"),
           });
 
           oView.setModel(oChiaveAutorizzazioneModel, "ChiaveAutorizzazione");
+
+          oRbTipoDocumentiLiquidati.setSelected(true);
 
           var oInputFlagFipos = self.getView().byId("cbxFlagFipos");
           if (oSelectedItem?.data("flagFipos")) {
@@ -174,12 +190,15 @@ sap.ui.define(
         },
         onNavForward: function () {
           var self = this;
+
+          self.getPermissionsList();
+
           var oView = self.getView();
           var oChiaveAutorizzazioneModel = oView.getModel(
             "ChiaveAutorizzazione"
           );
           var oModelInputAutorizzazione = self.getModel("InputAutorizzazione");
-          var oRbTipoDocumenti = self.getView().byId("rbTipoDoumenti");
+          var oRbTipoDocumenti = self.getView().byId("rbTipoDocumenti");
 
           var sSoaType = oModelInputAutorizzazione.getProperty("/SoaType");
           var sRbTipoDocumenti = oRbTipoDocumenti.getSelectedIndex();

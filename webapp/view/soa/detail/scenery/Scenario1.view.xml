@@ -24,43 +24,10 @@
 			</f:DynamicPageHeader>
 		</f:header>
 		<f:content>
-			<NavContainer>
-				<pages>
-					<Page showHeader="false">
-						<content>
-							<Wizard
-								id="wizScenario1"
-								showNextButton="false"
-							>
-								<WizardStep title="{i18n>titleWizard1DocContabili}">
-									<c:Fragment
-										fragmentName="rgssoa.view.fragment.table.TableRiepQuoteDocumentiScen1"
-										type="XML"
-									/>
-								</WizardStep>
-								<WizardStep title="{i18n>titleWizard2}">
-									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.create.wizard2.BeneficiarioSoa"
-										type="XML"
-									/>
-								</WizardStep>
-								<WizardStep title="{i18n>titleWizard3}">
-									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.create.wizard3.Classificazione"
-										type="XML"
-									/>
-								</WizardStep>
-								<WizardStep title="{i18n>titleWizard4}">
-									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.create.wizard4.DatiSoa"
-										type="XML"
-									/>
-								</WizardStep>
-							</Wizard>
-						</content>
-					</Page>
-				</pages>
-			</NavContainer>
+			<c:Fragment
+				fragmentName="rgssoa.view.fragment.detail.Scenario1"
+				type="XML"
+			/>
 		</f:content>
 		<f:footer>
 			<OverflowToolbar>

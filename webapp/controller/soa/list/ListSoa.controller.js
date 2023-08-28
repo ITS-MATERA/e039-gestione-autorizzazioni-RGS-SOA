@@ -152,13 +152,23 @@ sap.ui.define(
         var oModelSoaSettings = self.getModel("SoaSettings");
         var oSelectedItem = oModelSoaSettings.getProperty("/selectedItems")[0];
 
-        self.getRouter().navTo("soa.detail.scenery.Scenario1", {
-          Gjahr: oSelectedItem.Gjahr,
-          Zchiavesop: oSelectedItem.Zchiavesop,
-          Bukrs: oSelectedItem.Bukrs,
-          Zstep: oSelectedItem.Zstep,
-          Ztipososp: oSelectedItem.Ztipososp,
-        });
+        switch (oSelectedItem?.Ztipopag) {
+          case "1":
+            self.getRouter().navTo("soa.detail.scenery.Scenario1", {
+              Gjahr: oSelectedItem.Gjahr,
+              Zchiavesop: oSelectedItem.Zchiavesop,
+              Bukrs: oSelectedItem.Bukrs,
+              Zstep: oSelectedItem.Zstep,
+              Ztipososp: oSelectedItem.Ztipososp,
+            });
+            break;
+          case "2":
+            break;
+          case "3":
+            break;
+          case "4":
+            break;
+        }
       },
 
       //#region PAGINATOR

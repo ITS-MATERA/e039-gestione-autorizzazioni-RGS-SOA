@@ -35,108 +35,6 @@ sap.ui.define(
 
       //#region VALUE HELP
 
-      onValueHelpRitenuta: function (oEvent) {
-        var self = this;
-        var oDataModel = self.getModel();
-        var oModelFilter = self.getModel("FilterDocumenti");
-        var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.filtersDocumentiProspetti.Ritenuta"
-        );
-        //Resetto l'input dell'Ente Beneficiario ogni qual volta imposto una Ritenuta
-        oModelFilter.setProperty("/DescEnte", "");
-        oModelFilter.setProperty("/CodEnte", "");
-
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/" + "RicercaRitenutaSet", {
-              success: function (data, oResponse) {
-                self.setModelSelectDialog(
-                  "Ritenuta",
-                  data,
-                  "sdRitenuta",
-                  oDialog
-                );
-              },
-              error: function (error) {},
-            });
-          });
-      },
-      onValueHelpRitenutaClose: function (oEvent) {
-        var self = this;
-        //Load Models
-        var oModelSoa = self.getModel("Soa");
-        var oModelFilter = self.getModel("FilterDocumenti");
-
-        var oSelectedItem = oEvent.getParameter("selectedItem");
-
-        var sCodRitenuta = self.setBlank(oSelectedItem?.data("CodRitenuta"));
-        var sDescRitenuta = self.setBlank(oSelectedItem?.getTitle());
-
-        oModelSoa.setProperty("/Text40", sDescRitenuta);
-        oModelSoa.setProperty("/Witht", sCodRitenuta);
-        oModelFilter.setProperty("/DescRitenuta", sDescRitenuta);
-        oModelFilter.setProperty("/CodRitenuta", sCodRitenuta);
-
-        this.unloadFragment();
-      },
-
-      onValueHelpEnteBeneficiario: function (oEvent) {
-        var self = this;
-        var oDataModel = self.getModel();
-        var oModelFilter = self.getModel("FilterDocumenti");
-        var sCodRitenuta = self.setBlank(
-          oModelFilter.getProperty("/CodRitenuta")
-        );
-
-        var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.filtersDocumentiProspetti.EnteBeneficiario"
-        );
-
-        var aFilters = [];
-
-        self.setFilterEQ(aFilters, "CodRitenuta", sCodRitenuta);
-
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/" + "RicercaEnteBeneficiarioSet", {
-              filters: aFilters,
-              success: function (data, oResponse) {
-                self.setResponseMessage(oResponse);
-                self.setModelSelectDialog(
-                  "EnteBeneficiario",
-                  data,
-                  "sdEnteBeneficiario",
-                  oDialog
-                );
-              },
-              error: function (error) {},
-            });
-          });
-      },
-      onValueHelpEnteBeneficiarioClose: function (oEvent) {
-        var self = this;
-        //Load Models
-        var oModelSoa = self.getModel("Soa");
-        var oModelFilter = self.getModel("FilterDocumenti");
-
-        var oSelectedItem = oEvent.getParameter("selectedItem");
-        var sDescEnte = self.setBlank(oSelectedItem?.getTitle());
-        var sCodEnte = self.setBlank(oSelectedItem?.data("CodEnte"));
-
-        oModelSoa.setProperty("/ZzDescebe", sDescEnte);
-        oModelSoa.setProperty("/ZzCebenra", sCodEnte);
-        oModelFilter.setProperty("/CodEnte", sCodEnte);
-        oModelFilter.setProperty("/DescEnte", sDescEnte);
-
-        this._setSpecieSoaDesc("2", oSelectedItem);
-
-        this.unloadFragment();
-      },
-
       onValueHelpBeneficiario: function () {
         var self = this;
         var oDataModel = self.getModel();
@@ -215,7 +113,11 @@ sap.ui.define(
           self.setBlank(oSelectedItem?.getTitle())
         );
 
-        this._setSpecieSoaDesc("1", oSelectedItem);
+        oModelSoa.setProperty("/DescZspecieSop", "");
+        oModelSoa.setProperty("/ZspecieSop", "");
+        if (oSelectedItem) {
+          this._setSpecieSoaDesc("1");
+        }
 
         var aFilters = [];
 
@@ -536,38 +438,144 @@ sap.ui.define(
 
       //#endregion
 
+      //#region SELECTION CHANGE
+      onBeneficiarioChange: function (oEvent) {
+        var self = this;
+
+        var oModel = self.getModel();
+        var oModelSoa = self.getModel("Soa");
+        var oModelFilter = self.getModel("FilterDocumenti");
+
+        oModelSoa.setProperty("/DescZspecieSop", "");
+        oModelSoa.setProperty("/ZspecieSop", "");
+
+        if (oEvent.getParameter("value")) {
+          var sPath = self.getModel().createKey("RicercaBeneficiarioSet", {
+            Beneficiario: oEvent.getParameter("value"),
+          });
+
+          oModel.read("/" + sPath, {
+            success: function (data, oResponse) {
+              if (!self.setResponseMessage(oResponse)) {
+                oModelSoa.setProperty("/Lifnr", data.Beneficiario);
+                oModelSoa.setProperty("/NameFirst", data.Nome);
+                oModelSoa.setProperty("/NameLast", data.Cognome);
+                oModelSoa.setProperty("/ZzragSoc", data.RagSoc);
+                oModelSoa.setProperty("/TaxnumCf", data.CodFisc);
+                oModelSoa.setProperty("/TaxnumPiva", data.PIva);
+                oModelSoa.setProperty("/BuType", data.Type);
+                oModelSoa.setProperty("/Taxnumxl", data.CodFiscEst);
+
+                oModelFilter.setProperty("/TipoBeneficiario", data.Type);
+                self._setSpecieSoaDesc("1");
+              }
+            },
+            error: function () {},
+          });
+        } else {
+          oModelSoa.setProperty("/Lifnr", "");
+          oModelSoa.setProperty("/NameFirst", "");
+          oModelSoa.setProperty("/NameLast", "");
+          oModelSoa.setProperty("/ZzragSoc", "");
+          oModelSoa.setProperty("/TaxnumCf", "");
+          oModelSoa.setProperty("/TaxnumPiva", "");
+          oModelSoa.setProperty("/BuType", "");
+          oModelSoa.setProperty("/Taxnumxl", "");
+
+          oModelFilter.setProperty("/TipoBeneficiario", "");
+        }
+
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Lifnr", oEvent.getParameter("value"));
+
+        oModel.read("/RicercaAnnoDocBeneSet", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            self.setModelCustom("AnnoDocBeneficiario", data?.results);
+          },
+          error: function (error) {},
+        });
+      },
+
+      onRitenutaChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSoa = self.getModel("Soa");
+        var oModelFilter = self.getModel("FilterDocumenti");
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+
+        var sCodRitenuta = self.setBlank(oSelectedItem?.getKey());
+        var sDescRitenuta = self.setBlank(oSelectedItem?.getText());
+
+        oModelSoa.setProperty("/Witht", sCodRitenuta);
+        oModelSoa.setProperty("/Text40", sDescRitenuta);
+        oModelFilter.setProperty("/DescRitenuta", sDescRitenuta);
+
+        oModelSoa.setProperty("/ZzCebenra", "");
+        oModelSoa.setProperty("/ZzDescebe", "");
+        oModelFilter.setProperty("/CodEnte", "");
+        oModelFilter.setProperty("/DescEnte", "");
+
+        if (oSelectedItem) {
+          this._setSpecieSoaDesc("2");
+        } else {
+          oModelSoa.setProperty("/DescZspecieSop", "");
+          oModelSoa.setProperty("/ZspecieSop", "");
+        }
+
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "CodRitenuta", sCodRitenuta);
+
+        oModel.read("/RicercaEnteBeneficiarioSet", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            self.setModelCustom("RicercaEnteBeneficiario", data?.results);
+          },
+        });
+      },
+
+      onEnteBeneficiarioChange: function (oEvent) {
+        var self = this;
+        var oModelSoa = self.getModel("Soa");
+        var oModelFilter = self.getModel("FilterDocumenti");
+        var oSelectedItem = oEvent?.getSource()?.getSelectedItem();
+
+        var sCodEnte = self.setBlank(oSelectedItem?.getKey());
+        var sDescEnte = self.setBlank(oSelectedItem?.getText());
+
+        oModelSoa.setProperty("/ZzCebenra", self.setBlank(sCodEnte));
+        oModelSoa.setProperty("/ZzDescebe", self.setBlank(sDescEnte));
+        oModelFilter.setProperty("/DescEnte", self.setBlank(sDescEnte));
+      },
+
+      //#endregion
+
       //#region PRIVATE METHODS
 
-      _setSpecieSoaDesc: function (sValue, oSelectedItem) {
+      _setSpecieSoaDesc: function (sValue) {
         var self = this;
         //Load Models
         var oModel = self.getModel();
         var oModelSoa = self.getModel("Soa");
 
-        oModelSoa.setProperty("/DescZspecieSop", "");
-        oModelSoa.setProperty("/ZspecieSop", "");
-
-        if (oSelectedItem) {
-          var oParameters = {
-            ZspecieSoa: sValue,
-          };
-          var sPath = self.getModel().createKey("SpecieSOASet", oParameters);
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oModel.read("/" + sPath, {
-                success: function (data, oResponse) {
-                  oModelSoa.setProperty(
-                    "/DescZspecieSop",
-                    data?.ZdescSpecieSoa
-                  );
-                  oModelSoa.setProperty("/ZspecieSop", data?.ZspecieSoa);
-                },
-                error: function () {},
-              });
+        var oParameters = {
+          ZspecieSoa: sValue,
+        };
+        var sPath = self.getModel().createKey("SpecieSOASet", oParameters);
+        self
+          .getModel()
+          .metadataLoaded()
+          .then(function () {
+            oModel.read("/" + sPath, {
+              success: function (data, oResponse) {
+                oModelSoa.setProperty("/DescZspecieSop", data?.ZdescSpecieSoa);
+                oModelSoa.setProperty("/ZspecieSop", data?.ZspecieSoa);
+              },
+              error: function () {},
             });
-        }
+          });
       },
 
       //#endregion PRIVATE METHODS

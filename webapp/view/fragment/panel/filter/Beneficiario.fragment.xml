@@ -55,7 +55,6 @@
 				<Input
 					valueHelpRequest="onValueHelpBeneficiario"
 					showValueHelp="true"
-					valueHelpOnly="true"
 					value="{FilterDocumenti>/Lifnr}"
 					editable="{= 	${FilterDocumenti>/CodRitenuta} ||
 						${FilterDocumenti>/CodEnte} ||
@@ -64,6 +63,7 @@
 						${FilterDocumenti>/DataEsigibilitaTo} 
 						? false : true
 					}"
+					change="onBeneficiarioChange"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L2 M5 S12"/>
