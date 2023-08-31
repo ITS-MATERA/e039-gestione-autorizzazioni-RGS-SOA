@@ -25,12 +25,16 @@ sap.ui.define(
     const BT = FilterOperator.BT;
     const CONTAINS = FilterOperator.Contains;
 
+
     return Controller.extend("rgssoa.controller.BaseController", {
       /**
        * Convenience method for accessing the router.
        * @public
        * @returns {sap.ui.core.routing.Router} the router for this component
        */
+
+      AUTHORITY_CHECK_AUTH: "AuthorityCheckAuth",
+
       getRouter: function () {
         return UIComponent.getRouterFor(this);
       },
@@ -410,6 +414,54 @@ sap.ui.define(
           error: function (error) {},
         });
       },
+
+      getAuthorityCheck:function(callback){
+        var self = this,
+          oAuthModel = self.getOwnerComponent().getModel("ZSS4_CA_CONI_VISIBILITA_SRV"),
+          oModelJson = new sap.ui.model.json.JSONModel(),
+          aFilters = [];
+        aFilters.push(new sap.ui.model.Filter({path: "SEM_OBJ", operator: sap.ui.model.FilterOperator.EQ,value1: "COSP_R3_FIORI_E039"}));
+        aFilters.push(new sap.ui.model.Filter({path: "AUTH_OBJ", operator: sap.ui.model.FilterOperator.EQ,value1: "Z_GEST_AUT"}));
+        self.getOwnerComponent().getModel("ZSS4_CA_CONI_VISIBILITA_SRV")
+          .metadataLoaded().then(function () {
+            oAuthModel.read("/ZES_CONIAUTH_SET", {
+              filters: aFilters,
+              success: function (data) {
+                var model = {  
+                    AGR_NAME: data.results[0].AGR_NAME,
+                    FIKRS: data.results[0].FIKRS,
+                    BUKRS: data.results[0].BUKRS,
+                    PRCTR: data.results[0].PRCTR,
+                    Z26Enabled: self.isIncluded(data.results, "ACTV_4", "Z26"),
+                    Z01Enabled: self.isIncluded(data.results, "ACTV_1", "Z01"),
+                    Z03Enabled: self.isIncluded(data.results, "ACTV_2", "Z03")                     
+                }; 
+                oModelJson.setData(model);
+                self.setModel(oModelJson, self.AUTHORITY_CHECK_AUTH);
+                callback({success:true, permission:model});
+              },
+              error:function(error){
+                var model = {  
+                  AGR_NAME: null,
+                    FIKRS: null,
+                    BUKRS: null,
+                    PRCTR: null,
+                    Z26Enabled: false,
+                    Z01Enabled: false,
+                    Z03Enabled: false                
+                }; 
+                oModelJson.setData(model);
+                self.setModel(oModelJson, self.AUTHORITY_CHECK_AUTH);
+                callback({success:false, permission:model});
+              }
+            })
+          });
+      },
+
+      isIncluded: function (array, param, value) {
+        return array.filter((x) => x[param] === value).length > 0;
+      },
+
 
       //#endregion
     });

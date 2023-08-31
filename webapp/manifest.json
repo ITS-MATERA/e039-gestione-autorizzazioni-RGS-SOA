@@ -125,9 +125,9 @@
           "target": ["startpage"]
         },
         {
-          "pattern": "AuthPage",
-          "name": "authPage",
-          "target": ["authPage"]
+          "pattern": "auth.AuthPage",
+          "name": "auth.authPage",
+          "target": ["auth.authPage"]
         },
         {
           "pattern": "AutorizzazioneSet/{objectId}",
@@ -135,9 +135,14 @@
           "target": ["object"]
         },
         {
-          "pattern": "AuthDetail/{Bukrs},{Gjahr},{Zchiaveaut},{ZstepAut}",
-          "name": "authDetail",
-          "target": ["authDetail"]
+          "pattern": "auth.AuthDetail/{Bukrs},{Gjahr},{Zchiaveaut},{ZstepAut}",
+          "name": "auth.authDetail",
+          "target": ["auth.authDetail"]
+        },
+        {
+          "pattern": "auth.RegisterAuth",
+          "name": "auth.registerAuth",
+          "target": ["auth.registerAuth"]
         },
         {
           "pattern": "soa.list.ListSoa",
@@ -187,20 +192,26 @@
           "viewLevel": 1,
           "title": "{i18n>worklistViewTitle}"
         },
-        "authPage": {
-          "viewName": "AuthPage",
+        "auth.authPage": {
+          "viewName": "auth.AuthPage",
           "viewId": "authPage",
           "viewLevel": 2,
           "title": "{i18n>authPageViewTitle}"
         },
-        "authDetail": {
-          "viewName": "AuthDetail",
+        "auth.authDetail": {
+          "viewName": "auth.AuthDetail",
           "viewId": "authDetail",
           "viewLevel": 2,
           "title": "{i18n>authDetailTitle}"
         },
+        "auth.registerAuth": {
+          "viewName": "auth.RegisterAuth",
+          "viewId": "registerAuth",
+          "viewLevel": 2,
+          "title": "{i18n>authDetailTitle}"
+        },
         "object": {
-          "viewName": "Object",
+          "viewName": "AuthDetail",
           "viewId": "object",
           "viewLevel": 2,
           "title": "{i18n>objectViewTitle}"

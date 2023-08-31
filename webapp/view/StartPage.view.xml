@@ -6,7 +6,7 @@
     <Page title="{i18n>startPageTitle}" >
         <FlexBox  alignItems="Center" height="100%" width="100%" >
             <VBox  width="50%"  alignItems="Center" justifyContent="Center"> 
-                <Button text="{i18n>btnAuthorisation}" type="Emphasized" press="onAuth"></Button>
+                <Button text="{i18n>btnAuthorisation}" type="Emphasized" enabled="{AuthorityCheckAuth>/Z26Enabled}" press="onAuth"></Button>
             </VBox>
             <VBox width="50%" alignItems="Center" justifyContent="Center"> 
                 <Button text="{i18n>btnSOA}" type="Emphasized" press="onSOA"></Button>

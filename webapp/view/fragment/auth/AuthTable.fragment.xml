@@ -2,7 +2,8 @@
 	xmlns="sap.m"
 	xmlns:l="sap.ui.layout"
 	xmlns:core="sap.ui.core"
-	xmlns:plugins="sap.m.plugins"
+	xmlns:zcontrolPosFin="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfinlink.controls"  
+    xmlns:zcontrollinkSar="custlinksar.custlinksar.controls" 
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
 	<VBox width="100%">
@@ -32,7 +33,7 @@
 					text="{i18n>btnDetail}"
 					type="Emphasized"
 					press="onDetail"
-					enabled="{authModel>/btnDetailEnabled}"
+					enabled="{= ${authModel>/btnDetailEnabled} &amp;&amp; ${AuthorityCheckAuth>/Z03Enabled} }"
 				>
 					<layoutData>
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>
@@ -117,16 +118,7 @@
 			</Column>
 		</columns>
 		<items>
-			<ColumnListItem vAlign="Middle">
-				<!-- 
-								
-								app:Ztipodisp2="{AutorizzazioneSet>Ztipodisp2}"
-							app:Ztipodisp3="{AutorizzazioneSet>Ztipodisp3}"
-							app:ZzstatoAut="{AutorizzazioneSet>ZzstatoAut}"
-								
-								<customData>
-								<core:CustomData key="mydata" value="{= ${ListaVisiteSet>Status} === undefined  ? '' : ${ListaVisiteSet>Status} }"  writeToDom="true"></core:CustomData>
-							</customData> -->
+			<ColumnListItem vAlign="Middle">				
 				<cells>
 					<ObjectIdentifier
 						text="{AutorizzazioneSet>Zchiaveaut}"
@@ -143,24 +135,18 @@
 					}"/>
 					<Text text="{AutorizzazioneSet>DesTipoDisp2}"/>
 					<Text text="{AutorizzazioneSet>DesTipoDisp3}"/>
-					<Text text="{AutorizzazioneSet>Fipos}"/>
-					<Text text="{AutorizzazioneSet>Fistl}"/>
-					<Text text="{AutorizzazioneSet>Zimpaut}"/>
+					<zcontrolPosFin:LinkPosizioneFinanziaria id="linkPosFinSpesaDeleteCancel" anno="{AutorizzazioneSet>Gjahr}" eos="S" fikrs="S001" fase="GEST" 
+                        reale="R" versione="D" fipex="{AutorizzazioneSet>Fipos}" 
+                        datbis="99991231" text="{AutorizzazioneSet>Fipos}" semanticObject="ESAMINAMODIFICA"/>					
+					<zcontrollinkSar:LinkSar id="linkSarBilancio" anno="{AutorizzazioneSet>Gjahr}" eos="E" fikrs="S001" fase="GEST" SEM_OBJ="" reale="R" 
+                		versione="D" bilancio="" fictr="{AutorizzazioneSet>Fistl}" datbis="99991231" text="{AutorizzazioneSet>Fistl}"/>
+					<Text  text="{
+							path: 'AutorizzazioneSet>Zimpaut',
+							formatter: '.formatter.convertFormattedNumber'
+						}" />
 					<Text text="{AutorizzazioneSet>DesStatoAut}"/>
 				</cells>
 			</ColumnListItem>
 		</items>
-	</Table>
-	<!-- <Panel id="paginatorPanel" >
-					<c:Fragment
-						fragmentName="gestioneabilitazioneeson.view.fragment.Paginator"
-						type="XML"
-					/>
-					<layoutData>
-						<l:GridData
-							span="XL6 L6 M6 S12"
-							indent="XL3 L3 M3"
-						/>
-					</layoutData>
-				</Panel> -->
+	</Table>	
 </core:FragmentDefinition>
