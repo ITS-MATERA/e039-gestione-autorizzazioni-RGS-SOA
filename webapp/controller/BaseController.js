@@ -389,29 +389,6 @@ sap.ui.define(
       },
 
       //#endregion
-
-      /** ---------------------CONTROLLI AUTORIZZATIVI------------------------ */
-      //#region
-
-      getPermissionsList: function () {
-        var self = this;
-        var oAuthModel = self.getModel("ZSS4_CA_CONI_VISIBILITA_SRV");
-
-        var aFilters = [];
-
-        self.setFilterEQ(aFilters, "SEM_OBJ", "ZS4_SOA_SRV");
-        self.setFilterEQ(aFilters, "AUTH_OBJ", "Z_GEST_SOA");
-
-        oAuthModel.read("/ZES_CONIAUTH_SET", {
-          filters: aFilters,
-          success: function (data) {
-            console.log(data);
-          },
-          error: function (error) {},
-        });
-      },
-
-      //#endregion
     });
   }
 );

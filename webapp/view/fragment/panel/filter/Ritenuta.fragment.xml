@@ -97,6 +97,7 @@
 						${FilterDocumenti>/TipoBeneficiario}
 						? false : true
 					}"
+					select="onQuoteEsigibiliChange"
 				>
 					<layoutData>
 						<l:GridData span="XL1 L1 M1 S1"/>
@@ -128,6 +129,7 @@
 						}
 					}"
 					editable="{=
+						${FilterDocumenti>/QuoteEsigibili} === false ||
 						${FilterDocumenti>/Lifnr} ||
 						${FilterDocumenti>/TipoBeneficiario}
 						? false : true
@@ -156,6 +158,7 @@
 						}
 					}"
 					editable="{=
+						${FilterDocumenti>/QuoteEsigibili} === false ||
 						${FilterDocumenti>/Lifnr} ||
 						${FilterDocumenti>/TipoBeneficiario}
 						? false : true

@@ -124,8 +124,8 @@ sap.ui.define(
             Zcodprov: "", //INPS - Codice Provenienza
             Zcfcommit: "", //INPS - Codice Fiscale Committente
             Zcodtrib: "", //INPS - Codice tributo
-            Zperiodrifda: "", //INPS - Periodo riferimento da
-            Zperiodrifa: "", //INPS - Periodo riferimento a
+            Zperiodrifda: null, //INPS - Periodo riferimento da
+            Zperiodrifa: null, //INPS - Periodo riferimento a
             Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
             Zcfvers: "", //INPS - Codice Fiscale Versante
             Zcodvers: "", //INPS - Codice Versante
@@ -148,8 +148,21 @@ sap.ui.define(
             Zlocpag: "", //Località pagamento
             Zzonaint: "", //Zona di intervento
             Znumprot: "", //Numero protocollo
-            Zdataprot: "", //Data protocollo
-            Zdataesig: "", //TODO - Punto Aperto - Data esigibilità
+            Zdataprot: null, //Data protocollo
+            Zdataesig: null, //TODO - Punto Aperto - Data esigibilità
+
+            Bukrs: "",
+            Zchiavesop: "",
+            ZcodStatosop: "",
+            Zdatasop: null,
+            Znumsop: "",
+            Zricann: "",
+            ZstatTest: "",
+            Zstep: "",
+            Zutenza: "",
+            data: [],
+            Classificazione: [], //Classificazioni
+            Messaggio: [], //Messaggi di error
           });
           self.setModel(oModelSoa, "Soa");
 
@@ -304,6 +317,8 @@ sap.ui.define(
           } else if (bWizard4) {
             oModelStepScenario.setProperty("/wizard4", false);
             oModelStepScenario.setProperty("/wizard3", true);
+            oModelStepScenario.setProperty("/visibleBtnForward", true);
+            oModelStepScenario.setProperty("/visibleBtnSave", false);
             oWizard.previousStep();
           }
         },
@@ -317,13 +332,12 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step1) {
-            //TODO - Rimettere
-            // if (this._checkNewProspettoLiquidazione()) {
-            this._getNewProspettoLiquidazione();
-            self.setDataBenficiario();
-            self.getSedeBeneficiario();
-            self.setInpsData();
-            // }
+            if (this._checkNewProspettoLiquidazione()) {
+              this._getNewProspettoLiquidazione();
+              self.setDataBenficiario();
+              self.getSedeBeneficiario();
+              self.setInpsData();
+            }
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
             oModelStepScenario.setProperty("/wizard3", true);
@@ -331,6 +345,8 @@ sap.ui.define(
           } else if (bWizard3) {
             oModelStepScenario.setProperty("/wizard3", false);
             oModelStepScenario.setProperty("/wizard4", true);
+            oModelStepScenario.setProperty("/visibleBtnForward", false);
+            oModelStepScenario.setProperty("/visibleBtnSave", true);
             oWizard.nextStep();
           }
         },
@@ -787,10 +803,11 @@ sap.ui.define(
             return false;
           }
 
-          if (!oModelSoa.getProperty("/Hkont")) {
-            sap.m.MessageBox.error(oBundle.getText("msgHkontRequired"));
-            return false;
-          }
+          //TODO - Rimettere
+          // if (!oModelSoa.getProperty("/Hkont")) {
+          //   sap.m.MessageBox.error(oBundle.getText("msgHkontRequired"));
+          //   return false;
+          // }
 
           return true;
         },

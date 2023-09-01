@@ -6,6 +6,8 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "../../model/formatter",
     "sap/m/MessageBox",
+    "sap/ui/export/Spreadsheet",
+    "sap/ui/export/library",
   ],
   function (
     BaseController,
@@ -13,7 +15,9 @@ sap.ui.define(
     FilterOperator,
     JSONModel,
     formatter,
-    MessageBox
+    MessageBox,
+    Spreadsheet,
+    exportLibrary
   ) {
     "use strict";
 
@@ -26,11 +30,12 @@ sap.ui.define(
         var self = this;
 
         self.acceptOnlyImport("iptImpDaOrd");
-        // self.acceptOnlyImport("iptImpDaAssociare");
-        // self.acceptOnlyImport("iptImpDaAssociareCpv");
-
-        //TODO - Inserire l'acceptOnlyImport anche per CIG e CUP
+        self.acceptOnlyImport("iptImpDaAssociare");
+        self.acceptOnlyImport("iptImpDaAssociareCpv");
+        self.acceptOnlyImport("iptImpDaAssociareCig");
+        self.acceptOnlyImport("iptImpDaAssociareCup");
       },
+
       //#region WIZARD 1
 
       //#region VALUE HELP
@@ -470,7 +475,9 @@ sap.ui.define(
                 self._setSpecieSoaDesc("1");
               }
             },
-            error: function () {},
+            error: function () {
+              oModelFilter.setProperty("/Lifnr", "");
+            },
           });
         } else {
           oModelSoa.setProperty("/Lifnr", "");
@@ -550,6 +557,14 @@ sap.ui.define(
         oModelFilter.setProperty("/DescEnte", self.setBlank(sDescEnte));
       },
 
+      onQuoteEsigibiliChange: function () {
+        var self = this;
+        var oModelFilter = self.getModel("FilterDocumenti");
+
+        oModelFilter.setProperty("/DataEsigibilitaFrom", null);
+        oModelFilter.setProperty("DataEsigibilitaTo", null);
+      },
+
       //#endregion
 
       //#region PRIVATE METHODS
@@ -626,6 +641,7 @@ sap.ui.define(
       onValueHelpModPagamentoClose: function (oEvent) {
         var self = this;
         //Load Models
+        var oModel = self.getModel();
         var oModelSoa = self.getModel("Soa");
 
         var oSelectedItem = oEvent.getParameter("selectedItem");
@@ -633,25 +649,41 @@ sap.ui.define(
         var sZwels = self.setBlank(oSelectedItem?.data("Zwels"));
         var sDesczwels = self.setBlank(oSelectedItem?.getTitle());
 
-        oModelSoa.setProperty("/Zdescwels", sDesczwels);
-        oModelSoa.setProperty("/Zwels", sZwels);
+        oModel.callFunction("/CheckImportoModPagamento", {
+          method: "GET",
+          urlParameters: {
+            Zwels: sZwels,
+            Zimptot: oModelSoa.getProperty("/Zimptot"),
+          },
+          success: function (data, oResponse) {
+            if (self.setResponseMessage(oResponse)) {
+              oModelSoa.setProperty("/Zdescwels", "");
+              oModelSoa.setProperty("/Zwels", "");
+              return;
+            }
 
-        if (sZwels !== "ID6") {
-          //Resetto il valore di causale valutaria
-          oModelSoa.setProperty("/ZCausaleval", "");
-          oModelSoa.setProperty("/ZDesccauval", "");
-          //Resetto Coordinate estere e BIC
-          oModelSoa.setProperty("/Swift", "");
-          oModelSoa.setProperty("/Zcoordest", "");
-        }
+            oModelSoa.setProperty("/Zdescwels", sDesczwels);
+            oModelSoa.setProperty("/Zwels", sZwels);
 
-        if (sZwels !== "ID1") {
-          //Resetto Tipo Firma
-          oModelSoa.setProperty("/Ztipofirma", "");
-        }
+            if (sZwels !== "ID6") {
+              //Resetto il valore di causale valutaria
+              oModelSoa.setProperty("/ZCausaleval", "");
+              oModelSoa.setProperty("/ZDesccauval", "");
+              //Resetto Coordinate estere e BIC
+              oModelSoa.setProperty("/Swift", "");
+              oModelSoa.setProperty("/Zcoordest", "");
+            }
 
-        this.setDatiVaglia();
-        this.setInpsData();
+            if (sZwels !== "ID1") {
+              //Resetto Tipo Firma
+              oModelSoa.setProperty("/Ztipofirma", "");
+            }
+
+            self.setDatiVaglia();
+            self.setInpsData();
+          },
+          error: function (error) {},
+        });
 
         this.unloadFragment();
       },
@@ -1333,8 +1365,8 @@ sap.ui.define(
         oModelSoa.setProperty("/Zcodprov", "");
         oModelSoa.setProperty("/Zcfcommit", "");
         oModelSoa.setProperty("/Zcodtrib", "");
-        oModelSoa.setProperty("/Zperiodrifda", "");
-        oModelSoa.setProperty("/Zperiodrifa", "");
+        oModelSoa.setProperty("/Zperiodrifda", null);
+        oModelSoa.setProperty("/Zperiodrifa", null);
         oModelSoa.setProperty("/Zcodinps", "");
         oModelSoa.setProperty("/Zcfvers", "");
         oModelSoa.setProperty("/Zcodvers", "");
@@ -1602,7 +1634,7 @@ sap.ui.define(
       //#endregion
 
       //#region PRIVATE METHODS
-      _checkClassificazione: function () {
+      checkClassificazione: function () {
         var self = this;
         var oModelSoa = self.getModel("Soa");
         var oModelClassificazione = self.getModel("Classificazione");
@@ -1647,8 +1679,8 @@ sap.ui.define(
         var aListClassificazione = this._getClassificazioneList();
 
         var bImpZero = false;
-        aListClassificazione.map((oClassificazioe) => {
-          if (oClassificazioe.ZimptotClass === "0.00") {
+        aListClassificazione.map((oClassificazione) => {
+          if (oClassificazione.ZimptotClass === "0.00") {
             bImpZero = true;
           }
         });
@@ -1704,22 +1736,18 @@ sap.ui.define(
         var aListClassificazione = [];
 
         aListCos.map((oCos) => {
-          delete oCos.Index;
           aListClassificazione.push(oCos);
         });
 
         aListCpv.map((oCpv) => {
-          delete oCpv.Index;
           aListClassificazione.push(oCpv);
         });
 
         aListCig.map((oCig) => {
-          delete oCig.Index;
           aListClassificazione.push(oCig);
         });
 
         aListCup.map((oCup) => {
-          delete oCup.Index;
           aListClassificazione.push(oCup);
         });
 
@@ -1744,7 +1772,215 @@ sap.ui.define(
       //#endregion
 
       //#region WIZARD 4
-      onSave: function () {},
+      onSave: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSoa = self.getModel("Soa");
+
+        var aSoaPosizione = oModelSoa.getProperty("/data");
+        var aSoaClassificazione = oModelSoa.getProperty("/Classificazione");
+
+        var aPosizioniDeep = [];
+        var aClassificazioneDeep = [];
+
+        aSoaPosizione.map((oPosizione) => {
+          var oPosizioneDeep = {
+            Znumliq: oPosizione.Znumliq,
+            Zposizione: oPosizione.Zposizione,
+            ZdescProsp: oPosizione.DescProspLiquidazione,
+            Belnr: oPosizione.Belnr,
+            GjahrDc: oModelSoa.getProperty("/Gjahr"),
+            Xblnr: oPosizione.Xblnr,
+            Blart: oPosizione.Blart,
+            Bldat: oPosizione.Bldat,
+            Zbenalt: oModelSoa.getProperty("/Lifnr"),
+            ZbenaltName: oPosizione.ZbenaltName,
+            Wrbtr: oModelSoa.getProperty("/Zimptot"),
+            Zimpliq: oPosizione.Zimpliq,
+            Zimppag: oPosizione.Zimppag,
+            Zimpdaord: oPosizione.Zimpdaord,
+          };
+
+          aPosizioniDeep.push(oPosizioneDeep);
+        });
+
+        aSoaClassificazione.map((oClassificazione) => {
+          var oClassificazioneDeep = {
+            Zchiavesop: oClassificazione.Zchiavesop,
+            Bukrs: oClassificazione.Bukrs,
+            Zetichetta: oClassificazione.Zetichetta,
+            Zposizione: oClassificazione.Zposizione,
+            ZstepSop: oClassificazione.ZstepSop,
+            Zzcig: oClassificazione.Zzcig,
+            Zzcup: oClassificazione.Zzcup,
+            Zcpv: oClassificazione.Zcpv,
+            ZcpvDesc: oClassificazione.ZcpvDesc,
+            Zcos: oClassificazione.Zcos,
+            ZcosDesc: oClassificazione.ZcosDesc,
+            Belnr: oClassificazione.Belnr,
+            ZimptotClass: oClassificazione.ZimptotClass,
+            Zflagcanc: oClassificazione.Zflagcanc,
+            ZstatoClass: oClassificazione.ZstatoClass,
+          };
+
+          aClassificazioneDeep.push(oClassificazioneDeep);
+        });
+
+        var oSoaDeep = {
+          Bukrs: oModelSoa.getProperty("/Bukrs"),
+          Fipos: oModelSoa.getProperty("/Fipos"),
+          Fistl: oModelSoa.getProperty("/Fistl"),
+          Gjahr: oModelSoa.getProperty("/Gjahr"),
+          Hkont: oModelSoa.getProperty("/Hkont"),
+          Iban: oModelSoa.getProperty("/Iban"),
+          Kostl: oModelSoa.getProperty("/Kostl"),
+          Lifnr: oModelSoa.getProperty("/Lifnr"),
+          Swift: oModelSoa.getProperty("/Swift"),
+          Witht: oModelSoa.getProperty("/Witht"),
+          Zcausale: oModelSoa.getProperty("/Zcausale"),
+          ZCausaleval: oModelSoa.getProperty("/ZCausaleval"),
+          Zcfcommit: oModelSoa.getProperty("/Zcfcommit"),
+          Zcfvers: oModelSoa.getProperty("/Zcfvers"),
+          Zchiaveaut: oModelSoa.getProperty("/Zchiaveaut"),
+          Zchiavesop: oModelSoa.getProperty("/Zchiavesop"),
+          Zcodinps: oModelSoa.getProperty("/Zcodinps"),
+          Zcodprov: oModelSoa.getProperty("/Zcodprov"),
+          ZcodStatosop: oModelSoa.getProperty("/ZcodStatosop"),
+          Zcodtrib: oModelSoa.getProperty("/Zcodtrib"),
+          Zcodvers: oModelSoa.getProperty("/Zcodvers"),
+          Zcoordest: oModelSoa.getProperty("/Zcoordest"),
+          Zdataprot: oModelSoa.getProperty("/Zdataprot"),
+          Zdatasop: oModelSoa.getProperty("/Zdatasop"),
+          ZE2e: oModelSoa.getProperty("/ZE2e"),
+          Zfunzdel: oModelSoa.getProperty("/Zfunzdel"),
+          Zidsede: oModelSoa.getProperty("/Zidsede"),
+          Zimptot: oModelSoa.getProperty("/Zimptot"),
+          Zlocpag: oModelSoa.getProperty("/Zlocpag"),
+          Zmotivaz: oModelSoa.getProperty("/Zmotivaz"),
+          Znumprot: oModelSoa.getProperty("/Znumprot"),
+          Znumsop: oModelSoa.getProperty("/Znumsop"),
+          Zperiodrifa: oModelSoa.getProperty("/Zperiodrifa"),
+          Zperiodrifda: oModelSoa.getProperty("/Zperiodrifda"),
+          ZpersCognomeQuiet1: oModelSoa.getProperty("/ZpersCognomeQuiet1"),
+          ZpersCognomeQuiet2: oModelSoa.getProperty("/ZpersCognomeQuiet2"),
+          ZpersCognomeVaglia: oModelSoa.getProperty("/ZpersCognomeVaglia"),
+          ZpersNomeQuiet1: oModelSoa.getProperty("/ZpersNomeQuiet1"),
+          ZpersNomeQuiet2: oModelSoa.getProperty("/ZpersNomeQuiet2"),
+          ZpersNomeVaglia: oModelSoa.getProperty("/ZpersNomeVaglia"),
+          Zricann: oModelSoa.getProperty("/Zricann"),
+          ZspecieSop: oModelSoa.getProperty("/ZspecieSop"),
+          ZstatTest: oModelSoa.getProperty("/ZstatTest"),
+          Zstcd1: oModelSoa.getProperty("/Zstcd1"),
+          Zstcd12: oModelSoa.getProperty("/Zstcd12"),
+          Zstcd13: oModelSoa.getProperty("/Zstcd13"),
+          Zstep: oModelSoa.getProperty("/Zstep"),
+          Ztipofirma: oModelSoa.getProperty("/Ztipofirma"),
+          Ztipopag: oModelSoa.getProperty("/Ztipopag"),
+          Ztipososp: oModelSoa.getProperty("/Ztipososp"),
+          ZufficioCont: oModelSoa.getProperty("/ZufficioCont"),
+          Zutenza: oModelSoa.getProperty("/Zutenza"),
+          Zwels: oModelSoa.getProperty("/Zwels"),
+          Zzamministr: oModelSoa.getProperty("/Zzamministr"),
+          ZzCebenra: oModelSoa.getProperty("/ZzCebenra"),
+          Zzonaint: oModelSoa.getProperty("/Zzonaint"),
+          Zztipologia: oModelSoa.getProperty("/Zztipologia"),
+          Ztipodisp2: oModelSoa.getProperty("/Ztipodisp2"),
+          Ztipodisp3: oModelSoa.getProperty("/Ztipodisp3"),
+          Classificazione: aClassificazioneDeep,
+          Posizione: aPosizioniDeep,
+          Messaggio: [],
+        };
+
+        oModel.create("/SoaDeepSet", oSoaDeep, {
+          success: function (result) {
+            if (result?.Messaggio.results.length !== 0) {
+              console.log(result);
+              oModelSoa.setProperty("/Messaggio", result?.Messaggio?.results);
+              sap.m.MessageBox.error("Operazione non eseguita correttamente");
+              return;
+            }
+            sap.m.MessageBox.success(
+              "SOA n. " +
+                result.Zchiavesop +
+                " registrato correttamente correttamente",
+              {
+                actions: [MessageBox.Action.CLOSE],
+                onClose: function () {
+                  self.getRouter().navTo("soa.list.ListSoa");
+                },
+              }
+            );
+          },
+          error: function () {},
+        });
+      },
+
+      //#endregion
+
+      /** ------------------------GESTIONE LOG------------------------------- */
+      //#region
+      onLog: function () {
+        var self = this;
+
+        var oModelSoa = self.getModel("Soa");
+        self.setModelCustom("Log", oModelSoa.getProperty("/Messaggio"));
+        var oDialog = self.loadFragment("rgssoa.view.fragment.pop-up.TableLog");
+
+        oDialog.open();
+      },
+
+      onCloseLog: function () {
+        var self = this;
+        var oDialog = sap.ui.getCore().byId("dlgLog");
+        oDialog.close();
+        self.unloadFragment();
+      },
+
+      onExportLog: function () {
+        var self = this;
+        const EDM_TYPE = exportLibrary.EdmType;
+
+        var oBundle = self.getResourceBundle();
+
+        var oTable = sap.ui.getCore().byId("tblLog");
+        var oTableModel = oTable.getModel("Log");
+
+        var aCols = [
+          {
+            label: oBundle.getText("labelMessageType"),
+            property: "Type",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelMessageId"),
+            property: "Id",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelMessageNumber"),
+            property: "Number",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelMessageText"),
+            property: "Message",
+            type: EDM_TYPE.String,
+          },
+        ];
+
+        var oSettings = {
+          workbook: {
+            columns: aCols,
+          },
+          dataSource: oTableModel.getData(),
+          fileName: "Lista Log.xlsx",
+        };
+
+        var oSheet = new Spreadsheet(oSettings);
+        oSheet.build().finally(function () {
+          oSheet.destroy();
+        });
+      },
 
       //#endregion
 
@@ -2544,6 +2780,232 @@ sap.ui.define(
         }
       },
       //#endregion
+
+      /** ---------------------CONTROLLI AUTORIZZATIVI------------------------ */
+      //#region
+
+      getPermissionsListSoa: function () {
+        var self = this;
+        var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
+        var oAuthModel = self.getModel("ZSS4_CA_CONI_VISIBILITA_SRV");
+
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "SEM_OBJ", "ZS4_SOA_SRV");
+        self.setFilterEQ(aFilters, "AUTH_OBJ", "Z_GEST_SOA");
+
+        //TODO - Rimettere
+        // oAuthModel.read("/ZES_CONIAUTH_SET", {
+        //   filters: aFilters,
+        //   success: function (data) {
+        //     var aData = data.results;
+        //     oModelAuthoryCheck.setProperty("/AgrName", aData[0].AGR_NAME);
+        //     oModelAuthoryCheck.setProperty("/Fikrs", aData[0].FIKRS);
+        //     oModelAuthoryCheck.setProperty("/Prctr", aData[0].PRCTR);
+        //     self._setUserPermissions(aData);
+        //   },
+        //   error: function (error) {},
+        // });
+
+        oModelAuthoryCheck.setProperty(
+          "/AgrName",
+          "MEF:S:M000:COSP:ACN_TEST_40"
+        );
+        oModelAuthoryCheck.setProperty("/Fikrs", "S001");
+        oModelAuthoryCheck.setProperty("/Prctr", "*");
+        oModelAuthoryCheck.setProperty("/Registra", true);
+        oModelAuthoryCheck.setProperty("/Dettaglio", true);
+        oModelAuthoryCheck.setProperty("/Annullamento", true);
+        oModelAuthoryCheck.setProperty("/InvioFirma", true);
+        oModelAuthoryCheck.setProperty("/RevocaInvioFirma", true);
+        oModelAuthoryCheck.setProperty("/Firma", true);
+        oModelAuthoryCheck.setProperty("/RevocaFirma", true);
+        oModelAuthoryCheck.setProperty("/RegistrazioneRichAnn", true);
+        oModelAuthoryCheck.setProperty("/CancellazioneRichAnn", true);
+      },
+
+      _setUserPermissions: function (aData) {
+        var self = this;
+        var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
+
+        oModelAuthoryCheck.setProperty(
+          "/Registra",
+          this._isUserAuthorized(aData, "ACTV_1", "Z01")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/Dettaglio",
+          this._isUserAuthorized(aData, "ACTV_3", "Z03")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/Annullamento",
+          this._isUserAuthorized(aData, "ACTV_4", "Z07")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/InvioFirma",
+          this._isUserAuthorized(aData, "ACTV_4", "Z04")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/RevocaInvioFirma",
+          this._isUserAuthorized(aData, "ACTV_4", "Z05")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/Firma",
+          this._isUserAuthorized(aData, "ACTV_4", "Z06")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/RevocaFirma",
+          this._isUserAuthorized(aData, "ACTV_4", "Z27")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/RegistrazioneRichAnn",
+          this._isUserAuthorized(aData, "ACTV_4", "Z08")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/CancellazioneRichAnn",
+          this._isUserAuthorized(aData, "ACTV_4", "Z09")
+        );
+      },
+
+      _isUserAuthorized: function (array, param, value) {
+        return array.filter((x) => x[param] === value).length > 0;
+      },
+
+      //#endregion
+
+      resetSoa: function (sTipopag) {
+        var self = this;
+
+        var oModelSoa = new JSONModel({
+          Gjahr: "", //Esercizio di gestione
+          Zimptot: "0.00", //Importo
+          Zzamministr: "", //Amministrazione
+          ZufficioCont: "", //Ufficio Contabile
+          NameFirst: "", //Nome Beneficiairo
+          NameLast: "", //Cognome Beneficiario
+          ZzragSoc: "", //Ragione Sociale
+          TaxnumCf: "", //Codice Fiscale
+          TaxnumPiva: "", //Partita Iva
+          Fipos: "", //Posizione Finanziaria
+          Fistl: "", //Struttura Amministrativa Responsabile
+          Lifnr: "", //Beneficiario
+          Witht: "", //Codice Ritenuta
+          Text40: "", //Descrizione Ritenuta
+          ZzCebenra: "", //Codice Ente Beneficiario
+          ZzDescebe: "", //Descrizione Ente Beneficiario
+          Zchiaveaut: "", //Identificativo Autorizzazione
+          Ztipodisp2: "", //Codice Tipologia Autorizzazione
+          Zdesctipodisp2: "", //Tipologia Autorizzazione
+          Ztipodisp3: "", //Codice Tipologia Disponibilità
+          Zdesctipodisp3: "", //Tipologia Disponibilità
+          Zimpaut: "", //Importo autorizzato
+          Zimpdispaut: "", //Disponibilità autorizzazione
+          Zztipologia: "", //Tipololgia SOA
+          DescZztipologia: "", //Descrizione Tipologia SOA
+          Zfunzdel: "", //Codice FD
+          Zdescriz: "", //TODO - Open Point - Descrizione Codice FD
+          ZspecieSop: "", //Specie SOA
+          DescZspecieSop: "", //Descrizione Specie SOA
+          Zsede: "", //Sede Estera
+          Zdenominazione: "", //Descrizione Sede Estera
+          Zidsede: "", //Sede Beneficiario
+          Zwels: "", //Codice Modalità Pagamento
+          ZCausaleval: "", //Causale Valutaria
+          Swift: "", //BIC
+          Zcoordest: "", //Cordinate Estere
+          Iban: "", //IBAN
+          Zmotivaz: "", //Motivazione cambio IBAN
+          Ztipofirma: "", //Tipologia Firma
+          ZpersCognomeQuiet1: "", //Cognome primo quietanzante
+          ZpersCognomeQuiet2: "", //Cognome secondo quietanzante
+          ZpersNomeQuiet1: "", //Nome primo quietanzante
+          ZpersNomeQuiet2: "", //Nome secondo quietanzante
+          ZpersNomeVaglia: "", //Nome persona vagliaesigibilità
+          ZpersCognomeVaglia: "", //Cognome persona vaglia
+          Zstcd1: "", //Codice Fiscale Utilizzatore
+          Zstcd12: "", //Codice fiscale secondo quietanzante
+          Zstcd13: "", //Codice fiscale destinatario vaglia
+          Zcodprov: "", //INPS - Codice Provenienza
+          Zcfcommit: "", //INPS - Codice Fiscale Committente
+          Zcodtrib: "", //INPS - Codice tributo
+          Zperiodrifda: null, //INPS - Periodo riferimento da
+          Zperiodrifa: null, //INPS - Periodo riferimento a
+          Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
+          Zcfvers: "", //INPS - Codice Fiscale Versante
+          Zcodvers: "", //INPS - Codice Versante
+          Ztipopag: sTipopag, //Tipo Pagamento
+          Zcausale: "", //Causale di pagamento
+          ZE2e: "", //E2E ID
+          Zlocpag: "", //Località pagamento
+          Zzonaint: "", //Zona di intervento
+          Znumprot: "", //Numero protocollo
+          Zdataprot: null, //Data protocollo
+          Zdataesig: null, //TODO - Punto Aperto - Data esigibilità
+          Bukrs: "",
+          Hkont: "",
+          Kostl: "",
+          Zchiavesop: "",
+          ZcodStatosop: "",
+          Zdatasop: null,
+          Znumsop: "",
+          Zricann: "",
+          ZstatTest: "",
+          Zstep: "",
+          Ztipososp: "2",
+          Zutenza: "",
+          data: [],
+          Classificazione: [], //Classificazioni
+          Messaggio: [], //Messaggi di errore
+
+          EnableEdit: true,
+          visibleBtnEdit: false,
+          BuType: "", //Tipologia Persona
+          Taxnumxl: "", //Codice Fiscale Estero
+          Zdurc: "", //Numero identificativo Durc
+          ZfermAmm: "", //Fermo amministrativo
+          Zdescwels: "", //Descrizione Modalità Pagamento
+          Banks: "", //Paese di Residenza (Primi 2 digit IBAN)
+          ZDesccauval: "", //Descrizione Causale Valutaria
+          Zqindiriz: "", //Indirizzo primo quietanzante
+          Zqcitta: "", //Citta primo quietanzantez
+          Zqcap: "", //Cap primo quietanzante
+          Zqprovincia: "", //Provincia primo quietanzante
+          Zqindiriz12: "", //Indirizzo secondo quietanzante
+          Zqcitta12: "", //Citta secondo quietanzante
+          Zqcap12: "", //Cap secondo quietanzante
+          Zqprovincia12: "", //Provincia secondo quietanzante
+          Stras: "", //Via,numero civico
+          Ort01: "", //Località
+          Regio: "", //Regione
+          Pstlz: "", //Codice di avviamento postale
+          Land1: "", //Codice paese
+          FlagInpsEditabile: false,
+        });
+        self.setModel(oModelSoa, "Soa");
+
+        var oModelFilterDocumenti = new JSONModel({
+          CodRitenuta: "",
+          DescRitenuta: "",
+          CodEnte: "",
+          DescEnte: "",
+          QuoteEsigibili: true,
+          DataEsigibilitaFrom: "",
+          DataEsigibilitaTo: "",
+          TipoBeneficiario: "",
+          Lifnr: "",
+          UfficioContabile: "",
+          UfficioPagatore: "",
+          AnnoRegDocumento: [],
+          NumRegDocFrom: "",
+          NumRegDocTo: "",
+          AnnoDocBeneficiario: [],
+          NDocBen: [],
+          Cig: "",
+          Cup: "",
+          ScadenzaDocFrom: null,
+          ScadenzaDocTo: null,
+        });
+        self.setModel(oModelFilterDocumenti, "FilterDocumenti");
+      },
     });
   }
 );

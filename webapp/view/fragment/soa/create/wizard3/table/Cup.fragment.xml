@@ -16,7 +16,7 @@
 		<content>
 			<Table
 				id="tblCup"
-				mode="{= ${Soa>/EnableEdit} ? MultiSelect : None}"
+				mode="{= ${Soa>/EnableEdit} ? 'MultiSelect' : 'None'}"
 				fixedLayout="false"
 				contextualWidth="Auto"
 				growing="true"

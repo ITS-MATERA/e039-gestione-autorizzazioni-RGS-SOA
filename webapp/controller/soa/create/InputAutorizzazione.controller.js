@@ -1,6 +1,6 @@
 sap.ui.define(
   [
-    "../../BaseController",
+    "../BaseSoaController",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel",
@@ -8,7 +8,7 @@ sap.ui.define(
     "sap/m/MessageBox",
   ],
   function (
-    BaseController,
+    BaseSoaController,
     Filter,
     FilterOperator,
     JSONModel,
@@ -17,7 +17,7 @@ sap.ui.define(
   ) {
     "use strict";
 
-    return BaseController.extend(
+    return BaseSoaController.extend(
       "rgssoa.controller.soa.create.InputAutorizzazione",
       {
         formatter: formatter,
@@ -30,16 +30,33 @@ sap.ui.define(
          */
         onInit: function () {
           var self = this;
+
           var oModelInputAutorizzazione = new JSONModel({
             SoaType: "",
           });
-
           self.setModel(oModelInputAutorizzazione, "InputAutorizzazione");
+
+          var oModelAuthoryCheckSoa = new JSONModel({
+            AgrName: "",
+            Fikrs: "",
+            Prctr: "",
+            Registra: false,
+            Dettaglio: false,
+            Annullamento: false,
+            InvioFirma: false,
+            RevocaInvioFirma: false,
+            Firma: false,
+            RevocaFirma: false,
+            RegistrazioneRichAnn: false,
+            CancellazioneRichAnn: false,
+          });
+          self.setModel(oModelAuthoryCheckSoa, "AuthorityCheckSoa");
 
           this.getRouter()
             .getRoute("soa.create.InputAutorizzazione")
             .attachPatternMatched(this._onObjectMatched, this);
         },
+
         _onObjectMatched: function (oEvent) {
           var self = this;
           var oModelInputAutorizzazione = self.getModel("InputAutorizzazione");
@@ -50,6 +67,8 @@ sap.ui.define(
             "/SoaType",
             oArguments?.SoaType
           );
+
+          self.getPermissionsListSoa();
         },
         onNavBack: function () {
           var self = this;
@@ -191,17 +210,31 @@ sap.ui.define(
         onNavForward: function () {
           var self = this;
 
-          self.getPermissionsList();
+          self._checkAuthOnAutorizzazione();
+        },
 
-          var oView = self.getView();
-          var oChiaveAutorizzazioneModel = oView.getModel(
-            "ChiaveAutorizzazione"
-          );
+        _checkAuthOnAutorizzazione: function () {
+          var self = this;
+
+          var oModel = self.getModel();
+          var oModelAuthoryCheckSoa = self.getModel("AuthorityCheckSoa");
+          var oModelAutorizzazione = self.getModel("ChiaveAutorizzazione");
+
           var oModelInputAutorizzazione = self.getModel("InputAutorizzazione");
           var oRbTipoDocumenti = self.getView().byId("rbTipoDocumenti");
 
           var sSoaType = oModelInputAutorizzazione.getProperty("/SoaType");
           var sRbTipoDocumenti = oRbTipoDocumenti.getSelectedIndex();
+
+          if (!oModelAuthoryCheckSoa.getProperty("/AgrName")) {
+            return;
+          }
+
+          var oView = self.getView();
+          var oChiaveAutorizzazioneModel = oView.getModel(
+            "ChiaveAutorizzazione"
+          );
+
           var oParameters = {
             Zchiaveaut: oChiaveAutorizzazioneModel?.getProperty("/zChiaveAut"),
             Bukrs: oChiaveAutorizzazioneModel?.getProperty("/bukrs"),
@@ -217,18 +250,45 @@ sap.ui.define(
             return;
           }
 
-          if (sSoaType === "1" && sRbTipoDocumenti === 0) {
-            self.getRouter().navTo("soa.create.scenery.Scenario1", oParameters);
-          }
-          if (sSoaType === "1" && sRbTipoDocumenti === 1) {
-            self.getRouter().navTo("soa.create.scenery.Scenario2", oParameters);
-          }
-          if (sSoaType === "2" && sRbTipoDocumenti === 0) {
-            self.getRouter().navTo("soa.create.scenery.Scenario3", oParameters);
-          }
-          if (sSoaType === "2" && sRbTipoDocumenti === 1) {
-            self.getRouter().navTo("soa.create.scenery.Scenario4", oParameters);
-          }
+          oModel.callFunction("/AutorityCheckOnAutorizzazione", {
+            method: "GET",
+            urlParameters: {
+              AgrName: oModelAuthoryCheckSoa.getProperty("/AgrName"),
+              Fikrs: oModelAuthoryCheckSoa.getProperty("/Fikrs"),
+              Fipos: oModelAutorizzazione.getProperty("/posFinanziaria"),
+              Fistl: oModelAutorizzazione.getProperty("/strAmmResponsabile"),
+              Gjahr: oModelAutorizzazione.getProperty("/gjahr"),
+              Prctr: oModelAuthoryCheckSoa.getProperty("/Prctr"),
+            },
+            success: function (data, oResponse) {
+              //TODO - Rimettere
+              // if (self.setResponseMessage(oResponse)) {
+              //   return;
+              // }
+
+              if (sSoaType === "1" && sRbTipoDocumenti === 0) {
+                self
+                  .getRouter()
+                  .navTo("soa.create.scenery.Scenario1", oParameters);
+              }
+              if (sSoaType === "1" && sRbTipoDocumenti === 1) {
+                self
+                  .getRouter()
+                  .navTo("soa.create.scenery.Scenario2", oParameters);
+              }
+              if (sSoaType === "2" && sRbTipoDocumenti === 0) {
+                self
+                  .getRouter()
+                  .navTo("soa.create.scenery.Scenario3", oParameters);
+              }
+              if (sSoaType === "2" && sRbTipoDocumenti === 1) {
+                self
+                  .getRouter()
+                  .navTo("soa.create.scenery.Scenario4", oParameters);
+              }
+            },
+            error: function (error) {},
+          });
         },
       }
     );

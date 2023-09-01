@@ -1,12 +1,12 @@
 sap.ui.define(
   [
-    "../../BaseController",
+    "../BaseSoaController",
     "sap/ui/model/json/JSONModel",
     "../../../model/formatter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
   ],
-  function (BaseController, JSONModel, formatter, Filter, FilterOperator) {
+  function (BaseSoaController, JSONModel, formatter, Filter, FilterOperator) {
     "use strict";
 
     const NE = FilterOperator.NE;
@@ -15,7 +15,7 @@ sap.ui.define(
     const SOA_MODEL = "SoaSettings";
     const PAGINATOR_MODEL = "paginatorModel";
 
-    return BaseController.extend("rgssoa.controller.soa.list.ListSoa", {
+    return BaseSoaController.extend("rgssoa.controller.soa.list.ListSoa", {
       formatter: formatter,
       /**
        * @override
@@ -73,13 +73,37 @@ sap.ui.define(
           Fistl: "",
         });
 
+        var oModelAuthoryCheckSoa = new JSONModel({
+          AgrName: "",
+          Fikrs: "",
+          Prctr: "",
+          Registra: false,
+          Dettaglio: false,
+          Annullamento: false,
+          InvioFirma: false,
+          RevocaInvioFirma: false,
+          Firma: false,
+          RevocaFirma: false,
+          RegistrazioneRichAnn: false,
+          CancellazioneRichAnn: false,
+        });
+        self.setModel(oModelAuthoryCheckSoa, "AuthorityCheckSoa");
+
         self.setModel(oModelPaginator, PAGINATOR_MODEL);
         self.setModel(oModelSoa, SOA_MODEL);
         self.setModel(oModelFilter, "Filter");
       },
+
       onNavBack: function () {
         history.go(-1);
       },
+
+      onBeforeRendering: function () {
+        var self = this;
+
+        self.getPermissionsListSoa();
+      },
+
       onAfterRendering: function () {
         var self = this;
         var oDataModel = self.getModel();
@@ -96,6 +120,8 @@ sap.ui.define(
               error: function (error) {},
             });
           });
+
+        var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
       },
 
       onSearch: function () {

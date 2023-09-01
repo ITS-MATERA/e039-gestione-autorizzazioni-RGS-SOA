@@ -85,8 +85,8 @@ sap.ui.define(
             Zcodprov: "", //INPS - Codice Provenienza
             Zcfcommit: "", //INPS - Codice Fiscale Committente
             Zcodtrib: "", //INPS - Codice tributo
-            Zperiodrifda: "", //INPS - Periodo riferimento da
-            Zperiodrifa: "", //INPS - Periodo riferimento a
+            Zperiodrifda: null, //INPS - Periodo riferimento da
+            Zperiodrifa: null, //INPS - Periodo riferimento a
             Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
             Zcfvers: "", //INPS - Codice Fiscale Versante
             Zcodvers: "", //INPS - Codice Versante
@@ -96,10 +96,23 @@ sap.ui.define(
             Zlocpag: "", //Località pagamento
             Zzonaint: "", //Zona di intervento
             Znumprot: "", //Numero protocollo
-            Zdataprot: "", //Data protocollo
-            Zdataesig: "", //TODO - Punto Aperto - Data esigibilità
+            Zdataprot: null, //Data protocollo
+            Zdataesig: null, //TODO - Punto Aperto - Data esigibilità
+            Bukrs: "",
+            Hkont: "",
+            Kostl: "",
+            Zchiavesop: "",
+            ZcodStatosop: "",
+            Zdatasop: null,
+            Znumsop: "",
+            Zricann: "",
+            ZstatTest: "",
+            Zstep: "",
+            Ztipososp: "2",
+            Zutenza: "",
             data: [],
             Classificazione: [], //Classificazioni
+            Messaggio: [], //Messaggi di errore
 
             BuType: "", //Tipologia Persona
             Taxnumxl: "", //Codice Fiscale Estero
@@ -310,6 +323,7 @@ sap.ui.define(
           var bWizard4 = oModelStepScenario.getProperty("/wizard4");
 
           if (bWizard1Step1) {
+            self.resetSoa("1");
             history.go(-1);
           } else if (bWizard1Step2) {
             oModelStepScenario.setProperty("/wizard1Step2", false);
@@ -349,13 +363,10 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step2) {
-            //TODO - Rimettere
-            // if (this._checkQuoteDocumenti()) {
-            //   oModelStepScenario.setProperty("/wizard1Step2", false);
-            //   oModelStepScenario.setProperty("/wizard1Step3", true);
-            // }
-            oModelStepScenario.setProperty("/wizard1Step2", false);
-            oModelStepScenario.setProperty("/wizard1Step3", true);
+            if (this._checkQuoteDocumenti()) {
+              oModelStepScenario.setProperty("/wizard1Step2", false);
+              oModelStepScenario.setProperty("/wizard1Step3", true);
+            }
           } else if (bWizard1Step3) {
             oModelStepScenario.setProperty("/wizard1Step3", false);
             oModelStepScenario.setProperty("/wizard2", true);
@@ -371,15 +382,14 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard3", true);
             oWizard.nextStep();
           } else if (bWizard3) {
-            // TODO - Decommentare
-            // if (this._checkClassificazione()) {
-            oModelStepScenario.setProperty("/wizard3", false);
-            oModelStepScenario.setProperty("/wizard4", true);
-            oModelStepScenario.setProperty("/visibleBtnForward", false);
-            oModelStepScenario.setProperty("/visibleBtnSave", true);
-            this._setCausalePagamento();
-            oWizard.nextStep();
-            // }
+            if (self.checkClassificazione()) {
+              oModelStepScenario.setProperty("/wizard3", false);
+              oModelStepScenario.setProperty("/wizard4", true);
+              oModelStepScenario.setProperty("/visibleBtnForward", false);
+              oModelStepScenario.setProperty("/visibleBtnSave", true);
+              this._setCausalePagamento();
+              oWizard.nextStep();
+            }
           }
         },
 
@@ -751,12 +761,13 @@ sap.ui.define(
             oModelSoa.getProperty("/Zimpdispaut")
           );
 
-          if (fImpTot > fImpDispAutorizzazione) {
-            sap.m.MessageBox.error(
-              oBundle.getText("msgImpTotGreaterImpDispAut")
-            );
-            return false;
-          }
+          //TODO - Rimettere
+          // if (fImpTot > fImpDispAutorizzazione) {
+          //   sap.m.MessageBox.error(
+          //     oBundle.getText("msgImpTotGreaterImpDispAut")
+          //   );
+          //   return false;
+          // }
 
           if (
             oModelSoa.getProperty("/data").length === 0 ||
