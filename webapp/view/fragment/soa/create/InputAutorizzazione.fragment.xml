@@ -425,12 +425,8 @@
 				</OverflowToolbar>
 			</headerToolbar>
 			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<RadioButtonGroup
-					id="rbTipoDocumenti"
-					columns="2"
-				>
+				<RadioButtonGroup columns="2">
 					<RadioButton
-						id="rbTipoDocumentiLiquidati"
 						text="{i18n>documentiLiquidati}"
 						editable="{= ${Autorizzazione>/ZflagFipos} ? false : true}"
 						selected="{InputAutorizzazione>/DocumentiLiquidati}"
