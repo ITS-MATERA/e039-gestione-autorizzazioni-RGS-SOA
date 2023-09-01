@@ -47,23 +47,18 @@ sap.ui.define([], function () {
     },
 
     formatDate: function (sValue) {
-      console.log(sValue);
-      if (!sValue) return;// new Date();
+      if (!sValue) return; // new Date();
 
-      if(sValue instanceof Date && !isNaN(sValue)){}
-      else
-        return;
+      if (sValue instanceof Date && !isNaN(sValue)) {
+      } else return;
 
-      var sDate=sValue.getDate();
-      if(sDate<10)
-      sDate = "0" + sDate;
-      
-      var sMonth = sValue.getMonth()+1;
-      if(sMonth<10)
-        sMonth = "0" +sMonth;
-      sValue = sValue.getFullYear()+ "-" + sMonth +"-"+ sDate;
+      var sDate = sValue.getDate();
+      if (sDate < 10) sDate = "0" + sDate;
+
+      var sMonth = sValue.getMonth() + 1;
+      if (sMonth < 10) sMonth = "0" + sMonth;
+      sValue = sValue.getFullYear() + "-" + sMonth + "-" + sDate;
       return sValue;
     },
-
   };
 });

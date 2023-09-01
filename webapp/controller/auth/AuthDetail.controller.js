@@ -1,621 +1,792 @@
-sap.ui.define([
+sap.ui.define(
+  [
     "./BaseAuthController",
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/routing/History",
     "../../model/formatter",
     "sap/m/MessageBox",
-], function (BaseController, JSONModel, History, formatter, MessageBox) {
+  ],
+  function (BaseController, JSONModel, History, formatter, MessageBox) {
     "use strict";
 
-    const AUTORIZZAZIONE_ENTITY_SET = "AutorizzazioneSet";  
-    const AUTORIZZAZIONE_DETAIL_MODEL= "AutorizzazioneDetailSet";
-    const AUTH_BUTTON_MODEL="AuthButtonSet";
-    const AUTH_STATE_MODEL="AuthStateSet";
-    const KEY_MODEL="KeyModel";
+    const AUTORIZZAZIONE_ENTITY_SET = "AutorizzazioneSet";
+    const AUTORIZZAZIONE_DETAIL_MODEL = "AutorizzazioneDetailSet";
+    const AUTH_BUTTON_MODEL = "AuthButtonSet";
+    const AUTH_STATE_MODEL = "AuthStateSet";
+    const KEY_MODEL = "KeyModel";
     const PAGINATOR_MODEL = "paginatorModel";
 
     return BaseController.extend("rgssoa.controller.auth.AuthDetail", {
+      formatter: formatter,
 
-        formatter: formatter,
+      /* =========================================================== */
+      /* lifecycle methods                                           */
+      /* =========================================================== */
 
-        /* =========================================================== */
-        /* lifecycle methods                                           */
-        /* =========================================================== */
+      /**
+       * Called when the worklist controller is instantiated.
+       * @public
+       */
+      onInit: function () {
+        var self = this;
+        var oViewModel = new JSONModel({
+          busy: true,
+          delay: 0,
+        });
 
-        /**
-         * Called when the worklist controller is instantiated.
-         * @public
-         */
-        onInit : function () {
-            var self= this;
-            var oViewModel = new JSONModel({
-                    busy : true,
-                    delay : 0
-                });
-   
-            var oModelJsonKey = new JSONModel({  
-                sBukrs:"",
-                sGjahr:"",
-                sZchiaveaut:"",
-                sZstepAut:"",
-            });  
+        var oModelJsonKey = new JSONModel({
+          sBukrs: "",
+          sGjahr: "",
+          sZchiaveaut: "",
+          sZstepAut: "",
+        });
 
-            var oModelJson = new JSONModel({
-                GjahrHeader:"",
-                ZchiaveautHeader:"",
-                ZimpautHeader:"",
-                DesTipoDisp2Header:"",
-                DesTipoDisp3Header:"",
-                FiposHeader:"",
-                FistlHeader:"",
-                ZnoteautHeader:"",
-                ZzamministrHeader:"",
-                ZufficioContHeader:"",
-                DescufficioHeader:"",
+        var oModelJson = new JSONModel({
+          GjahrHeader: "",
+          ZchiaveautHeader: "",
+          ZimpautHeader: "",
+          DesTipoDisp2Header: "",
+          DesTipoDisp3Header: "",
+          FiposHeader: "",
+          FistlHeader: "",
+          ZnoteautHeader: "",
+          ZzamministrHeader: "",
+          ZufficioContHeader: "",
+          DescufficioHeader: "",
 
-                ZzstatoAut:"",
-                Zchiaveaut:"", //ID autorizzazione
-                Bukrs:"",    
-                Gjahr:"",
-                Zimpaut:"",
-                Ztipodisp2:"", //tipologia autorizzazione
-                Ztipodisp3:"", //tipologia disposizione
-                Znoteaut:"",
-                Fipos:"",
-                Fistl:"", //struttura amministrazione responsabile
-                Beschr:"", //descrizione struttura amministrazione responsabile
-                ZufficioCont:"",
-                ZflagFipos:false, //posizione finanziaria non istituita       
-                DesTipoDisp2:"",
-                DesTipoDisp3:"",
-                Zfunzdel:"",
-                Znumprot:"",
-                Zdataprot:"",
-                ZufficioUcb:"",
-                ZufficioRich:"",
-                ZufficioIgepa:"",
-                Zdescriz:""   ,  
-                Descufficio:"",
-                ZstepAut:""
-                });
+          ZzstatoAut: "",
+          Zchiaveaut: "", //ID autorizzazione
+          Bukrs: "",
+          Gjahr: "",
+          Zimpaut: "",
+          Ztipodisp2: "", //tipologia autorizzazione
+          Ztipodisp3: "", //tipologia disposizione
+          Znoteaut: "",
+          Fipos: "",
+          Fistl: "", //struttura amministrazione responsabile
+          Beschr: "", //descrizione struttura amministrazione responsabile
+          ZufficioCont: "",
+          ZflagFipos: false, //posizione finanziaria non istituita
+          DesTipoDisp2: "",
+          DesTipoDisp3: "",
+          Zfunzdel: "",
+          Znumprot: "",
+          Zdataprot: "",
+          ZufficioUcb: "",
+          ZufficioRich: "",
+          ZufficioIgepa: "",
+          Zdescriz: "",
+          Descufficio: "",
+          ZstepAut: "",
+        });
 
-            var oModelJsonButton = new JSONModel({
-                btnRettificaAutorizzazioneEnabled:false,
-                btnSaveRettificaAuthVisible:false,
-                btnAnnullamentoAuthVisible:true,
-                btnFirmaAuthVisible:true,
-                btnRevocaFirmaAuthVisible:true
-            });    
+        var oModelJsonButton = new JSONModel({
+          btnRettificaAutorizzazioneEnabled: false,
+          btnSaveRettificaAuthVisible: false,
+          btnAnnullamentoAuthVisible: true,
+          btnFirmaAuthVisible: true,
+          btnRevocaFirmaAuthVisible: true,
+        });
 
-            var oModelJsonState = new JSONModel({
-                isDetailVisible:true
-            });    
+        var oModelJsonState = new JSONModel({
+          isDetailVisible: true,
+        });
 
-            
-            self.getView().setModel(oModelJsonKey, KEY_MODEL);   
-            self.getView().setModel(oModelJson, AUTORIZZAZIONE_DETAIL_MODEL);   
-            self.getView().setModel(oModelJsonButton, AUTH_BUTTON_MODEL);   
-            self.getView().setModel(oModelJsonState, AUTH_STATE_MODEL);   
-            
-            self.getRouter().getRoute("auth.authDetail").attachPatternMatched(this._onObjectMatched, this);
-            self.setModel(oViewModel, "objectView");            
-        },
+        self.getView().setModel(oModelJsonKey, KEY_MODEL);
+        self.getView().setModel(oModelJson, AUTORIZZAZIONE_DETAIL_MODEL);
+        self.getView().setModel(oModelJsonButton, AUTH_BUTTON_MODEL);
+        self.getView().setModel(oModelJsonState, AUTH_STATE_MODEL);
 
-        onAfterRendering: function() {
-            var self = this,
-                authDetailTabBarControl = self.getView().byId("authDetailTabBar");
-            if(authDetailTabBarControl)
-                authDetailTabBarControl.setSelectedKey("detail");            
-        },
-        /* =========================================================== */
-        /* event handlers                                              */
-        /* =========================================================== */
+        self
+          .getRouter()
+          .getRoute("auth.authDetail")
+          .attachPatternMatched(this._onObjectMatched, this);
+        self.setModel(oViewModel, "objectView");
+      },
 
-        onNavBack : function(oEvent) {
-            var self =this,
-                authDetailTabBarControl = self.getView().byId("authDetailTabBar");
-            if(authDetailTabBarControl)
-                authDetailTabBarControl.setSelectedKey("detail");
-            
-            self.getRouter().navTo("auth.authPage");            
-        },
+      onAfterRendering: function () {
+        var self = this,
+          authDetailTabBarControl = self.getView().byId("authDetailTabBar");
+        if (authDetailTabBarControl)
+          authDetailTabBarControl.setSelectedKey("detail");
+      },
+      /* =========================================================== */
+      /* event handlers                                              */
+      /* =========================================================== */
 
-        /* =========================================================== */
-        /* internal methods                                            */
-        /* =========================================================== */
+      onNavBack: function (oEvent) {
+        var self = this,
+          authDetailTabBarControl = self.getView().byId("authDetailTabBar");
+        if (authDetailTabBarControl)
+          authDetailTabBarControl.setSelectedKey("detail");
 
-        _onObjectMatched : function (oEvent) {
-            var self = this, 
-               
-                sBukrs = oEvent.getParameter("arguments").Bukrs,
-                sGjahr = oEvent.getParameter("arguments").Gjahr,
-                sZchiaveaut = oEvent.getParameter("arguments").Zchiaveaut,
-                sZstepAut = oEvent.getParameter("arguments").ZstepAut;
+        self.getRouter().navTo("auth.authPage");
+      },
 
-            self.getModel(KEY_MODEL).setProperty("/sBukrs",sBukrs),
-            self.getModel(KEY_MODEL).setProperty("/sGjahr",sGjahr),
-            self.getModel(KEY_MODEL).setProperty("/sZchiaveaut",sZchiaveaut),
-            self.getModel(KEY_MODEL).setProperty("/sZstepAut",sZstepAut)
+      /* =========================================================== */
+      /* internal methods                                            */
+      /* =========================================================== */
 
-            if(!self.getModel(self.AUTHORITY_CHECK_AUTH)){
-              self.getAuthorityCheck(function(callback){
-                if(!callback.success || !callback.permission.Z03Enabled){
-                  self.getRouter().navTo("auth.authPage");
-                }
-                else
-                  self._getAutorizzazioneSet();
-              });
-            }                
-        },
+      _onObjectMatched: function (oEvent) {
+        var self = this,
+          sBukrs = oEvent.getParameter("arguments").Bukrs,
+          sGjahr = oEvent.getParameter("arguments").Gjahr,
+          sZchiaveaut = oEvent.getParameter("arguments").Zchiaveaut,
+          sZstepAut = oEvent.getParameter("arguments").ZstepAut;
 
-        _getAutorizzazioneSet:function(){
-          var self = this,
-              oDataModel = self.getModel();
+        self.getModel(KEY_MODEL).setProperty("/sBukrs", sBukrs),
+          self.getModel(KEY_MODEL).setProperty("/sGjahr", sGjahr),
+          self.getModel(KEY_MODEL).setProperty("/sZchiaveaut", sZchiaveaut),
+          self.getModel(KEY_MODEL).setProperty("/sZstepAut", sZstepAut);
 
-          self.getView().setBusy(true);
-          var path = self.getModel().createKey(AUTORIZZAZIONE_ENTITY_SET, {
-              Bukrs: self.getModel(KEY_MODEL).getProperty("/sBukrs"),
-              Gjahr: self.getModel(KEY_MODEL).getProperty("/sGjahr"),
-              Zchiaveaut: self.getModel(KEY_MODEL).getProperty("/sZchiaveaut"),
-              ZstepAut: self.getModel(KEY_MODEL).getProperty("/sZstepAut")
+        if (!self.getModel(self.AUTHORITY_CHECK_AUTH)) {
+          self.getAuthorityCheck(function (callback) {
+            if (!callback.success || !callback.permission.Z03Enabled) {
+              self.getRouter().navTo("auth.authPage");
+            } else self._getAutorizzazioneSet();
           });
+        }
+      },
 
-          self.getModel().metadataLoaded().then( function() {
+      _getAutorizzazioneSet: function () {
+        var self = this,
+          oDataModel = self.getModel();
+
+        self.getView().setBusy(true);
+        var path = self.getModel().createKey(AUTORIZZAZIONE_ENTITY_SET, {
+          Bukrs: self.getModel(KEY_MODEL).getProperty("/sBukrs"),
+          Gjahr: self.getModel(KEY_MODEL).getProperty("/sGjahr"),
+          Zchiaveaut: self.getModel(KEY_MODEL).getProperty("/sZchiaveaut"),
+          ZstepAut: self.getModel(KEY_MODEL).getProperty("/sZstepAut"),
+        });
+
+        self
+          .getModel()
+          .metadataLoaded()
+          .then(function () {
             oDataModel.read("/" + path, {
-              success: function(data, oResponse){
-                            self._loadTipologiaDisposizione(data.Ztipodisp2);
-                            self.setDetailModel(data);
-                            console.log(self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getData());//TODO:Da canc
-                            self.getView().setBusy(false);
-              },
-              error: function(error){
+              success: function (data, oResponse) {
+                self._loadTipologiaDisposizione(data.Ztipodisp2);
+                self.setDetailModel(data);
                 self.getView().setBusy(false);
-              }
+              },
+              error: function (error) {
+                self.getView().setBusy(false);
+              },
             });
           });
-        },
+      },
 
-        // onTipologiaAutorizzazioneChange:function(oEvent){
-        //     var self = this,
-        //         filters = [],    
-        //         oDataModel = self.getModel(),
-        //         key = oEvent.getParameters().selectedItem.getKey();
+      // onTipologiaAutorizzazioneChange:function(oEvent){
+      //     var self = this,
+      //         filters = [],
+      //         oDataModel = self.getModel(),
+      //         key = oEvent.getParameters().selectedItem.getKey();
 
-        //     if(key){
-        //         self._loadTipologiaDisposizione(key);
-        //     }
-        // },
+      //     if(key){
+      //         self._loadTipologiaDisposizione(key);
+      //     }
+      // },
 
-        setPropertyComboFromChange:function(oEvent){
-          var self = this,
-            value = oEvent.getSource().getSelectedKey() && oEvent.getSource().getSelectedKey() !== "" ? oEvent.getSource().getSelectedKey():null,
-            prop = oEvent.getSource().data("propertyModel"),
-            functionName = oEvent.getSource().data("propertyCallFunction");
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/" + prop ,value);
-          if(functionName && functionName !== ""){
-            eval(`this.${functionName}(value)`);
-          }
-        },
+      setPropertyComboFromChange: function (oEvent) {
+        var self = this,
+          value =
+            oEvent.getSource().getSelectedKey() &&
+            oEvent.getSource().getSelectedKey() !== ""
+              ? oEvent.getSource().getSelectedKey()
+              : null,
+          prop = oEvent.getSource().data("propertyModel"),
+          functionName = oEvent.getSource().data("propertyCallFunction");
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/" + prop, value);
+        if (functionName && functionName !== "") {
+          eval(`this.${functionName}(value)`);
+        }
+      },
 
-        _loadTipologiaDisposizione:function(key){
-            var self =this,
-                oDataModel = self.getModel(),
-                filters = [];
+      _loadTipologiaDisposizione: function (key) {
+        var self = this,
+          oDataModel = self.getModel(),
+          filters = [];
 
-            filters.push(new sap.ui.model.Filter("Ztipodisp2",sap.ui.model.FilterOperator.EQ,key));
-            self.getModel().metadataLoaded().then( function() {
-                oDataModel.read("/TipoDisp3Set", {
-                    filters: filters,
-                    success: function(data, oResponse){
-                        var oModelJson = new sap.ui.model.json.JSONModel();
-                        oModelJson.setData(data.results);
-                        self.getView().setModel(oModelJson, "TipoDisp3Set");
-                    },
-                    error: function(error){}
-                });
-            });    
-        },
+        filters.push(
+          new sap.ui.model.Filter(
+            "Ztipodisp2",
+            sap.ui.model.FilterOperator.EQ,
+            key
+          )
+        );
+        self
+          .getModel()
+          .metadataLoaded()
+          .then(function () {
+            oDataModel.read("/TipoDisp3Set", {
+              filters: filters,
+              success: function (data, oResponse) {
+                var oModelJson = new sap.ui.model.json.JSONModel();
+                oModelJson.setData(data.results);
+                self.getView().setModel(oModelJson, "TipoDisp3Set");
+              },
+              error: function (error) {},
+            });
+          });
+      },
 
-        _clearFiposFistl:function(value){
-          var self =this;
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Fipos",null);
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Fistl",null);
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Beschr",null);
-        },
+      _clearFiposFistl: function (value) {
+        var self = this;
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/Fipos", null);
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/Fistl", null);
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/Beschr", null);
+      },
 
-        posizioneFinanziariaLiveChange:function(oEvent) {
-          var self = this,
-            value = oEvent.getParameters().value && oEvent.getParameters().value !== "" ? oEvent.getParameters().value : null,
-            prop = oEvent.getSource().data("propertyModel");
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/" + prop ,oEvent.getParameters().value);
-        },
-  
-        checkZUfficioCont:function(oEvent){
-          var self =this,
-            value = oEvent.getParameters().value && oEvent.getParameters().value !== "" ? oEvent.getParameters().value : null;
-  
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/ZufficioCont" ,value);
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Descufficio" ,null);
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Zfunzdel" ,null);
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Zdescriz" ,null);
-          
-          if(value){
-            self.getView().setBusy(true);
-            self.getModel().metadataLoaded().then( function() {
+      posizioneFinanziariaLiveChange: function (oEvent) {
+        var self = this,
+          value =
+            oEvent.getParameters().value && oEvent.getParameters().value !== ""
+              ? oEvent.getParameters().value
+              : null,
+          prop = oEvent.getSource().data("propertyModel");
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/" + prop, oEvent.getParameters().value);
+      },
+
+      checkZUfficioCont: function (oEvent) {
+        var self = this,
+          value =
+            oEvent.getParameters().value && oEvent.getParameters().value !== ""
+              ? oEvent.getParameters().value
+              : null;
+
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/ZufficioCont", value);
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/Descufficio", null);
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/Zfunzdel", null);
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/Zdescriz", null);
+
+        if (value) {
+          self.getView().setBusy(true);
+          self
+            .getModel()
+            .metadataLoaded()
+            .then(function () {
               var path = self.getModel().createKey("/UfficioContSet", {
-                Ztipodisp2:self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getProperty("/Ztipodisp2"),
-                Ztipodisp3:self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getProperty("/Ztipodisp3"),
-                ZufficioCont:value
+                Ztipodisp2: self
+                  .getView()
+                  .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                  .getProperty("/Ztipodisp2"),
+                Ztipodisp3: self
+                  .getView()
+                  .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                  .getProperty("/Ztipodisp3"),
+                ZufficioCont: value,
               });
-              var oDataModel =self.getModel();
-              oDataModel.read(path, {   
-                  success: function(data, oResponse){
-                    var sapMessage = oResponse.headers["sap-message"] ? JSON.parse(oResponse.headers["sap-message"]):null;
-                    console.log(sapMessage);  
-                    self.getView().setBusy(false);
-                    if(sapMessage){
-                      self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Descufficio",null);  
-                      self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/ZufficioCont",null);  
-                      MessageBox.error(sapMessage.message, {
-                          title: "Ufficio Contabile",
-                          actions: [sap.m.MessageBox.Action.OK],
-                          emphasizedAction: MessageBox.Action.OK,
-                      });
-                    }
-                    else{
-                      if(data && data.ZvimDescrufficio && data.ZvimDescrufficio !== "")
-                        self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Descufficio",data.ZvimDescrufficio);       
-                      else    
-                        self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Descufficio",null);   
-                    }             
-                  },
-                  error: function(error){
-                      self.getView().setBusy(false);
-                      self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Descufficio",null);  
+              var oDataModel = self.getModel();
+              oDataModel.read(path, {
+                success: function (data, oResponse) {
+                  var sapMessage = oResponse.headers["sap-message"]
+                    ? JSON.parse(oResponse.headers["sap-message"])
+                    : null;
+                  self.getView().setBusy(false);
+                  if (sapMessage) {
+                    self
+                      .getView()
+                      .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                      .setProperty("/Descufficio", null);
+                    self
+                      .getView()
+                      .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                      .setProperty("/ZufficioCont", null);
+                    MessageBox.error(sapMessage.message, {
+                      title: "Ufficio Contabile",
+                      actions: [sap.m.MessageBox.Action.OK],
+                      emphasizedAction: MessageBox.Action.OK,
+                    });
+                  } else {
+                    if (
+                      data &&
+                      data.ZvimDescrufficio &&
+                      data.ZvimDescrufficio !== ""
+                    )
+                      self
+                        .getView()
+                        .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                        .setProperty("/Descufficio", data.ZvimDescrufficio);
+                    else
+                      self
+                        .getView()
+                        .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                        .setProperty("/Descufficio", null);
                   }
-                });
-             });  
-          }
-        },
-
-        strutturaAmministrativaLiveChange:function(oEvent) {
-          var self = this,
-            value = oEvent.getParameters().value && oEvent.getParameters().value !== "" ? oEvent.getParameters().value : null,
-            prop = oEvent.getSource().data("propertyModel");
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/" + prop ,oEvent.getParameters().value); 
-  
-          if(value){
-            self.getView().setBusy(true);
-            self.getModel().metadataLoaded().then( function() {
-              var path = self.getModel().createKey("/DescFistlSet", {
-                  Fistl: value,
-              });
-              var oDataModel =self.getModel();
-              oDataModel.read(path, {   
-                  success: function(data){
-                    self.getView().setBusy(false);
-                    if(data && data.Beschr && data.Beschr !== "")
-                      self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Beschr",data.Beschr);       
-                    else    
-                      self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Beschr",null);                
-                  },
-                  error: function(error){
-                      oView.setBusy(false);
-                      self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Beschr",null);  
-                  }
-                });
-             });         
-          }
-          else
-            self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/Beschr",null);  
-        },
-
-        setDetailModel:function(data){
-            var self = this,
-                model = self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL),
-                modelButton = self.getView().getModel(AUTH_BUTTON_MODEL);
-            
-            modelButton.setProperty("/btnRettificaAutorizzazioneEnabled", data.ZzstatoAut === '00' ? true : false);
-            console.log(data);
-            model.setProperty("/GjahrHeader",data.Gjahr);
-            model.setProperty("/ZchiaveautHeader",data.Zchiaveaut);
-            model.setProperty("/ZimpautHeader",data.Zimpaut);
-            model.setProperty("/DesTipoDisp2Header",data.DesTipoDisp2);
-            model.setProperty("/DesTipoDisp3Header",data.DesTipoDisp3);
-            model.setProperty("/FiposHeader",data.Fipos);
-            model.setProperty("/FistlHeader",data.Fistl);
-            model.setProperty("/ZnoteautHeader",data.Znoteaut);
-            model.setProperty("/ZzamministrHeader", data.Zzamministr);
-            model.setProperty("/ZufficioContHeader",data.ZufficioCont);
-            model.setProperty("/DescufficioHeader",data.Descufficio);
-            
-            model.setProperty("/ZzstatoAut", data.ZzstatoAut);
-            model.setProperty("/Bukrs", data.Bukrs);  
-            model.setProperty("/Gjahr", data.Gjahr);      
-            model.setProperty("/Zchiaveaut", data.Zchiaveaut);  
-            model.setProperty("/Zimpaut", data.Zimpaut);  
-            model.setProperty("/Ztipodisp2", data.Ztipodisp2);  
-            model.setProperty("/Ztipodisp3", data.Ztipodisp3);  
-            model.setProperty("/Znoteaut", data.Znoteaut);  
-            model.setProperty("/Fistl", data.Fistl);  
-            model.setProperty("/Fipos", data.Fipos); 
-            model.setProperty("/Beschr", data.Beschr); 
-            model.setProperty("/ZflagFipos", !data.ZflagFipos || data.ZflagFipos === "" ? false : true );  
-            model.setProperty("/DesTipoDisp2", data.DesTipoDisp2);  
-            model.setProperty("/DesTipoDisp3", data.DesTipoDisp3);  
-            model.setProperty("/Zfunzdel", data.Zfunzdel);
-            model.setProperty("/Znumprot", data.Znumprot);
-            model.setProperty("/Zdataprot", data.Zdataprot/*.toLocaleDateString()*/); 
-            model.setProperty("/ZufficioUcb",data.ZufficioUcb);
-            model.setProperty("/ZufficioRich",data.ZufficioRich);
-            model.setProperty("/ZufficioIgepa",data.ZufficioIgepa);
-            model.setProperty("/ZufficioCont",data.ZufficioCont);            
-            model.setProperty("/Zdescriz", data.Zdescriz);
-            model.setProperty("/Descufficio", data.Descufficio);
-            model.setProperty("/ZstepAut", data.ZstepAut);            
-            model.setProperty("/EsercicioFinanziario", null);//TODO:da capire quando ci sarà la logica se cambierà qualcosa
-        },
-
-        onRettificaAutorizzazione:function(oEvent){
-            var self = this,
-                oBundle = self.getResourceBundle(),
-                modelButton = self.getView().getModel(AUTH_BUTTON_MODEL),
-                btnSaveRettificaState = modelButton.getProperty("/btnSaveRettificaAuthVisible");
-
-            if(btnSaveRettificaState){
-                MessageBox.information(
-                    oBundle.getText("msg-authDetailOnRettificaAutorizzazione"),
-                    {
-                    actions: [
-                    oBundle.getText("dialogYes"),
-                    oBundle.getText("dialogNo"),
-                    ],
-                    emphasizedAction: oBundle.getText("dialogYes"),
-                    onClose: function (sAction) {
-                        if (sAction === oBundle.getText("dialogYes")) {
-                            self._getAutorizzazioneSet();
-                            modelButton.setProperty("/btnSaveRettificaAuthVisible", !btnSaveRettificaState );
-                            modelButton.setProperty("/btnAnnullamentoAuthVisible", btnSaveRettificaState);
-                            modelButton.setProperty("/btnFirmaAuthVisible", btnSaveRettificaState);
-                            modelButton.setProperty("/btnRevocaFirmaAuthVisible", btnSaveRettificaState);
-                            return;
-                        }else{
-                          return;
-                        }
-                    },
-                });    
-            }
-            modelButton.setProperty("/btnSaveRettificaAuthVisible", !btnSaveRettificaState );
-            modelButton.setProperty("/btnAnnullamentoAuthVisible", false);
-            modelButton.setProperty("/btnFirmaAuthVisible", false);
-            modelButton.setProperty("/btnRevocaFirmaAuthVisible", false);
-        },
-
-        onSaveRettificaAuth:function(oEvent){
-            var self= this,
-                oBundle = self.getResourceBundle();
-
-            var entity = self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getData();    
-            if(!entity.Gjahr || !entity.Zimpaut || !entity.Ztipodisp2 || 
-              !entity.Ztipodisp3 ||  !entity.Fipos || !entity.ZufficioCont){
-    
-              MessageBox.warning("Alimentare tutti i campi obbligatori", {
-                title: "Esito Operazione",
-                actions: [sap.m.MessageBox.Action.OK],
-                emphasizedAction: MessageBox.Action.OK,
-              });    
-              return false;
-            }
-
-            MessageBox.warning(
-                oBundle.getText("msg-authDetailOnSaveRettificaAuth"),
-                {
-                actions: [
-                oBundle.getText("dialogOk"),
-                oBundle.getText("dialogCancel"),
-                ],
-                emphasizedAction: oBundle.getText("dialogOk"),
-                onClose: function (sAction) {
-                    if (sAction === oBundle.getText("dialogOk")) { 
-                        self.getView().setBusy(true);
-                        var key = self.getModel().createKey(AUTORIZZAZIONE_ENTITY_SET, {
-                          Bukrs: self.getModel(KEY_MODEL).getProperty("/sBukrs"),
-                          Gjahr: self.getModel(KEY_MODEL).getProperty("/sGjahr"),
-                          Zchiaveaut: self.getModel(KEY_MODEL).getProperty("/sZchiaveaut"),
-                          ZstepAut: self.getModel(KEY_MODEL).getProperty("/sZstepAut")
-                        });
-                        self._saveRettifica(key,
-                            self._getEntityForRettifica(self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getData()),
-                            function(callback){
-                          self.getView().setBusy(false);
-                          if(callback.success){     
-                            MessageBox.success(callback.message, {
-                              actions: [MessageBox.Action.CLOSE],
-                              onClose: function (sAction) {
-                                  self.onNavBack();
-                                  location.reload();
-                              }
-                            });                    
-                          }else{
-                            MessageBox.error(callback.message, {
-                              actions: [MessageBox.Action.CLOSE],
-                              onClose: function (sAction) {
-                                  // self.onNavBack();
-                              }
-                            });  
-                          }
-                        });
-
-                             
-                    }
                 },
-            });  
-        },
-        
-        onAnnullamentoAuth:function(oEvent){
-          var self= this,
-              oBundle = self.getResourceBundle();
-          MessageBox.warning(
-              oBundle.getText("msg-authDetailOnAnnullamentoAuth"),
-              {
+                error: function (error) {
+                  self.getView().setBusy(false);
+                  self
+                    .getView()
+                    .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                    .setProperty("/Descufficio", null);
+                },
+              });
+            });
+        }
+      },
+
+      strutturaAmministrativaLiveChange: function (oEvent) {
+        var self = this,
+          value =
+            oEvent.getParameters().value && oEvent.getParameters().value !== ""
+              ? oEvent.getParameters().value
+              : null,
+          prop = oEvent.getSource().data("propertyModel");
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/" + prop, oEvent.getParameters().value);
+
+        if (value) {
+          self.getView().setBusy(true);
+          self
+            .getModel()
+            .metadataLoaded()
+            .then(function () {
+              var path = self.getModel().createKey("/DescFistlSet", {
+                Fistl: value,
+              });
+              var oDataModel = self.getModel();
+              oDataModel.read(path, {
+                success: function (data) {
+                  self.getView().setBusy(false);
+                  if (data && data.Beschr && data.Beschr !== "")
+                    self
+                      .getView()
+                      .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                      .setProperty("/Beschr", data.Beschr);
+                  else
+                    self
+                      .getView()
+                      .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                      .setProperty("/Beschr", null);
+                },
+                error: function (error) {
+                  oView.setBusy(false);
+                  self
+                    .getView()
+                    .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                    .setProperty("/Beschr", null);
+                },
+              });
+            });
+        } else
+          self
+            .getView()
+            .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+            .setProperty("/Beschr", null);
+      },
+
+      setDetailModel: function (data) {
+        var self = this,
+          model = self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL),
+          modelButton = self.getView().getModel(AUTH_BUTTON_MODEL);
+
+        modelButton.setProperty(
+          "/btnRettificaAutorizzazioneEnabled",
+          data.ZzstatoAut === "00" ? true : false
+        );
+        model.setProperty("/GjahrHeader", data.Gjahr);
+        model.setProperty("/ZchiaveautHeader", data.Zchiaveaut);
+        model.setProperty("/ZimpautHeader", data.Zimpaut);
+        model.setProperty("/DesTipoDisp2Header", data.DesTipoDisp2);
+        model.setProperty("/DesTipoDisp3Header", data.DesTipoDisp3);
+        model.setProperty("/FiposHeader", data.Fipos);
+        model.setProperty("/FistlHeader", data.Fistl);
+        model.setProperty("/ZnoteautHeader", data.Znoteaut);
+        model.setProperty("/ZzamministrHeader", data.Zzamministr);
+        model.setProperty("/ZufficioContHeader", data.ZufficioCont);
+        model.setProperty("/DescufficioHeader", data.Descufficio);
+
+        model.setProperty("/ZzstatoAut", data.ZzstatoAut);
+        model.setProperty("/Bukrs", data.Bukrs);
+        model.setProperty("/Gjahr", data.Gjahr);
+        model.setProperty("/Zchiaveaut", data.Zchiaveaut);
+        model.setProperty("/Zimpaut", data.Zimpaut);
+        model.setProperty("/Ztipodisp2", data.Ztipodisp2);
+        model.setProperty("/Ztipodisp3", data.Ztipodisp3);
+        model.setProperty("/Znoteaut", data.Znoteaut);
+        model.setProperty("/Fistl", data.Fistl);
+        model.setProperty("/Fipos", data.Fipos);
+        model.setProperty("/Beschr", data.Beschr);
+        model.setProperty(
+          "/ZflagFipos",
+          !data.ZflagFipos || data.ZflagFipos === "" ? false : true
+        );
+        model.setProperty("/DesTipoDisp2", data.DesTipoDisp2);
+        model.setProperty("/DesTipoDisp3", data.DesTipoDisp3);
+        model.setProperty("/Zfunzdel", data.Zfunzdel);
+        model.setProperty("/Znumprot", data.Znumprot);
+        model.setProperty(
+          "/Zdataprot",
+          data.Zdataprot /*.toLocaleDateString()*/
+        );
+        model.setProperty("/ZufficioUcb", data.ZufficioUcb);
+        model.setProperty("/ZufficioRich", data.ZufficioRich);
+        model.setProperty("/ZufficioIgepa", data.ZufficioIgepa);
+        model.setProperty("/ZufficioCont", data.ZufficioCont);
+        model.setProperty("/Zdescriz", data.Zdescriz);
+        model.setProperty("/Descufficio", data.Descufficio);
+        model.setProperty("/ZstepAut", data.ZstepAut);
+        model.setProperty("/EsercicioFinanziario", null); //TODO:da capire quando ci sarà la logica se cambierà qualcosa
+      },
+
+      onRettificaAutorizzazione: function (oEvent) {
+        var self = this,
+          oBundle = self.getResourceBundle(),
+          modelButton = self.getView().getModel(AUTH_BUTTON_MODEL),
+          btnSaveRettificaState = modelButton.getProperty(
+            "/btnSaveRettificaAuthVisible"
+          );
+
+        if (btnSaveRettificaState) {
+          MessageBox.information(
+            oBundle.getText("msg-authDetailOnRettificaAutorizzazione"),
+            {
               actions: [
-              oBundle.getText("dialogOk"),
-              oBundle.getText("dialogCancel"),
+                oBundle.getText("dialogYes"),
+                oBundle.getText("dialogNo"),
               ],
-              emphasizedAction: oBundle.getText("dialogOk"),
+              emphasizedAction: oBundle.getText("dialogYes"),
               onClose: function (sAction) {
-                if (sAction === oBundle.getText("dialogOk")) {
-                  self.getView().setBusy(true);
-                  var key = self.getModel().createKey(AUTORIZZAZIONE_ENTITY_SET, {
-                    Bukrs: self.getModel(KEY_MODEL).getProperty("/sBukrs"),
-                    Gjahr: self.getModel(KEY_MODEL).getProperty("/sGjahr"),
-                    Zchiaveaut: self.getModel(KEY_MODEL).getProperty("/sZchiaveaut"),
-                    ZstepAut: self.getModel(KEY_MODEL).getProperty("/sZstepAut")
-                  });
-                  self._saveAnnullamento(key,function(callback){
-                    self.getView().setBusy(false);
-                    if(callback.success){     
-                      MessageBox.success(callback.message, {
-                        actions: [MessageBox.Action.CLOSE],
-                        onClose: function (sAction) {
-                            self.onNavBack();
-                            location.reload();
-                        }
-                      });                    
-                    }else{
-                      MessageBox.error(callback.message, {
-                        actions: [MessageBox.Action.CLOSE],
-                        onClose: function (sAction) {}
-                      });  
-                    }
-                  });
+                if (sAction === oBundle.getText("dialogYes")) {
+                  self._getAutorizzazioneSet();
+                  modelButton.setProperty(
+                    "/btnSaveRettificaAuthVisible",
+                    !btnSaveRettificaState
+                  );
+                  modelButton.setProperty(
+                    "/btnAnnullamentoAuthVisible",
+                    btnSaveRettificaState
+                  );
+                  modelButton.setProperty(
+                    "/btnFirmaAuthVisible",
+                    btnSaveRettificaState
+                  );
+                  modelButton.setProperty(
+                    "/btnRevocaFirmaAuthVisible",
+                    btnSaveRettificaState
+                  );
+                  return;
+                } else {
+                  return;
                 }
               },
-          });  
-        },
+            }
+          );
+        }
+        modelButton.setProperty(
+          "/btnSaveRettificaAuthVisible",
+          !btnSaveRettificaState
+        );
+        modelButton.setProperty("/btnAnnullamentoAuthVisible", false);
+        modelButton.setProperty("/btnFirmaAuthVisible", false);
+        modelButton.setProperty("/btnRevocaFirmaAuthVisible", false);
+      },
 
-        onFirmaAuth:function(oEvent){
-          var self= this,
-              oBundle = self.getResourceBundle();
-          MessageBox.warning(
-              oBundle.getText("msg-authDetailOnFirmaAuth"),
-              {
-              actions: [
+      onSaveRettificaAuth: function (oEvent) {
+        var self = this,
+          oBundle = self.getResourceBundle();
+
+        var entity = self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .getData();
+        if (
+          !entity.Gjahr ||
+          !entity.Zimpaut ||
+          !entity.Ztipodisp2 ||
+          !entity.Ztipodisp3 ||
+          !entity.Fipos ||
+          !entity.ZufficioCont
+        ) {
+          MessageBox.warning("Alimentare tutti i campi obbligatori", {
+            title: "Esito Operazione",
+            actions: [sap.m.MessageBox.Action.OK],
+            emphasizedAction: MessageBox.Action.OK,
+          });
+          return false;
+        }
+
+        MessageBox.warning(
+          oBundle.getText("msg-authDetailOnSaveRettificaAuth"),
+          {
+            actions: [
               oBundle.getText("dialogOk"),
               oBundle.getText("dialogCancel"),
-              ],
-              emphasizedAction: oBundle.getText("dialogOk"),
-              onClose: function (sAction) {
-                if (sAction === oBundle.getText("dialogOk")) {
-                  self.getView().setBusy(true);
-                  self.callDeep("FIRMA", self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getData(), function(callback){
+            ],
+            emphasizedAction: oBundle.getText("dialogOk"),
+            onClose: function (sAction) {
+              if (sAction === oBundle.getText("dialogOk")) {
+                self.getView().setBusy(true);
+                var key = self.getModel().createKey(AUTORIZZAZIONE_ENTITY_SET, {
+                  Bukrs: self.getModel(KEY_MODEL).getProperty("/sBukrs"),
+                  Gjahr: self.getModel(KEY_MODEL).getProperty("/sGjahr"),
+                  Zchiaveaut: self
+                    .getModel(KEY_MODEL)
+                    .getProperty("/sZchiaveaut"),
+                  ZstepAut: self.getModel(KEY_MODEL).getProperty("/sZstepAut"),
+                });
+                self._saveRettifica(
+                  key,
+                  self._getEntityForRettifica(
+                    self
+                      .getView()
+                      .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                      .getData()
+                  ),
+                  function (callback) {
                     self.getView().setBusy(false);
-                    if(callback.success){     
+                    if (callback.success) {
                       MessageBox.success(callback.message, {
                         actions: [MessageBox.Action.CLOSE],
                         onClose: function (sAction) {
                           self.onNavBack();
                           location.reload();
-                        }
-                      });                    
-                    }else{
+                        },
+                      });
+                    } else {
                       MessageBox.error(callback.message, {
                         actions: [MessageBox.Action.CLOSE],
                         onClose: function (sAction) {
-                        }
-                      });  
+                          // self.onNavBack();
+                        },
+                      });
                     }
-                  });
-                }
-              },
-          });  
-        },
+                  }
+                );
+              }
+            },
+          }
+        );
+      },
 
-        onRevocaFirmaAuth:function(oEvent){
-            var self= this,
-                oBundle = self.getResourceBundle();
-            MessageBox.warning(
-                oBundle.getText("msg-authDetailOnRevocaFirmaAuth"),
-                {
-                actions: [
-                oBundle.getText("dialogOk"),
-                oBundle.getText("dialogCancel"),
-                ],
-                emphasizedAction: oBundle.getText("dialogOk"),
-                onClose: function (sAction) {
-                  if (sAction === oBundle.getText("dialogOk")) {
-                    self.getView().setBusy(true);
-                    self.callDeep("REVOCA_FIRMA", self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getData(), function(callback){
-                      self.getView().setBusy(false);
-                      if(callback.success){     
-                        MessageBox.success(callback.message, {
-                          actions: [MessageBox.Action.CLOSE],
-                          onClose: function (sAction) {
-                            self.onNavBack();
-                            location.reload();
-                          }
-                        });                    
-                      }else{
-                        MessageBox.error(callback.message, {
-                          actions: [MessageBox.Action.CLOSE],
-                          onClose: function (sAction) {
-                          }
-                        });  
-                      }
+      onAnnullamentoAuth: function (oEvent) {
+        var self = this,
+          oBundle = self.getResourceBundle();
+        MessageBox.warning(
+          oBundle.getText("msg-authDetailOnAnnullamentoAuth"),
+          {
+            actions: [
+              oBundle.getText("dialogOk"),
+              oBundle.getText("dialogCancel"),
+            ],
+            emphasizedAction: oBundle.getText("dialogOk"),
+            onClose: function (sAction) {
+              if (sAction === oBundle.getText("dialogOk")) {
+                self.getView().setBusy(true);
+                var key = self.getModel().createKey(AUTORIZZAZIONE_ENTITY_SET, {
+                  Bukrs: self.getModel(KEY_MODEL).getProperty("/sBukrs"),
+                  Gjahr: self.getModel(KEY_MODEL).getProperty("/sGjahr"),
+                  Zchiaveaut: self
+                    .getModel(KEY_MODEL)
+                    .getProperty("/sZchiaveaut"),
+                  ZstepAut: self.getModel(KEY_MODEL).getProperty("/sZstepAut"),
+                });
+                self._saveAnnullamento(key, function (callback) {
+                  self.getView().setBusy(false);
+                  if (callback.success) {
+                    MessageBox.success(callback.message, {
+                      actions: [MessageBox.Action.CLOSE],
+                      onClose: function (sAction) {
+                        self.onNavBack();
+                        location.reload();
+                      },
+                    });
+                  } else {
+                    MessageBox.error(callback.message, {
+                      actions: [MessageBox.Action.CLOSE],
+                      onClose: function (sAction) {},
                     });
                   }
-                },
-            });  
-        },
-        
-        onAuthDetailTabBarSelect:function(oEvent){
-          var self = this,
-              filters = [],
-              btnAnnullamentoAuth=self.getView().byId("btnAnnullamentoAuth"),
-              btnFirmaAuth = self.getView().byId("btnFirmaAuth"),
-              btnRevocaFirmaAuth = self.getView().byId("btnRevocaFirmaAuth"),
-              modelState = self.getView().getModel(AUTH_STATE_MODEL),
-              key = oEvent.getParameters().selectedKey;
+                });
+              }
+            },
+          }
+        );
+      },
 
-          btnAnnullamentoAuth.setVisible(key === 'detail' ? true : false);   
-          btnFirmaAuth.setVisible(key === 'detail' ? true : false);
-          btnRevocaFirmaAuth.setVisible(key === 'detail' ? true : false);                
-          modelState.setProperty("/isDetailVisible",key === 'detail' ? true : false);
-          
-          if(key==="workflow"){
-              var oDataModel = self.getModel();
+      onFirmaAuth: function (oEvent) {
+        var self = this,
+          oBundle = self.getResourceBundle();
+        MessageBox.warning(oBundle.getText("msg-authDetailOnFirmaAuth"), {
+          actions: [
+            oBundle.getText("dialogOk"),
+            oBundle.getText("dialogCancel"),
+          ],
+          emphasizedAction: oBundle.getText("dialogOk"),
+          onClose: function (sAction) {
+            if (sAction === oBundle.getText("dialogOk")) {
               self.getView().setBusy(true);
-              filters.push(new sap.ui.model.Filter("Esercizio",sap.ui.model.FilterOperator.EQ, self.getModel(KEY_MODEL).getProperty("/sGjahr")));
-              filters.push(new sap.ui.model.Filter("Zchiaveaut",sap.ui.model.FilterOperator.EQ, self.getModel(KEY_MODEL).getProperty("/sZchiaveaut")));
-              filters.push(new sap.ui.model.Filter("Bukrs",sap.ui.model.FilterOperator.EQ, self.getModel(KEY_MODEL).getProperty("/sBukrs")));
-              self.getModel().metadataLoaded().then( function() {
-                  oDataModel.read("/WFStateAutSet", {
-                      filters:filters,
-                      success: function(data, oResponse){
-                          var oModelJson = new sap.ui.model.json.JSONModel();
-                          var res = data.results;
-                          for(var i=0;i<res.length;i++){
-                            res[i].DataStato = new Date(res[i].DataOraString);
-                          }
-                          oModelJson.setData(res);  
-                          self.getView().setModel(oModelJson, "WFStateAutSet");  
-                          self.getView().setBusy(false);
+              self.callDeep(
+                "FIRMA",
+                self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getData(),
+                function (callback) {
+                  self.getView().setBusy(false);
+                  if (callback.success) {
+                    MessageBox.success(callback.message, {
+                      actions: [MessageBox.Action.CLOSE],
+                      onClose: function (sAction) {
+                        self.onNavBack();
+                        location.reload();
                       },
-                      error: function(error){
-                          self.getView().setBusy(false);
-                      }
-                  });
+                    });
+                  } else {
+                    MessageBox.error(callback.message, {
+                      actions: [MessageBox.Action.CLOSE],
+                      onClose: function (sAction) {},
+                    });
+                  }
+                }
+              );
+            }
+          },
+        });
+      },
+
+      onRevocaFirmaAuth: function (oEvent) {
+        var self = this,
+          oBundle = self.getResourceBundle();
+        MessageBox.warning(oBundle.getText("msg-authDetailOnRevocaFirmaAuth"), {
+          actions: [
+            oBundle.getText("dialogOk"),
+            oBundle.getText("dialogCancel"),
+          ],
+          emphasizedAction: oBundle.getText("dialogOk"),
+          onClose: function (sAction) {
+            if (sAction === oBundle.getText("dialogOk")) {
+              self.getView().setBusy(true);
+              self.callDeep(
+                "REVOCA_FIRMA",
+                self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getData(),
+                function (callback) {
+                  self.getView().setBusy(false);
+                  if (callback.success) {
+                    MessageBox.success(callback.message, {
+                      actions: [MessageBox.Action.CLOSE],
+                      onClose: function (sAction) {
+                        self.onNavBack();
+                        location.reload();
+                      },
+                    });
+                  } else {
+                    MessageBox.error(callback.message, {
+                      actions: [MessageBox.Action.CLOSE],
+                      onClose: function (sAction) {},
+                    });
+                  }
+                }
+              );
+            }
+          },
+        });
+      },
+
+      onAuthDetailTabBarSelect: function (oEvent) {
+        var self = this,
+          filters = [],
+          btnAnnullamentoAuth = self.getView().byId("btnAnnullamentoAuth"),
+          btnFirmaAuth = self.getView().byId("btnFirmaAuth"),
+          btnRevocaFirmaAuth = self.getView().byId("btnRevocaFirmaAuth"),
+          modelState = self.getView().getModel(AUTH_STATE_MODEL),
+          key = oEvent.getParameters().selectedKey;
+
+        btnAnnullamentoAuth.setVisible(key === "detail" ? true : false);
+        btnFirmaAuth.setVisible(key === "detail" ? true : false);
+        btnRevocaFirmaAuth.setVisible(key === "detail" ? true : false);
+        modelState.setProperty(
+          "/isDetailVisible",
+          key === "detail" ? true : false
+        );
+
+        if (key === "workflow") {
+          var oDataModel = self.getModel();
+          self.getView().setBusy(true);
+          filters.push(
+            new sap.ui.model.Filter(
+              "Esercizio",
+              sap.ui.model.FilterOperator.EQ,
+              self.getModel(KEY_MODEL).getProperty("/sGjahr")
+            )
+          );
+          filters.push(
+            new sap.ui.model.Filter(
+              "Zchiaveaut",
+              sap.ui.model.FilterOperator.EQ,
+              self.getModel(KEY_MODEL).getProperty("/sZchiaveaut")
+            )
+          );
+          filters.push(
+            new sap.ui.model.Filter(
+              "Bukrs",
+              sap.ui.model.FilterOperator.EQ,
+              self.getModel(KEY_MODEL).getProperty("/sBukrs")
+            )
+          );
+          self
+            .getModel()
+            .metadataLoaded()
+            .then(function () {
+              oDataModel.read("/WFStateAutSet", {
+                filters: filters,
+                success: function (data, oResponse) {
+                  var oModelJson = new sap.ui.model.json.JSONModel();
+                  var res = data.results;
+                  for (var i = 0; i < res.length; i++) {
+                    res[i].DataStato = new Date(res[i].DataOraString);
+                  }
+                  oModelJson.setData(res);
+                  self.getView().setModel(oModelJson, "WFStateAutSet");
+                  self.getView().setBusy(false);
+                },
+                error: function (error) {
+                  self.getView().setBusy(false);
+                },
               });
-          } 
-        },
+            });
+        }
+      },
 
-        setPropertyDatePickerFromChange:function(oEvent){
-          var self =this,
-            value = oEvent.getParameters().valid ? oEvent.getSource().getDateValue():null,
-            prop = oEvent.getSource().data("propertyModel");
-          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).setProperty("/" + prop ,value);
-        },
-
+      setPropertyDatePickerFromChange: function (oEvent) {
+        var self = this,
+          value = oEvent.getParameters().valid
+            ? oEvent.getSource().getDateValue()
+            : null,
+          prop = oEvent.getSource().data("propertyModel");
+        self
+          .getView()
+          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+          .setProperty("/" + prop, value);
+      },
     });
-
-});
+  }
+);

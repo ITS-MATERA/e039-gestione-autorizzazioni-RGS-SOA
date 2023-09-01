@@ -1,41 +1,44 @@
 <c:FragmentDefinition
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
-  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-<SelectDialog
+	<SelectDialog
 		id="sdChiaveAutorizzazione"
-    noDataText="{i18n>noChiaveAutorizzazione}"
+		noDataText="{i18n>noChiaveAutorizzazione}"
 		title="{i18n>chiaveAutChiaveAutorizzazione}"
 		search="onValueHelpChange"
 		confirm="onValueHelpChiaveAutorizzazioneClose"
 		cancel="onValueHelpChiaveAutorizzazioneClose"
-    app:input="fltChiaveAutorizzazione"
+		app:input="fltChiaveAutorizzazione"
 		app:FilterValueHelp="Zchiaveaut"
-		items="{path: 'ChiaveAutorizzazione>/'}">		
+		items="{
+			path: 'ChiaveAutorizzazione>/'
+		}"
+	>
 		<StandardListItem
-      iconDensityAware="false"
-      iconInset="false"
-      title="{ChiaveAutorizzazione>Zchiaveaut}"
-			app:zChiaveAut="{ChiaveAutorizzazione>Zchiaveaut}"
-			app:bukrs="{ChiaveAutorizzazione>Bukrs}"
-			app:gjahr="{ChiaveAutorizzazione>Gjahr}"
-			app:dataAutorizzazione="{ChiaveAutorizzazione>DataStato}"
-			app:impAutorizzato="{ChiaveAutorizzazione>Zimpaut}"
-			app:dispAutorizzato="{ChiaveAutorizzazione>Zimpdispaut}"
-			app:tipoAutorizzato="{ChiaveAutorizzazione>Zdesctipodisp2}"
-			app:tipoDisposizione="{ChiaveAutorizzazione>Zdesctipodisp3}"
-			app:noteAutorizzazione="{ChiaveAutorizzazione>Znoteaut}"
-			app:ufficioOrdinante="{ChiaveAutorizzazione>ZufficioCont}"
-			app:descUfficioOrdinante="{ChiaveAutorizzazione>ZvimDescrufficio}"
-			app:codiceFD="{ChiaveAutorizzazione>Zfunzdel}"
-			app:descCodiceFD="{ChiaveAutorizzazione>Zdescriz}"
-			app:flagFipos="{ChiaveAutorizzazione>ZflagFipos}"
-			app:posFinanziaria="{ChiaveAutorizzazione>Fipos}"
-			app:strAmmResponsabile="{ChiaveAutorizzazione>Fistl}"
-			app:pianoGestione="{ChiaveAutorizzazione>DescrEstesa}"
-			app:dataStatoString="{ChiaveAutorizzazione>DataStatoString}"
-			/>
-			<!-- TODO - Esercizio Finanziario -->
+			iconDensityAware="false"
+			iconInset="false"
+			title="{ChiaveAutorizzazione>Zchiaveaut}"
+			app:Zchiaveaut="{ChiaveAutorizzazione>Zchiaveaut}"
+			app:Bukrs="{ChiaveAutorizzazione>Bukrs}"
+			app:Gjahr="{ChiaveAutorizzazione>Gjahr}"
+			app:DataStato="{ChiaveAutorizzazione>DataStato}"
+			app:Zimpaut="{ChiaveAutorizzazione>Zimpaut}"
+			app:Zimpdispaut="{ChiaveAutorizzazione>Zimpdispaut}"
+			app:Zdesctipodisp2="{ChiaveAutorizzazione>Zdesctipodisp2}"
+			app:Zdesctipodisp3="{ChiaveAutorizzazione>Zdesctipodisp3}"
+			app:Znoteaut="{ChiaveAutorizzazione>Znoteaut}"
+			app:ZufficioCont="{ChiaveAutorizzazione>ZufficioCont}"
+			app:ZvimDescrufficio="{ChiaveAutorizzazione>ZvimDescrufficio}"
+			app:Zfunzdel="{ChiaveAutorizzazione>Zfunzdel}"
+			app:Zdescriz="{ChiaveAutorizzazione>Zdescriz}"
+			app:ZflagFipos="{ChiaveAutorizzazione>ZflagFipos}"
+			app:Fipos="{ChiaveAutorizzazione>Fipos}"
+			app:Fistl="{ChiaveAutorizzazione>Fistl}"
+			app:DescrEstesa="{ChiaveAutorizzazione>DescrEstesa}"
+			app:DataStatoString="{ChiaveAutorizzazione>DataStatoString}"
+		/>
+		<!-- TODO - Esercizio Finanziario -->
 	</SelectDialog>
 </c:FragmentDefinition>

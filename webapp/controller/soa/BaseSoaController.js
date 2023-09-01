@@ -1894,7 +1894,6 @@ sap.ui.define(
         oModel.create("/SoaDeepSet", oSoaDeep, {
           success: function (result) {
             if (result?.Messaggio.results.length !== 0) {
-              console.log(result);
               oModelSoa.setProperty("/Messaggio", result?.Messaggio?.results);
               sap.m.MessageBox.error("Operazione non eseguita correttamente");
               return;
@@ -2781,101 +2780,16 @@ sap.ui.define(
       },
       //#endregion
 
-      /** ---------------------CONTROLLI AUTORIZZATIVI------------------------ */
-      //#region
-
-      getPermissionsListSoa: function () {
-        var self = this;
-        var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
-        var oAuthModel = self.getModel("ZSS4_CA_CONI_VISIBILITA_SRV");
-
-        var aFilters = [];
-
-        self.setFilterEQ(aFilters, "SEM_OBJ", "ZS4_SOA_SRV");
-        self.setFilterEQ(aFilters, "AUTH_OBJ", "Z_GEST_SOA");
-
-        //TODO - Rimettere
-        // oAuthModel.read("/ZES_CONIAUTH_SET", {
-        //   filters: aFilters,
-        //   success: function (data) {
-        //     var aData = data.results;
-        //     oModelAuthoryCheck.setProperty("/AgrName", aData[0].AGR_NAME);
-        //     oModelAuthoryCheck.setProperty("/Fikrs", aData[0].FIKRS);
-        //     oModelAuthoryCheck.setProperty("/Prctr", aData[0].PRCTR);
-        //     self._setUserPermissions(aData);
-        //   },
-        //   error: function (error) {},
-        // });
-
-        oModelAuthoryCheck.setProperty(
-          "/AgrName",
-          "MEF:S:M000:COSP:ACN_TEST_40"
-        );
-        oModelAuthoryCheck.setProperty("/Fikrs", "S001");
-        oModelAuthoryCheck.setProperty("/Prctr", "*");
-        oModelAuthoryCheck.setProperty("/Registra", true);
-        oModelAuthoryCheck.setProperty("/Dettaglio", true);
-        oModelAuthoryCheck.setProperty("/Annullamento", true);
-        oModelAuthoryCheck.setProperty("/InvioFirma", true);
-        oModelAuthoryCheck.setProperty("/RevocaInvioFirma", true);
-        oModelAuthoryCheck.setProperty("/Firma", true);
-        oModelAuthoryCheck.setProperty("/RevocaFirma", true);
-        oModelAuthoryCheck.setProperty("/RegistrazioneRichAnn", true);
-        oModelAuthoryCheck.setProperty("/CancellazioneRichAnn", true);
-      },
-
-      _setUserPermissions: function (aData) {
-        var self = this;
-        var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
-
-        oModelAuthoryCheck.setProperty(
-          "/Registra",
-          this._isUserAuthorized(aData, "ACTV_1", "Z01")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/Dettaglio",
-          this._isUserAuthorized(aData, "ACTV_3", "Z03")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/Annullamento",
-          this._isUserAuthorized(aData, "ACTV_4", "Z07")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/InvioFirma",
-          this._isUserAuthorized(aData, "ACTV_4", "Z04")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/RevocaInvioFirma",
-          this._isUserAuthorized(aData, "ACTV_4", "Z05")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/Firma",
-          this._isUserAuthorized(aData, "ACTV_4", "Z06")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/RevocaFirma",
-          this._isUserAuthorized(aData, "ACTV_4", "Z27")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/RegistrazioneRichAnn",
-          this._isUserAuthorized(aData, "ACTV_4", "Z08")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/CancellazioneRichAnn",
-          this._isUserAuthorized(aData, "ACTV_4", "Z09")
-        );
-      },
-
-      _isUserAuthorized: function (array, param, value) {
-        return array.filter((x) => x[param] === value).length > 0;
-      },
-
-      //#endregion
-
       resetSoa: function (sTipopag) {
         var self = this;
 
         var oModelSoa = new JSONModel({
+          EnableEdit: true,
+          visibleBtnEdit: false,
+          /**   Scenario    */
+          Ztipopag: sTipopag, //Tipo Pagamento
+
+          /**   Dati SOA (Parte celeste in alto)   */
           Gjahr: "", //Esercizio di gestione
           Zimptot: "0.00", //Importo
           Zzamministr: "", //Amministrazione
@@ -2905,15 +2819,35 @@ sap.ui.define(
           Zdescriz: "", //TODO - Open Point - Descrizione Codice FD
           ZspecieSop: "", //Specie SOA
           DescZspecieSop: "", //Descrizione Specie SOA
+
+          /**   WIZARD 1 - SCENARIO 4 */
+          Kostl: "", //Centro Costo
+          Hkont: "", // Conto Co.Ge.
+          DescKostl: "", //Descrizione Centro Costo
+          DescHkont: "", //Descrizione Conto Co.Ge.
+
+          data: [], //Quote Documenti
+
+          /**   WIZARD 2 - Beneficiario SOA   */
+          BuType: "", //Tipologia Persona
+          Taxnumxl: "", //Codice Fiscale Estero
           Zsede: "", //Sede Estera
           Zdenominazione: "", //Descrizione Sede Estera
-          Zidsede: "", //Sede Beneficiario
+          Zdurc: "", //Numero identificativo Durc
+          ZfermAmm: "", //Fermo amministrativo
+
+          /**   WIZARD 2 - Modalità Pagamento   */
           Zwels: "", //Codice Modalità Pagamento
           ZCausaleval: "", //Causale Valutaria
           Swift: "", //BIC
           Zcoordest: "", //Cordinate Estere
           Iban: "", //IBAN
           Zmotivaz: "", //Motivazione cambio IBAN
+          Zdescwels: "", //Descrizione Modalità Pagamento
+          Banks: "", //Paese di Residenza (Primi 2 digit IBAN)
+          ZDesccauval: "", //Descrizione Causale Valutaria
+
+          /**   WIZARD 2 - Dati Quietanzante/Destinatario Vaglia    */
           Ztipofirma: "", //Tipologia Firma
           ZpersCognomeQuiet1: "", //Cognome primo quietanzante
           ZpersCognomeQuiet2: "", //Cognome secondo quietanzante
@@ -2924,47 +2858,6 @@ sap.ui.define(
           Zstcd1: "", //Codice Fiscale Utilizzatore
           Zstcd12: "", //Codice fiscale secondo quietanzante
           Zstcd13: "", //Codice fiscale destinatario vaglia
-          Zcodprov: "", //INPS - Codice Provenienza
-          Zcfcommit: "", //INPS - Codice Fiscale Committente
-          Zcodtrib: "", //INPS - Codice tributo
-          Zperiodrifda: null, //INPS - Periodo riferimento da
-          Zperiodrifa: null, //INPS - Periodo riferimento a
-          Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
-          Zcfvers: "", //INPS - Codice Fiscale Versante
-          Zcodvers: "", //INPS - Codice Versante
-          Ztipopag: sTipopag, //Tipo Pagamento
-          Zcausale: "", //Causale di pagamento
-          ZE2e: "", //E2E ID
-          Zlocpag: "", //Località pagamento
-          Zzonaint: "", //Zona di intervento
-          Znumprot: "", //Numero protocollo
-          Zdataprot: null, //Data protocollo
-          Zdataesig: null, //TODO - Punto Aperto - Data esigibilità
-          Bukrs: "",
-          Hkont: "",
-          Kostl: "",
-          Zchiavesop: "",
-          ZcodStatosop: "",
-          Zdatasop: null,
-          Znumsop: "",
-          Zricann: "",
-          ZstatTest: "",
-          Zstep: "",
-          Ztipososp: "2",
-          Zutenza: "",
-          data: [],
-          Classificazione: [], //Classificazioni
-          Messaggio: [], //Messaggi di errore
-
-          EnableEdit: true,
-          visibleBtnEdit: false,
-          BuType: "", //Tipologia Persona
-          Taxnumxl: "", //Codice Fiscale Estero
-          Zdurc: "", //Numero identificativo Durc
-          ZfermAmm: "", //Fermo amministrativo
-          Zdescwels: "", //Descrizione Modalità Pagamento
-          Banks: "", //Paese di Residenza (Primi 2 digit IBAN)
-          ZDesccauval: "", //Descrizione Causale Valutaria
           Zqindiriz: "", //Indirizzo primo quietanzante
           Zqcitta: "", //Citta primo quietanzantez
           Zqcap: "", //Cap primo quietanzante
@@ -2973,12 +2866,48 @@ sap.ui.define(
           Zqcitta12: "", //Citta secondo quietanzante
           Zqcap12: "", //Cap secondo quietanzante
           Zqprovincia12: "", //Provincia secondo quietanzante
+
+          /**   WIZARD 2 - INPS    */
+          Zcodprov: "", //INPS - Codice Provenienza
+          Zcfcommit: "", //INPS - Codice Fiscale Committente
+          Zcodtrib: "", //INPS - Codice tributo
+          Zperiodrifda: null, //INPS - Periodo riferimento da
+          Zperiodrifa: null, //INPS - Periodo riferimento a
+          Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
+          Zcfvers: "", //INPS - Codice Fiscale Versante
+          Zcodvers: "", //INPS - Codice Versante
+          FlagInpsEditabile: false,
+
+          /**   WIZARD 2 - Sede Beneficiario */
+          Zidsede: "", //Sede Beneficiario
           Stras: "", //Via,numero civico
           Ort01: "", //Località
           Regio: "", //Regione
           Pstlz: "", //Codice di avviamento postale
           Land1: "", //Codice paese
-          FlagInpsEditabile: false,
+
+          /**   WIZARD 3    */
+          Classificazione: [], //Classificazioni
+
+          /**   WIZARD 4    */
+          Zcausale: "", //Causale di pagamento
+          ZE2e: "", //E2E ID
+          Zlocpag: "", //Località pagamento
+          Zzonaint: "", //Zona di intervento
+          Znumprot: "", //Numero protocollo
+          Zdataprot: null, //Data protocollo
+          Zdataesig: null, //TODO - Punto Aperto - Data esigibilità
+
+          Bukrs: "",
+          Zchiavesop: "",
+          ZcodStatosop: "",
+          Zdatasop: null,
+          Znumsop: "",
+          Zricann: "",
+          ZstatTest: "",
+          Zstep: "",
+          Zutenza: "",
+          Messaggio: [], //Messaggi di error
         });
         self.setModel(oModelSoa, "Soa");
 

@@ -54,9 +54,6 @@ sap.ui.define([
             self.setModel(oPaginatorModel, PAGINATOR_MODEL);
 
             self.getRouter().getRoute("auth.authPage").attachPatternMatched(this._onObjectMatched, this);
-            // self.getAuthorityCheck(function(callback){
-            //     console.log(callback);
-            // });
         },
 
         _onObjectMatched : function (oEvent) {

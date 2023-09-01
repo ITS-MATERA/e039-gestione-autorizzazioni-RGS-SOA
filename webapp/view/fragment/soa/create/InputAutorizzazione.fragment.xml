@@ -2,7 +2,6 @@
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
 	xmlns:l="sap.ui.layout"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:zcontrolPosFin="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfinlink.controls"
 	xmlns:zcontrollinkSar="custlinksar.custlinksar.controls"
 >
@@ -31,6 +30,10 @@
 					<ComboBox
 						id="fltEsercizioGestione"
 						selectionChange="onSelectEsercizioGestione"
+						items="{
+							path: '/EsercizioGestioneSet'
+						}"
+						selectedKey="{InputAutorizzazione>/Gjahr}"
 					>
 						<c:Item
 							key="{Gjahr}"
@@ -67,9 +70,7 @@
 						valueHelpRequest="onValueHelpChiaveAutorizzazione"
 						showValueHelp="true"
 						valueHelpOnly="true"
-						app:dialogName="sdChiaveAutorizzazione"
-						app:fragmentName="ChiaveAutorizzazione"
-						value="{ChiaveAutorizzazione>/zChiaveAut}"
+						value="{Autorizzazione>/Zchiaveaut}"
 					>
 						<layoutData>
 							<l:GridData span="XL2 L2 M4 S12"/>
@@ -88,7 +89,7 @@
 					</Text>
 					<Input
 						editable="false"
-						value="{ChiaveAutorizzazione>/dataStatoString}"
+						value="{Autorizzazione>/DataStatoString}"
 					>
 						<layoutData>
 							<l:GridData span="XL1 L2 M4 S12"/>
@@ -112,7 +113,7 @@
 					<Input
 						editable="false"
 						value="{
-							path: 'ChiaveAutorizzazione>/impAutorizzato',
+							path: 'Autorizzazione>/Zimpaut',
 							formatter: '.formatter.convertFormattedNumber'
 						}"
 					>
@@ -134,7 +135,7 @@
 					<Input
 						editable="false"
 						value="{
-							path: 'ChiaveAutorizzazione>/dispAutorizzato',
+							path: 'Autorizzazione>/Zimpdispaut',
 							formatter: '.formatter.convertFormattedNumber'
 						}"
 					>
@@ -159,7 +160,7 @@
 					</Text>
 					<Input
 						editable="false"
-						value="{ChiaveAutorizzazione>/tipoAutorizzato}"
+						value="{Autorizzazione>/Zdesctipodisp2}"
 					>
 						<layoutData>
 							<l:GridData span="XL2 L2 M5 S12"/>
@@ -178,7 +179,7 @@
 					</Text>
 					<Input
 						editable="false"
-						value="{ChiaveAutorizzazione>/tipoDisposizione}"
+						value="{Autorizzazione>/Zdesctipodisp3}"
 					>
 						<layoutData>
 							<l:GridData span="XL2 L2 M5 S12"/>
@@ -201,7 +202,7 @@
 					</Text>
 					<Input
 						editable="false"
-						value="{ChiaveAutorizzazione>/noteAutorizzazione}"
+						value="{Autorizzazione>/Znoteaut}"
 					>
 						<layoutData>
 							<l:GridData span="XL8 L9 M12 S12"/>
@@ -224,7 +225,7 @@
 					</Text>
 					<Input
 						editable="false"
-						value="{ChiaveAutorizzazione>/ufficioOrdinante}"
+						value="{Autorizzazione>/ZufficioCont}"
 					>
 						<layoutData>
 							<l:GridData span="XL1 L2 M4 S12"/>
@@ -243,7 +244,7 @@
 					</Text>
 					<Input
 						editable="false"
-						value="{ChiaveAutorizzazione>/descUfficioOrdinante}"
+						value="{Autorizzazione>/ZvimDescrufficio}"
 					>
 						<layoutData>
 							<l:GridData span="XL4 L4 M12 S12"/>
@@ -266,7 +267,7 @@
 					</Text>
 					<Input
 						editable="false"
-						value="{ChiaveAutorizzazione>/codiceFD}"
+						value="{Autorizzazione>/Zfunzdel}"
 					>
 						<layoutData>
 							<l:GridData span="XL1 L2 M4 S12"/>
@@ -285,7 +286,7 @@
 					</Text>
 					<Input
 						editable="false"
-						value="{ChiaveAutorizzazione>/descCodiceFD}"
+						value="{Autorizzazione>/Zdescriz}"
 					>
 						<layoutData>
 							<l:GridData span="XL4 L4 M12 S12"/>
@@ -307,7 +308,7 @@
 						</layoutData>
 					</Text>
 					<CheckBox
-						id="cbxFlagFipos"
+						selected="{= ${Autorizzazione>/ZflagFipos} ? true : false}"
 						editable="false"
 					>
 						<layoutData>
@@ -349,15 +350,15 @@
 					<VBox>
 						<zcontrolPosFin:LinkPosizioneFinanziaria
 							id="linkPosFinSpesa"
-							anno="{ChiaveAutorizzazione>/gjahr}"
+							anno="{Autorizzazione>/Gjahr}"
 							eos="S"
 							fikrs="S001"
 							fase="GEST"
 							reale="R"
 							versione="D"
-							fipex="{ChiaveAutorizzazione>/posFinanziaria}"
+							fipex="{Autorizzazione>/Fipos}"
 							datbis="99991231"
-							text="{ChiaveAutorizzazione>/posFinanziaria}"
+							text="{Autorizzazione>/Fipos}"
 							semanticObject="ESAMINAMODIFICA"
 						/>
 						<layoutData>
@@ -375,7 +376,7 @@
 					<VBox>
 						<zcontrollinkSar:LinkSar
 							id="linkSarBilancio"
-							anno="{ChiaveAutorizzazione>/gjahr}"
+							anno="{Autorizzazione>/Gjahr}"
 							eos="E"
 							fikrs="S001"
 							fase="GEST"
@@ -383,9 +384,9 @@
 							reale="R"
 							versione="D"
 							bilancio=""
-							fictr="{ChiaveAutorizzazione>/strAmmResponsabile}"
+							fictr="{Autorizzazione>/Fistl}"
 							datbis="99991231"
-							text="{ChiaveAutorizzazione>/strAmmResponsabile}"
+							text="{Autorizzazione>/Fistl}"
 						/>
 						<layoutData>
 							<l:GridData span="XL2 L4 M4 S12"/>
@@ -408,7 +409,7 @@
 					</Text>
 					<Input
 						editable="false"
-						value="{ChiaveAutorizzazione>/pianoGestione}"
+						value="{Autorizzazione>/DescrEstesa}"
 					>
 						<layoutData>
 							<l:GridData span="XL9 L9 M12 S12"/>
@@ -431,11 +432,13 @@
 					<RadioButton
 						id="rbTipoDocumentiLiquidati"
 						text="{i18n>documentiLiquidati}"
-						selected="true"
+						editable="{= ${Autorizzazione>/ZflagFipos} ? false : true}"
+						selected="{InputAutorizzazione>/DocumentiLiquidati}"
 					/>
 					<RadioButton
 						text="{i18n>documentiNonLiquidati}"
-						editable="{= ${ChiaveAutorizzazione>/flagFipos} === '' ? true : false}"
+						editable="{= ${Autorizzazione>/ZflagFipos} ? false : true}"
+						selected="{InputAutorizzazione>/DocumentiNonLiquidati}"
 					/>
 				</RadioButtonGroup>
 			</FlexBox>

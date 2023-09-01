@@ -1,25 +1,51 @@
 <mvc:View
-    controllerName="rgssoa.controller.StartPage"
-    xmlns="sap.m"
-    xmlns:mvc="sap.ui.core.mvc">
-
-    <Page title="{i18n>startPageTitle}" >
-        <FlexBox  alignItems="Center" height="100%" width="100%" >
-            <VBox  width="50%"  alignItems="Center" justifyContent="Center"> 
-                <Button text="{i18n>btnAuthorisation}" type="Emphasized" enabled="{AuthorityCheckAuth>/Z26Enabled}" press="onAuth"></Button>
-            </VBox>
-            <VBox width="50%" alignItems="Center" justifyContent="Center"> 
-                <Button text="{i18n>btnSOA}" type="Emphasized" press="onSOA"></Button>
-            </VBox>
-        </FlexBox>
-    	<footer>
+	controllerName="rgssoa.controller.StartPage"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+>
+	<Page title="{i18n>startPageTitle}">
+		<FlexBox
+			alignItems="Center"
+			height="100%"
+			width="100%"
+		>
+			<VBox
+				width="50%"
+				alignItems="Center"
+				justifyContent="Center"
+			>
+				<Button
+					text="{i18n>btnAuthorisation}"
+					type="Emphasized"
+					enabled="{AuthorityCheckAuth>/Z26Enabled}"
+					press="onAuth"
+				/>
+			</VBox>
+			<VBox
+				width="50%"
+				alignItems="Center"
+				justifyContent="Center"
+			>
+				<Button
+					text="{i18n>btnSOA}"
+					type="Emphasized"
+					press="onSOA"
+					enabled="{AuthorityCheckSoa>/Gestione}"
+				/>
+			</VBox>
+		</FlexBox>
+		<footer>
 			<OverflowToolbar>
-				<Button type="Emphasized" text="{i18n>btnBack}" press="onNavBack" >
-                    <layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow" />
+				<Button
+					type="Emphasized"
+					text="{i18n>btnBack}"
+					press="onNavBack"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
 					</layoutData>
-                </Button>
+				</Button>
 			</OverflowToolbar>
 		</footer>
-     </Page>
+	</Page>
 </mvc:View>

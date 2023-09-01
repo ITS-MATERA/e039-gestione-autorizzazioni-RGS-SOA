@@ -26,37 +26,44 @@
 					<Button
 						text="{i18n>btnAnnullamentoSoa}"
 						type="Emphasized"
+						enabled="{AuthorityCheckSoa>/Annullamento}"
 					/>
 					<Button
 						text="{i18n>btnInvioFirma}"
 						type="Emphasized"
+						enabled="{AuthorityCheckSoa>/InvioFirma}"
 					/>
 					<Button
 						text="{i18n>btnRevocaInvioFirma}"
 						type="Emphasized"
+						enabled="{AuthorityCheckSoa>/RevocaInvioFirma}"
 					/>
 					<Button
 						text="{i18n>btnFirmaSoa}"
 						type="Emphasized"
+						enabled="{AuthorityCheckSoa>/Firma}"
 					/>
 					<Button
 						text="{i18n>btnRevocaFirma}"
 						type="Emphasized"
+						enabled="{AuthorityCheckSoa>/RevocaFirma}"
 					/>
 					<Button
 						text="{i18n>btnRegistraRichiestaAnnullamento}"
 						type="Emphasized"
+						enabled="{AuthorityCheckSoa>/RegistrazioneRichAnn}"
 					/>
 					<Button
 						text="{i18n>btnCancellazioneRichiestaAnnullamento}"
 						type="Emphasized"
+						enabled="{AuthorityCheckSoa>/CancellazioneRichAnn}"
 					/>
 					<Button
 						text="{i18n>btnDettaglio}"
 						type="Emphasized"
 						icon="sap-icon://sys-find"
 						press="onDetail"
-						enabled="{SoaSettings>/enabledBtnDetail}"
+						enabled="{= ${SoaSettings>/enabledBtnDetail} &amp;&amp; ${AuthorityCheckSoa>/Dettaglio} ? true : false}"
 					/>
 					<Button
 						text="{i18n>btnExport}"

@@ -160,8 +160,6 @@ sap.ui.define(
             ZstatTest: "",
             Zstep: "",
             Zutenza: "",
-            data: [],
-            Classificazione: [], //Classificazioni
             Messaggio: [], //Messaggi di error
           });
           self.setModel(oModelSoa, "Soa");
@@ -265,10 +263,6 @@ sap.ui.define(
             .getRoute("soa.create.scenery.Scenario4")
             .attachPatternMatched(this._onObjectMatched, this);
         },
-
-        /**
-         * @override
-         */
         onBeforeRendering: function () {
           var self = this;
 
@@ -292,6 +286,7 @@ sap.ui.define(
           var bWizard4 = oModelStepScenario.getProperty("/wizard4");
 
           if (bWizard1Step1) {
+            self.resetSoa("4");
             history.go(-1);
           } else if (bWizard1Step2) {
             oModelStepScenario.setProperty("/wizard1Step2", false);

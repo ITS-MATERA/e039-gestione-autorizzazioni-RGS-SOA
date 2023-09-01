@@ -25,7 +25,6 @@ sap.ui.define(
     const BT = FilterOperator.BT;
     const CONTAINS = FilterOperator.Contains;
 
-
     return Controller.extend("rgssoa.controller.BaseController", {
       /**
        * Convenience method for accessing the router.
@@ -394,7 +393,7 @@ sap.ui.define(
 
       //#endregion
 
-      /** ---------------------CONTROLLI AUTORIZZATIVI------------------------ */
+      /** --------------CONTROLLI AUTORIZZATIVI AUTORIZZAZIONI--------------- */
       //#region
 
       getPermissionsList: function () {
@@ -408,53 +407,68 @@ sap.ui.define(
 
         oAuthModel.read("/ZES_CONIAUTH_SET", {
           filters: aFilters,
-          success: function (data) {
-            console.log(data);
-          },
+          success: function (data) {},
           error: function (error) {},
         });
       },
 
-      getAuthorityCheck:function(callback){
+      getAuthorityCheck: function (callback) {
         var self = this,
-          oAuthModel = self.getOwnerComponent().getModel("ZSS4_CA_CONI_VISIBILITA_SRV"),
+          oAuthModel = self
+            .getOwnerComponent()
+            .getModel("ZSS4_CA_CONI_VISIBILITA_SRV"),
           oModelJson = new sap.ui.model.json.JSONModel(),
           aFilters = [];
-        aFilters.push(new sap.ui.model.Filter({path: "SEM_OBJ", operator: sap.ui.model.FilterOperator.EQ,value1: "COSP_R3_FIORI_E039"}));
-        aFilters.push(new sap.ui.model.Filter({path: "AUTH_OBJ", operator: sap.ui.model.FilterOperator.EQ,value1: "Z_GEST_AUT"}));
-        self.getOwnerComponent().getModel("ZSS4_CA_CONI_VISIBILITA_SRV")
-          .metadataLoaded().then(function () {
+        aFilters.push(
+          new sap.ui.model.Filter({
+            path: "SEM_OBJ",
+            operator: sap.ui.model.FilterOperator.EQ,
+            value1: "COSP_R3_FIORI_E039",
+          })
+        );
+        aFilters.push(
+          new sap.ui.model.Filter({
+            path: "AUTH_OBJ",
+            operator: sap.ui.model.FilterOperator.EQ,
+            value1: "Z_GEST_AUT",
+          })
+        );
+        self
+          .getOwnerComponent()
+          .getModel("ZSS4_CA_CONI_VISIBILITA_SRV")
+          .metadataLoaded()
+          .then(function () {
             oAuthModel.read("/ZES_CONIAUTH_SET", {
               filters: aFilters,
               success: function (data) {
-                var model = {  
-                    AGR_NAME: data.results[0].AGR_NAME,
-                    FIKRS: data.results[0].FIKRS,
-                    BUKRS: data.results[0].BUKRS,
-                    PRCTR: data.results[0].PRCTR,
-                    Z26Enabled: self.isIncluded(data.results, "ACTV_4", "Z26"),
-                    Z01Enabled: self.isIncluded(data.results, "ACTV_1", "Z01"),
-                    Z03Enabled: self.isIncluded(data.results, "ACTV_2", "Z03")                     
-                }; 
+                var model = {
+                  AGR_NAME: data.results[0].AGR_NAME,
+                  FIKRS: data.results[0].FIKRS,
+                  BUKRS: data.results[0].BUKRS,
+                  PRCTR: data.results[0].PRCTR,
+                  Z26Enabled: self.isIncluded(data.results, "ACTV_4", "Z26"),
+                  Z01Enabled: self.isIncluded(data.results, "ACTV_1", "Z01"),
+                  Z03Enabled: self.isIncluded(data.results, "ACTV_2", "Z03"),
+                };
                 oModelJson.setData(model);
                 self.setModel(oModelJson, self.AUTHORITY_CHECK_AUTH);
-                callback({success:true, permission:model});
+                callback({ success: true, permission: model });
               },
-              error:function(error){
-                var model = {  
+              error: function (error) {
+                var model = {
                   AGR_NAME: null,
-                    FIKRS: null,
-                    BUKRS: null,
-                    PRCTR: null,
-                    Z26Enabled: false,
-                    Z01Enabled: false,
-                    Z03Enabled: false                
-                }; 
+                  FIKRS: null,
+                  BUKRS: null,
+                  PRCTR: null,
+                  Z26Enabled: false,
+                  Z01Enabled: false,
+                  Z03Enabled: false,
+                };
                 oModelJson.setData(model);
                 self.setModel(oModelJson, self.AUTHORITY_CHECK_AUTH);
-                callback({success:false, permission:model});
-              }
-            })
+                callback({ success: false, permission: model });
+              },
+            });
           });
       },
 
@@ -462,6 +476,101 @@ sap.ui.define(
         return array.filter((x) => x[param] === value).length > 0;
       },
 
+      //#endregion
+
+      /** --------------------CONTROLLI AUTORIZZATIVI SOA-------------------- */
+      //#region
+
+      getPermissionsListSoa: function () {
+        var self = this;
+        var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
+        var oAuthModel = self.getModel("ZSS4_CA_CONI_VISIBILITA_SRV");
+
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "SEM_OBJ", "ZS4_SOA_SRV");
+        self.setFilterEQ(aFilters, "AUTH_OBJ", "Z_GEST_SOA");
+
+        //TODO - Rimettere
+        // oAuthModel.read("/ZES_CONIAUTH_SET", {
+        //   filters: aFilters,
+        //   success: function (data) {
+        //     var aData = data.results;
+        //     oModelAuthoryCheck.setProperty("/AgrName", aData[0].AGR_NAME);
+        //     oModelAuthoryCheck.setProperty("/Fikrs", aData[0].FIKRS);
+        //     oModelAuthoryCheck.setProperty("/Prctr", aData[0].PRCTR);
+        //     self._setUserPermissions(aData);
+        //   },
+        //   error: function (error) {},
+        // });
+
+        oModelAuthoryCheck.setProperty(
+          "/AgrName",
+          "MEF:S:M000:COSP:ACN_TEST_40"
+        );
+        oModelAuthoryCheck.setProperty("/Fikrs", "S001");
+        oModelAuthoryCheck.setProperty("/Prctr", "*");
+        oModelAuthoryCheck.setProperty("/Gestione", true);
+        oModelAuthoryCheck.setProperty("/Registra", true);
+        oModelAuthoryCheck.setProperty("/Dettaglio", true);
+        oModelAuthoryCheck.setProperty("/Annullamento", true);
+        oModelAuthoryCheck.setProperty("/InvioFirma", true);
+        oModelAuthoryCheck.setProperty("/RevocaInvioFirma", true);
+        oModelAuthoryCheck.setProperty("/Firma", true);
+        oModelAuthoryCheck.setProperty("/RevocaFirma", true);
+        oModelAuthoryCheck.setProperty("/RegistrazioneRichAnn", true);
+        oModelAuthoryCheck.setProperty("/CancellazioneRichAnn", true);
+      },
+
+      _setUserPermissions: function (aData) {
+        var self = this;
+        var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
+
+        oModelAuthoryCheck.setProperty(
+          "/Gestione",
+          this._isUserAuthorized(aData, "ACTV_4", "Z28")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/Registra",
+          this._isUserAuthorized(aData, "ACTV_1", "Z01")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/Dettaglio",
+          this._isUserAuthorized(aData, "ACTV_3", "Z03")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/Annullamento",
+          this._isUserAuthorized(aData, "ACTV_4", "Z07")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/InvioFirma",
+          this._isUserAuthorized(aData, "ACTV_4", "Z04")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/RevocaInvioFirma",
+          this._isUserAuthorized(aData, "ACTV_4", "Z05")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/Firma",
+          this._isUserAuthorized(aData, "ACTV_4", "Z06")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/RevocaFirma",
+          this._isUserAuthorized(aData, "ACTV_4", "Z27")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/RegistrazioneRichAnn",
+          this._isUserAuthorized(aData, "ACTV_4", "Z08")
+        );
+        oModelAuthoryCheck.setProperty(
+          "/CancellazioneRichAnn",
+          this._isUserAuthorized(aData, "ACTV_4", "Z09")
+        );
+      },
+
+      _isUserAuthorized: function (array, param, value) {
+        return array.filter((x) => x[param] === value).length > 0;
+      },
 
       //#endregion
     });

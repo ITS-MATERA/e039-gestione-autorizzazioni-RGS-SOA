@@ -77,6 +77,7 @@ sap.ui.define(
           AgrName: "",
           Fikrs: "",
           Prctr: "",
+          Gestione: false,
           Registra: false,
           Dettaglio: false,
           Annullamento: false,

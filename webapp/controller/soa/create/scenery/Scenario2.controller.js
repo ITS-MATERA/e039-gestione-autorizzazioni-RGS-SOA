@@ -139,6 +139,7 @@ sap.ui.define(
             Zdataprot: null, //Data protocollo
             Zdataesig: null, //TODO - Punto Aperto - Data esigibilità
 
+            /** ALTRI CAMPI */
             Bukrs: "",
             Hkont: "",
             Kostl: "",
@@ -150,8 +151,6 @@ sap.ui.define(
             ZstatTest: "",
             Zstep: "",
             Zutenza: "",
-            data: [],
-            Classificazione: [], //Classificazioni
             Messaggio: [], //Messaggi di errore
           });
 
@@ -340,6 +339,7 @@ sap.ui.define(
           var bWizard4 = oModelStepScenario.getProperty("/wizard4");
 
           if (bWizard1Step1) {
+            self.resetSoa("2");
             history.go(-1);
           } else if (bWizard1Step2) {
             oModelStepScenario.setProperty("/wizard1Step2", false);

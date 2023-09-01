@@ -147,8 +147,6 @@ sap.ui.define(
             ZstatTest: "",
             Zstep: "",
             Zutenza: "",
-            data: [],
-            Classificazione: [], //Classificazioni
             Messaggio: [], //Messaggi di error
           });
 
@@ -295,6 +293,7 @@ sap.ui.define(
           var bWizard4 = oModelStepScenario.getProperty("/wizard4");
 
           if (bWizard1Step1) {
+            self.resetSoa("3");
             history.go(-1);
           } else if (bWizard1Step2) {
             oModelStepScenario.setProperty("/wizard1Step2", false);

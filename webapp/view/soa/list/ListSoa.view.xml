@@ -42,6 +42,7 @@
 					type="Emphasized"
 					text="{i18n>btnRegisterSoa}"
 					press="onRegisterSoa"
+					enabled="{AuthorityCheckSoa>/Registra}"
 				>
 					<layoutData>
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>
