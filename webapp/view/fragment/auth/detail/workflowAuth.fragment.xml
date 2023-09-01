@@ -20,7 +20,7 @@
 				}">	
 			<c:content>
 				<c:TimelineItem
-						dateTime="{WFStateAutSet>DataOraString}"								
+						dateTime="{WFStateAutSet>DataStato}"								
 						text="{WFStateAutSet>DescStato} da {WFStateAutSet>Utente}"
 						userName="{WFStateAutSet>DescStato}"
 						icon="{= ${WFStateAutSet>IsLast} === 'X' ? 'sap-icon://favorite' : 'sap-icon://person-placeholder' }">
