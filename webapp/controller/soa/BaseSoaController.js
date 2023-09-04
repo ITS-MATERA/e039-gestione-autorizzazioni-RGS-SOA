@@ -30,6 +30,7 @@ sap.ui.define(
         var self = this;
 
         self.acceptOnlyImport("iptImpDaOrd");
+        self.acceptOnlyImport("iptAddImpDaOrd");
         self.acceptOnlyImport("iptImpDaAssociare");
         self.acceptOnlyImport("iptImpDaAssociareCpv");
         self.acceptOnlyImport("iptImpDaAssociareCig");

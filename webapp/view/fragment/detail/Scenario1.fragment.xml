@@ -20,11 +20,19 @@
 						>
 							<WizardStep title="{i18n>titleWizard1DocContabili}">
 								<c:Fragment
-									fragmentName="rgssoa.view.fragment.table.TableEditQuoteDocumentiScen1"
+									fragmentName="rgssoa.view.fragment.panel.FiltersDocumenti"
 									type="XML"
 								/>
 								<c:Fragment
-									fragmentName="rgssoa.view.fragment.table.TableRiepQuoteDocumentiScen1"
+									fragmentName="rgssoa.view.fragment.table.scenario1.TableAddQuoteDocumenti"
+									type="XML"
+								/>
+								<c:Fragment
+									fragmentName="rgssoa.view.fragment.table.scenario1.TableEditQuoteDocumentiScen1"
+									type="XML"
+								/>
+								<c:Fragment
+									fragmentName="rgssoa.view.fragment.table.scenario1.TableRiepQuoteDocumentiScen1"
 									type="XML"
 								/>
 							</WizardStep>

@@ -34,7 +34,8 @@
 					selectionChange="onRitenutaChange"
 					editable="{=
 						${FilterDocumenti>/Lifnr} ||
-						${FilterDocumenti>/TipoBeneficiario}
+						${FilterDocumenti>/TipoBeneficiario} ||
+						${Soa>/EnableEdit}
 						? false : true
 					}"
 				>
@@ -63,7 +64,8 @@
 					change="onEnteBeneficiarioChange"
 					editable="{=
 						${FilterDocumenti>/Lifnr} ||
-						${FilterDocumenti>/TipoBeneficiario}
+						${FilterDocumenti>/TipoBeneficiario} ||
+						${Soa>/EnableEdit}
 						? false : true
 					}"
 				>
@@ -94,7 +96,8 @@
 					selected="{FilterDocumenti>/QuoteEsigibili}"
 					editable="{=
 						${FilterDocumenti>/Lifnr} ||
-						${FilterDocumenti>/TipoBeneficiario}
+						${FilterDocumenti>/TipoBeneficiario} ||
+						${Soa>/EnableEdit}
 						? false : true
 					}"
 					select="onQuoteEsigibiliChange"
@@ -131,7 +134,8 @@
 					editable="{=
 						${FilterDocumenti>/QuoteEsigibili} === false ||
 						${FilterDocumenti>/Lifnr} ||
-						${FilterDocumenti>/TipoBeneficiario}
+						${FilterDocumenti>/TipoBeneficiario} ||
+						${Soa>/EnableEdit}
 						? false : true
 					}"
 				>
@@ -160,7 +164,8 @@
 					editable="{=
 						${FilterDocumenti>/QuoteEsigibili} === false ||
 						${FilterDocumenti>/Lifnr} ||
-						${FilterDocumenti>/TipoBeneficiario}
+						${FilterDocumenti>/TipoBeneficiario} ||
+						${Soa>/EnableEdit}
 						? false : true
 					}"
 				>

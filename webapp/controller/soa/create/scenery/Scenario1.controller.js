@@ -423,7 +423,7 @@ sap.ui.define(
               var iIndex = aSelectedItems.findIndex((obj) => {
                 return (
                   obj.Bukrs === oSelectedItem.Bukrs &&
-                  obj.Gjahr === oSelectedItem.Gjahr &&
+                  obj.Zposizione === oSelectedItem.Zposizione &&
                   obj.Znumliq === oSelectedItem.Znumliq &&
                   obj.Zversione === oSelectedItem.Zversione &&
                   obj.ZversioneOrig === oSelectedItem.ZversioneOrig

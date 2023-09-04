@@ -5,7 +5,7 @@
 	<Panel
 		id="pnlListQuoteDocumenti"
 		class="onlyTopPadding"
-		visible="{StepScenario>/wizard1Step2}"
+		visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/DeletePositions} ? true : false}"
 		backgroundDesign="Transparent"
 	>
 		<headerToolbar>
@@ -25,12 +25,14 @@
 					</layoutData>
 				</Button>
 				<Button
+					id="btnCancelPositionSoa"
 					class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
 					icon="sap-icon://less"
 					text="{i18n>btnCancel}"
 					type="Emphasized"
-					press="onCanelPositionSoa"
+					press="onDeletePositionSoa"
 					visible="{Soa>/EnableEdit}"
+					enabled="false"
 				>
 					<layoutData>
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>
@@ -206,14 +208,6 @@
 					</ColumnListItem>
 				</items>
 			</Table>
-			<c:Fragment
-				fragmentName="rgssoa.view.fragment.panel.Calculator"
-				type="XML"
-			/>
-			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.Paginator"
-				type="XML"
-			/>
 		</content>
 	</Panel>
 </c:FragmentDefinition>

@@ -6,21 +6,30 @@
 		class="sapUiNoContentPadding"
 		backgroundDesign="Transparent"
 	>
-		<IconTabBar class="sapUiNoContentPadding">
+		<IconTabBar
+			class="sapUiNoContentPadding"
+			selectedKey="{Utility>/Function}"
+		>
 			<items>
 				<IconTabFilter
+					key="Rettifica"
 					text="{i18n>iconTabEdit}"
 					icon="sap-icon://edit"
 					visible="{Soa>/EnableEdit}"
 				/>
+				<IconTabSeparator visible="{Soa>/EnableEdit}"/>
 				<IconTabFilter
+					key="Dettaglio"
 					text="{i18n>iconTabDetail}"
 					icon="sap-icon://detail-view"
 				/>
+				<IconTabSeparator/>
 				<IconTabFilter
+					key="Workflow"
 					text="{i18n>iconTabWorkflow}"
 					icon="sap-icon://history"
 				/>
+				<IconTabSeparator/>
 				<IconTabFilter
 					text="{i18n>iconTabFascicoloElettronico}"
 					icon="sap-icon://documents"

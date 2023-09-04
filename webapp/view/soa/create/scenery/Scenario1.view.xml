@@ -38,11 +38,11 @@
 										type="XML"
 									/>
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.table.TableQuoteDocumentiScen1"
+										fragmentName="rgssoa.view.fragment.table.scenario1.TableQuoteDocumentiScen1"
 										type="XML"
 									/>
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.table.TableRiepQuoteDocumentiScen1"
+										fragmentName="rgssoa.view.fragment.table.scenario1.TableRiepQuoteDocumentiScen1"
 										type="XML"
 									/>
 								</WizardStep>

@@ -32,7 +32,8 @@
 						${FilterDocumenti>/CodEnte} ||
 						${FilterDocumenti>/QuoteEsigibili} === false ||
 						${FilterDocumenti>/DataEsigibilitaFrom} ||
-						${FilterDocumenti>/DataEsigibilitaTo} 
+						${FilterDocumenti>/DataEsigibilitaTo} ||
+						${Soa>/EnableEdit}
 						? false : true
 					}"
 				>
@@ -56,11 +57,12 @@
 					valueHelpRequest="onValueHelpBeneficiario"
 					showValueHelp="true"
 					value="{FilterDocumenti>/Lifnr}"
-					editable="{= 	${FilterDocumenti>/CodRitenuta} ||
-						${FilterDocumenti>/CodEnte} ||
-						${FilterDocumenti>/QuoteEsigibili} === false ||
-						${FilterDocumenti>/DataEsigibilitaFrom} ||
-						${FilterDocumenti>/DataEsigibilitaTo} 
+					editable="{= 	(${FilterDocumenti>/CodRitenuta} ||
+							${FilterDocumenti>/CodEnte} ||
+							${FilterDocumenti>/QuoteEsigibili} === false ||
+							${FilterDocumenti>/DataEsigibilitaFrom} ||
+							${FilterDocumenti>/DataEsigibilitaTo}) ||
+						${Soa>/EnableEdit}
 						? false : true
 					}"
 					change="onBeneficiarioChange"
