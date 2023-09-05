@@ -24,6 +24,7 @@ sap.ui.define(
             AddSelectedPositions: [],
             AddPositions: false,
             DeletePositions: false,
+            EnableEdit: false,
           });
           self.setModel(oModelUtility, "Utility");
 
@@ -42,13 +43,16 @@ sap.ui.define(
           var oModelSoa = new JSONModel({
             EnableEdit: false,
             visibleBtnEdit: true,
+            /**     CHIAVI */
+            Gjahr: "",
             Bukrs: "",
             Zchiavesop: "",
+            Ztipososp: "",
+            Zstep: "",
 
             Ztipopag: "", //Tipo Pagamento
 
             /**   Dati SOA (Parte celeste in alto)   */
-            Gjahr: "", //Esercizio di gestione
             Zimptot: "", //Importo
             Zzamministr: "", //Amministrazione
             ZufficioCont: "", //Ufficio Contabile
@@ -268,13 +272,13 @@ sap.ui.define(
           } else if (bWizard1Step2) {
             this._resetStepScenario();
             this._resetSoaDetail();
-            this._resetUtility();
+            this._resetUtility(false);
             history.go(-1);
           } else if (bWizard1Step3) {
             if (bDettaglio) {
               this._resetStepScenario();
               this._resetSoaDetail();
-              this._resetUtility();
+              this._resetUtility(false);
               history.go(-1);
             } else if (bRettifica) {
               oModelStepScenario.setProperty("/wizard1Step2", true);
@@ -331,25 +335,61 @@ sap.ui.define(
         },
 
         onEdit: function () {
+          this._setPropertiesForEdit();
+        },
+
+        onIconTabChange: function (oEvent) {
           var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var oModelStepScenario = self.getModel("StepScenario");
+          var oModel = self.getModel();
           var oModelUtility = self.getModel("Utility");
+          var oModelSoa = self.getModel("Soa");
+          var oWizard = self.getView().byId("wizScenario1");
+          var sKey = oEvent.getParameter("selectedKey");
 
-          self.setModelCustom("QuoteDocumenti", oModelSoa.getProperty("/data"));
+          oModelUtility.setProperty("/Function", sKey);
 
-          oModelUtility.setProperty("/DeletePositions", true);
+          var oParameters = {
+            Gjahr: oModelSoa.getProperty("/Gjahr"),
+            Bukrs: oModelSoa.getProperty("/Bukrs"),
+            Zchiavesop: oModelSoa.getProperty("/Zchiavesop"),
+            Ztipososp: oModelSoa.getProperty("/Ztipososp"),
+            Zstep: oModelSoa.getProperty("/Zstep"),
+          };
 
-          oModelSoa.setProperty("/EnableEdit", true);
-          //Porto la IconTab sul tab giusto
-          oModelUtility.setProperty("/Function", "Rettifica");
-          oModelSoa.setProperty("/visibleBtnEdit", false);
+          switch (sKey) {
+            case "Dettaglio": {
+              var sPath = self.getModel().createKey("SOASet", oParameters);
+              var oWizard = self.getView().byId("wizScenario1");
+              for (var i = 0; i < oWizard.getProgress(); i++) {
+                oWizard.previousStep();
+              }
 
-          oModelStepScenario.setProperty("/wizard1Step2", true);
-          oModelStepScenario.setProperty("/wizard1Step3", false);
-          oModelStepScenario.setProperty("/wizard2", false);
-          oModelStepScenario.setProperty("/wizard3", false);
-          oModelStepScenario.setProperty("/wizard4", false);
+              this._resetSoaDetail();
+              this._resetStepScenario();
+              this._resetUtility(oModelUtility.getProperty("/EnableEdit"));
+
+              oModel.read("/" + sPath, {
+                success: function (data) {
+                  self._setSoaModel(data);
+                  self.setInpsEditable();
+                  self.getSedeBeneficiario();
+                  self._getPosizioniSoa();
+                  self._getClassificazioniSoa();
+                },
+                error: function () {},
+              });
+
+              break;
+            }
+            case "Workflow": {
+              this._getWorkflow();
+              break;
+            }
+            case "Rettifica": {
+              this._setPropertiesForEdit();
+              break;
+            }
+          }
         },
 
         //#region WIZARD 1
@@ -368,9 +408,6 @@ sap.ui.define(
             .getView()
             .byId("tblEditQuoteDocumentiScen1");
           var oModelTablePosizioniSoa = oTablePosizioniSoa.getModel("Soa");
-          var oBtnCancelPositionSoa = self
-            .getView()
-            .byId("btnCancelPositionSoa");
 
           var aSelectedItems = oModelUtility.getProperty(
             "/DeleteSelectedPositions"
@@ -401,7 +438,6 @@ sap.ui.define(
             }
           });
 
-          oBtnCancelPositionSoa.setEnabled(aSelectedItems.length > 0);
           oModelUtility.setProperty("/DeleteSelectedPositions", aSelectedItems);
         },
 
@@ -1017,25 +1053,20 @@ sap.ui.define(
         _onObjectMatched: function (oEvent) {
           var self = this;
           //Load Models
-          var oDataModel = self.getModel();
+          var oModel = self.getModel();
           var oParameters = oEvent.getParameter("arguments");
           var sPath = self.getModel().createKey("SOASet", oParameters);
 
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oDataModel.read("/" + sPath, {
-                success: function (data, oResponse) {
-                  self._setSoaModel(data);
-                  self.setInpsEditable();
-                  self.getSedeBeneficiario();
-                  self._getPosizioniSoa();
-                  self._getClassificazioniSoa();
-                },
-                error: function () {},
-              });
-            });
+          oModel.read("/" + sPath, {
+            success: function (data, oResponse) {
+              self._setSoaModel(data);
+              self.setInpsEditable();
+              self.getSedeBeneficiario();
+              self._getPosizioniSoa();
+              self._getClassificazioniSoa();
+            },
+            error: function () {},
+          });
         },
 
         _setSoaModel: function (oData) {
@@ -1045,6 +1076,8 @@ sap.ui.define(
           oModelSoa.setProperty("/Ztipopag", oData.Ztipopag);
           oModelSoa.setProperty("/Bukrs", oData.Bukrs);
           oModelSoa.setProperty("/Zchiavesop", oData.Zchiavesop);
+          oModelSoa.setProperty("/Ztipososp", oData.Ztipososp);
+          oModelSoa.setProperty("/Zstep", oData.Zstep);
           oModelSoa.setProperty("/Gjahr", oData.Gjahr);
           oModelSoa.setProperty("/Zimptot", oData.Zimptot);
           oModelSoa.setProperty("/Zzamministr", oData.Zzamministr);
@@ -1265,7 +1298,7 @@ sap.ui.define(
           self.setModel(oModelSoa, "Soa");
         },
 
-        _resetUtility: function () {
+        _resetUtility: function (bEnableEdit) {
           var self = this;
 
           var oModelUtility = new JSONModel({
@@ -1274,6 +1307,7 @@ sap.ui.define(
             AddSelectedPositions: [],
             AddPositions: false,
             DeletePositions: false,
+            EnableEdit: bEnableEdit,
           });
           self.setModel(oModelUtility, "Utility");
         },
@@ -1291,6 +1325,69 @@ sap.ui.define(
             visibleBtnStart: false,
           });
           self.setModel(oModelStepScenario, "StepScenario");
+        },
+
+        _getWorkflow: function () {
+          var self = this;
+
+          var oModel = self.getModel();
+          var oModelSoa = self.getModel("Soa");
+
+          var aFilters = [];
+
+          self.setFilterEQ(
+            aFilters,
+            "Esercizio",
+            oModelSoa.getProperty("/Gjahr")
+          );
+          //TODO - Rimettere
+          //self.setFilterEQ(aFilters, "Bukrs", oModelSoa.getProperty("/Bukrs"));
+          self.setFilterEQ(
+            aFilters,
+            "Zchiavesop",
+            oModelSoa.getProperty("/Zchiavesop")
+          );
+
+          oModel.read("/WFStateSoaSet", {
+            filters: aFilters,
+            success: function (data) {
+              data.results.map((oItem) => {
+                oItem.DataOraString = new Date(oItem.DataOraString);
+              });
+
+              self.setModelCustom("WFStateSoa", data.results);
+            },
+
+            error: function () {},
+          });
+        },
+
+        _setPropertiesForEdit: function () {
+          var self = this;
+          var oModelSoa = self.getModel("Soa");
+          var oModelStepScenario = self.getModel("StepScenario");
+          var oModelUtility = self.getModel("Utility");
+          var oWizard = self.getView().byId("wizScenario1");
+
+          self.setModelCustom("QuoteDocumenti", oModelSoa.getProperty("/data"));
+
+          for (var i = 0; i < oWizard.getProgress(); i++) {
+            oWizard.previousStep();
+          }
+
+          oModelUtility.setProperty("/DeletePositions", true);
+          oModelUtility.setProperty("/EnableEdit", true);
+
+          oModelSoa.setProperty("/EnableEdit", true);
+          //Porto la IconTab sul tab giusto
+          oModelUtility.setProperty("/Function", "Rettifica");
+          oModelSoa.setProperty("/visibleBtnEdit", false);
+
+          oModelStepScenario.setProperty("/wizard1Step2", true);
+          oModelStepScenario.setProperty("/wizard1Step3", false);
+          oModelStepScenario.setProperty("/wizard2", false);
+          oModelStepScenario.setProperty("/wizard3", false);
+          oModelStepScenario.setProperty("/wizard4", false);
         },
 
         //#endregion PRIVATE METHODS

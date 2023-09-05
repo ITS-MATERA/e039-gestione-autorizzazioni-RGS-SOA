@@ -183,6 +183,21 @@
           "pattern": "soa.detail.scenery.Scenario1/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
           "name": "soa.detail.scenery.Scenario1",
           "target": ["soa.detail.scenery.Scenario1"]
+        },
+        {
+          "pattern": "soa.detail.scenery.Scenario2/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "soa.detail.scenery.Scenario2",
+          "target": ["soa.detail.scenery.Scenario2"]
+        },
+        {
+          "pattern": "soa.detail.scenery.Scenario3/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "soa.detail.scenery.Scenario3",
+          "target": ["soa.detail.scenery.Scenario3"]
+        },
+        {
+          "pattern": "soa.detail.scenery.Scenario4/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "soa.detail.scenery.Scenario4",
+          "target": ["soa.detail.scenery.Scenario4"]
         }
       ],
       "targets": {
@@ -262,6 +277,21 @@
         },
         "soa.detail.scenery.Scenario1": {
           "viewName": "soa.detail.scenery.Scenario1",
+          "viewId": "Scenario1Detail",
+          "viewLevel": 3
+        },
+        "soa.detail.scenery.Scenario2": {
+          "viewName": "soa.detail.scenery.Scenario2",
+          "viewId": "Scenario1Detail",
+          "viewLevel": 3
+        },
+        "soa.detail.scenery.Scenario3": {
+          "viewName": "soa.detail.scenery.Scenario3",
+          "viewId": "Scenario1Detail",
+          "viewLevel": 3
+        },
+        "soa.detail.scenery.Scenario4": {
+          "viewName": "soa.detail.scenery.Scenario4",
           "viewId": "Scenario1Detail",
           "viewLevel": 3
         }

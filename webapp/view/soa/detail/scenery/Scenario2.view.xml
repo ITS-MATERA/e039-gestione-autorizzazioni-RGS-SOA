@@ -1,0 +1,9 @@
+<mvc:View
+	controllerName="rgssoa.controller.soa.detail.scenery.Scenario2"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	displayBlock="true"
+	height="100%"
+	busyIndicatorDelay="0"
+/>

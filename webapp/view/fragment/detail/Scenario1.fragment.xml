@@ -13,6 +13,7 @@
 					<Panel
 						class="sapUiNoContentPadding"
 						backgroundDesign="Transparent"
+						visible="{= ${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica' ? true : false}"
 					>
 						<Wizard
 							id="wizScenario1"
@@ -56,6 +57,10 @@
 							</WizardStep>
 						</Wizard>
 					</Panel>
+					<c:Fragment
+						fragmentName="rgssoa.view.fragment.panel.Workflow"
+						type="XML"
+					/>
 				</content>
 			</Page>
 		</pages>

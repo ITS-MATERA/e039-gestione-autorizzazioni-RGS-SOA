@@ -491,35 +491,35 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "SEM_OBJ", "ZS4_SOA_SRV");
         self.setFilterEQ(aFilters, "AUTH_OBJ", "Z_GEST_SOA");
 
-        //TODO - Rimettere
-        // oAuthModel.read("/ZES_CONIAUTH_SET", {
-        //   filters: aFilters,
-        //   success: function (data) {
-        //     var aData = data.results;
-        //     oModelAuthoryCheck.setProperty("/AgrName", aData[0].AGR_NAME);
-        //     oModelAuthoryCheck.setProperty("/Fikrs", aData[0].FIKRS);
-        //     oModelAuthoryCheck.setProperty("/Prctr", aData[0].PRCTR);
-        //     self._setUserPermissions(aData);
-        //   },
-        //   error: function (error) {},
-        // });
+        
+        oAuthModel.read("/ZES_CONIAUTH_SET", {
+          filters: aFilters,
+          success: function (data) {
+            var aData = data.results;
+            oModelAuthoryCheck.setProperty("/AgrName", aData[0].AGR_NAME);
+            oModelAuthoryCheck.setProperty("/Fikrs", aData[0].FIKRS);
+            oModelAuthoryCheck.setProperty("/Prctr", aData[0].PRCTR);
+            self._setUserPermissions(aData);
+          },
+          error: function (error) {},
+        });
 
-        oModelAuthoryCheck.setProperty(
-          "/AgrName",
-          "MEF:S:M000:COSP:ACN_TEST_40"
-        );
-        oModelAuthoryCheck.setProperty("/Fikrs", "S001");
-        oModelAuthoryCheck.setProperty("/Prctr", "*");
-        oModelAuthoryCheck.setProperty("/Gestione", true);
-        oModelAuthoryCheck.setProperty("/Registra", true);
-        oModelAuthoryCheck.setProperty("/Dettaglio", true);
-        oModelAuthoryCheck.setProperty("/Annullamento", true);
-        oModelAuthoryCheck.setProperty("/InvioFirma", true);
-        oModelAuthoryCheck.setProperty("/RevocaInvioFirma", true);
-        oModelAuthoryCheck.setProperty("/Firma", true);
-        oModelAuthoryCheck.setProperty("/RevocaFirma", true);
-        oModelAuthoryCheck.setProperty("/RegistrazioneRichAnn", true);
-        oModelAuthoryCheck.setProperty("/CancellazioneRichAnn", true);
+        // oModelAuthoryCheck.setProperty(
+        //   "/AgrName",
+        //   "MEF:S:M000:COSP:ACN_TEST_40"
+        // );
+        // oModelAuthoryCheck.setProperty("/Fikrs", "S001");
+        // oModelAuthoryCheck.setProperty("/Prctr", "*");
+        // oModelAuthoryCheck.setProperty("/Gestione", true);
+        // oModelAuthoryCheck.setProperty("/Registra", true);
+        // oModelAuthoryCheck.setProperty("/Dettaglio", true);
+        // oModelAuthoryCheck.setProperty("/Annullamento", true);
+        // oModelAuthoryCheck.setProperty("/InvioFirma", true);
+        // oModelAuthoryCheck.setProperty("/RevocaInvioFirma", true);
+        // oModelAuthoryCheck.setProperty("/Firma", true);
+        // oModelAuthoryCheck.setProperty("/RevocaFirma", true);
+        // oModelAuthoryCheck.setProperty("/RegistrazioneRichAnn", true);
+        // oModelAuthoryCheck.setProperty("/CancellazioneRichAnn", true);
       },
 
       _setUserPermissions: function (aData) {

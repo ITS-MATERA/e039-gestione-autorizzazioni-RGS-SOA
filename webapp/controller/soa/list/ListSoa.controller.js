@@ -190,10 +190,31 @@ sap.ui.define(
             });
             break;
           case "2":
+            self.getRouter().navTo("soa.detail.scenery.Scenario2", {
+              Gjahr: oSelectedItem.Gjahr,
+              Zchiavesop: oSelectedItem.Zchiavesop,
+              Bukrs: oSelectedItem.Bukrs,
+              Zstep: oSelectedItem.Zstep,
+              Ztipososp: oSelectedItem.Ztipososp,
+            });
             break;
           case "3":
+            self.getRouter().navTo("soa.detail.scenery.Scenario3", {
+              Gjahr: oSelectedItem.Gjahr,
+              Zchiavesop: oSelectedItem.Zchiavesop,
+              Bukrs: oSelectedItem.Bukrs,
+              Zstep: oSelectedItem.Zstep,
+              Ztipososp: oSelectedItem.Ztipososp,
+            });
             break;
           case "4":
+            self.getRouter().navTo("soa.detail.scenery.Scenario4", {
+              Gjahr: oSelectedItem.Gjahr,
+              Zchiavesop: oSelectedItem.Zchiavesop,
+              Bukrs: oSelectedItem.Bukrs,
+              Zstep: oSelectedItem.Zstep,
+              Ztipososp: oSelectedItem.Ztipososp,
+            });
             break;
         }
       },

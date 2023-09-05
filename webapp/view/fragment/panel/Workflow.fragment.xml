@@ -1,0 +1,31 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.suite.ui.commons"
+	xmlns:core="sap.ui.core"
+>
+	<Panel
+		class="sapUiNoContentPadding"
+		backgroundDesign="Transparent"
+		visible="{= ${Utility>/Function} === 'Workflow' ? true : false }"
+	>
+		<c:Timeline
+			showHeaderBar="false"
+			enableModelFilter="false"
+			enableDoubleSided="true"
+			sort="false"
+			noDataText="{i18n>msgNoData}"
+			content="{
+				path: 'WFStateSoa>/'
+			}"
+		>
+			<c:content>
+				<c:TimelineItem
+					dateTime="{WFStateSoa>DataOraString}"
+					text="{WFStateSoa>DescStato} da {WFStateSoa>Utente}"
+					userName="{WFStateSoa>DescStato}"
+					icon="{= ${WFStateSoa>IsLast} === 'X' ? 'sap-icon://favorite' : 'sap-icon://person-placeholder' }"
+				/>
+			</c:content>
+		</c:Timeline>
+	</Panel>
+</core:FragmentDefinition>

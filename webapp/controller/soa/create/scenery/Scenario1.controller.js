@@ -270,6 +270,11 @@ sap.ui.define(
           });
           self.setModel(oModelNewAnagraficaBen, "NewAnagraficaBen");
 
+          var oModelUtility = new JSONModel({
+            EnableEdit: true,
+          });
+          self.setModel(oModelUtility, "Utility");
+
           self.setModel(oModelPaginator, PAGINATOR_MODEL);
           self.setModel(oModelSoa, "Soa");
           self.setModel(oModelStepScenario, "StepScenario");

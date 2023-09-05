@@ -257,6 +257,11 @@ sap.ui.define(
           });
           self.setModel(oModelNewAnagraficaBen, "NewAnagraficaBen");
 
+          var oModelUtility = new JSONModel({
+            EnableEdit: true,
+          });
+          self.setModel(oModelUtility, "Utility");
+
           self.acceptOnlyImport("iptImportoLiquidazione");
 
           this.getRouter()

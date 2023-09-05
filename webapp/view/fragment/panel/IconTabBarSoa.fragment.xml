@@ -9,15 +9,16 @@
 		<IconTabBar
 			class="sapUiNoContentPadding"
 			selectedKey="{Utility>/Function}"
+			select="onIconTabChange"
 		>
 			<items>
 				<IconTabFilter
 					key="Rettifica"
 					text="{i18n>iconTabEdit}"
 					icon="sap-icon://edit"
-					visible="{Soa>/EnableEdit}"
+					visible="{Utility>/EnableEdit}"
 				/>
-				<IconTabSeparator visible="{Soa>/EnableEdit}"/>
+				<IconTabSeparator visible="{Utility>/EnableEdit}"/>
 				<IconTabFilter
 					key="Dettaglio"
 					text="{i18n>iconTabDetail}"
