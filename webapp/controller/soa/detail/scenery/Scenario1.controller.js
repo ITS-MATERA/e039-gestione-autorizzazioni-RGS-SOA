@@ -659,13 +659,11 @@ sap.ui.define(
           );
 
           //Estremi di ricerca per Beneficiario
-          //TODO - Rimettere come prima
-          self.setFilterEQ(aFilters, "Lifnr", "0010000077");
-          // self.setFilterEQ(
-          //   aFilters,
-          //   "Lifnr",
-          //   oModelFilter.getProperty("/Lifnr")
-          // );
+          self.setFilterEQ(
+            aFilters,
+            "Lifnr",
+            oModelFilter.getProperty("/Lifnr")
+          );
           self.setFilterEQ(
             aFilters,
             "TipoBeneficiario",
@@ -902,12 +900,12 @@ sap.ui.define(
           );
 
           //TODO - Rimettere
-          // if (fImpTot > fImpDispAutorizzazione) {
-          //   sap.m.MessageBox.error(
-          //     oBundle.getText("msgImpTotGreaterImpDispAut")
-          //   );
-          //   return false;
-          // }
+          if (fImpTot > fImpDispAutorizzazione) {
+            sap.m.MessageBox.error(
+              oBundle.getText("msgImpTotGreaterImpDispAut")
+            );
+            return false;
+          }
 
           if (
             oModelSoa.getProperty("/data").length === 0 ||
@@ -1341,7 +1339,7 @@ sap.ui.define(
             oModelSoa.getProperty("/Gjahr")
           );
           //TODO - Rimettere
-          //self.setFilterEQ(aFilters, "Bukrs", oModelSoa.getProperty("/Bukrs"));
+          self.setFilterEQ(aFilters, "Bukrs", oModelSoa.getProperty("/Bukrs"));
           self.setFilterEQ(
             aFilters,
             "Zchiavesop",

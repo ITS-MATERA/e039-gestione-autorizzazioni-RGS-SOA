@@ -271,10 +271,9 @@ sap.ui.define(
               Prctr: oModelAuthoryCheckSoa.getProperty("/Prctr"),
             },
             success: function (data, oResponse) {
-              //TODO - Rimettere
-              // if (self.setResponseMessage(oResponse)) {
-              //   return;
-              // }
+              if (self.setResponseMessage(oResponse)) {
+                return;
+              }
 
               if (sSoaType === "1" && bDocumentiLiquidati) {
                 self

@@ -793,13 +793,12 @@ sap.ui.define(
             oModelSoa.getProperty("/Zimpdispaut")
           );
 
-          //TODO - Rimettere
-          // if (fImpTot > fImpDispAutorizzazione) {
-          //   sap.m.MessageBox.error(
-          //     oBundle.getText("msgImpTotGreaterImpDispAut")
-          //   );
-          //   return false;
-          // }
+          if (fImpTot > fImpDispAutorizzazione) {
+            sap.m.MessageBox.error(
+              oBundle.getText("msgImpTotGreaterImpDispAut")
+            );
+            return false;
+          }
 
           if (
             oModelSoa.getProperty("/data").length === 0 ||

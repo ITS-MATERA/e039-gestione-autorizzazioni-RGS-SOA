@@ -803,11 +803,10 @@ sap.ui.define(
             return false;
           }
 
-          //TODO - Rimettere
-          // if (!oModelSoa.getProperty("/Hkont")) {
-          //   sap.m.MessageBox.error(oBundle.getText("msgHkontRequired"));
-          //   return false;
-          // }
+          if (!oModelSoa.getProperty("/Hkont")) {
+            sap.m.MessageBox.error(oBundle.getText("msgHkontRequired"));
+            return false;
+          }
 
           return true;
         },
