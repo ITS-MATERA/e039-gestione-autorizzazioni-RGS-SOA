@@ -259,6 +259,7 @@ sap.ui.define(
 
           var oModelUtility = new JSONModel({
             EnableEdit: true,
+            DetailFromFunction: true,
           });
           self.setModel(oModelUtility, "Utility");
 

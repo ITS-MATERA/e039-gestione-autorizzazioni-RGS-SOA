@@ -11,9 +11,7 @@
 		<c:Timeline
 			showHeaderBar="false"
 			enableModelFilter="false"
-			enableDoubleSided="true"
 			sort="false"
-			noDataText="{i18n>msgNoData}"
 			content="{
 				path: 'WFStateSoa>/'
 			}"

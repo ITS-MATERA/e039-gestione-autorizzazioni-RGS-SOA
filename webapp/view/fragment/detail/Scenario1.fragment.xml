@@ -6,10 +6,16 @@
 		<pages>
 			<Page showHeader="false">
 				<content>
-					<c:Fragment
-						fragmentName="rgssoa.view.fragment.panel.IconTabBarSoa"
-						type="XML"
-					/>
+					<Panel
+						class="sapUiNoContentPadding"
+						backgroundDesign="Transparent"
+						visible="{= ${Utility>/DetailFromFunction} === false ? true : false}"
+					>
+						<c:Fragment
+							fragmentName="rgssoa.view.fragment.panel.IconTabBarSoa"
+							type="XML"
+						/>
+					</Panel>
 					<Panel
 						class="sapUiNoContentPadding"
 						backgroundDesign="Transparent"

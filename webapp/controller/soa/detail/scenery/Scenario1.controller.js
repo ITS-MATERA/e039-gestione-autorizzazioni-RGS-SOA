@@ -26,6 +26,7 @@ sap.ui.define(
             DeletePositions: false,
             EnableEdit: false,
             EnableAnnullamento: false,
+            DetailFromFunction: false,
           });
           self.setModel(oModelUtility, "Utility");
 
@@ -1053,8 +1054,20 @@ sap.ui.define(
           var self = this;
           //Load Models
           var oModel = self.getModel();
+          var oModelUtility = self.getModel("Utility");
           var oParameters = oEvent.getParameter("arguments");
-          var sPath = self.getModel().createKey("SOASet", oParameters);
+          var sPath = self.getModel().createKey("SOASet", {
+            Gjahr: oParameters.Gjahr,
+            Zchiavesop: oParameters.Zchiavesop,
+            Bukrs: oParameters.Bukrs,
+            Zstep: oParameters.Zstep,
+            Ztipososp: oParameters.Ztipososp,
+          });
+
+          oModelUtility.setProperty(
+            "/DetailFromFunction",
+            oParameters.DetailFromFunction
+          );
 
           oModel.read("/" + sPath, {
             success: function (data, oResponse) {
@@ -1308,6 +1321,7 @@ sap.ui.define(
             DeletePositions: false,
             EnableEdit: bEnableEdit,
             EnableAnnullamento: false,
+            DetailFromFunction: false,
           });
           self.setModel(oModelUtility, "Utility");
         },

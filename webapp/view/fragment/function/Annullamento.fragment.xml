@@ -1,0 +1,59 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+	<Panel
+		backgroundDesign="Transparent"
+		class="sapUiNoContentPadding"
+	>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.table.TableSoaFunction"
+			type="XML"
+		/>
+		<Panel
+			backgroundDesign="Transparent"
+			class="sapUiNoContentPadding"
+			visible="{= ${Utility>/SelectedItem/Zchiavesop} ? true : false}"
+		>
+			<c:Fragment
+				fragmentName="rgssoa.view.fragment.panel.Workflow"
+				type="XML"
+			/>
+		</Panel>
+		<Panel
+			backgroundDesign="Transparent"
+			class="sapUiNoContentPadding"
+			visible="false"
+		>
+			<Wizard
+				id="wizScenario1"
+				showNextButton="false"
+			>
+				<WizardStep title="{i18n>titleWizard1DocContabili}">
+					<c:Fragment
+						fragmentName="rgssoa.view.fragment.table.scenario1.TableRiepQuoteDocumentiScen1"
+						type="XML"
+					/>
+				</WizardStep>
+				<WizardStep title="{i18n>titleWizard2}">
+					<c:Fragment
+						fragmentName="rgssoa.view.fragment.soa.create.wizard2.BeneficiarioSoa"
+						type="XML"
+					/>
+				</WizardStep>
+				<WizardStep title="{i18n>titleWizard3}">
+					<c:Fragment
+						fragmentName="rgssoa.view.fragment.soa.create.wizard3.Classificazione"
+						type="XML"
+					/>
+				</WizardStep>
+				<WizardStep title="{i18n>titleWizard4}">
+					<c:Fragment
+						fragmentName="rgssoa.view.fragment.soa.create.wizard4.DatiSoa"
+						type="XML"
+					/>
+				</WizardStep>
+			</Wizard>
+		</Panel>
+	</Panel>
+</c:FragmentDefinition>

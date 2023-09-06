@@ -51,7 +51,8 @@ sap.ui.define(
           ZnumsopFrom: "",
           ZnumsopTo: "",
           ZstatoSoa: "TU",
-          Zchiaveaut: "",
+          //TODO - Mettere blank zchiaveaut
+          Zchiaveaut: "2023-080-00001",
           Ztipodisp2: "000",
           Ztipodisp3: "000",
           Zztipologia: "0",
@@ -199,6 +200,7 @@ sap.ui.define(
               Bukrs: oSelectedItem.Bukrs,
               Zstep: oSelectedItem.Zstep,
               Ztipososp: oSelectedItem.Ztipososp,
+              DetailFromFunction: false,
             });
             break;
           case "2":
@@ -208,6 +210,7 @@ sap.ui.define(
               Bukrs: oSelectedItem.Bukrs,
               Zstep: oSelectedItem.Zstep,
               Ztipososp: oSelectedItem.Ztipososp,
+              DetailFromFunction: false,
             });
             break;
           case "3":
@@ -217,6 +220,7 @@ sap.ui.define(
               Bukrs: oSelectedItem.Bukrs,
               Zstep: oSelectedItem.Zstep,
               Ztipososp: oSelectedItem.Ztipososp,
+              DetailFromFunction: false,
             });
             break;
           case "4":
@@ -226,6 +230,7 @@ sap.ui.define(
               Bukrs: oSelectedItem.Bukrs,
               Zstep: oSelectedItem.Zstep,
               Ztipososp: oSelectedItem.Ztipososp,
+              DetailFromFunction: false,
             });
             break;
         }
@@ -442,8 +447,8 @@ sap.ui.define(
           AgrName: oModelAuthorityCheck.getProperty("/AgrName"),
           Fikrs: oModelAuthorityCheck.getProperty("/Fikrs"),
           Prctr: oModelAuthorityCheck.getProperty("/Prctr"),
-          // //TODO - Rimuovere test
-          // Test: "X",
+          //TODO - Rimuovere test
+          Test: "X",
         };
 
         //Controllo i filtri di tipo BEETWEN
@@ -496,8 +501,8 @@ sap.ui.define(
           AgrName: oModelAuthorityCheck.getProperty("/AgrName"),
           Fikrs: oModelAuthorityCheck.getProperty("/Fikrs"),
           Prctr: oModelAuthorityCheck.getProperty("/Prctr"),
-          // //TODO - Rimuovere test
-          // Test: "X",
+          //TODO - Rimuovere test
+          Test: "X",
         };
 
         self

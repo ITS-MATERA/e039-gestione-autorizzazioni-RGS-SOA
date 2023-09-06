@@ -22,7 +22,7 @@
 		</f:header>
 		<f:content>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.table.TableSoaFunction"
+				fragmentName="rgssoa.view.fragment.function.Annullamento"
 				type="XML"
 			/>
 		</f:content>
@@ -37,11 +37,22 @@
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>
 					</layoutData>
 				</Button>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnStart}"
+					press="onStart"
+					visible="{Utility>/VisibleBtnStart}"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
 				<ToolbarSpacer/>
 				<Button
 					type="Emphasized"
 					text="{i18n>btnAnnullaSoa}"
 					press="onAnnulla"
+					visible="{= ${Utility>/VisibleBtnStart} === false ? true : false}"
 				>
 					<layoutData>
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>

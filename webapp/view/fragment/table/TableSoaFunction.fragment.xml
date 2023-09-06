@@ -10,6 +10,7 @@
 			items="{
 				path: 'ListSoa>/'
 			}"
+			selectionChange="onSelectedItem"
 		>
 			<headerToolbar>
 				<OverflowToolbar>
