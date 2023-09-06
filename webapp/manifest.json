@@ -208,6 +208,11 @@
           "pattern": "soa.function.RevocaInvioFirma",
           "name": "soa.function.RevocaInvioFirma",
           "target": ["soa.function.RevocaInvioFirma"]
+        },
+        {
+          "pattern": "soa.function.Firma",
+          "name": "soa.function.Firma",
+          "target": ["soa.function.Firma"]
         }
       ],
       "targets": {
@@ -313,6 +318,11 @@
         "soa.function.RevocaInvioFirma": {
           "viewName": "soa.function.RevocaInvioFirma",
           "viewId": "RevocaInvioFirma",
+          "viewLevel": 3
+        },
+        "soa.function.Firma": {
+          "viewName": "soa.function.Firma",
+          "viewId": "Firma",
           "viewLevel": 3
         }
       }

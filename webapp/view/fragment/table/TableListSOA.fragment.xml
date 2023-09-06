@@ -26,7 +26,7 @@
 					<Button
 						text="{i18n>btnAnnullamentoSoa}"
 						type="Emphasized"
-						enabled="{= ${AuthorityCheckSoa>/Annullamento} &amp;&amp; ${SoaSettings>/EnabledBtnAnnullamento} ? true : false}"
+						enabled="{= ${AuthorityCheckSoa>/Annullamento} &amp;&amp; ${SoaSettings>/EnableBtnAnnullamento} ? true : false}"
 						press="onAnnullamento"
 					/>
 					<Button
@@ -37,13 +37,14 @@
 					<Button
 						text="{i18n>btnRevocaInvioFirma}"
 						type="Emphasized"
-						enabled="{= ${AuthorityCheckSoa>/RevocaInvioFirma} &amp;&amp; ${SoaSettings>/EnabledBtnRevocaInvioFirma} ? true : false}"
+						enabled="{= ${AuthorityCheckSoa>/RevocaInvioFirma} &amp;&amp; ${SoaSettings>/EnableBtnRevocaInvioFirma} ? true : false}"
 						press="onRevocaInvioFirma"
 					/>
 					<Button
 						text="{i18n>btnFirmaSoa}"
 						type="Emphasized"
-						enabled="{AuthorityCheckSoa>/Firma}"
+						enabled="{= ${AuthorityCheckSoa>/Firma} &amp;&amp; ${SoaSettings>/EnableBtnFirma} ? true : false}"
+						press="onFirma"
 					/>
 					<Button
 						text="{i18n>btnRevocaFirma}"

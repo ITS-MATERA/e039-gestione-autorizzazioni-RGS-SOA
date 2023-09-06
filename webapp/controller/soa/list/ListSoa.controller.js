@@ -42,7 +42,8 @@ sap.ui.define(
           selectedItems: [],
           enabledBtnDetail: false,
           EnableBtnAnnullamento: false,
-          EnabledBtnRevocaInvioFirma: false,
+          EnableBtnRevocaInvioFirma: false,
+          EnableBtnFirma: false,
         });
 
         var oModelFilter = new JSONModel({
@@ -187,6 +188,7 @@ sap.ui.define(
 
         this._isAnnullamentoEnabled();
         this._isRevocaInvioFirmaEnabled();
+        this._isFirmaEnabled();
       },
 
       onDetail: function () {
@@ -229,6 +231,12 @@ sap.ui.define(
         var self = this;
 
         self.getRouter().navTo("soa.function.RevocaInvioFirma");
+      },
+
+      onFirma: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.Firma");
       },
 
       //#region PAGINATOR
@@ -668,6 +676,8 @@ sap.ui.define(
 
         if (aSelectedItems.length === 0) {
           bEnabled = false;
+          oModelSoaSettings.setProperty("/EnableBtnAnnullamento", bEnabled);
+          return;
         }
 
         aSelectedItems.map((oSelectedItem) => {
@@ -677,20 +687,19 @@ sap.ui.define(
           }
         });
 
-        oModelSoaSettings.setProperty("/EnabledBtnAnnullamento", bEnabled);
+        oModelSoaSettings.setProperty("/EnableBtnAnnullamento", bEnabled);
       },
 
       _isRevocaInvioFirmaEnabled: function () {
         var self = this;
-
         var oModelSoaSettings = self.getModel("SoaSettings");
-
         var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
-
         var bEnabled = true;
 
         if (aSelectedItems.length === 0) {
           bEnabled = false;
+          oModelSoaSettings.setProperty("/EnableBtnRevocaInvioFirma", bEnabled);
+          return;
         }
 
         //TODO - Rimettere "01"
@@ -701,7 +710,30 @@ sap.ui.define(
           }
         });
 
-        oModelSoaSettings.setProperty("/EnabledBtnRevocaInvioFirma", bEnabled);
+        oModelSoaSettings.setProperty("/EnableBtnRevocaInvioFirma", bEnabled);
+      },
+
+      _isFirmaEnabled: function () {
+        var self = this;
+        var oModelSoaSettings = self.getModel("SoaSettings");
+        var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
+        var bEnabled = true;
+
+        if (aSelectedItems.length !== 1) {
+          bEnabled = false;
+          oModelSoaSettings.setProperty("/EnableBtnFirma", bEnabled);
+          return;
+        }
+
+        //TODO - Rimettere "01"
+        aSelectedItems.map((oSelectedItem) => {
+          if (oSelectedItem.ZcodStatosop !== "00") {
+            bEnabled = false;
+            return;
+          }
+        });
+
+        oModelSoaSettings.setProperty("/EnableBtnFirma", bEnabled);
       },
 
       //#endregion

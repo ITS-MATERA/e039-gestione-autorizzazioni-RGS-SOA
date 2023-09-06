@@ -1,0 +1,24 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+	<Panel
+		backgroundDesign="Transparent"
+		class="sapUiNoContentPadding"
+	>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.table.TableSoaFunction"
+			type="XML"
+		/>
+		<Panel
+			backgroundDesign="Transparent"
+			class="sapUiNoContentPadding"
+			visible="{= ${Utility>/SelectedItem/Zchiavesop} ? true : false}"
+		>
+			<c:Fragment
+				fragmentName="rgssoa.view.fragment.panel.Workflow"
+				type="XML"
+			/>
+		</Panel>
+	</Panel>
+</c:FragmentDefinition>

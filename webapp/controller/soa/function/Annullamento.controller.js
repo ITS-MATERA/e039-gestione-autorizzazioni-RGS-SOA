@@ -61,6 +61,7 @@ sap.ui.define(
             EnableEdit: false,
             EnableAnnullamento: true,
             EnableRevocaInvioFirma: false,
+            EnableFirma: false,
             VisibleBtnStart: false,
           });
           self.setModel(oModelUtility, "Utility");
