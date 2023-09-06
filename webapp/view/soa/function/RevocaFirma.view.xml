@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="rgssoa.controller.soa.function.Firma"
+	controllerName="rgssoa.controller.soa.function.RevocaFirma"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
@@ -22,7 +22,7 @@
 		</f:header>
 		<f:content>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.function.Firma"
+				fragmentName="rgssoa.view.fragment.function.RevocaFirma"
 				type="XML"
 			/>
 		</f:content>
@@ -50,8 +50,8 @@
 				<ToolbarSpacer/>
 				<Button
 					type="Emphasized"
-					text="{i18n>btnFirmaSoa}"
-					press="onFirma"
+					text="{i18n>btnRevocaFirmaSoa}"
+					press="onRevocaFirma"
 					visible="{= ${Utility>/VisibleBtnStart} === false ? true : false}"
 				>
 					<layoutData>

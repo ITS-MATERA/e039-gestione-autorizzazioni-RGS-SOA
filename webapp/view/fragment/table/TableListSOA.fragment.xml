@@ -49,7 +49,8 @@
 					<Button
 						text="{i18n>btnRevocaFirma}"
 						type="Emphasized"
-						enabled="{AuthorityCheckSoa>/RevocaFirma}"
+						enabled="{= ${AuthorityCheckSoa>/RevocaFirma} &amp;&amp; ${SoaSettings>/EnableBtnRevocaFirma} ? true : false}"
+						press="onRevocaFirma"
 					/>
 					<Button
 						text="{i18n>btnRegistraRichiestaAnnullamento}"

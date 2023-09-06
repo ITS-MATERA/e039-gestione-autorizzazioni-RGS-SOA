@@ -20,6 +20,7 @@
 					path: 'ProspettoLiquidazione>/'
 				}"
 				selectionChange="onSelectedItem"
+				fixedLayout="false"
 			>
 				<columns>
 					<Column

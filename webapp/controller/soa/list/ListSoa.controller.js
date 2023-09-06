@@ -44,6 +44,7 @@ sap.ui.define(
           EnableBtnAnnullamento: false,
           EnableBtnRevocaInvioFirma: false,
           EnableBtnFirma: false,
+          EnablebtnRevocaFirma: false,
         });
 
         var oModelFilter = new JSONModel({
@@ -189,6 +190,7 @@ sap.ui.define(
         this._isAnnullamentoEnabled();
         this._isRevocaInvioFirmaEnabled();
         this._isFirmaEnabled();
+        this._isRevocaFirmaEnabled();
       },
 
       onDetail: function () {
@@ -237,6 +239,12 @@ sap.ui.define(
         var self = this;
 
         self.getRouter().navTo("soa.function.Firma");
+      },
+
+      onRevocaFirma: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.RevocaFirma");
       },
 
       //#region PAGINATOR
@@ -734,6 +742,29 @@ sap.ui.define(
         });
 
         oModelSoaSettings.setProperty("/EnableBtnFirma", bEnabled);
+      },
+
+      _isRevocaFirmaEnabled: function () {
+        var self = this;
+        var oModelSoaSettings = self.getModel("SoaSettings");
+        var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
+        var bEnabled = true;
+
+        if (aSelectedItems.length !== 1) {
+          bEnabled = false;
+          oModelSoaSettings.setProperty("/EnableBtnRevocaFirma", bEnabled);
+          return;
+        }
+
+        //TODO - Rimettere "02"
+        aSelectedItems.map((oSelectedItem) => {
+          if (oSelectedItem.ZcodStatosop !== "00") {
+            bEnabled = false;
+            return;
+          }
+        });
+
+        oModelSoaSettings.setProperty("/EnableBtnRevocaFirma", bEnabled);
       },
 
       //#endregion

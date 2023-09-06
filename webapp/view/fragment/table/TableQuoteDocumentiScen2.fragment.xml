@@ -21,6 +21,7 @@
 					path: 'QuoteDocumentiScen2>/'
 				}"
 				selectionChange="onSelectedItem"
+				fixedLayout="false"
 			>
 				<columns>
 					<Column

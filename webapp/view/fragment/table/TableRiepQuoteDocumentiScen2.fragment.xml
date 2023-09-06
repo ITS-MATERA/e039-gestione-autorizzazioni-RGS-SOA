@@ -13,9 +13,12 @@
 			</OverflowToolbar>
 		</headerToolbar>
 		<content>
-			<Table items="{
-				path: 'Soa>/data'
-			}">
+			<Table
+				items="{
+					path: 'Soa>/data'
+				}"
+				fixedLayout="false"
+			>
 				<columns>
 					<Column
 						minScreenWidth="Desktop"
