@@ -198,6 +198,11 @@
           "pattern": "soa.detail.scenery.Scenario4/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
           "name": "soa.detail.scenery.Scenario4",
           "target": ["soa.detail.scenery.Scenario4"]
+        },
+        {
+          "pattern": "soa.function.Annullamento",
+          "name": "soa.function.Annullamento",
+          "target": ["soa.function.Annullamento"]
         }
       ],
       "targets": {
@@ -282,17 +287,22 @@
         },
         "soa.detail.scenery.Scenario2": {
           "viewName": "soa.detail.scenery.Scenario2",
-          "viewId": "Scenario1Detail",
+          "viewId": "Scenario2Detail",
           "viewLevel": 3
         },
         "soa.detail.scenery.Scenario3": {
           "viewName": "soa.detail.scenery.Scenario3",
-          "viewId": "Scenario1Detail",
+          "viewId": "Scenario3Detail",
           "viewLevel": 3
         },
         "soa.detail.scenery.Scenario4": {
           "viewName": "soa.detail.scenery.Scenario4",
-          "viewId": "Scenario1Detail",
+          "viewId": "Scenario4Detail",
+          "viewLevel": 3
+        },
+        "soa.function.Annullamento": {
+          "viewName": "soa.function.Annullamento",
+          "viewId": "Annullamento",
           "viewLevel": 3
         }
       }

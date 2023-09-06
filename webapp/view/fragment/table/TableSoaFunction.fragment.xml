@@ -2,75 +2,18 @@
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
 >
-	<Panel
-		backgroundDesign="Transparent"
-		id="pnlListSoa"
-		visible="false"
-	>
+	<Panel backgroundDesign="Transparent">
 		<Table
-			id="tblListSoa"
-			mode="MultiSelect"
-			fixedLayout="false"
-			contextualWidth="Auto"
+			id="tblSoaFunction"
+			mode="{Utility>/TableMode}"
 			growing="true"
-			selectionChange="onSelectedItem"
-			updateFinished="onUpdateFinished"
 			items="{
-				path: 'SOASet>/'
+				path: 'ListSoa>/'
 			}"
 		>
 			<headerToolbar>
 				<OverflowToolbar>
-					<Title text="{SoaSettings>/listSOATableTitle}"/>
-					<ToolbarSpacer/>
-					<Button
-						text="{i18n>btnAnnullamentoSoa}"
-						type="Emphasized"
-						enabled="{= ${AuthorityCheckSoa>/Annullamento} &amp;&amp; ${SoaSettings>/EnabledBtnAnnullamento} ? true : false}"
-						press="onAnnullamento"
-					/>
-					<Button
-						text="{i18n>btnInvioFirma}"
-						type="Emphasized"
-						enabled="{AuthorityCheckSoa>/InvioFirma}"
-					/>
-					<Button
-						text="{i18n>btnRevocaInvioFirma}"
-						type="Emphasized"
-						enabled="{AuthorityCheckSoa>/RevocaInvioFirma}"
-					/>
-					<Button
-						text="{i18n>btnFirmaSoa}"
-						type="Emphasized"
-						enabled="{AuthorityCheckSoa>/Firma}"
-					/>
-					<Button
-						text="{i18n>btnRevocaFirma}"
-						type="Emphasized"
-						enabled="{AuthorityCheckSoa>/RevocaFirma}"
-					/>
-					<Button
-						text="{i18n>btnRegistraRichiestaAnnullamento}"
-						type="Emphasized"
-						enabled="{AuthorityCheckSoa>/RegistrazioneRichAnn}"
-					/>
-					<Button
-						text="{i18n>btnCancellazioneRichiestaAnnullamento}"
-						type="Emphasized"
-						enabled="{AuthorityCheckSoa>/CancellazioneRichAnn}"
-					/>
-					<Button
-						text="{i18n>btnDettaglio}"
-						type="Emphasized"
-						icon="sap-icon://sys-find"
-						press="onDetail"
-						enabled="{= ${SoaSettings>/enabledBtnDetail} &amp;&amp; ${AuthorityCheckSoa>/Dettaglio} ? true : false}"
-					/>
-					<Button
-						text="{i18n>btnExport}"
-						type="Emphasized"
-						icon="sap-icon://excel-attachment"
-					/>
+					<Title text="Lista SOA"/>
 				</OverflowToolbar>
 			</headerToolbar>
 			<columns>
@@ -158,32 +101,28 @@
 			<items>
 				<ColumnListItem vAlign="Middle">
 					<cells>
-						<ObjectIdentifier text="{SOASet>Zchiavesop}"/>
+						<Text text="{ListSoa>Zchiavesop}"/>
 						<Text text="{
-							path: 'SOASet>Zdatasop',
+							path: 'ListSoa>Zdatasop',
 							type: 'sap.ui.model.type.Date',
 							formatOptions: {
 								pattern: 'dd.MM.yyyy'
 							}
 						}"/>
-						<Text text="{SOASet>ZzragSoc}"/>
-						<Text text="{SOASet>Text40}"/>
-						<Text text="{SOASet>ZzDescebe}"/>
-						<Text text="{SOASet>Fipos}"/>
-						<Text text="{SOASet>Fistl}"/>
+						<Text text="{ListSoa>ZzragSoc}"/>
+						<Text text="{ListSoa>Text40}"/>
+						<Text text="{ListSoa>ZzDescebe}"/>
+						<Text text="{ListSoa>Fipos}"/>
+						<Text text="{ListSoa>Fistl}"/>
 						<Text text="{
-							path: 'SOASet>Zimptot',
+							path: 'ListSoa>Zimptot',
 							formatter: '.formatter.convertFormattedNumber'
 						}"/>
-						<Text text="{SOASet>Zdesctipodisp3}"/>
-						<Text text="{SOASet>DescStateSoa}"/>
+						<Text text="{ListSoa>Zdesctipodisp3}"/>
+						<Text text="{ListSoa>DescStateSoa}"/>
 					</cells>
 				</ColumnListItem>
 			</items>
 		</Table>
-		<c:Fragment
-			fragmentName="rgssoa.view.fragment.soa.Paginator"
-			type="XML"
-		/>
 	</Panel>
 </c:FragmentDefinition>

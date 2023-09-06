@@ -41,6 +41,7 @@ sap.ui.define(
           totalItems: 0,
           selectedItems: [],
           enabledBtnDetail: false,
+          EnableBtnAnnullamento: false,
         });
 
         var oModelFilter = new JSONModel({
@@ -96,13 +97,15 @@ sap.ui.define(
       },
 
       onNavBack: function () {
-        history.go(-1);
+        var self = this;
+
+        self.getRouter().navTo("startpage");
       },
 
       onBeforeRendering: function () {
         var self = this;
 
-        self.getPermissionsListSoa();
+        self.getPermissionsListSoa(true, function (callback) {});
       },
 
       onAfterRendering: function () {
@@ -172,6 +175,15 @@ sap.ui.define(
           "/enabledBtnDetail",
           aSelectedItems.length === 1
         );
+
+        oModelSoaSettings.setProperty(
+          "/EnabledBtnAnnullamento",
+          aSelectedItems.length > 0
+        );
+
+        var oModelSelectedItems = new JSONModel(aSelectedItems);
+        sap.ui.getCore().setModel(oModelSelectedItems, "SelectedItems");
+
         oModelSoaSettings.setProperty("/selectedItem", aSelectedItems);
       },
       onDetail: function () {
@@ -217,6 +229,11 @@ sap.ui.define(
             });
             break;
         }
+      },
+      onAnnullamento: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.Annullamento");
       },
 
       //#region PAGINATOR
@@ -418,9 +435,15 @@ sap.ui.define(
         var oPaginatorModel = self.getModel(PAGINATOR_MODEL);
         var oPaginator = oView.byId("pnlPaginator");
         var oListSoa = oView.byId("pnlListSoa");
+        var oModelAuthorityCheck = self.getModel("AuthorityCheckSoa");
         var urlParameters = {
           $top: oPaginatorModel.getProperty("/numRecordsForPage"),
           $skip: oPaginatorModel.getProperty("/paginatorSkip"),
+          AgrName: oModelAuthorityCheck.getProperty("/AgrName"),
+          Fikrs: oModelAuthorityCheck.getProperty("/Fikrs"),
+          Prctr: oModelAuthorityCheck.getProperty("/Prctr"),
+          // //TODO - Rimuovere test
+          // Test: "X",
         };
 
         //Controllo i filtri di tipo BEETWEN
@@ -468,11 +491,21 @@ sap.ui.define(
         var iNumRecordsForPage =
           oPaginatorModel.getProperty("/numRecordsForPage");
 
+        var oModelAuthorityCheck = self.getModel("AuthorityCheckSoa");
+        var urlParameters = {
+          AgrName: oModelAuthorityCheck.getProperty("/AgrName"),
+          Fikrs: oModelAuthorityCheck.getProperty("/Fikrs"),
+          Prctr: oModelAuthorityCheck.getProperty("/Prctr"),
+          // //TODO - Rimuovere test
+          // Test: "X",
+        };
+
         self
           .getModel()
           .metadataLoaded()
           .then(function () {
             oDataModel.read("/" + SOA_ENTITY_SET + "/$count", {
+              urlParameters: urlParameters,
               filters: oFilters,
               success: function (data) {
                 self.getModel(SOA_MODEL).setProperty("/totalItems", data);

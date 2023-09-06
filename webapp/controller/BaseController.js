@@ -423,7 +423,7 @@ sap.ui.define(
           new sap.ui.model.Filter({
             path: "SEM_OBJ",
             operator: sap.ui.model.FilterOperator.EQ,
-            value1: "COSP_R3_FIORI_E039",
+            value1: "ZS4_SOA_SRV",
           })
         );
         aFilters.push(
@@ -481,7 +481,7 @@ sap.ui.define(
       /** --------------------CONTROLLI AUTORIZZATIVI SOA-------------------- */
       //#region
 
-      getPermissionsListSoa: function () {
+      getPermissionsListSoa: function (bRedirect, callback) {
         var self = this;
         var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
         var oAuthModel = self.getModel("ZSS4_CA_CONI_VISIBILITA_SRV");
@@ -491,7 +491,6 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "SEM_OBJ", "ZS4_SOA_SRV");
         self.setFilterEQ(aFilters, "AUTH_OBJ", "Z_GEST_SOA");
 
-        
         oAuthModel.read("/ZES_CONIAUTH_SET", {
           filters: aFilters,
           success: function (data) {
@@ -500,8 +499,20 @@ sap.ui.define(
             oModelAuthoryCheck.setProperty("/Fikrs", aData[0].FIKRS);
             oModelAuthoryCheck.setProperty("/Prctr", aData[0].PRCTR);
             self._setUserPermissions(aData);
+            callback({
+              success: true,
+              permission: oModelAuthoryCheck.getData(),
+            });
           },
-          error: function (error) {},
+          error: function (error) {
+            callback({
+              success: false,
+              permission: oModelAuthoryCheck.getData(),
+            });
+            if (bRedirect) {
+              self.getRouter().navTo("startpage");
+            }
+          },
         });
 
         // oModelAuthoryCheck.setProperty(

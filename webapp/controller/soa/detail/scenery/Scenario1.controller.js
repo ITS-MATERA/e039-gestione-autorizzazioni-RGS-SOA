@@ -25,6 +25,7 @@ sap.ui.define(
             AddPositions: false,
             DeletePositions: false,
             EnableEdit: false,
+            EnableAnnullamento: false,
           });
           self.setModel(oModelUtility, "Utility");
 
@@ -1306,6 +1307,7 @@ sap.ui.define(
             AddPositions: false,
             DeletePositions: false,
             EnableEdit: bEnableEdit,
+            EnableAnnullamento: false,
           });
           self.setModel(oModelUtility, "Utility");
         },

@@ -17,7 +17,6 @@
 				<Button
 					text="{i18n>btnAuthorisation}"
 					type="Emphasized"
-					enabled="{AuthorityCheckAuth>/Z26Enabled}"
 					press="onAuth"
 				/>
 			</VBox>
@@ -30,7 +29,6 @@
 					text="{i18n>btnSOA}"
 					type="Emphasized"
 					press="onSOA"
-					enabled="{AuthorityCheckSoa>/Gestione}"
 				/>
 			</VBox>
 		</FlexBox>

@@ -13,6 +13,13 @@
 		>
 			<items>
 				<IconTabFilter
+					key="Annullamento"
+					text="{i18n>iconTabAnnullamento}"
+					icon="sap-icon://edit"
+					visible="{Utility>/EnableAnnullamento}"
+				/>
+				<IconTabSeparator visible="{Utility>/EnableAnnullamento}"/>
+				<IconTabFilter
 					key="Rettifica"
 					text="{i18n>iconTabEdit}"
 					icon="sap-icon://edit"

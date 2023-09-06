@@ -53,6 +53,8 @@ sap.ui.define(
 
       _onObjectMatched: function (oEvent) {
         var self = this;
+
+        self.getAuthorityCheck(function (callback) {});
       },
 
       onRegisterAuth: function (oEvent) {
@@ -61,6 +63,10 @@ sap.ui.define(
             .getView()
             .getModel(MODEL_ENTITY)
             .getProperty("/RegisterSet");
+
+        var oModelAuthorityCheck = self.getModel(self.AUTHORITY_CHECK_AUTH);
+
+        console.log(oModelAuthorityCheck);
 
         if (
           !entity.Gjahr ||
@@ -110,27 +116,10 @@ sap.ui.define(
 
                 oModel.create("/AutorizzazioneSet", entityCreate, {
                   urlParameters: {
-                    AutorityRole: self
-                      .getModel(self.AUTHORITY_CHECK_AUTH)
-                      .getProperty("/AGR_NAME")
-                      ? self
-                          .getModel(self.AUTHORITY_CHECK_AUTH)
-                          .getProperty("/AGR_NAME")
-                      : null,
-                    AutorityFikrs: self
-                      .getModel(self.AUTHORITY_CHECK_AUTH)
-                      .getProperty("/FIKRS")
-                      ? self
-                          .getModel(self.AUTHORITY_CHECK_AUTH)
-                          .getProperty("/FIKRS")
-                      : null,
-                    AutorityPrctr: self
-                      .getModel(self.AUTHORITY_CHECK_AUTH)
-                      .getProperty("/PRCTR")
-                      ? self
-                          .getModel(self.AUTHORITY_CHECK_AUTH)
-                          .getProperty("/PRCTR")
-                      : null,
+                    AutorityRole:
+                      oModelAuthorityCheck?.getProperty("/AGR_NAME"),
+                    AutorityFikrs: oModelAuthorityCheck?.getProperty("/FIKRS"),
+                    AutorityPrctr: oModelAuthorityCheck?.getProperty("/PRCTR"),
                   },
                   success: function (data, oResponse) {
                     var sapMessage = JSON.parse(
