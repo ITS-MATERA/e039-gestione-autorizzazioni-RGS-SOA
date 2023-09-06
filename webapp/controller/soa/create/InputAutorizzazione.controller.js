@@ -82,7 +82,9 @@ sap.ui.define(
             oArguments?.SoaType
           );
 
-          self.getPermissionsListSoa(true, function (callback) {});
+          self.getPermissionsListSoa(true, function (callback) {
+            self.setModelAuthorityCheck(callback?.permissions);
+          });
         },
         onNavBack: function () {
           var self = this;

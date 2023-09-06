@@ -4,26 +4,7 @@ sap.ui.define(
     "use strict";
 
     return BaseController.extend("rgssoa.controller.StartPage", {
-      onInit: function () {
-        var self = this;
-
-        var oModelAuthoryCheckSoa = new JSONModel({
-          AgrName: "",
-          Fikrs: "",
-          Prctr: "",
-          Gestione: false,
-          Registra: false,
-          Dettaglio: false,
-          Annullamento: false,
-          InvioFirma: false,
-          RevocaInvioFirma: false,
-          Firma: false,
-          RevocaFirma: false,
-          RegistrazioneRichAnn: false,
-          CancellazioneRichAnn: false,
-        });
-        self.setModel(oModelAuthoryCheckSoa, "AuthorityCheckSoa");
-      },
+      onInit: function () {},
 
       onNavBack: function () {
         history.go(-1);
@@ -56,7 +37,7 @@ sap.ui.define(
             return;
           }
 
-          if (!callback?.permission?.Gestione) {
+          if (!callback?.permissions?.Gestione) {
             MessageBox.error("Utente Non Autorizzato", {
               actions: [MessageBox.Action.OK],
             });

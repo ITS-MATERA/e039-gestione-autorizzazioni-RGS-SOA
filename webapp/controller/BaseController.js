@@ -483,7 +483,6 @@ sap.ui.define(
 
       getPermissionsListSoa: function (bRedirect, callback) {
         var self = this;
-        var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
         var oAuthModel = self.getModel("ZSS4_CA_CONI_VISIBILITA_SRV");
 
         var aFilters = [];
@@ -491,92 +490,85 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "SEM_OBJ", "ZS4_SOA_SRV");
         self.setFilterEQ(aFilters, "AUTH_OBJ", "Z_GEST_SOA");
 
+        var oAuthoryCheck = {
+          AgrName: "",
+          Fikrs: "",
+          Prctr: "",
+          Gestione: false,
+          Registra: false,
+          Dettaglio: false,
+          Annullamento: false,
+          InvioFirma: false,
+          RevocaInvioFirma: false,
+          Firma: false,
+          RevocaFirma: false,
+          RegistrazioneRichAnn: false,
+          CancellazioneRichAnn: false,
+        };
+
         oAuthModel.read("/ZES_CONIAUTH_SET", {
           filters: aFilters,
           success: function (data) {
             var aData = data.results;
-            oModelAuthoryCheck.setProperty("/AgrName", aData[0].AGR_NAME);
-            oModelAuthoryCheck.setProperty("/Fikrs", aData[0].FIKRS);
-            oModelAuthoryCheck.setProperty("/Prctr", aData[0].PRCTR);
-            self._setUserPermissions(aData);
+            self._setUserPermissions(aData, oAuthoryCheck);
             callback({
               success: true,
-              permission: oModelAuthoryCheck.getData(),
+              permissions: oAuthoryCheck,
             });
           },
           error: function (error) {
             callback({
               success: false,
-              permission: oModelAuthoryCheck.getData(),
+              permissions: oAuthoryCheck,
             });
             if (bRedirect) {
               self.getRouter().navTo("startpage");
             }
           },
         });
-
-        // oModelAuthoryCheck.setProperty(
-        //   "/AgrName",
-        //   "MEF:S:M000:COSP:ACN_TEST_40"
-        // );
-        // oModelAuthoryCheck.setProperty("/Fikrs", "S001");
-        // oModelAuthoryCheck.setProperty("/Prctr", "*");
-        // oModelAuthoryCheck.setProperty("/Gestione", true);
-        // oModelAuthoryCheck.setProperty("/Registra", true);
-        // oModelAuthoryCheck.setProperty("/Dettaglio", true);
-        // oModelAuthoryCheck.setProperty("/Annullamento", true);
-        // oModelAuthoryCheck.setProperty("/InvioFirma", true);
-        // oModelAuthoryCheck.setProperty("/RevocaInvioFirma", true);
-        // oModelAuthoryCheck.setProperty("/Firma", true);
-        // oModelAuthoryCheck.setProperty("/RevocaFirma", true);
-        // oModelAuthoryCheck.setProperty("/RegistrazioneRichAnn", true);
-        // oModelAuthoryCheck.setProperty("/CancellazioneRichAnn", true);
       },
 
-      _setUserPermissions: function (aData) {
-        var self = this;
-        var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
+      _setUserPermissions: function (aData, oAuth) {
+        oAuth.AgrName = aData[0].AGR_NAME;
+        oAuth.Fikrs = aData[0].FIKRS;
+        oAuth.Prctr = aData[0].PRCTR;
+        oAuth.Gestione = this._isUserAuthorized(aData, "ACTV_4", "Z28");
+        oAuth.Registra = this._isUserAuthorized(aData, "ACTV_1", "Z01");
+        oAuth.Dettaglio = this._isUserAuthorized(aData, "ACTV_3", "Z03");
+        oAuth.Annullamento = this._isUserAuthorized(aData, "ACTV_4", "Z07");
+        oAuth.InvioFirma = this._isUserAuthorized(aData, "ACTV_4", "Z04");
+        oAuth.RevocaInvioFirma = this._isUserAuthorized(aData, "ACTV_4", "Z05");
+        oAuth.Firma = this._isUserAuthorized(aData, "ACTV_4", "Z06");
+        oAuth.RevocaFirma = this._isUserAuthorized(aData, "ACTV_4", "Z27");
+        oAuth.RegistrazioneRichAnn = this._isUserAuthorized(
+          aData,
+          "ACTV_4",
+          "Z08"
+        );
+        oAuth.CancellazioneRichAnn = this._isUserAuthorized(
+          aData,
+          "ACTV_4",
+          "Z09"
+        );
+      },
 
-        oModelAuthoryCheck.setProperty(
-          "/Gestione",
-          this._isUserAuthorized(aData, "ACTV_4", "Z28")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/Registra",
-          this._isUserAuthorized(aData, "ACTV_1", "Z01")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/Dettaglio",
-          this._isUserAuthorized(aData, "ACTV_3", "Z03")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/Annullamento",
-          this._isUserAuthorized(aData, "ACTV_4", "Z07")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/InvioFirma",
-          this._isUserAuthorized(aData, "ACTV_4", "Z04")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/RevocaInvioFirma",
-          this._isUserAuthorized(aData, "ACTV_4", "Z05")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/Firma",
-          this._isUserAuthorized(aData, "ACTV_4", "Z06")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/RevocaFirma",
-          this._isUserAuthorized(aData, "ACTV_4", "Z27")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/RegistrazioneRichAnn",
-          this._isUserAuthorized(aData, "ACTV_4", "Z08")
-        );
-        oModelAuthoryCheck.setProperty(
-          "/CancellazioneRichAnn",
-          this._isUserAuthorized(aData, "ACTV_4", "Z09")
-        );
+      setModelAuthorityCheck: function (oAuth) {
+        var self = this;
+        var oModel = self.getModel("AuthorityCheckSoa");
+
+        oModel.setProperty("/AgrName", oAuth.AgrName);
+        oModel.setProperty("/Fikrs", oAuth.Fikrs);
+        oModel.setProperty("/Prctr", oAuth.Prctr);
+        oModel.setProperty("/Gestione", oAuth.Gestione);
+        oModel.setProperty("/Registra", oAuth.Registra);
+        oModel.setProperty("/Dettaglio", oAuth.Dettaglio);
+        oModel.setProperty("/Annullamento", oAuth.Annullamento);
+        oModel.setProperty("/InvioFirma", oAuth.InvioFirma);
+        oModel.setProperty("/RevocaInvioFirma", oAuth.RevocaInvioFirma);
+        oModel.setProperty("/Firma", oAuth.Firma);
+        oModel.setProperty("/RevocaFirma", oAuth.RevocaFirma);
+        oModel.setProperty("/RegistrazioneRichAnn", oAuth.RegistrazioneRichAnn);
+        oModel.setProperty("/CancellazioneRichAnn", oAuth.CancellazioneRichAnn);
       },
 
       _isUserAuthorized: function (array, param, value) {

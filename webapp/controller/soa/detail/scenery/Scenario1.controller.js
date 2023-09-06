@@ -26,6 +26,7 @@ sap.ui.define(
             DeletePositions: false,
             EnableEdit: false,
             EnableAnnullamento: false,
+            EnableRevocaInvioFirma: false,
             DetailFromFunction: false,
           });
           self.setModel(oModelUtility, "Utility");
@@ -1066,7 +1067,7 @@ sap.ui.define(
 
           oModelUtility.setProperty(
             "/DetailFromFunction",
-            oParameters.DetailFromFunction
+            oParameters.DetailFromFunction === "true" ? true : false
           );
 
           oModel.read("/" + sPath, {

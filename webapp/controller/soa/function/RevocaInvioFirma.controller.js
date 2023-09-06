@@ -4,14 +4,14 @@ sap.ui.define(
     "use strict";
 
     return BaseSoaController.extend(
-      "rgssoa.controller.soa.function.Annullamento",
+      "rgssoa.controller.soa.function.RevocaInvioFirma",
       {
         onInit: function () {
           var self = this;
 
           self
             .getRouter()
-            .getRoute("soa.function.Annullamento")
+            .getRoute("soa.function.RevocaInvioFirma")
             .attachPatternMatched(this._onObjectMatched, this);
         },
 
@@ -35,7 +35,7 @@ sap.ui.define(
               oModelUtility.setProperty("/TableMode", "SingleSelectLeft");
               break;
             }
-            case "Annullamento": {
+            case "RevocaInvioFirma": {
               self.clearModel("WFStateSoa");
               oModelUtility.setProperty("/SelectedItem", {});
               oModelUtility.setProperty("/VisibleBtnStart", false);
@@ -48,44 +48,6 @@ sap.ui.define(
               break;
             }
           }
-        },
-
-        _onObjectMatched: function () {
-          var self = this;
-
-          //Setto i modelli
-          var oModelUtility = new JSONModel({
-            Function: "Annullamento",
-            TableMode: "None",
-            SelectedItem: {},
-            EnableEdit: false,
-            EnableAnnullamento: true,
-            EnableRevocaInvioFirma: false,
-            VisibleBtnStart: false,
-          });
-          self.setModel(oModelUtility, "Utility");
-
-          //Controllo se l'utente è autorizzato
-          self.getPermissionsListSoa(false, function (callback) {
-            if (!callback.permissions.Annullamento) {
-              MessageBox.error("Utente Non Autorizzato", {
-                actions: [MessageBox.Action.OK],
-                onClose: function () {
-                  self.getRouter().navTo("soa.list.ListSoa");
-                },
-              });
-            }
-          });
-
-          //Controllo se ci sono record selezionati dalla lista
-          var oModelSelectedItems = sap.ui.getCore().getModel("SelectedItems");
-
-          if (!oModelSelectedItems) {
-            self.getRouter().navTo("soa.list.ListSoa");
-          }
-
-          //Setto il modello per la tabella
-          self.setModel(oModelSelectedItems, "ListSoa");
         },
 
         onSelectedItem: function (oEvent) {
@@ -159,6 +121,44 @@ sap.ui.define(
                 .navTo("soa.detail.scenery.Scenario4", oParameters);
               break;
           }
+        },
+
+        _onObjectMatched: function () {
+          var self = this;
+
+          //Setto i modelli
+          var oModelUtility = new JSONModel({
+            Function: "RevocaInvioFirma",
+            TableMode: "None",
+            SelectedItem: {},
+            EnableEdit: false,
+            EnableAnnullamento: false,
+            EnableRevocaInvioFirma: true,
+            VisibleBtnStart: false,
+          });
+          self.setModel(oModelUtility, "Utility");
+
+          //Controllo se l'utente è autorizzato
+          self.getPermissionsListSoa(false, function (callback) {
+            if (!callback.permissions.RevocaInvioFirma) {
+              MessageBox.error("Utente Non Autorizzato", {
+                actions: [MessageBox.Action.OK],
+                onClose: function () {
+                  self.getRouter().navTo("soa.list.ListSoa");
+                },
+              });
+            }
+          });
+
+          //Controllo se ci sono record selezionati dalla lista
+          var oModelSelectedItems = sap.ui.getCore().getModel("SelectedItems");
+
+          if (!oModelSelectedItems) {
+            self.getRouter().navTo("soa.list.ListSoa");
+          }
+
+          //Setto il modello per la tabella
+          self.setModel(oModelSelectedItems, "ListSoa");
         },
       }
     );

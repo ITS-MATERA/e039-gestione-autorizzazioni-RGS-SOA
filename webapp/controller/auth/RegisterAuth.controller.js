@@ -66,8 +66,6 @@ sap.ui.define(
 
         var oModelAuthorityCheck = self.getModel(self.AUTHORITY_CHECK_AUTH);
 
-        console.log(oModelAuthorityCheck);
-
         if (
           !entity.Gjahr ||
           !entity.Zimpaut ||

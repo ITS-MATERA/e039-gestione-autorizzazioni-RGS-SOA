@@ -42,6 +42,7 @@ sap.ui.define(
           selectedItems: [],
           enabledBtnDetail: false,
           EnableBtnAnnullamento: false,
+          EnabledBtnRevocaInvioFirma: false,
         });
 
         var oModelFilter = new JSONModel({
@@ -106,7 +107,9 @@ sap.ui.define(
       onBeforeRendering: function () {
         var self = this;
 
-        self.getPermissionsListSoa(true, function (callback) {});
+        self.getPermissionsListSoa(true, function (callback) {
+          self.setModelAuthorityCheck(callback?.permissions);
+        });
       },
 
       onAfterRendering: function () {
@@ -177,68 +180,55 @@ sap.ui.define(
           aSelectedItems.length === 1
         );
 
-        oModelSoaSettings.setProperty(
-          "/EnabledBtnAnnullamento",
-          aSelectedItems.length > 0
-        );
-
         var oModelSelectedItems = new JSONModel(aSelectedItems);
         sap.ui.getCore().setModel(oModelSelectedItems, "SelectedItems");
 
-        oModelSoaSettings.setProperty("/selectedItem", aSelectedItems);
+        oModelSoaSettings.setProperty("/selectedItems", aSelectedItems);
+
+        this._isAnnullamentoEnabled();
+        this._isRevocaInvioFirmaEnabled();
       },
+
       onDetail: function () {
         var self = this;
         var oModelSoaSettings = self.getModel("SoaSettings");
         var oSelectedItem = oModelSoaSettings.getProperty("/selectedItems")[0];
 
+        var oParameters = {
+          Gjahr: oSelectedItem.Gjahr,
+          Zchiavesop: oSelectedItem.Zchiavesop,
+          Bukrs: oSelectedItem.Bukrs,
+          Zstep: oSelectedItem.Zstep,
+          Ztipososp: oSelectedItem.Ztipososp,
+          DetailFromFunction: false,
+        };
+
         switch (oSelectedItem?.Ztipopag) {
           case "1":
-            self.getRouter().navTo("soa.detail.scenery.Scenario1", {
-              Gjahr: oSelectedItem.Gjahr,
-              Zchiavesop: oSelectedItem.Zchiavesop,
-              Bukrs: oSelectedItem.Bukrs,
-              Zstep: oSelectedItem.Zstep,
-              Ztipososp: oSelectedItem.Ztipososp,
-              DetailFromFunction: false,
-            });
+            self.getRouter().navTo("soa.detail.scenery.Scenario1", oParameters);
             break;
           case "2":
-            self.getRouter().navTo("soa.detail.scenery.Scenario2", {
-              Gjahr: oSelectedItem.Gjahr,
-              Zchiavesop: oSelectedItem.Zchiavesop,
-              Bukrs: oSelectedItem.Bukrs,
-              Zstep: oSelectedItem.Zstep,
-              Ztipososp: oSelectedItem.Ztipososp,
-              DetailFromFunction: false,
-            });
+            self.getRouter().navTo("soa.detail.scenery.Scenario2", oParameters);
             break;
           case "3":
-            self.getRouter().navTo("soa.detail.scenery.Scenario3", {
-              Gjahr: oSelectedItem.Gjahr,
-              Zchiavesop: oSelectedItem.Zchiavesop,
-              Bukrs: oSelectedItem.Bukrs,
-              Zstep: oSelectedItem.Zstep,
-              Ztipososp: oSelectedItem.Ztipososp,
-              DetailFromFunction: false,
-            });
+            self.getRouter().navTo("soa.detail.scenery.Scenario3", oParameters);
             break;
           case "4":
-            self.getRouter().navTo("soa.detail.scenery.Scenario4", {
-              Gjahr: oSelectedItem.Gjahr,
-              Zchiavesop: oSelectedItem.Zchiavesop,
-              Bukrs: oSelectedItem.Bukrs,
-              Zstep: oSelectedItem.Zstep,
-              Ztipososp: oSelectedItem.Ztipososp,
-              DetailFromFunction: false,
-            });
+            self.getRouter().navTo("soa.detail.scenery.Scenario4", oParameters);
             break;
         }
       },
+
       onAnnullamento: function () {
         var self = this;
 
         self.getRouter().navTo("soa.function.Annullamento");
+      },
+
+      onRevocaInvioFirma: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.RevocaInvioFirma");
       },
 
       //#region PAGINATOR
@@ -665,6 +655,53 @@ sap.ui.define(
             });
           });
         }
+      },
+
+      _isAnnullamentoEnabled: function () {
+        var self = this;
+
+        var oModelSoaSettings = self.getModel("SoaSettings");
+
+        var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
+
+        var bEnabled = true;
+
+        if (aSelectedItems.length === 0) {
+          bEnabled = false;
+        }
+
+        aSelectedItems.map((oSelectedItem) => {
+          if (oSelectedItem.ZcodStatosop !== "00") {
+            bEnabled = false;
+            return;
+          }
+        });
+
+        oModelSoaSettings.setProperty("/EnabledBtnAnnullamento", bEnabled);
+      },
+
+      _isRevocaInvioFirmaEnabled: function () {
+        var self = this;
+
+        var oModelSoaSettings = self.getModel("SoaSettings");
+
+        var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
+
+        var bEnabled = true;
+
+        if (aSelectedItems.length === 0) {
+          bEnabled = false;
+        }
+
+        //TODO - Rimettere "01"
+        aSelectedItems.map((oSelectedItem) => {
+          if (oSelectedItem.ZcodStatosop !== "00") {
+            bEnabled = false;
+            return;
+          }
+        });
+
+        oModelSoaSettings.setProperty("/EnabledBtnRevocaInvioFirma", bEnabled);
       },
 
       //#endregion

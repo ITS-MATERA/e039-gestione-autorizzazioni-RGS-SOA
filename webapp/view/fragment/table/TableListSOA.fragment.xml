@@ -37,7 +37,8 @@
 					<Button
 						text="{i18n>btnRevocaInvioFirma}"
 						type="Emphasized"
-						enabled="{AuthorityCheckSoa>/RevocaInvioFirma}"
+						enabled="{= ${AuthorityCheckSoa>/RevocaInvioFirma} &amp;&amp; ${SoaSettings>/EnabledBtnRevocaInvioFirma} ? true : false}"
+						press="onRevocaInvioFirma"
 					/>
 					<Button
 						text="{i18n>btnFirmaSoa}"
