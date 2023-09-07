@@ -195,6 +195,7 @@ sap.ui.define(
         this._isRevocaFirmaEnabled();
         this._isInvioFirmaEnabled();
         this._isRegistrazioneRichAnnEnabled();
+        this._isCancellazioneRichAnnEnabled();
       },
 
       onDetail: function () {
@@ -225,42 +226,6 @@ sap.ui.define(
             self.getRouter().navTo("soa.detail.scenery.Scenario4", oParameters);
             break;
         }
-      },
-
-      onAnnullamento: function () {
-        var self = this;
-
-        self.getRouter().navTo("soa.function.Annullamento");
-      },
-
-      onRevocaInvioFirma: function () {
-        var self = this;
-
-        self.getRouter().navTo("soa.function.RevocaInvioFirma");
-      },
-
-      onFirma: function () {
-        var self = this;
-
-        self.getRouter().navTo("soa.function.Firma");
-      },
-
-      onRevocaFirma: function () {
-        var self = this;
-
-        self.getRouter().navTo("soa.function.RevocaFirma");
-      },
-
-      onInvioFirma: function () {
-        var self = this;
-
-        self.getRouter().navTo("soa.function.InvioFirma");
-      },
-
-      onRegistrazioneRichAnn: function () {
-        var self = this;
-
-        self.getRouter().navTo("soa.function.RegistrazioneRichAnn");
       },
 
       //#region PAGINATOR
@@ -689,6 +654,51 @@ sap.ui.define(
         }
       },
 
+      //#endregion
+
+      //#region GESTIONE FUNZIONALITA'
+      onAnnullamento: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.Annullamento");
+      },
+
+      onRevocaInvioFirma: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.RevocaInvioFirma");
+      },
+
+      onFirma: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.Firma");
+      },
+
+      onRevocaFirma: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.RevocaFirma");
+      },
+
+      onInvioFirma: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.InvioFirma");
+      },
+
+      onRegistrazioneRichAnn: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.RegistrazioneRichAnn");
+      },
+
+      onCancellazioneRichAnn: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.CancellazioneRichAnn");
+      },
+
       _isAnnullamentoEnabled: function () {
         var self = this;
 
@@ -838,7 +848,41 @@ sap.ui.define(
         );
       },
 
-      //#endregion
+      _isCancellazioneRichAnnEnabled: function () {
+        var self = this;
+        var oModelSoaSettings = self.getModel("SoaSettings");
+        var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
+        var oModelFilter = self.getModel("Filter");
+        var bEnabled = true;
+
+        //TODO - Rimettere "No"
+        if (
+          aSelectedItems.length !== 1 ||
+          oModelFilter.getProperty("/Zricann") !== "No"
+        ) {
+          bEnabled = false;
+          oModelSoaSettings.setProperty(
+            "/EnableBtnCancellazioneRichAnn",
+            bEnabled
+          );
+          return;
+        }
+
+        //TODO - Capire che stato devono avere per poter essere selezionate
+        aSelectedItems.map((oSelectedItem) => {
+          if (oSelectedItem.ZcodStatosop !== "00") {
+            bEnabled = false;
+            return;
+          }
+        });
+
+        oModelSoaSettings.setProperty(
+          "/EnableBtnCancellazioneRichAnn",
+          bEnabled
+        );
+      },
+
+      //#endregion GESTIONE FUNZIONALITA'
     });
   }
 );

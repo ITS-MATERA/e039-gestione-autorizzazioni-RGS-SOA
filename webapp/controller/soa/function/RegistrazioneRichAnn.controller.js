@@ -30,6 +30,7 @@ sap.ui.define(
             EnableRevocaFirma: false,
             EnableInvioFirma: false,
             EnableRegistrazioneRichAnn: true,
+            EnableCancellazioneRichAnn: false,
             VisibleBtnStart: false,
           });
           self.setModel(oModelUtility, "Utility");

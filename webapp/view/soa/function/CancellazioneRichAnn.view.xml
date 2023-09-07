@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="rgssoa.controller.soa.function.RegistrazioneRichAnn"
+	controllerName="rgssoa.controller.soa.function.CancellazioneRichAnn"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
@@ -15,6 +15,10 @@
 				pinnable="false"
 			>
 				<c:Fragment
+					fragmentName="rgssoa.view.fragment.panel.HeaderSoa"
+					type="XML"
+				/>
+				<c:Fragment
 					fragmentName="rgssoa.view.fragment.panel.IconTabBarSoa"
 					type="XML"
 				/>
@@ -22,7 +26,7 @@
 		</f:header>
 		<f:content>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.function.RegistrazioneRichAnn"
+				fragmentName="rgssoa.view.fragment.function.CancellazioneRichAnn"
 				type="XML"
 			/>
 		</f:content>
@@ -50,8 +54,8 @@
 				<ToolbarSpacer/>
 				<Button
 					type="Emphasized"
-					text="{i18n>btnRegistrazioneRichAnn}"
-					press="onRegistrazioneRichAnn"
+					text="{i18n>btnCancellazioneRichAnn}"
+					press="onCancellazioneRichAnn"
 					visible="{= ${Utility>/VisibleBtnStart} === false ? true : false}"
 				>
 					<layoutData>

@@ -13,6 +13,13 @@
 		>
 			<items>
 				<IconTabFilter
+					key="CancellazioneRichAnn"
+					text="{i18n>iconTabRegistrazioneRichAnn}"
+					icon="sap-icon://list"
+					visible="{Utility>/EnableCancellazioneRichAnn}"
+				/>
+				<IconTabSeparator visible="{Utility>/EnableCancellazioneRichAnn}"/>
+				<IconTabFilter
 					key="RegistrazioneRichAnn"
 					text="{i18n>iconTabRegistrazioneRichAnn}"
 					icon="sap-icon://list"

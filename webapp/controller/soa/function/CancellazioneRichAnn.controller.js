@@ -4,14 +4,14 @@ sap.ui.define(
     "use strict";
 
     return BaseSoaController.extend(
-      "rgssoa.controller.soa.function.RevocaFirma",
+      "rgssoa.controller.soa.function.CancellazioneRichAnn",
       {
         onInit: function () {
           var self = this;
 
           self
             .getRouter()
-            .getRoute("soa.function.RevocaFirma")
+            .getRoute("soa.function.CancellazioneRichAnn")
             .attachPatternMatched(this._onObjectMatched, this);
         },
 
@@ -34,7 +34,7 @@ sap.ui.define(
               oModelUtility.setProperty("/VisibleBtnStart", true);
               break;
             }
-            case "RevocaFirma": {
+            case "CancellazioneRichAnn": {
               oModelUtility.setProperty("/VisibleBtnStart", false);
               break;
             }
@@ -61,17 +61,17 @@ sap.ui.define(
 
           //Setto i modelli
           var oModelUtility = new JSONModel({
-            Function: "RevocaFirma",
+            Function: "CancellazioneRichAnn",
             TableMode: "None",
             SelectedItem: oSelectedItem,
             EnableEdit: false,
             EnableAnnullamento: false,
             EnableRevocaInvioFirma: false,
             EnableFirma: false,
-            EnableRevocaFirma: true,
+            EnableRevocaFirma: false,
             EnableInvioFirma: false,
             EnableRegistrazioneRichAnn: false,
-            EnableCancellazioneRichAnn: false,
+            EnableCancellazioneRichAnn: true,
             DetailFromFunction: true,
             VisibleBtnStart: false,
           });
@@ -79,7 +79,7 @@ sap.ui.define(
 
           //Controllo se l'utente è autorizzato
           self.getPermissionsListSoa(false, function (callback) {
-            if (!callback.permissions.RevocaFirma) {
+            if (!callback.permissions.CancellazioneRichAnn) {
               MessageBox.error("Utente Non Autorizzato", {
                 actions: [MessageBox.Action.OK],
                 onClose: function () {
@@ -108,6 +108,26 @@ sap.ui.define(
               self.setModelCustom("WFStateSoa", data.results);
             },
 
+            error: function () {},
+          });
+        },
+
+        _setHeaderSoa: function (oSoa) {
+          var self = this;
+
+          var oModel = self.getModel();
+          var sPath = self.getModel().createKey("SOASet", {
+            Gjahr: oSoa.Gjahr,
+            Zchiavesop: oSoa.Zchiavesop,
+            Bukrs: oSoa.Bukrs,
+            Zstep: oSoa.Zstep,
+            Ztipososp: oSoa.Ztipososp,
+          });
+
+          oModel.read("/" + sPath, {
+            success: function (data, oResponse) {
+              self.setModelCustom("Soa", data);
+            },
             error: function () {},
           });
         },
@@ -149,26 +169,6 @@ sap.ui.define(
                 .navTo("soa.detail.scenery.Scenario4", oParameters);
               break;
           }
-        },
-
-        _setHeaderSoa: function (oSoa) {
-          var self = this;
-
-          var oModel = self.getModel();
-          var sPath = self.getModel().createKey("SOASet", {
-            Gjahr: oSoa.Gjahr,
-            Zchiavesop: oSoa.Zchiavesop,
-            Bukrs: oSoa.Bukrs,
-            Zstep: oSoa.Zstep,
-            Ztipososp: oSoa.Ztipososp,
-          });
-
-          oModel.read("/" + sPath, {
-            success: function (data, oResponse) {
-              self.setModelCustom("Soa", data);
-            },
-            error: function () {},
-          });
         },
       }
     );

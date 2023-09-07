@@ -32,6 +32,7 @@ sap.ui.define(
             EnableRevocaFirma: false,
             EnableInvioFirma: false,
             EnableRegistrazioneRichAnn: false,
+            EnableCancellazioneRichAnn: false,
             DetailFromFunction: false,
           });
           self.setModel(oModelUtility, "Utility");
@@ -1233,6 +1234,7 @@ sap.ui.define(
             EnableRevocaFirma: false,
             EnableInvioFirma: false,
             EnableRegistrazioneRichAnn: false,
+            EnableCancellazioneRichAnn: false,
             DetailFromFunction: false,
           });
           self.setModel(oModelUtility, "Utility");
