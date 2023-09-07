@@ -24,6 +24,7 @@ sap.ui.define(
             AddSelectedPositions: [],
             AddPositions: false,
             DeletePositions: false,
+            EnableBtnDeleteSoa: false,
             EnableEdit: false,
             EnableAnnullamento: false,
             EnableRevocaInvioFirma: false,
@@ -309,6 +310,7 @@ sap.ui.define(
           var self = this;
           var oWizard = self.getView().byId("wizScenario1");
           var oModelStepScenario = self.getModel("StepScenario");
+          var oModelUtility = self.getModel("Utility");
 
           var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
           var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
@@ -319,6 +321,7 @@ sap.ui.define(
             this._addNewPositions();
             oModelStepScenario.setProperty("/wizard1Step2", false);
             oModelStepScenario.setProperty("/wizard1Step3", true);
+            oModelUtility.setProperty("/EnableBtnDeleteSoa", false);
           } else if (bWizard1Step3) {
             if (this._checkQuoteDocumenti()) {
               oModelStepScenario.setProperty("/wizard1Step3", false);
@@ -375,7 +378,7 @@ sap.ui.define(
 
               oModel.read("/" + sPath, {
                 success: function (data) {
-                  self._setSoaModel(data);
+                  self.setSoaModel(data);
                   self.setInpsEditable();
                   self.getSedeBeneficiario();
                   self._getPosizioniSoa();
@@ -443,6 +446,10 @@ sap.ui.define(
             }
           });
 
+          oModelUtility.setProperty(
+            "/EnableBtnDeleteSoa",
+            aSelectedItems.length > 0
+          );
           oModelUtility.setProperty("/DeleteSelectedPositions", aSelectedItems);
         },
 
@@ -1074,7 +1081,7 @@ sap.ui.define(
 
           oModel.read("/" + sPath, {
             success: function (data, oResponse) {
-              self._setSoaModel(data);
+              self.setSoaModel(data);
               self.setInpsEditable();
               self.getSedeBeneficiario();
               self._getPosizioniSoa();
@@ -1084,112 +1091,6 @@ sap.ui.define(
           });
         },
 
-        _setSoaModel: function (oData) {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-
-          oModelSoa.setProperty("/Ztipopag", oData.Ztipopag);
-          oModelSoa.setProperty("/Bukrs", oData.Bukrs);
-          oModelSoa.setProperty("/Zchiavesop", oData.Zchiavesop);
-          oModelSoa.setProperty("/Ztipososp", oData.Ztipososp);
-          oModelSoa.setProperty("/Zstep", oData.Zstep);
-          oModelSoa.setProperty("/Gjahr", oData.Gjahr);
-          oModelSoa.setProperty("/Zimptot", oData.Zimptot);
-          oModelSoa.setProperty("/Zzamministr", oData.Zzamministr);
-          oModelSoa.setProperty("/ZufficioCont", oData.ZufficioCont);
-          oModelSoa.setProperty("/NameFirst", oData.NameFirst);
-          oModelSoa.setProperty("/NameLast", oData.NameLast);
-          oModelSoa.setProperty("/ZzragSoc", oData.ZzragSoc);
-          oModelSoa.setProperty("/TaxnumCf", oData.TaxnumCf);
-          oModelSoa.setProperty("/TaxnumPiva", oData.TaxnumPiva);
-          oModelSoa.setProperty("/Fipos", oData.Fipos);
-          oModelSoa.setProperty("/Fistl", oData.Fistl);
-          oModelSoa.setProperty("/Lifnr", oData.Lifnr);
-          oModelSoa.setProperty("/Witht", oData.Witht);
-          oModelSoa.setProperty("/Text40", oData.Text40);
-          oModelSoa.setProperty("/ZzCebenra", oData.ZzCebenra);
-          oModelSoa.setProperty("/ZzDescebe", oData.ZzDescebe);
-          oModelSoa.setProperty("/Zchiaveaut", oData.Zchiaveaut);
-          oModelSoa.setProperty("/Ztipodisp2", oData.Ztipodisp2);
-          oModelSoa.setProperty("/Zdesctipodisp2", oData.Zdesctipodisp2);
-          oModelSoa.setProperty("/Ztipodisp3", oData.Ztipodisp3);
-          oModelSoa.setProperty("/Zdesctipodisp3", oData.Zdesctipodisp3);
-          oModelSoa.setProperty("/Zimpaut", oData.Zimpaut);
-          oModelSoa.setProperty("/Zimpdispaut", oData.Zimpdispaut);
-          oModelSoa.setProperty("/Zztipologia", oData.Zztipologia);
-          oModelSoa.setProperty("/DescZztipologia", oData.DescZztipologia);
-          oModelSoa.setProperty("/Zfunzdel", oData.Zfunzdel);
-          oModelSoa.setProperty("/Zdescriz", oData.Zdescriz);
-          oModelSoa.setProperty("/ZspecieSop", oData.ZspecieSop);
-          oModelSoa.setProperty("/DescZspecieSop", oData.DescZspecieSop);
-          oModelSoa.setProperty("/Kostl", oData.Kostl);
-          oModelSoa.setProperty("/Hkont", oData.Hkont);
-          oModelSoa.setProperty("/DescKostl", oData.DescKostl);
-          oModelSoa.setProperty("/DescHkont", oData.DescHkont);
-          oModelSoa.setProperty("/BuType", oData.BuType);
-          oModelSoa.setProperty("/Taxnumxl", oData.Taxnumxl);
-          oModelSoa.setProperty("/Zsede", oData.Zsede);
-          oModelSoa.setProperty("/Zdenominazione", oData.Zdenominazione);
-          oModelSoa.setProperty("/Zdurc", oData.Zdurc);
-          oModelSoa.setProperty("/ZfermAmm", oData.ZfermAmm);
-          oModelSoa.setProperty("/Zwels", oData.Zwels);
-          oModelSoa.setProperty("/ZCausaleval", oData.ZCausaleval);
-          oModelSoa.setProperty("/Swift", oData.Swift);
-          oModelSoa.setProperty("/Zcoordest", oData.Zcoordest);
-          oModelSoa.setProperty("/Iban", oData.Iban);
-          oModelSoa.setProperty("/Zmotivaz", oData.Zmotivaz);
-          oModelSoa.setProperty("/Zdescwels", oData.Zdescwels);
-          oModelSoa.setProperty("/Banks", oData.Banks);
-          oModelSoa.setProperty("/ZDesccauval", oData.ZDesccauval);
-          oModelSoa.setProperty("/Ztipofirma", oData.Ztipofirma);
-          oModelSoa.setProperty(
-            "/ZpersCognomeQuiet1",
-            oData.ZpersCognomeQuiet1
-          );
-          oModelSoa.setProperty(
-            "/ZpersCognomeQuiet2",
-            oData.ZpersCognomeQuiet2
-          );
-          oModelSoa.setProperty("/ZpersNomeQuiet1", oData.ZpersNomeQuiet1);
-          oModelSoa.setProperty("/ZpersNomeQuiet2", oData.ZpersNomeQuiet2);
-          oModelSoa.setProperty("/ZpersNomeVaglia", oData.ZpersNomeVaglia);
-          oModelSoa.setProperty(
-            "/ZpersCognomeVaglia",
-            oData.ZpersCognomeVaglia
-          );
-          oModelSoa.setProperty("/Zstcd1", oData.Zstcd1);
-          oModelSoa.setProperty("/Zstcd12", oData.Zstcd12);
-          oModelSoa.setProperty("/Zstcd13", oData.Zstcd13);
-          oModelSoa.setProperty("/Zqindiriz", oData.Zqindiriz);
-          oModelSoa.setProperty("/Zqcitta", oData.Zqcitta);
-          oModelSoa.setProperty("/Zqcap", oData.Zqcap);
-          oModelSoa.setProperty("/Zqprovincia", oData.Zqprovincia);
-          oModelSoa.setProperty("/Zqindiriz12", oData.Zqindiriz12);
-          oModelSoa.setProperty("/Zqcitta12", oData.Zqcitta12);
-          oModelSoa.setProperty("/Zqcap12", oData.Zqcap12);
-          oModelSoa.setProperty("/Zqprovincia12", oData.Zqprovincia12);
-          oModelSoa.setProperty("/Zcodprov", oData.Zcodprov);
-          oModelSoa.setProperty("/Zcfcommit", oData.Zcfcommit);
-          oModelSoa.setProperty("/Zcodtrib", oData.Zcodtrib);
-          oModelSoa.setProperty("/Zperiodrifda", oData.Zperiodrifda);
-          oModelSoa.setProperty("/Zperiodrifa", oData.Zperiodrifa);
-          oModelSoa.setProperty("/Zcodinps", oData.Zcodinps);
-          oModelSoa.setProperty("/Zcfvers", oData.Zcfvers);
-          oModelSoa.setProperty("/Zcodvers", oData.Zcodvers);
-          oModelSoa.setProperty("/Zidsede", oData.Zidsede);
-          oModelSoa.setProperty("/Stras", oData.Stras);
-          oModelSoa.setProperty("/Ort01", oData.Ort01);
-          oModelSoa.setProperty("/Regio", oData.Regio);
-          oModelSoa.setProperty("/Pstlz", oData.Pstlz);
-          oModelSoa.setProperty("/Land1", oData.Land1);
-          oModelSoa.setProperty("/Zcausale", oData.Zcausale);
-          oModelSoa.setProperty("/ZE2e", oData.ZE2e);
-          oModelSoa.setProperty("/Zlocpag", oData.Zlocpag);
-          oModelSoa.setProperty("/Zzonaint", oData.Zzonaint);
-          oModelSoa.setProperty("/Znumprot", oData.Znumprot);
-          oModelSoa.setProperty("/Zdataprot", oData.Zdataprot);
-          oModelSoa.setProperty("/Zdataesig", oData.Zdataesig);
-        },
         _resetSoaDetail: function () {
           var self = this;
 
@@ -1322,8 +1223,12 @@ sap.ui.define(
             AddSelectedPositions: [],
             AddPositions: false,
             DeletePositions: false,
+            EnableBtnDeleteSoa: false,
             EnableEdit: bEnableEdit,
             EnableAnnullamento: false,
+            EnableRevocaInvioFirma: false,
+            EnableFirma: false,
+            EnableRevocaFirma: false,
             DetailFromFunction: false,
           });
           self.setModel(oModelUtility, "Utility");

@@ -61,7 +61,7 @@ sap.ui.define(
 
           //Setto i modelli
           var oModelUtility = new JSONModel({
-            Function: "Firma",
+            Function: "RevocaFirma",
             TableMode: "None",
             SelectedItem: oSelectedItem,
             EnableEdit: false,
@@ -69,6 +69,7 @@ sap.ui.define(
             EnableRevocaInvioFirma: false,
             EnableFirma: false,
             EnableRevocaFirma: true,
+            DetailFromFunction: true,
             VisibleBtnStart: false,
           });
           self.setModel(oModelUtility, "Utility");
@@ -87,6 +88,7 @@ sap.ui.define(
 
           //Setto il modello per la tabella
           self.setModel(oModelSelectedItems, "ListSoa");
+          this._setHeaderSoa(oSelectedItem);
 
           var aFilters = [];
           self.setFilterEQ(aFilters, "Esercizio", oSelectedItem.Gjahr);
@@ -144,6 +146,26 @@ sap.ui.define(
                 .navTo("soa.detail.scenery.Scenario4", oParameters);
               break;
           }
+        },
+
+        _setHeaderSoa: function (oSoa) {
+          var self = this;
+
+          var oModel = self.getModel();
+          var sPath = self.getModel().createKey("SOASet", {
+            Gjahr: oSoa.Gjahr,
+            Zchiavesop: oSoa.Zchiavesop,
+            Bukrs: oSoa.Bukrs,
+            Zstep: oSoa.Zstep,
+            Ztipososp: oSoa.Ztipososp,
+          });
+
+          oModel.read("/" + sPath, {
+            success: function (data, oResponse) {
+              self.setModelCustom("Soa", data);
+            },
+            error: function () {},
+          });
         },
       }
     );

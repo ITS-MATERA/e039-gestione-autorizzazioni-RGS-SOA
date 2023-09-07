@@ -66,6 +66,8 @@ sap.ui.define(
           EnableAnnullamento: false,
           EnableRevocaInvioFirma: false,
           EnableFirma: true,
+          EnableRevocaFirma: false,
+          DetailFromFunction: true,
           VisibleBtnStart: false,
         });
         self.setModel(oModelUtility, "Utility");
@@ -84,6 +86,7 @@ sap.ui.define(
 
         //Setto il modello per la tabella
         self.setModel(oModelSelectedItems, "ListSoa");
+        this._setHeaderSoa(oSelectedItem);
 
         var aFilters = [];
         self.setFilterEQ(aFilters, "Esercizio", oSelectedItem.Gjahr);
@@ -133,6 +136,26 @@ sap.ui.define(
             self.getRouter().navTo("soa.detail.scenery.Scenario4", oParameters);
             break;
         }
+      },
+
+      _setHeaderSoa: function (oSoa) {
+        var self = this;
+
+        var oModel = self.getModel();
+        var sPath = self.getModel().createKey("SOASet", {
+          Gjahr: oSoa.Gjahr,
+          Zchiavesop: oSoa.Zchiavesop,
+          Bukrs: oSoa.Bukrs,
+          Zstep: oSoa.Zstep,
+          Ztipososp: oSoa.Ztipososp,
+        });
+
+        oModel.read("/" + sPath, {
+          success: function (data, oResponse) {
+            self.setModelCustom("Soa", data);
+          },
+          error: function () {},
+        });
       },
     });
   }

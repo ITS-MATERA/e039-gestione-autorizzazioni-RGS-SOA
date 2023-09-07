@@ -32,7 +32,7 @@
 					type="Emphasized"
 					press="onDeletePositionSoa"
 					visible="{Soa>/EnableEdit}"
-					enabled="{= ${Utility>/DeleteSelectedPositions}.length > 0 ? true : false}"
+					enabled="{Utility>/EnableBtnDeleteSoa}"
 				>
 					<layoutData>
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>

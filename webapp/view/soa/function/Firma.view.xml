@@ -15,6 +15,10 @@
 				pinnable="false"
 			>
 				<c:Fragment
+					fragmentName="rgssoa.view.fragment.panel.HeaderSoa"
+					type="XML"
+				/>
+				<c:Fragment
 					fragmentName="rgssoa.view.fragment.panel.IconTabBarSoa"
 					type="XML"
 				/>
