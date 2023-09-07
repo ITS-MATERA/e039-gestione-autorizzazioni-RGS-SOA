@@ -13,6 +13,13 @@
 		>
 			<items>
 				<IconTabFilter
+					key="RegistrazioneRichAnn"
+					text="{i18n>iconTabRegistrazioneRichAnn}"
+					icon="sap-icon://list"
+					visible="{Utility>/EnableRegistrazioneRichAnn}"
+				/>
+				<IconTabSeparator visible="{Utility>/EnableRegistrazioneRichAnn}"/>
+				<IconTabFilter
 					key="InvioFirma"
 					text="{i18n>iconTabInvioFirma}"
 					icon="sap-icon://list"

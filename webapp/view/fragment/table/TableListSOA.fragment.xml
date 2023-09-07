@@ -56,7 +56,8 @@
 					<Button
 						text="{i18n>btnRegistraRichiestaAnnullamento}"
 						type="Emphasized"
-						enabled="{AuthorityCheckSoa>/RegistrazioneRichAnn}"
+						enabled="{= ${AuthorityCheckSoa>/RegistrazioneRichAnn} &amp;&amp; ${SoaSettings>/EnableBtnRegistrazioneRichAnn} ? true : false}"
+						press="onRegistrazioneRichAnn"
 					/>
 					<Button
 						text="{i18n>btnCancellazioneRichiestaAnnullamento}"

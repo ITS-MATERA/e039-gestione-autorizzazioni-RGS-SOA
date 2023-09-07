@@ -4,14 +4,14 @@ sap.ui.define(
     "use strict";
 
     return BaseSoaController.extend(
-      "rgssoa.controller.soa.function.InvioFirma",
+      "rgssoa.controller.soa.function.RegistrazioneRichAnn",
       {
         onInit: function () {
           var self = this;
 
           self
             .getRouter()
-            .getRoute("soa.function.InvioFirma")
+            .getRoute("soa.function.RegistrazioneRichAnn")
             .attachPatternMatched(this._onObjectMatched, this);
         },
 
@@ -20,7 +20,7 @@ sap.ui.define(
 
           //Setto i modelli
           var oModelUtility = new JSONModel({
-            Function: "InvioFirma",
+            Function: "RegistrazioneRichAnn",
             TableMode: "None",
             SelectedItem: {},
             EnableEdit: false,
@@ -28,15 +28,15 @@ sap.ui.define(
             EnableRevocaInvioFirma: false,
             EnableFirma: false,
             EnableRevocaFirma: false,
-            EnableInvioFirma: true,
-            EnableRegistrazioneRichAnn: false,
+            EnableInvioFirma: false,
+            EnableRegistrazioneRichAnn: true,
             VisibleBtnStart: false,
           });
           self.setModel(oModelUtility, "Utility");
 
           //Controllo se l'utente è autorizzato
           self.getPermissionsListSoa(false, function (callback) {
-            if (!callback.permissions.InvioFirma) {
+            if (!callback.permissions.RegistrazioneRichAnn) {
               MessageBox.error("Utente Non Autorizzato", {
                 actions: [MessageBox.Action.OK],
                 onClose: function () {
@@ -76,7 +76,7 @@ sap.ui.define(
               oModelUtility.setProperty("/TableMode", "SingleSelectLeft");
               break;
             }
-            case "InvioFirma": {
+            case "RegistrazioneRichAnn": {
               self.clearModel("WFStateSoa");
               oModelUtility.setProperty("/SelectedItem", {});
               oModelUtility.setProperty("/VisibleBtnStart", false);

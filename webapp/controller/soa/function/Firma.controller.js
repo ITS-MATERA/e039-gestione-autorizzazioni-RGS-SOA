@@ -68,6 +68,7 @@ sap.ui.define(
           EnableFirma: true,
           EnableRevocaFirma: false,
           EnableInvioFirma: false,
+          EnableRegistrazioneRichAnn: false,
           DetailFromFunction: true,
           VisibleBtnStart: false,
         });

@@ -223,6 +223,11 @@
           "pattern": "soa.function.InvioFirma",
           "name": "soa.function.InvioFirma",
           "target": ["soa.function.InvioFirma"]
+        },
+        {
+          "pattern": "soa.function.RegistrazioneRichAnn",
+          "name": "soa.function.RegistrazioneRichAnn",
+          "target": ["soa.function.RegistrazioneRichAnn"]
         }
       ],
       "targets": {
@@ -343,6 +348,11 @@
         "soa.function.InvioFirma": {
           "viewName": "soa.function.InvioFirma",
           "viewId": "InvioFirma",
+          "viewLevel": 3
+        },
+        "soa.function.RegistrazioneRichAnn": {
+          "viewName": "soa.function.RegistrazioneRichAnn",
+          "viewId": "RegistrazioneRichAnn",
           "viewLevel": 3
         }
       }

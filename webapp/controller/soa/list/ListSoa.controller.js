@@ -46,6 +46,7 @@ sap.ui.define(
           EnableBtnFirma: false,
           EnablebtnRevocaFirma: false,
           EnableBtnInvioFirma: false,
+          EnablebtnRegistrazioneRichAnn: false,
         });
 
         var oModelFilter = new JSONModel({
@@ -193,6 +194,7 @@ sap.ui.define(
         this._isFirmaEnabled();
         this._isRevocaFirmaEnabled();
         this._isInvioFirmaEnabled();
+        this._isRegistrazioneRichAnnEnabled();
       },
 
       onDetail: function () {
@@ -253,6 +255,12 @@ sap.ui.define(
         var self = this;
 
         self.getRouter().navTo("soa.function.InvioFirma");
+      },
+
+      onRegistrazioneRichAnn: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.RegistrazioneRichAnn");
       },
 
       //#region PAGINATOR
@@ -795,6 +803,39 @@ sap.ui.define(
         });
 
         oModelSoaSettings.setProperty("/EnableBtnInvioFirma", bEnabled);
+      },
+
+      _isRegistrazioneRichAnnEnabled: function () {
+        var self = this;
+        var oModelSoaSettings = self.getModel("SoaSettings");
+        var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
+        var oModelFilter = self.getModel("Filter");
+        var bEnabled = true;
+
+        if (
+          aSelectedItems.length === 0 ||
+          oModelFilter.getProperty("/Zricann") !== "No"
+        ) {
+          bEnabled = false;
+          oModelSoaSettings.setProperty(
+            "/EnableBtnRegistrazioneRichAnn",
+            bEnabled
+          );
+          return;
+        }
+
+        //TODO - Capire che stato devono avere per poter essere selezionate
+        aSelectedItems.map((oSelectedItem) => {
+          if (oSelectedItem.ZcodStatosop !== "00") {
+            bEnabled = false;
+            return;
+          }
+        });
+
+        oModelSoaSettings.setProperty(
+          "/EnableBtnRegistrazioneRichAnn",
+          bEnabled
+        );
       },
 
       //#endregion
