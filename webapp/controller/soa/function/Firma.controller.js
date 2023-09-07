@@ -67,6 +67,7 @@ sap.ui.define(
           EnableRevocaInvioFirma: false,
           EnableFirma: true,
           EnableRevocaFirma: false,
+          EnableInvioFirma: false,
           DetailFromFunction: true,
           VisibleBtnStart: false,
         });

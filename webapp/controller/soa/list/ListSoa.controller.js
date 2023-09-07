@@ -45,6 +45,7 @@ sap.ui.define(
           EnableBtnRevocaInvioFirma: false,
           EnableBtnFirma: false,
           EnablebtnRevocaFirma: false,
+          EnableBtnInvioFirma: false,
         });
 
         var oModelFilter = new JSONModel({
@@ -191,6 +192,7 @@ sap.ui.define(
         this._isRevocaInvioFirmaEnabled();
         this._isFirmaEnabled();
         this._isRevocaFirmaEnabled();
+        this._isInvioFirmaEnabled();
       },
 
       onDetail: function () {
@@ -245,6 +247,12 @@ sap.ui.define(
         var self = this;
 
         self.getRouter().navTo("soa.function.RevocaFirma");
+      },
+
+      onInvioFirma: function () {
+        var self = this;
+
+        self.getRouter().navTo("soa.function.InvioFirma");
       },
 
       //#region PAGINATOR
@@ -765,6 +773,28 @@ sap.ui.define(
         });
 
         oModelSoaSettings.setProperty("/EnableBtnRevocaFirma", bEnabled);
+      },
+
+      _isInvioFirmaEnabled: function () {
+        var self = this;
+        var oModelSoaSettings = self.getModel("SoaSettings");
+        var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
+        var bEnabled = true;
+
+        if (aSelectedItems.length === 0) {
+          bEnabled = false;
+          oModelSoaSettings.setProperty("/EnableBtnInvioFirma", bEnabled);
+          return;
+        }
+
+        aSelectedItems.map((oSelectedItem) => {
+          if (oSelectedItem.ZcodStatosop !== "00") {
+            bEnabled = false;
+            return;
+          }
+        });
+
+        oModelSoaSettings.setProperty("/EnableBtnInvioFirma", bEnabled);
       },
 
       //#endregion

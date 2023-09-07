@@ -136,6 +136,7 @@ sap.ui.define(
             EnableRevocaInvioFirma: true,
             EnableFirma: false,
             EnableRevocaFirma: false,
+            EnableInvioFirma: false,
             VisibleBtnStart: false,
           });
           self.setModel(oModelUtility, "Utility");

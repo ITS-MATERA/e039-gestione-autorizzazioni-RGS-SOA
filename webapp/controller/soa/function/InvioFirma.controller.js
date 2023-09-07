@@ -4,15 +4,55 @@ sap.ui.define(
     "use strict";
 
     return BaseSoaController.extend(
-      "rgssoa.controller.soa.function.Annullamento",
+      "rgssoa.controller.soa.function.InvioFirma",
       {
         onInit: function () {
           var self = this;
 
           self
             .getRouter()
-            .getRoute("soa.function.Annullamento")
+            .getRoute("soa.function.InvioFirma")
             .attachPatternMatched(this._onObjectMatched, this);
+        },
+
+        _onObjectMatched: function () {
+          var self = this;
+
+          //Setto i modelli
+          var oModelUtility = new JSONModel({
+            Function: "InvioFirma",
+            TableMode: "None",
+            SelectedItem: {},
+            EnableEdit: false,
+            EnableAnnullamento: false,
+            EnableRevocaInvioFirma: false,
+            EnableFirma: false,
+            EnableRevocaFirma: false,
+            EnableInvioFirma: true,
+            VisibleBtnStart: false,
+          });
+          self.setModel(oModelUtility, "Utility");
+
+          //Controllo se l'utente è autorizzato
+          self.getPermissionsListSoa(false, function (callback) {
+            if (!callback.permissions.InvioFirma) {
+              MessageBox.error("Utente Non Autorizzato", {
+                actions: [MessageBox.Action.OK],
+                onClose: function () {
+                  self.getRouter().navTo("soa.list.ListSoa");
+                },
+              });
+            }
+          });
+
+          //Controllo se ci sono record selezionati dalla lista
+          var oModelSelectedItems = sap.ui.getCore().getModel("SelectedItems");
+          if (!oModelSelectedItems) {
+            self.getRouter().navTo("soa.list.ListSoa");
+          }
+
+          //Setto il modello per la tabella
+          self.setModel(oModelSelectedItems, "ListSoa");
         },
 
         onNavBack: function () {
@@ -35,7 +75,7 @@ sap.ui.define(
               oModelUtility.setProperty("/TableMode", "SingleSelectLeft");
               break;
             }
-            case "Annullamento": {
+            case "InvioFirma": {
               self.clearModel("WFStateSoa");
               oModelUtility.setProperty("/SelectedItem", {});
               oModelUtility.setProperty("/VisibleBtnStart", false);
@@ -48,81 +88,6 @@ sap.ui.define(
               break;
             }
           }
-        },
-
-        _onObjectMatched: function () {
-          var self = this;
-
-          //Setto i modelli
-          var oModelUtility = new JSONModel({
-            Function: "Annullamento",
-            TableMode: "None",
-            SelectedItem: {},
-            EnableEdit: false,
-            EnableAnnullamento: true,
-            EnableRevocaInvioFirma: false,
-            EnableFirma: false,
-            EnableRevocaFirma: false,
-            EnableInvioFirma: false,
-            VisibleBtnStart: false,
-          });
-          self.setModel(oModelUtility, "Utility");
-
-          //Controllo se l'utente è autorizzato
-          self.getPermissionsListSoa(false, function (callback) {
-            if (!callback.permissions.Annullamento) {
-              MessageBox.error("Utente Non Autorizzato", {
-                actions: [MessageBox.Action.OK],
-                onClose: function () {
-                  self.getRouter().navTo("soa.list.ListSoa");
-                },
-              });
-            }
-          });
-
-          //Controllo se ci sono record selezionati dalla lista
-          var oModelSelectedItems = sap.ui.getCore().getModel("SelectedItems");
-
-          if (!oModelSelectedItems) {
-            self.getRouter().navTo("soa.list.ListSoa");
-          }
-
-          //Setto il modello per la tabella
-          self.setModel(oModelSelectedItems, "ListSoa");
-        },
-
-        onSelectedItem: function (oEvent) {
-          var self = this;
-          var oListItem = oEvent.getParameter("listItem");
-          var oModel = self.getModel();
-          var oModelListSoa = self.getModel("ListSoa");
-          var oModelUtility = self.getModel("Utility");
-
-          //Recupero l'oggetto selezionato
-          var oSelectedItem = oModelListSoa.getObject(
-            oListItem.getBindingContextPath()
-          );
-
-          oModelUtility.setProperty("/SelectedItem", oSelectedItem);
-
-          //Carico il workflow
-          var aFilters = [];
-          self.setFilterEQ(aFilters, "Esercizio", oSelectedItem.Gjahr);
-          self.setFilterEQ(aFilters, "Bukrs", oSelectedItem.Bukrs);
-          self.setFilterEQ(aFilters, "Zchiavesop", oSelectedItem.Zchiavesop);
-
-          oModel.read("/WFStateSoaSet", {
-            filters: aFilters,
-            success: function (data) {
-              data.results.map((oItem) => {
-                oItem.DataOraString = new Date(oItem.DataOraString);
-              });
-
-              self.setModelCustom("WFStateSoa", data.results);
-            },
-
-            error: function () {},
-          });
         },
 
         onStart: function () {
@@ -162,6 +127,40 @@ sap.ui.define(
                 .navTo("soa.detail.scenery.Scenario4", oParameters);
               break;
           }
+        },
+
+        onSelectedItem: function (oEvent) {
+          var self = this;
+          var oListItem = oEvent.getParameter("listItem");
+          var oModel = self.getModel();
+          var oModelListSoa = self.getModel("ListSoa");
+          var oModelUtility = self.getModel("Utility");
+
+          //Recupero l'oggetto selezionato
+          var oSelectedItem = oModelListSoa.getObject(
+            oListItem.getBindingContextPath()
+          );
+
+          oModelUtility.setProperty("/SelectedItem", oSelectedItem);
+
+          //Carico il workflow
+          var aFilters = [];
+          self.setFilterEQ(aFilters, "Esercizio", oSelectedItem.Gjahr);
+          self.setFilterEQ(aFilters, "Bukrs", oSelectedItem.Bukrs);
+          self.setFilterEQ(aFilters, "Zchiavesop", oSelectedItem.Zchiavesop);
+
+          oModel.read("/WFStateSoaSet", {
+            filters: aFilters,
+            success: function (data) {
+              data.results.map((oItem) => {
+                oItem.DataOraString = new Date(oItem.DataOraString);
+              });
+
+              self.setModelCustom("WFStateSoa", data.results);
+            },
+
+            error: function () {},
+          });
         },
       }
     );

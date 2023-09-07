@@ -13,6 +13,13 @@
 		>
 			<items>
 				<IconTabFilter
+					key="InvioFirma"
+					text="{i18n>iconTabInvioFirma}"
+					icon="sap-icon://list"
+					visible="{Utility>/EnableInvioFirma}"
+				/>
+				<IconTabSeparator visible="{Utility>/EnableInvioFirma}"/>
+				<IconTabFilter
 					key="RevocaFirma"
 					text="{i18n>iconTabRevocaFirma}"
 					icon="sap-icon://list"

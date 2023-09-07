@@ -30,6 +30,7 @@ sap.ui.define(
             EnableRevocaInvioFirma: false,
             EnableFirma: false,
             EnableRevocaFirma: false,
+            EnableInvioFirma: false,
             DetailFromFunction: false,
           });
           self.setModel(oModelUtility, "Utility");
@@ -1229,6 +1230,7 @@ sap.ui.define(
             EnableRevocaInvioFirma: false,
             EnableFirma: false,
             EnableRevocaFirma: false,
+            EnableInvioFirma: false,
             DetailFromFunction: false,
           });
           self.setModel(oModelUtility, "Utility");
