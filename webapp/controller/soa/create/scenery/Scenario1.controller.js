@@ -164,30 +164,6 @@ sap.ui.define(
             ImpTotAssociareCup: "0.00",
           });
 
-          var oModelFilterDocumenti = new JSONModel({
-            CodRitenuta: "",
-            DescRitenuta: "",
-            CodEnte: "",
-            DescEnte: "",
-            QuoteEsigibili: true,
-            DataEsigibilitaFrom: "",
-            DataEsigibilitaTo: "",
-            TipoBeneficiario: "",
-            Lifnr: "",
-            UfficioContabile: "",
-            UfficioPagatore: "",
-            AnnoRegDocumento: [],
-            NumRegDocFrom: "",
-            NumRegDocTo: "",
-            AnnoDocBeneficiario: [],
-            NDocBen: [],
-            Cig: "",
-            Cup: "",
-            ScadenzaDocFrom: null,
-            ScadenzaDocTo: null,
-          });
-          self.setModel(oModelFilterDocumenti, "FilterDocumenti");
-
           var oModelUtility = new JSONModel({
             EnableEdit: true,
             DetailFromFunction: true,
@@ -442,6 +418,27 @@ sap.ui.define(
             oModelFilter.getProperty("/TipoBeneficiario")
           );
 
+          //Estremi di ricerca per Prospetti di liquidazione
+          var aUfficioLiquidatore = oModelFilter.getProperty("/Zuffliq");
+          aUfficioLiquidatore.map((sUfficioLiquidatore) => {
+            self.setFilterEQ(
+              aFilters,
+              "UfficioLiquidatore",
+              sUfficioLiquidatore
+            );
+          });
+          self.setFilterBT(
+            aFilters,
+            "Znumliq",
+            oModelFilter.getProperty("/ZnumliqFrom"),
+            oModelFilter.getProperty("/ZnumliqTo")
+          );
+          self.setFilterEQ(
+            aFilters,
+            "DescProspLiquidazione",
+            oModelFilter.getProperty("/ZdescProsp")
+          );
+
           //Estremi di ricerca per Documento di Costo
           self.setFilterEQ(
             aFilters,
@@ -498,7 +495,6 @@ sap.ui.define(
           //Load Models
           var oModel = self.getModel();
           var oModelSoa = self.getModel("Soa");
-          var oModelFilter = self.getModel("FilterDocumenti");
           var oParameters = oEvent.getParameter("arguments");
           var sPath = self
             .getModel()
@@ -525,19 +521,50 @@ sap.ui.define(
             error: function () {},
           });
 
+          var oModelFilterDocumenti = new JSONModel({
+            CodRitenuta: "",
+            DescRitenuta: "",
+            CodEnte: "",
+            DescEnte: "",
+            QuoteEsigibili: true,
+            DataEsigibilitaFrom: "",
+            DataEsigibilitaTo: "",
+            TipoBeneficiario: "",
+            Lifnr: "",
+            Gjahr: "",
+            Lifnr: "",
+            Zuffliq: [],
+            ZnumliqFrom: "",
+            ZnumliqTo: "",
+            ZdescProsp: "",
+            UfficioContabile: "",
+            UfficioPagatore: "",
+            AnnoRegDocumento: [],
+            NumRegDocFrom: "",
+            NumRegDocTo: "",
+            AnnoDocBeneficiario: [],
+            NDocBen: [],
+            Cig: "",
+            Cup: "",
+            ScadenzaDocFrom: null,
+            ScadenzaDocTo: null,
+          });
+
           oModel.read("/" + "PrevalUfficioContabileSet", {
             success: function (data) {
-              oModelFilter.setProperty(
+              oModelFilterDocumenti.setProperty(
                 "/UfficioContabile",
                 data?.results[0]?.Fkber
               );
-              oModelFilter.setProperty(
+              oModelFilterDocumenti.setProperty(
                 "/UfficioPagatore",
                 data?.results[0]?.Fkber
               );
             },
             error: function (error) {},
           });
+
+          self.setModel(oModelFilterDocumenti, "FilterDocumenti");
         },
 
         _setPaginatorProperties: function () {
@@ -678,10 +705,6 @@ sap.ui.define(
         },
 
         //#endregion PRIVATE METHODS
-
-        //#endregion
-
-        //#region
 
         //#region PRIVATE METHODS
 

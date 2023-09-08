@@ -6,7 +6,7 @@
 >
 	<Panel
 		backgroundDesign="Transparent"
-		visible="{= ${Soa>/Ztipopag} === '3' || ${Soa>/Ztipopag} === '4' ? true : false}"
+		visible="{= ${Soa>/Ztipopag} === '1' || ${Soa>/Ztipopag} === '3' || ${Soa>/Ztipopag} === '4' ? true : false}"
 	>
 		<headerToolbar>
 			<OverflowToolbar>

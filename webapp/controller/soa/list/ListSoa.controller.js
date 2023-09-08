@@ -30,7 +30,7 @@ sap.ui.define(
           ZnumsopTo: "",
           ZstatoSoa: "TU",
           //TODO - Mettere blank zchiaveaut
-          Zchiaveaut: "2023-080-00001",
+          Zchiaveaut: "",
           Ztipodisp2: "000",
           Ztipodisp3: "000",
           Zztipologia: "0",
@@ -461,7 +461,7 @@ sap.ui.define(
         if (oModelFilter.getProperty("/Zricann") === "Si") {
           aFilters.push(new Filter("Zricann", NE, ""));
         } else {
-          self.setFilterEQ(aFilters, "Zricann", "");
+          aFilters.push(new Filter("Zricann", FilterOperator.EQ, ""));
         }
         self.setFilterBT(
           aFilters,
