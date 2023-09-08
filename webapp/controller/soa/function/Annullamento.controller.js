@@ -96,7 +96,6 @@ sap.ui.define(
         onSelectedItem: function (oEvent) {
           var self = this;
           var oListItem = oEvent.getParameter("listItem");
-          var oModel = self.getModel();
           var oModelListSoa = self.getModel("ListSoa");
           var oModelUtility = self.getModel("Utility");
 
@@ -107,24 +106,7 @@ sap.ui.define(
 
           oModelUtility.setProperty("/SelectedItem", oSelectedItem);
 
-          //Carico il workflow
-          var aFilters = [];
-          self.setFilterEQ(aFilters, "Esercizio", oSelectedItem.Gjahr);
-          self.setFilterEQ(aFilters, "Bukrs", oSelectedItem.Bukrs);
-          self.setFilterEQ(aFilters, "Zchiavesop", oSelectedItem.Zchiavesop);
-
-          oModel.read("/WFStateSoaSet", {
-            filters: aFilters,
-            success: function (data) {
-              data.results.map((oItem) => {
-                oItem.DataOraString = new Date(oItem.DataOraString);
-              });
-
-              self.setModelCustom("WFStateSoa", data.results);
-            },
-
-            error: function () {},
-          });
+          self.setWorkflowInFunction(oSelectedItem);
         },
 
         onStart: function () {

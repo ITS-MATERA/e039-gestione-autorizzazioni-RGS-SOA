@@ -186,9 +186,5 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		<c:Fragment
-			fragmentName="rgssoa.view.fragment.soa.Paginator"
-			type="XML"
-		/>
 	</Panel>
 </c:FragmentDefinition>

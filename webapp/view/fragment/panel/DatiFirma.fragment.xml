@@ -26,7 +26,10 @@
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
 				</Text>
-				<Input>
+				<Input
+					enabled="false"
+					value="{DatiFirmatario>/ZuffcontFirm}"
+				>
 					<layoutData>
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
@@ -39,7 +42,10 @@
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
 				</Text>
-				<Input>
+				<Input
+					enabled="false"
+					value="{DatiFirmatario>/ZvimDescrufficio}"
+				>
 					<layoutData>
 						<l:GridData span="XL6 L6 M12 S12"/>
 					</layoutData>
@@ -52,7 +58,10 @@
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
 				</Text>
-				<Input>
+				<Input
+					enabled="false"
+					value="{DatiFirmatario>/Zcodord}"
+				>
 					<layoutData>
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
@@ -65,7 +74,10 @@
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
 				</Text>
-				<Input>
+				<Input
+					enabled="false"
+					value="{DatiFirmatario>/ZcodordDesc}"
+				>
 					<layoutData>
 						<l:GridData span="XL6 L6 M12 S12"/>
 					</layoutData>
@@ -78,7 +90,7 @@
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
 				</Text>
-				<Input>
+				<Input value="{DatiFirmatario>/Fistl}">
 					<layoutData>
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
@@ -91,7 +103,7 @@
 						<l:GridData span="XL2 L3 M12 S12"/>
 					</layoutData>
 				</Text>
-				<Input>
+				<Input value="{DatiFirmatario>/ZdirigenteAmm}">
 					<layoutData>
 						<l:GridData span="XL2 L3 M12 S12"/>
 					</layoutData>

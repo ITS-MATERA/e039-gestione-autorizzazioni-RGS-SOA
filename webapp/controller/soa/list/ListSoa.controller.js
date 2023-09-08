@@ -13,7 +13,6 @@ sap.ui.define(
     const SOA_ENTITY_SET = "SOASet";
     const SOA_ENTITY_MODEL = "SOASet";
     const SOA_MODEL = "SoaSettings";
-    const PAGINATOR_MODEL = "paginatorModel";
 
     return BaseSoaController.extend("rgssoa.controller.soa.list.ListSoa", {
       formatter: formatter,
@@ -22,20 +21,6 @@ sap.ui.define(
        */
       onInit: function () {
         var self = this;
-        var oModelPaginator = new JSONModel({
-          btnPrevEnabled: false,
-          btnFirstEnabled: false,
-          btnNextEnabled: false,
-          btnLastEnabled: false,
-          recordForPageEnabled: false,
-          currentPageEnabled: true,
-          numRecordsForPage: 10,
-          currentPage: 1,
-          maxPage: 1,
-          paginatorSkip: 0,
-          paginatorClick: 0,
-          paginatorTotalPage: 1,
-        });
 
         var oModelFilter = new JSONModel({
           Gjahr: "",
@@ -84,7 +69,6 @@ sap.ui.define(
           CancellazioneRichAnn: false,
         });
         self.setModel(oModelAuthoryCheckSoa, "AuthorityCheckSoa");
-        self.setModel(oModelPaginator, PAGINATOR_MODEL);
         self.setModel(oModelFilter, "Filter");
       },
 
@@ -106,20 +90,13 @@ sap.ui.define(
         var self = this;
         var oDataModel = self.getModel();
 
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/TipoDisp3Set", {
-              success: function (data, oResponse) {
-                self.setResponseMessage(oResponse);
-                self.setModelCustom("TipoDisp3Set", data.results);
-              },
-              error: function (error) {},
-            });
-          });
-
-        var oModelAuthoryCheck = self.getModel("AuthorityCheckSoa");
+        oDataModel.read("/TipoDisp3Set", {
+          success: function (data, oResponse) {
+            self.setResponseMessage(oResponse);
+            self.setModelCustom("TipoDisp3Set", data.results);
+          },
+          error: function (error) {},
+        });
       },
 
       onSearch: function () {
@@ -136,7 +113,6 @@ sap.ui.define(
         });
         self.setModel(oModelSoa, SOA_MODEL);
 
-        this._setPaginatorProperties();
         this._getSoaList();
       },
 
@@ -215,31 +191,6 @@ sap.ui.define(
             break;
         }
       },
-
-      //#region PAGINATOR
-
-      onFirstPaginator: function () {
-        var self = this;
-
-        self.getFirstPaginator(PAGINATOR_MODEL);
-        this._getSoaList();
-      },
-
-      onLastPaginator: function () {
-        var self = this;
-
-        self.getLastPaginator(PAGINATOR_MODEL);
-        this._getSoaList();
-      },
-
-      onChangePage: function (oEvent) {
-        var self = this;
-
-        self.getChangePage(oEvent, PAGINATOR_MODEL);
-        this._getSoaList();
-      },
-
-      //#endregion
 
       //#region VALUE HELP
 
@@ -412,13 +363,9 @@ sap.ui.define(
         var oDataModel = self.getModel();
         var oView = self.getView();
         var aFilters = this._getHeaderFilters();
-        var oPaginatorModel = self.getModel(PAGINATOR_MODEL);
-        var oPaginator = oView.byId("pnlPaginator");
         var oListSoa = oView.byId("pnlListSoa");
         var oModelAuthorityCheck = self.getModel("AuthorityCheckSoa");
         var urlParameters = {
-          $top: oPaginatorModel.getProperty("/numRecordsForPage"),
-          $skip: oPaginatorModel.getProperty("/paginatorSkip"),
           AgrName: oModelAuthorityCheck.getProperty("/AgrName"),
           Fikrs: oModelAuthorityCheck.getProperty("/Fikrs"),
           Prctr: oModelAuthorityCheck.getProperty("/Prctr"),
@@ -432,7 +379,6 @@ sap.ui.define(
           sap.m.MessageBox.error(sIntervalFilter);
 
           var oModelJson = new JSONModel();
-          oPaginator.setVisible(false);
           oListSoa.setVisible(false);
           oView.setModel(oModelJson, SOA_ENTITY_MODEL);
           return;
@@ -440,64 +386,19 @@ sap.ui.define(
 
         oView.setBusy(true);
 
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/" + SOA_ENTITY_SET, {
-              urlParameters: urlParameters,
-              filters: aFilters,
-              success: function (data, oResponse) {
-                oListSoa.setVisible(!self.setResponseMessage(oResponse));
-                self.setModelCustom(SOA_ENTITY_MODEL, data.results);
-                self.setPaginatorVisible(oPaginator, data);
-                oView.setBusy(false);
-                self._setSelectedItems(data);
-              },
-              error: function (error) {
-                oView.setBusy(false);
-              },
-            });
-          });
-      },
-
-      _setPaginatorProperties: function () {
-        var self = this;
-        var oDataModel = self.getModel();
-        var oFilters = this._getHeaderFilters();
-        var oPaginatorModel = self.getModel(PAGINATOR_MODEL);
-
-        self.resetPaginator(oPaginatorModel);
-        var iNumRecordsForPage =
-          oPaginatorModel.getProperty("/numRecordsForPage");
-
-        var oModelAuthorityCheck = self.getModel("AuthorityCheckSoa");
-        var urlParameters = {
-          AgrName: oModelAuthorityCheck.getProperty("/AgrName"),
-          Fikrs: oModelAuthorityCheck.getProperty("/Fikrs"),
-          Prctr: oModelAuthorityCheck.getProperty("/Prctr"),
-          //TODO - Rimuovere test
-          Test: "X",
-        };
-
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/" + SOA_ENTITY_SET + "/$count", {
-              urlParameters: urlParameters,
-              filters: oFilters,
-              success: function (data) {
-                self.getModel(SOA_MODEL).setProperty("/totalItems", data);
-                self.setPaginatorProperties(
-                  oPaginatorModel,
-                  data,
-                  iNumRecordsForPage
-                );
-              },
-              error: function () {},
-            });
-          });
+        oDataModel.read("/" + SOA_ENTITY_SET, {
+          urlParameters: urlParameters,
+          filters: aFilters,
+          success: function (data, oResponse) {
+            oListSoa.setVisible(!self.setResponseMessage(oResponse));
+            self.setModelCustom(SOA_ENTITY_MODEL, data.results);
+            oView.setBusy(false);
+            self._setSelectedItems(data);
+          },
+          error: function (error) {
+            oView.setBusy(false);
+          },
+        });
       },
 
       _getHeaderFilters: function () {

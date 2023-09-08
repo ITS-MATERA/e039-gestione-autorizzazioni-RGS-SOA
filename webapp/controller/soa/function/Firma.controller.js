@@ -45,7 +45,6 @@ sap.ui.define(
 
       _onObjectMatched: function () {
         var self = this;
-        var oModel = self.getModel();
 
         //Controllo se ci sono record selezionati dalla lista
         var oModelSelectedItems = sap.ui.getCore().getModel("SelectedItems");
@@ -91,23 +90,7 @@ sap.ui.define(
         self.setModel(oModelSelectedItems, "ListSoa");
         this._setHeaderSoa(oSelectedItem);
 
-        var aFilters = [];
-        self.setFilterEQ(aFilters, "Esercizio", oSelectedItem.Gjahr);
-        self.setFilterEQ(aFilters, "Bukrs", oSelectedItem.Bukrs);
-        self.setFilterEQ(aFilters, "Zchiavesop", oSelectedItem.Zchiavesop);
-
-        oModel.read("/WFStateSoaSet", {
-          filters: aFilters,
-          success: function (data) {
-            data.results.map((oItem) => {
-              oItem.DataOraString = new Date(oItem.DataOraString);
-            });
-
-            self.setModelCustom("WFStateSoa", data.results);
-          },
-
-          error: function () {},
-        });
+        self.setWorkflowInFunction(oSelectedItem);
       },
 
       onStart: function () {

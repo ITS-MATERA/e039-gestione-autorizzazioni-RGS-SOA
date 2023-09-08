@@ -1984,7 +1984,6 @@ sap.ui.define(
       //#endregion
 
       /** ---------------------------DETTAGLIO------------------------------- */
-
       //#region
       setInpsEditable: function () {
         var self = this;
@@ -2113,6 +2112,68 @@ sap.ui.define(
         oModelSoa.setProperty("/Znumprot", oData.Znumprot);
         oModelSoa.setProperty("/Zdataprot", oData.Zdataprot);
         oModelSoa.setProperty("/Zdataesig", oData.Zdataesig);
+      },
+
+      //#endregion
+
+      /** --------------------------FUNZIONALITA----------------------------- */
+      //#region
+
+      setDatiFirmatario: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var aListSoa = self.getModel("ListSoa").getData();
+
+        var oModelDatiFirmatatario = new JSONModel({
+          ZuffcontFirm: "",
+          ZvimDescrufficio: "",
+          Zcodord: "",
+          ZcodordDesc: "",
+          Fistl: "",
+          ZdirigenteAmm: "",
+        });
+
+        if (aListSoa.length === 1) {
+          oModelDatiFirmatatario.setProperty("/Fistl", aListSoa[0].Fistl);
+        }
+
+        oModel.read("/DatiFirmatarioSet", {
+          success: function (data) {
+            var oData = data.results[0];
+            oModelDatiFirmatatario.setProperty(
+              "/ZuffcontFirm",
+              oData.ZuffcontFirm
+            );
+            oModelDatiFirmatatario.setProperty(
+              "/ZvimDescrufficio",
+              oData.ZvimDescrufficio
+            );
+          },
+        });
+
+        self.setModel(oModelDatiFirmatatario, "DatiFirmatario");
+      },
+
+      setWorkflowInFunction: function (oSelectedItem) {
+        var self = this;
+        var oModel = self.getModel()
+        
+        //Carico il workflow
+        var aFilters = [];
+        self.setFilterEQ(aFilters, "Esercizio", oSelectedItem.Gjahr);
+        self.setFilterEQ(aFilters, "Bukrs", oSelectedItem.Bukrs);
+        self.setFilterEQ(aFilters, "Zchiavesop", oSelectedItem.Zchiavesop);
+
+        oModel.read("/WFStateSoaSet", {
+          filters: aFilters,
+          success: function (data) {
+            data.results.map((oItem) => {
+              oItem.DataOraString = new Date(oItem.DataOraString);
+            });
+
+            self.setModelCustom("WFStateSoa", data.results);
+          },
+        });
       },
 
       //#endregion
