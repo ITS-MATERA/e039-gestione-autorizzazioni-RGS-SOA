@@ -14,14 +14,13 @@
 			contextualWidth="Auto"
 			growing="true"
 			selectionChange="onSelectedItem"
-			updateFinished="onUpdateFinished"
 			items="{
 				path: 'SOASet>/'
 			}"
 		>
 			<headerToolbar>
 				<OverflowToolbar>
-					<Title text="{SoaSettings>/listSOATableTitle}"/>
+					<Title text="{i18n>listSOATableTitle}"/>
 					<ToolbarSpacer/>
 					<Button
 						text="{i18n>btnAnnullamentoSoa}"

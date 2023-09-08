@@ -176,87 +176,6 @@ sap.ui.define(
           });
           self.setModel(oModelClassificazione, "Classificazione");
 
-          var oModelNewAnagraficaBen = new JSONModel({
-            Beneficiario: {
-              FlagSife: true,
-              Lifnr: "",
-              SCountry: "IT",
-              SType: "1",
-              SRagsoc: "",
-              SName: "Alessio",
-              SSurname: "Carone",
-              SStreet: "Parma",
-              SHousenum: "53",
-              SCity: "Altamura",
-              SRegion: "BA",
-              SPstlz: "70022",
-              SSedelegale: false,
-              SStcd1: "PTRLNZ03C10A662T",
-              SStcd2: "86334519757",
-              SStcd3: "",
-
-              DescPaeseResidenza: "",
-              DescProvincia: "",
-            },
-            ModalitaPagamento: {
-              SZwels: "",
-              Zdescwels: "",
-              SType: "",
-              SCountryRes: "",
-              SIban: "",
-              Ztipofirma: "",
-              Swift: "",
-              Zcoordest: "",
-              ValidFromDats: "",
-              ValidToDats: "",
-              Gjahr: "",
-              Zcapo: "",
-              Zcapitolo: "",
-              Zarticolo: "",
-              Zconto: "",
-              ZdescConto: "",
-              Seqnr: "",
-
-              DescPaeseResidenza: "",
-            },
-            Quietanzante: {
-              Zqnome: "",
-              Zqcognome: "",
-              Zqqualifica: "",
-              Stcd1: "",
-              Zqdatanasc: "",
-              Zqluogonasc: "",
-              Zqprovnasc: "",
-              Zqindiriz: "",
-              Zqcitta: "",
-              Zqcap: "",
-              Zqprovincia: "",
-              Zqtelefono: "",
-            },
-            Destinatario: {
-              Zqnomedest: "",
-              Zqcognomedest: "",
-              Zqqualificadest: "",
-              Stcd1Dest: "",
-              Zqdatanascdest: "",
-              Zqluogonascdest: "",
-              Zqprovnascdest: "",
-              Zqindirizdest: "",
-              Zqcittadest: "",
-              Zqcapdest: "",
-              Zqprovinciadest: "",
-              Zqtelefonodest: "",
-            },
-            VisibleNewBeneficiario: false,
-            VisibleNewModalitaPagamento: false,
-            VisibleNewQuietanzante: false,
-            VisibleNewDestinatario: false,
-            TitleDialogNewModPag: "Inserisci Modalità di Pagamento",
-            TitleDialogNewBeneficiario: "Dati Anagrafica Beneficiario",
-            BeneficiarioCreated: false,
-          });
-          self.setModel(oModelNewAnagraficaBen, "NewAnagraficaBen");
-
           var oModelUtility = new JSONModel({
             EnableEdit: true,
             DetailFromFunction: true,
@@ -268,14 +187,6 @@ sap.ui.define(
           this.getRouter()
             .getRoute("soa.create.scenery.Scenario4")
             .attachPatternMatched(this._onObjectMatched, this);
-        },
-        onBeforeRendering: function () {
-          var self = this;
-
-          var oModelSoa = self.getModel("Soa");
-
-          oModelSoa.setProperty("/ZspecieSop", "1");
-          oModelSoa.setProperty("/DescZspecieSop", "Sosp Ben.");
         },
 
         onNavBack: function () {
@@ -634,40 +545,28 @@ sap.ui.define(
             .getModel()
             .createKey("ChiaveAutorizzazioneSet", oParameters);
 
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oDataModel.read("/" + sPath, {
-                success: function (data, oResponse) {
-                  oModelSoa.setProperty("/Gjahr", data?.Gjahr);
-                  oModelSoa.setProperty("/Zzamministr", data?.Zzamministr);
-                  oModelSoa.setProperty("/ZufficioCont", data?.ZufficioCont);
-                  oModelSoa.setProperty("/Fipos", data?.Fipos);
-                  oModelSoa.setProperty("/Fistl", data?.Fistl);
-                  oModelSoa.setProperty("/Zchiaveaut", data?.Zchiaveaut);
-                  oModelSoa.setProperty("/Ztipodisp2", data?.Ztipodisp2);
-                  oModelSoa.setProperty(
-                    "/Zdesctipodisp2",
-                    data?.Zdesctipodisp2
-                  );
-                  oModelSoa.setProperty("/Ztipodisp3", data?.Ztipodisp3);
-                  oModelSoa.setProperty(
-                    "/Zdesctipodisp3",
-                    data?.Zdesctipodisp3
-                  );
-                  oModelSoa.setProperty(
-                    "/Zdesctipodisp3",
-                    data?.Zdesctipodisp3
-                  );
-                  oModelSoa.setProperty("/Zimpaut", data?.Zimpaut);
-                  oModelSoa.setProperty("/Zimpdispaut", data?.Zimpdispaut);
-                  oModelSoa.setProperty("/Zfunzdel", data?.Zfunzdel);
-                  oModelSoa.setProperty("/Zdescriz", data?.Zdescriz);
-                },
-                error: function () {},
-              });
-            });
+          oDataModel.read("/" + sPath, {
+            success: function (data, oResponse) {
+              oModelSoa.setProperty("/Gjahr", data?.Gjahr);
+              oModelSoa.setProperty("/Zzamministr", data?.Zzamministr);
+              oModelSoa.setProperty("/ZufficioCont", data?.ZufficioCont);
+              oModelSoa.setProperty("/Fipos", data?.Fipos);
+              oModelSoa.setProperty("/Fistl", data?.Fistl);
+              oModelSoa.setProperty("/Zchiaveaut", data?.Zchiaveaut);
+              oModelSoa.setProperty("/Ztipodisp2", data?.Ztipodisp2);
+              oModelSoa.setProperty("/Zdesctipodisp2", data?.Zdesctipodisp2);
+              oModelSoa.setProperty("/Ztipodisp3", data?.Ztipodisp3);
+              oModelSoa.setProperty("/Zdesctipodisp3", data?.Zdesctipodisp3);
+              oModelSoa.setProperty("/Zdesctipodisp3", data?.Zdesctipodisp3);
+              oModelSoa.setProperty("/Zimpaut", data?.Zimpaut);
+              oModelSoa.setProperty("/Zimpdispaut", data?.Zimpdispaut);
+              oModelSoa.setProperty("/Zfunzdel", data?.Zfunzdel);
+              oModelSoa.setProperty("/Zdescriz", data?.Zdescriz);
+              oModelSoa.setProperty("/ZspecieSop", "1");
+              oModelSoa.setProperty("/DescZspecieSop", "Sosp Ben.");
+            },
+            error: function () {},
+          });
         },
 
         _getModalitaPagamentoList: function () {
@@ -873,36 +772,6 @@ sap.ui.define(
         //#endregion
 
         //#endregion
-
-        onSaveNewBeneficiario: function () {
-          var self = this;
-          var oModelNewAnagraficaBen = self.getModel("NewAnagraficaBen");
-          var bBeneficiarioCreated = oModelNewAnagraficaBen.getProperty(
-            "/BeneficiarioCreated"
-          );
-          var oModelSoa = self.getModel("Soa");
-
-          if (!bBeneficiarioCreated) {
-            //Se il Beneficiario non è stato creato procedo con la creazione
-            self.saveBeneficiario(function (callback) {
-              if (callback.Success) {
-                var oItem = self.setParametersNewModPagamento(callback.Lifnr);
-                self._getModalitaPagamentoList();
-                self._setDurc();
-                self._setFermoAmministrativo();
-                self.saveModalitaPagamento(oItem, "dlgNewBeneficiario");
-              }
-            });
-          } else {
-            //Se il Beneficiario è stato creato ma l'inserimento della modalità
-            //di pagamento è andata in errore se premo nuovamente salva
-            //salva solo la modalita di pagamento e non il beneficiario
-            var oItem = self.setParametersNewModPagamento(
-              oModelSoa.getProperty("/Lifnr")
-            );
-            self.saveModalitaPagamento(oItem, "dlgNewBeneficiario");
-          }
-        },
       }
     );
   }

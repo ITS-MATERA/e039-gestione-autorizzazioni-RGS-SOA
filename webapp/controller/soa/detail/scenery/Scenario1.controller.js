@@ -8,7 +8,6 @@ sap.ui.define(
   function (BaseSoaController, formatter, JSONModel, MessageBox) {
     "use strict";
 
-    var bPrevalLoaded = false;
     const PAGINATOR_MODEL = "paginatorModel";
     return BaseSoaController.extend(
       "rgssoa.controller.soa.detail.scenery.Scenario1",
@@ -226,34 +225,6 @@ sap.ui.define(
           this.getRouter()
             .getRoute("soa.detail.scenery.Scenario1")
             .attachPatternMatched(this._onObjectMatched, this);
-        },
-
-        onBeforeRendering: function () {
-          var self = this;
-          var oDataModel = self.getModel();
-          var oModelFilter = self.getModel("FilterDocumenti");
-
-          if (!bPrevalLoaded) {
-            self
-              .getModel()
-              .metadataLoaded()
-              .then(function () {
-                oDataModel.read("/" + "PrevalUfficioContabileSet", {
-                  success: function (data) {
-                    oModelFilter.setProperty(
-                      "/UfficioContabile",
-                      data?.results[0]?.Fkber
-                    );
-                    oModelFilter.setProperty(
-                      "/UfficioPagatore",
-                      data?.results[0]?.Fkber
-                    );
-                    bPrevalLoaded = true;
-                  },
-                  error: function (error) {},
-                });
-              });
-          }
         },
 
         onNavBack: function () {
@@ -1068,6 +1039,7 @@ sap.ui.define(
           //Load Models
           var oModel = self.getModel();
           var oModelUtility = self.getModel("Utility");
+          var oModelFilter = self.getModel("FilterDocumenti");
           var oParameters = oEvent.getParameter("arguments");
           var sPath = self.getModel().createKey("SOASet", {
             Gjahr: oParameters.Gjahr,
@@ -1091,6 +1063,20 @@ sap.ui.define(
               self._getClassificazioniSoa();
             },
             error: function () {},
+          });
+
+          oModel.read("/" + "PrevalUfficioContabileSet", {
+            success: function (data) {
+              oModelFilter.setProperty(
+                "/UfficioContabile",
+                data?.results[0]?.Fkber
+              );
+              oModelFilter.setProperty(
+                "/UfficioPagatore",
+                data?.results[0]?.Fkber
+              );
+            },
+            error: function (error) {},
           });
         },
 

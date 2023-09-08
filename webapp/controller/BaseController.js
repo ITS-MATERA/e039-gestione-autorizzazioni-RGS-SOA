@@ -121,27 +121,6 @@ sap.ui.define(
         }
       },
 
-      setTitleTotalItems: function (
-        modelName,
-        totalItemsProperties,
-        tableTitle,
-        tableTitleCount
-      ) {
-        var sTitle;
-        var oModel = this.getModel(modelName);
-
-        var iTotalItems = oModel.getProperty("/" + totalItemsProperties);
-
-        if (iTotalItems > 0) {
-          sTitle = this.getResourceBundle().getText(tableTitleCount, [
-            iTotalItems,
-          ]);
-        } else {
-          sTitle = this.getResourceBundle().getText(tableTitle);
-        }
-        oModel.setProperty("/" + tableTitle, sTitle);
-      },
-
       clearModel: function (sNameModel) {
         var oModelJSON = new JSONModel({});
         this.getView().setModel(oModelJSON, sNameModel);

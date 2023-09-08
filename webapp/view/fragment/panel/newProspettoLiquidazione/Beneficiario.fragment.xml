@@ -2,106 +2,222 @@
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
 	xmlns:l="sap.ui.layout"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-  <Panel backgroundDesign="Transparent">
+	<Panel backgroundDesign="Transparent">
 		<headerToolbar>
-      <OverflowToolbar>
-        <Title text="{i18n>titleBeneficiario}" />
+			<OverflowToolbar>
+				<Title text="{i18n>titleBeneficiario}"/>
 				<ToolbarSpacer/>
-				<Button 
-					text="{i18n>btnNewModalitaPagamento}" 
+				<Button
+					text="{i18n>btnNewModalitaPagamento}"
 					class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
 					type="Emphasized"
-					press="onNewModalitaPagamento"
+					enabled="false"
 				/>
-				<Button 
+				<Button
 					text="{i18n>btnNewBeneficiario}"
 					class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
 					type="Emphasized"
-					press="onNewBeneficiario"
+					enabled="false"
 				/>
-      </OverflowToolbar>
-    </headerToolbar>
-
+			</OverflowToolbar>
+		</headerToolbar>
 		<content>
-			<l:Grid defaultSpan="XL12 L12 M12 S12" hSpacing="0.5">
-				<Text text="{i18n>inputBeneficiario}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
-          <layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
-        </Text>
+			<l:Grid
+				defaultSpan="XL12 L12 M12 S12"
+				hSpacing="0.5"
+			>
+				<Text
+					text="{i18n>inputBeneficiario}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
 				<Input
 					valueHelpRequest="onValueHelpBeneficiario"
 					showValueHelp="true"
 					valueHelpOnly="true"
 					value="{Soa>/Lifnr}"
 				>
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
 				</Input>
-				<RadioButtonGroup columns="2" editable="false">
-          <RadioButton text="{i18n>rbPersonaFisica}" selected="{= ${Soa>/BuType} === '1' ? true : false }"/>
-          <RadioButton text="{i18n>rbPersonaGiuridica}" selected="{= ${Soa>/BuType} === '2' || ${Soa>/BuType} === '3' ? true : false }"/>
-					<layoutData><l:GridData span="XL7 L6 M12 S12" indent="XL1"/></layoutData>
-		    </RadioButtonGroup>
-
-				<Text text="{i18n>inputCF}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
-          <layoutData><l:GridData span="XL2 L3 M5 S12" linebreak="true"/></layoutData>
-        </Text>
-				<Input editable="false" value="{Soa>/TaxnumCf}">
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+				<RadioButtonGroup
+					columns="2"
+					editable="false"
+				>
+					<RadioButton
+						text="{i18n>rbPersonaFisica}"
+						selected="{= ${Soa>/BuType} === '1' ? true : false }"
+					/>
+					<RadioButton
+						text="{i18n>rbPersonaGiuridica}"
+						selected="{= ${Soa>/BuType} === '2' || ${Soa>/BuType} === '3' ? true : false }"
+					/>
+					<layoutData>
+						<l:GridData
+							span="XL7 L6 M12 S12"
+							indent="XL1"
+						/>
+					</layoutData>
+				</RadioButtonGroup>
+				<Text
+					text="{i18n>inputCF}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/TaxnumCf}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
 				</Input>
-				<Text text="{i18n>inputCFEstero}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
-          <layoutData><l:GridData span="XL2 L3 M5 S12" indent="XL1"/></layoutData>
-        </Text>
-				<Input editable="false" value="{Soa>/Taxnumxl}">
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+				<Text
+					text="{i18n>inputCFEstero}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							indent="XL1"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/Taxnumxl}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
 				</Input>
-
-				<Text text="{i18n>inputNome}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
-          <layoutData><l:GridData span="XL2 L3 M5 S12" linebreak="true"/></layoutData>
-        </Text>
-				<Input editable="false" value="{Soa>/NameFirst}">
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+				<Text
+					text="{i18n>inputNome}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/NameFirst}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
 				</Input>
-				<Text text="{i18n>inputCognome}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
-          <layoutData><l:GridData span="XL2 L3 M5 S12" indent="XL1"/></layoutData>
-        </Text>
-				<Input editable="false" value="{Soa>/NameLast}">
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+				<Text
+					text="{i18n>inputCognome}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							indent="XL1"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/NameLast}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
 				</Input>
-
-				<Text text="{i18n>inputRagSociale}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
-          <layoutData><l:GridData span="XL2 L3 M5 S12" linebreak="true"/></layoutData>
-        </Text>
-				<Input editable="false" value="{Soa>/ZzragSoc}">
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
-				</Input>				
-				<Text text="{i18n>inputPartitaIva}" class="sapUiTinyMarginTop sapUiLargeMarginEnd">
-          <layoutData><l:GridData span="XL2 L3 M5 S12" indent="XL1"/></layoutData>
-        </Text>
-				<Input editable="false" value="{Soa>/TaxnumPiva}">
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+				<Text
+					text="{i18n>inputRagSociale}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/ZzragSoc}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
 				</Input>
-			
-        <Label text="{i18n>inputModalitaPagamento}" class="sapUiTinyMarginTop sapUiLargeMarginEnd" required="true">
-					<layoutData><l:GridData span="XL2 L3 M5 S12" linebreak="true"/></layoutData>
+				<Text
+					text="{i18n>inputPartitaIva}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							indent="XL1"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/TaxnumPiva}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Label
+					text="{i18n>inputModalitaPagamento}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					required="true"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
 				</Label>
 				<ComboBox
 					width="100%"
-					items="{path: 'ModalitaPagamento>/'}"
+					items="{
+						path: 'ModalitaPagamento>/'
+					}"
 					selectedKey="{Soa>/Zwels}"
 					editable="{= ${Soa>/Lifnr} ? true : false}"
 					selectionChange="onModalitaPagamentoChange"
-
 				>
-					<c:Item 
-            key="{ModalitaPagamento>Zwels}" 
-            text="{ModalitaPagamento>Zdescwels}"
-          /> 
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+					<c:Item
+						key="{ModalitaPagamento>Zwels}"
+						text="{ModalitaPagamento>Zdescwels}"
+					/>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
 				</ComboBox>
-
-        <Label text="{i18n>inputIban}" class="sapUiTinyMarginTop sapUiLargeMarginEnd" required="true">
-					<layoutData><l:GridData span="XL2 L3 M5 S12" indent="XL1"/></layoutData>
+				<Label
+					text="{i18n>inputIban}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					required="true"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							indent="XL1"
+						/>
+					</layoutData>
 				</Label>
 				<Input
 					valueHelpRequest="onValueHelpIban"
@@ -110,23 +226,48 @@
 					value="{Soa>/Iban}"
 					editable="{= ${Soa>/Lifnr} ? true : false}"
 				>
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
 				</Input>
-
-        <Text text="{i18n>inputDurc}" class="sapUiTinyMarginTop sapUiLargeMarginEnd" >
-					<layoutData><l:GridData span="XL2 L3 M5 S12" linebreak="true"/></layoutData>
+				<Text
+					text="{i18n>inputDurc}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
 				</Text>
-				<Input editable="false" value="{Soa>/Zdurc}">
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+				<Input
+					editable="false"
+					value="{Soa>/Zdurc}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
 				</Input>
-
-        <Text text="{i18n>inputFermoAmministrativo}" class="sapUiTinyMarginTop sapUiLargeMarginEnd" >
-					<layoutData><l:GridData span="XL2 L3 M5 S12" indent="XL1"/></layoutData>
+				<Text
+					text="{i18n>inputFermoAmministrativo}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							indent="XL1"
+						/>
+					</layoutData>
 				</Text>
-				<Input editable="false" value="{Soa>/ZfermAmm}">
-					<layoutData><l:GridData span="XL2 L3 M5 S12"/></layoutData>
+				<Input
+					editable="false"
+					value="{Soa>/ZfermAmm}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
 				</Input>
-
 			</l:Grid>
 		</content>
 	</Panel>

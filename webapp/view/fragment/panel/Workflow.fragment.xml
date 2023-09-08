@@ -18,7 +18,14 @@
 		>
 			<c:content>
 				<c:TimelineItem
-					dateTime="{WFStateSoa>DataOraString}"
+					dateTime="
+						{
+						path: 'WFStateSoa>DataOraString',
+						type: 'sap.ui.model.type.Date',
+						formatOptions: {
+							pattern: 'dd.MM.yyyy HH.mm'
+						}
+					}"
 					text="{WFStateSoa>DescStato} da {WFStateSoa>Utente}"
 					userName="{WFStateSoa>DescStato}"
 					icon="{= ${WFStateSoa>IsLast} === 'X' ? 'sap-icon://favorite' : 'sap-icon://person-placeholder' }"

@@ -12,7 +12,6 @@
 					text="{i18n>btnNewModalitaPagamento}"
 					class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
 					type="Emphasized"
-					press="onNewModalitaPagamento"
 					enabled="{= 
 						${Soa>/ZspecieSop} === '1' &amp;&amp; 
 						(${Soa>/Ztipopag} === '1' || ${Soa>/Ztipopag} === '2' || ${Soa>/Ztipopag} === '3')
@@ -29,7 +28,6 @@
 						${Soa>/Ztipopag} === '2' &amp;&amp; 
 						${Soa>/EnableEdit} ? true : false
 					}"
-					press="onNewBeneficiario"
 				/>
 			</OverflowToolbar>
 		</headerToolbar>

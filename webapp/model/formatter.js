@@ -60,5 +60,12 @@ sap.ui.define([], function () {
       sValue = sValue.getFullYear() + "-" + sMonth + "-" + sDate;
       return sValue;
     },
+
+    deleteFirstZeros: function (sValue) {
+      if (parseInt(sValue) === 0) {
+        return "";
+      }
+      return parseInt(sValue).toString();
+    },
   };
 });

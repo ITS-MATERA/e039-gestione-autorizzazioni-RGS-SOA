@@ -37,18 +37,6 @@ sap.ui.define(
           paginatorTotalPage: 1,
         });
 
-        var oModelSoa = new JSONModel({
-          totalItems: 0,
-          selectedItems: [],
-          enabledBtnDetail: false,
-          EnableBtnAnnullamento: false,
-          EnableBtnRevocaInvioFirma: false,
-          EnableBtnFirma: false,
-          EnablebtnRevocaFirma: false,
-          EnableBtnInvioFirma: false,
-          EnablebtnRegistrazioneRichAnn: false,
-        });
-
         var oModelFilter = new JSONModel({
           Gjahr: "",
           Zzamministr: "",
@@ -96,9 +84,7 @@ sap.ui.define(
           CancellazioneRichAnn: false,
         });
         self.setModel(oModelAuthoryCheckSoa, "AuthorityCheckSoa");
-
         self.setModel(oModelPaginator, PAGINATOR_MODEL);
-        self.setModel(oModelSoa, SOA_MODEL);
         self.setModel(oModelFilter, "Filter");
       },
 
@@ -137,19 +123,21 @@ sap.ui.define(
       },
 
       onSearch: function () {
+        var self = this;
+        var oModelSoa = new JSONModel({
+          selectedItems: [],
+          enabledBtnDetail: false,
+          EnableBtnAnnullamento: false,
+          EnableBtnRevocaInvioFirma: false,
+          EnableBtnFirma: false,
+          EnablebtnRevocaFirma: false,
+          EnableBtnInvioFirma: false,
+          EnablebtnRegistrazioneRichAnn: false,
+        });
+        self.setModel(oModelSoa, SOA_MODEL);
+
         this._setPaginatorProperties();
         this._getSoaList();
-      },
-
-      onUpdateFinished: function () {
-        var self = this;
-
-        self.setTitleTotalItems(
-          SOA_MODEL,
-          "totalItems",
-          "listSOATableTitle",
-          "listSOATableTitleCount"
-        );
       },
 
       onRegisterSoa: function () {
@@ -834,7 +822,7 @@ sap.ui.define(
           return;
         }
 
-        //TODO - Capire che stato devono avere per poter essere selezionate
+        //TODO - Rimettere lo stato a 10
         aSelectedItems.map((oSelectedItem) => {
           if (oSelectedItem.ZcodStatosop !== "00") {
             bEnabled = false;
@@ -855,10 +843,9 @@ sap.ui.define(
         var oModelFilter = self.getModel("Filter");
         var bEnabled = true;
 
-        //TODO - Rimettere "No"
         if (
           aSelectedItems.length !== 1 ||
-          oModelFilter.getProperty("/Zricann") !== "No"
+          oModelFilter.getProperty("/Zricann") !== "Si"
         ) {
           bEnabled = false;
           oModelSoaSettings.setProperty(
@@ -868,7 +855,7 @@ sap.ui.define(
           return;
         }
 
-        //TODO - Capire che stato devono avere per poter essere selezionate
+        //TODO - Rimettere lo stato a 10
         aSelectedItems.map((oSelectedItem) => {
           if (oSelectedItem.ZcodStatosop !== "00") {
             bEnabled = false;

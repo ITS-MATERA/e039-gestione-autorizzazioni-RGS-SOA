@@ -10,7 +10,6 @@ sap.ui.define(
   function (JSONModel, formatter, Filter, FilterOperator, BaseSoaController) {
     "use strict";
 
-    var bPrevalLoaded = false;
     const PAGINATOR_MODEL = "paginatorModel";
     return BaseSoaController.extend(
       "rgssoa.controller.soa.create.scenery.Scenario1",
@@ -189,87 +188,6 @@ sap.ui.define(
           });
           self.setModel(oModelFilterDocumenti, "FilterDocumenti");
 
-          var oModelNewAnagraficaBen = new JSONModel({
-            Beneficiario: {
-              FlagSife: true,
-              Lifnr: "",
-              SCountry: "",
-              SType: "",
-              SRagsoc: "",
-              SName: "",
-              SSurname: "",
-              SStreet: "",
-              SHousenum: "",
-              SCity: "",
-              SRegion: "",
-              SPstlz: "",
-              SSedelegale: false,
-              SStcd1: "",
-              SStcd2: "",
-              SStcd3: "",
-
-              DescPaeseResidenza: "",
-              DescProvincia: "",
-            },
-            ModalitaPagamento: {
-              SZwels: "",
-              Zdescwels: "",
-              SType: "",
-              SCountryRes: "",
-              SIban: "",
-              Ztipofirma: "",
-              Swift: "",
-              Zcoordest: "",
-              ValidFromDats: "",
-              ValidToDats: "",
-              Gjahr: "",
-              Zcapo: "",
-              Zcapitolo: "",
-              Zarticolo: "",
-              Zconto: "",
-              ZdescConto: "",
-              Seqnr: "",
-
-              DescPaeseResidenza: "",
-            },
-            Quietanzante: {
-              Zqnome: "",
-              Zqcognome: "",
-              Zqqualifica: "",
-              Stcd1: "",
-              Zqdatanasc: "",
-              Zqluogonasc: "",
-              Zqprovnasc: "",
-              Zqindiriz: "",
-              Zqcitta: "",
-              Zqcap: "",
-              Zqprovincia: "",
-              Zqtelefono: "",
-            },
-            Destinatario: {
-              Zqnomedest: "",
-              Zqcognomedest: "",
-              Zqqualificadest: "",
-              Stcd1Dest: "",
-              Zqdatanascdest: "",
-              Zqluogonascdest: "",
-              Zqprovnascdest: "",
-              Zqindirizdest: "",
-              Zqcittadest: "",
-              Zqcapdest: "",
-              Zqprovinciadest: "",
-              Zqtelefonodest: "",
-            },
-            VisibleNewBeneficiario: false,
-            VisibleNewModalitaPagamento: false,
-            VisibleNewQuietanzante: false,
-            VisibleNewDestinatario: false,
-            TitleDialogNewModPag: "Inserisci Modalità di Pagamento",
-            TitleDialogNewBeneficiario: "Dati Anagrafica Beneficiario",
-            BeneficiarioCreated: false,
-          });
-          self.setModel(oModelNewAnagraficaBen, "NewAnagraficaBen");
-
           var oModelUtility = new JSONModel({
             EnableEdit: true,
             DetailFromFunction: true,
@@ -284,33 +202,6 @@ sap.ui.define(
           this.getRouter()
             .getRoute("soa.create.scenery.Scenario1")
             .attachPatternMatched(this._onObjectMatched, this);
-        },
-        onBeforeRendering: function () {
-          var self = this;
-          var oDataModel = self.getModel();
-          var oModelFilter = self.getModel("FilterDocumenti");
-
-          if (!bPrevalLoaded) {
-            self
-              .getModel()
-              .metadataLoaded()
-              .then(function () {
-                oDataModel.read("/" + "PrevalUfficioContabileSet", {
-                  success: function (data) {
-                    oModelFilter.setProperty(
-                      "/UfficioContabile",
-                      data?.results[0]?.Fkber
-                    );
-                    oModelFilter.setProperty(
-                      "/UfficioPagatore",
-                      data?.results[0]?.Fkber
-                    );
-                    bPrevalLoaded = true;
-                  },
-                  error: function (error) {},
-                });
-              });
-          }
         },
 
         onNavBack: function () {
@@ -605,47 +496,48 @@ sap.ui.define(
         _onObjectMatched: function (oEvent) {
           var self = this;
           //Load Models
-          var oDataModel = self.getModel();
+          var oModel = self.getModel();
           var oModelSoa = self.getModel("Soa");
+          var oModelFilter = self.getModel("FilterDocumenti");
           var oParameters = oEvent.getParameter("arguments");
           var sPath = self
             .getModel()
             .createKey("ChiaveAutorizzazioneSet", oParameters);
 
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oDataModel.read("/" + sPath, {
-                success: function (data, oResponse) {
-                  oModelSoa.setProperty("/Gjahr", data?.Gjahr);
-                  oModelSoa.setProperty("/Zzamministr", data?.Zzamministr);
-                  oModelSoa.setProperty("/ZufficioCont", data?.ZufficioCont);
-                  oModelSoa.setProperty("/Fipos", data?.Fipos);
-                  oModelSoa.setProperty("/Fistl", data?.Fistl);
-                  oModelSoa.setProperty("/Zchiaveaut", data?.Zchiaveaut);
-                  oModelSoa.setProperty("/Ztipodisp2", data?.Ztipodisp2);
-                  oModelSoa.setProperty(
-                    "/Zdesctipodisp2",
-                    data?.Zdesctipodisp2
-                  );
-                  oModelSoa.setProperty("/Ztipodisp3", data?.Ztipodisp3);
-                  oModelSoa.setProperty(
-                    "/Zdesctipodisp3",
-                    data?.Zdesctipodisp3
-                  );
-                  oModelSoa.setProperty(
-                    "/Zdesctipodisp3",
-                    data?.Zdesctipodisp3
-                  );
-                  oModelSoa.setProperty("/Zimpaut", data?.Zimpaut);
-                  oModelSoa.setProperty("/Zimpdispaut", data?.Zimpdispaut);
-                  oModelSoa.setProperty("/Zfunzdel", data?.Zfunzdel);
-                  oModelSoa.setProperty("/Zdescriz", data?.Zdescriz);
-                },
-                error: function () {},
-              });
-            });
+          oModel.read("/" + sPath, {
+            success: function (data, oResponse) {
+              oModelSoa.setProperty("/Gjahr", data?.Gjahr);
+              oModelSoa.setProperty("/Zzamministr", data?.Zzamministr);
+              oModelSoa.setProperty("/ZufficioCont", data?.ZufficioCont);
+              oModelSoa.setProperty("/Fipos", data?.Fipos);
+              oModelSoa.setProperty("/Fistl", data?.Fistl);
+              oModelSoa.setProperty("/Zchiaveaut", data?.Zchiaveaut);
+              oModelSoa.setProperty("/Ztipodisp2", data?.Ztipodisp2);
+              oModelSoa.setProperty("/Zdesctipodisp2", data?.Zdesctipodisp2);
+              oModelSoa.setProperty("/Ztipodisp3", data?.Ztipodisp3);
+              oModelSoa.setProperty("/Zdesctipodisp3", data?.Zdesctipodisp3);
+              oModelSoa.setProperty("/Zdesctipodisp3", data?.Zdesctipodisp3);
+              oModelSoa.setProperty("/Zimpaut", data?.Zimpaut);
+              oModelSoa.setProperty("/Zimpdispaut", data?.Zimpdispaut);
+              oModelSoa.setProperty("/Zfunzdel", data?.Zfunzdel);
+              oModelSoa.setProperty("/Zdescriz", data?.Zdescriz);
+            },
+            error: function () {},
+          });
+
+          oModel.read("/" + "PrevalUfficioContabileSet", {
+            success: function (data) {
+              oModelFilter.setProperty(
+                "/UfficioContabile",
+                data?.results[0]?.Fkber
+              );
+              oModelFilter.setProperty(
+                "/UfficioPagatore",
+                data?.results[0]?.Fkber
+              );
+            },
+            error: function (error) {},
+          });
         },
 
         _setPaginatorProperties: function () {

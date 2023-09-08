@@ -35,7 +35,7 @@
 					editable="{=
 						${FilterDocumenti>/Lifnr} ||
 						${FilterDocumenti>/TipoBeneficiario} ||
-						${Soa>/EnableEdit}
+						${Soa>/EnableEdit} === false
 						? false : true
 					}"
 				>
@@ -65,7 +65,7 @@
 					editable="{=
 						${FilterDocumenti>/Lifnr} ||
 						${FilterDocumenti>/TipoBeneficiario} ||
-						${Soa>/EnableEdit}
+						${Soa>/EnableEdit} === false
 						? false : true
 					}"
 				>
@@ -97,7 +97,7 @@
 					editable="{=
 						${FilterDocumenti>/Lifnr} ||
 						${FilterDocumenti>/TipoBeneficiario} ||
-						${Soa>/EnableEdit}
+						${Soa>/EnableEdit} === false
 						? false : true
 					}"
 					select="onQuoteEsigibiliChange"
@@ -135,7 +135,7 @@
 						${FilterDocumenti>/QuoteEsigibili} === false ||
 						${FilterDocumenti>/Lifnr} ||
 						${FilterDocumenti>/TipoBeneficiario} ||
-						${Soa>/EnableEdit}
+						${Soa>/EnableEdit} === false
 						? false : true
 					}"
 				>
@@ -165,7 +165,7 @@
 						${FilterDocumenti>/QuoteEsigibili} === false ||
 						${FilterDocumenti>/Lifnr} ||
 						${FilterDocumenti>/TipoBeneficiario} ||
-						${Soa>/EnableEdit}
+						${Soa>/EnableEdit} === false
 						? false : true
 					}"
 				>
