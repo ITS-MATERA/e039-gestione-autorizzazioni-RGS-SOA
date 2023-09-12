@@ -58,10 +58,8 @@
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
 				</Text>
-				<Input
-					enabled="false"
-					value="{DatiFirmatario>/Zcodord}"
-				>
+				<!-- TODO - Rimettere non editabile -->
+				<Input value="{DatiFirmatario>/Zcodord}">
 					<layoutData>
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
@@ -108,6 +106,39 @@
 						<l:GridData span="XL2 L3 M12 S12"/>
 					</layoutData>
 				</Input>
+				<DatePicker
+					visible="{Utility>/EnableInvioFirma}"
+					valueFormat="yyyy-MM-dd"
+					displayFormat="dd.MM.yyyy"
+					placeholder=" "
+					value="{
+						path: 'Utility>/Zdataprot',
+						type: 'sap.ui.model.type.Date',
+						formatOptions: {
+							pattern: 'dd.MM.yyyy'
+						}
+					}"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M12 S12"
+							linebreak="true"
+							indent="XL8 L6"
+						/>
+					</layoutData>
+				</DatePicker>
+				<Button
+					visible="{Utility>/EnableInvioFirma}"
+					type="Emphasized"
+					press="onValorizzaDataProt"
+					text="{i18n>btnvalorizzaDataProt}"
+					width="100%"
+					enabled="{= ${Utility>/Zdataprot} ? true : false}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M12 S12"/>
+					</layoutData>
+				</Button>
 			</l:Grid>
 		</content>
 	</Panel>

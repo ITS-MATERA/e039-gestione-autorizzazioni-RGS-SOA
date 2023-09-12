@@ -18,7 +18,9 @@ sap.ui.define(
         onNavBack: function () {
           var self = this;
 
-          self.getRouter().navTo("soa.list.ListSoa");
+          self.getRouter().navTo("soa.list.ListSoa", {
+            Reload: true,
+          });
         },
 
         onIconTabChange: function (oEvent) {
@@ -51,7 +53,9 @@ sap.ui.define(
           //Controllo se ci sono record selezionati dalla lista
           var oModelSelectedItems = sap.ui.getCore().getModel("SelectedItems");
           if (!oModelSelectedItems) {
-            self.getRouter().navTo("soa.list.ListSoa");
+            self.getRouter().navTo("soa.list.ListSoa", {
+              Reload: false,
+            });
             return;
           }
 
@@ -82,7 +86,9 @@ sap.ui.define(
               MessageBox.error("Utente Non Autorizzato", {
                 actions: [MessageBox.Action.OK],
                 onClose: function () {
-                  self.getRouter().navTo("soa.list.ListSoa");
+                  self.getRouter().navTo("soa.list.ListSoa", {
+                    Reload: false,
+                  });
                 },
               });
             }

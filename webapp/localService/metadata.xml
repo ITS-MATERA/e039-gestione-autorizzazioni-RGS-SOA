@@ -1081,6 +1081,36 @@
                 <Property Name="ZvimDescrufficio" Type="Edm.String" MaxLength="25" sap:unicode="false" sap:label="FunctArea text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Zcodord" Type="Edm.String" MaxLength="35" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
+            <EntityType Name="FunzionalitaDeep" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Funzionalita"/>
+                </Key>
+                <Property Name="Funzionalita" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IsSuccess" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Indicator" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZuffcontFirm" Type="Edm.String" Nullable="false" MaxLength="16" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Zcodord" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZdirigenteAmm" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="Messaggio" Relationship="ZS4_SOA_SRV.FunzionalitaDeepToBapiret" FromRole="FromRole_FunzionalitaDeepToBapiret" ToRole="ToRole_FunzionalitaDeepToBapiret"/>
+                <NavigationProperty Name="Sospeso" Relationship="ZS4_SOA_SRV.FunzionalitaDeepToSospeso" FromRole="FromRole_FunzionalitaDeepToSospeso" ToRole="ToRole_FunzionalitaDeepToSospeso"/>
+            </EntityType>
+            <EntityType Name="Sospeso" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Bukrs"/>
+                    <PropertyRef Name="Gjahr"/>
+                    <PropertyRef Name="Zchiavesop"/>
+                    <PropertyRef Name="Zstep"/>
+                    <PropertyRef Name="Ztipososp"/>
+                </Key>
+                <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Company Code" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lifnr" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Vendor" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Gjahr" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Fiscal Year" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Witht" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="WTax Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Zchiavesop" Type="Edm.String" Nullable="false" MaxLength="33" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZzCebenra" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Zstep" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ztipososp" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ztipopag" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
             <ComplexType Name="Pagamento">
                 <Property Name="SZwels" Type="Edm.String" MaxLength="10" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Zdescwels" Type="Edm.String" MaxLength="50" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
@@ -1144,6 +1174,14 @@
                     </Dependent>
                 </ReferentialConstraint>
             </Association>
+            <Association Name="FunzionalitaDeepToSospeso" sap:content-version="1">
+                <End Type="ZS4_SOA_SRV.FunzionalitaDeep" Multiplicity="1" Role="FromRole_FunzionalitaDeepToSospeso"/>
+                <End Type="ZS4_SOA_SRV.Sospeso" Multiplicity="*" Role="ToRole_FunzionalitaDeepToSospeso"/>
+            </Association>
+            <Association Name="FunzionalitaDeepToBapiret" sap:content-version="1">
+                <End Type="ZS4_SOA_SRV.FunzionalitaDeep" Multiplicity="1" Role="FromRole_FunzionalitaDeepToBapiret"/>
+                <End Type="ZS4_SOA_SRV.Bapiret" Multiplicity="*" Role="ToRole_FunzionalitaDeepToBapiret"/>
+            </Association>
             <EntityContainer Name="ZS4_SOA_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
                 <EntitySet Name="InserisciModalitaPagamentoSet" EntityType="ZS4_SOA_SRV.InserisciModalitaPagamento" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="NmpModalitaPagamentoSet" EntityType="ZS4_SOA_SRV.NmpModalitaPagamento" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
@@ -1160,6 +1198,8 @@
                 <EntitySet Name="SoaClassificazioneSet" EntityType="ZS4_SOA_SRV.SoaClassificazione" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="WFStateSoaSet" EntityType="ZS4_SOA_SRV.WFStateSoa" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="DatiFirmatarioSet" EntityType="ZS4_SOA_SRV.DatiFirmatario" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="FunzionalitaDeepSet" EntityType="ZS4_SOA_SRV.FunzionalitaDeep" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="SospesoSet" EntityType="ZS4_SOA_SRV.Sospeso" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="DescFistlSet" EntityType="ZS4_SOA_SRV.DescFistl" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="WFStateAutSet" EntityType="ZS4_SOA_SRV.WFStateAut" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="StateSOASet" EntityType="ZS4_SOA_SRV.StateSOA" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
@@ -1232,9 +1272,17 @@
                     <End EntitySet="SoaDeepSet" Role="FromRole_SoaDeepToSoaClassificazione"/>
                     <End EntitySet="SoaClassificazioneSet" Role="ToRole_SoaDeepToSoaClassificazione"/>
                 </AssociationSet>
+                <AssociationSet Name="FunzionalitaDeepToSospeso_AssocSet" Association="ZS4_SOA_SRV.FunzionalitaDeepToSospeso" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="FunzionalitaDeepSet" Role="FromRole_FunzionalitaDeepToSospeso"/>
+                    <End EntitySet="SospesoSet" Role="ToRole_FunzionalitaDeepToSospeso"/>
+                </AssociationSet>
                 <AssociationSet Name="SoaDeepToBapiret_AssocSet" Association="ZS4_SOA_SRV.SoaDeepToBapiret" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="SoaDeepSet" Role="FromRole_SoaDeepToBapiret"/>
                     <End EntitySet="BapiretSet" Role="ToRole_SoaDeepToBapiret"/>
+                </AssociationSet>
+                <AssociationSet Name="FunzionalitaDeepToBapiret_AssocSet" Association="ZS4_SOA_SRV.FunzionalitaDeepToBapiret" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="FunzionalitaDeepSet" Role="FromRole_FunzionalitaDeepToBapiret"/>
+                    <End EntitySet="BapiretSet" Role="ToRole_FunzionalitaDeepToBapiret"/>
                 </AssociationSet>
                 <AssociationSet Name="SoaDeepToSoaPosizioneDeep_AssocSet" Association="ZS4_SOA_SRV.SoaDeepToSoaPosizioneDeep" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="SoaDeepSet" Role="FromRole_SoaDeepToSoaPosizioneDeep"/>

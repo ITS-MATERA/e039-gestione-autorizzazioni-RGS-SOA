@@ -1894,19 +1894,20 @@ sap.ui.define(
 
         oModel.create("/SoaDeepSet", oSoaDeep, {
           success: function (result) {
-            if (result?.Messaggio.results.length !== 0) {
-              oModelSoa.setProperty("/Messaggio", result?.Messaggio?.results);
+            var aMessaggio = result?.Messaggio.results;
+
+            if (aMessaggio.length !== 0) {
               sap.m.MessageBox.error("Operazione non eseguita correttamente");
               return;
             }
             sap.m.MessageBox.success(
-              "SOA n. " +
-                result.Zchiavesop +
-                " registrato correttamente correttamente",
+              "SOA n. " + result.Zchiavesop + " registrato correttamente",
               {
                 actions: [MessageBox.Action.CLOSE],
                 onClose: function () {
-                  self.getRouter().navTo("soa.list.ListSoa");
+                  self.getRouter().navTo("soa.list.ListSoa", {
+                    Reload: true,
+                  });
                 },
               }
             );
@@ -1921,9 +1922,6 @@ sap.ui.define(
       //#region
       onLog: function () {
         var self = this;
-
-        var oModelSoa = self.getModel("Soa");
-        self.setModelCustom("Log", oModelSoa.getProperty("/Messaggio"));
         var oDialog = self.loadFragment("rgssoa.view.fragment.pop-up.TableLog");
 
         oDialog.open();
@@ -1980,6 +1978,32 @@ sap.ui.define(
         oSheet.build().finally(function () {
           oSheet.destroy();
         });
+      },
+
+      getLogModel: function () {
+        var self = this;
+        var oEmptyModel = new JSONModel({
+          Messaggio: [],
+        });
+
+        var oGlobalModelLog = sap.ui.getCore().getModel("GlobalLog");
+
+        if (!oGlobalModelLog) {
+          oGlobalModelLog = oEmptyModel;
+        }
+
+        self.setModel(oGlobalModelLog, "Log");
+        sap.ui.getCore().setModel(oEmptyModel, "GlobalLog");
+      },
+
+      setLogModel: function (aLog) {
+        var self = this;
+        var oModel = new JSONModel({
+          Messaggio: aLog,
+        });
+
+        sap.ui.getCore().setModel(oModel, "GlobalLog");
+        self.setModel(oModel, "Log");
       },
       //#endregion
 
@@ -2122,7 +2146,8 @@ sap.ui.define(
       setDatiFirmatario: function () {
         var self = this;
         var oModel = self.getModel();
-        var aListSoa = self.getModel("ListSoa").getData();
+        var oModelListSoa = self.getModel("ListSoa");
+        var aListSoa = oModelListSoa.getData();
 
         var oModelDatiFirmatatario = new JSONModel({
           ZuffcontFirm: "",
@@ -2156,8 +2181,8 @@ sap.ui.define(
 
       setWorkflowInFunction: function (oSelectedItem) {
         var self = this;
-        var oModel = self.getModel()
-        
+        var oModel = self.getModel();
+
         //Carico il workflow
         var aFilters = [];
         self.setFilterEQ(aFilters, "Esercizio", oSelectedItem.Gjahr);
@@ -2174,6 +2199,51 @@ sap.ui.define(
             self.setModelCustom("WFStateSoa", data.results);
           },
         });
+      },
+
+      printMessage: function (oResult, sTitle) {
+        var self = this;
+        var aMessage = oResult?.Messaggio.results;
+
+        if (aMessage.length === 1) {
+          var oMessage = aMessage[0];
+
+          if (oResult.IsSuccess) {
+            MessageBox.success(oMessage.Message, {
+              actions: [MessageBox.Action.OK],
+              title: sTitle,
+              onClose: function () {
+                self.getRouter().navTo("soa.list.ListSoa", {
+                  Reload: true,
+                });
+              },
+            });
+          } else {
+            MessageBox.error(oMessage.Message, {
+              actions: [MessageBox.Action.OK],
+              title: sTitle,
+            });
+          }
+        } else {
+          self.setLogModel(aMessage);
+
+          if (oResult.IsSuccess) {
+            MessageBox.success("Operazione eseguita correttamente", {
+              actions: [MessageBox.Action.OK],
+              title: sTitle,
+              onClose: function () {
+                self.getRouter().navTo("soa.list.ListSoa", {
+                  Reload: true,
+                });
+              },
+            });
+          } else {
+            MessageBox.error("Operazione non eseguita correttamente", {
+              actions: [MessageBox.Action.OK],
+              title: sTitle,
+            });
+          }
+        }
       },
 
       //#endregion

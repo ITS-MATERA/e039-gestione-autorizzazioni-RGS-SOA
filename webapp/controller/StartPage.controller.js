@@ -44,7 +44,9 @@ sap.ui.define(
             return;
           }
 
-          self.getRouter().navTo("soa.list.ListSoa");
+          self.getRouter().navTo("soa.list.ListSoa", {
+            Reload: false,
+          });
         });
       },
     });

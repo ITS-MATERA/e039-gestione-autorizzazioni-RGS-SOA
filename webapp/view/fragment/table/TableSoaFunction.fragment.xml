@@ -212,13 +212,15 @@
 							/>
 							<Text text="{ListSoa>DescStateSoa}"/>
 							<Input
+								id="iptNumProtocollo"
 								value="{
-									path: 'ListSoa>Znumprot',
-									formatter: '.formatter.deleteFirstZeros'
+									path: 'ListSoa>Znumprot'
 								}"
-								maxLength="7"
-								type="Number"
 								visible="{Utility>/EnableInvioFirma}"
+								valueState="{= ${ListSoa>Znumprot} ? 'None' : 'Error'}"
+								valueStateText="{i18n>vstRequireField}"
+								maxLength="6"
+								change="onNumProtocolloChange"
 							/>
 							<DatePicker
 								visible="{Utility>/EnableInvioFirma}"
@@ -229,6 +231,8 @@
 										pattern: 'dd.MM.yyyy'
 									}
 								}"
+								valueState="{= ${ListSoa>Zdataprot} ? 'None' : 'Error'}"
+								valueStateText="{i18n>vstRequireField}"
 							/>
 							<Text
 								visible="{= ${Utility>/EnableFirma} || ${Utility>/EnableRevocaFirma} ? true : false }"

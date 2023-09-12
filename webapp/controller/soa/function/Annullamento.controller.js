@@ -18,7 +18,9 @@ sap.ui.define(
         onNavBack: function () {
           var self = this;
 
-          self.getRouter().navTo("soa.list.ListSoa");
+          self.getRouter().navTo("soa.list.ListSoa", {
+            Reload: true,
+          });
         },
 
         onIconTabChange: function (oEvent) {
@@ -70,13 +72,17 @@ sap.ui.define(
           });
           self.setModel(oModelUtility, "Utility");
 
+          self.getLogModel();
+
           //Controllo se l'utente è autorizzato
           self.getPermissionsListSoa(false, function (callback) {
             if (!callback.permissions.Annullamento) {
               MessageBox.error("Utente Non Autorizzato", {
                 actions: [MessageBox.Action.OK],
                 onClose: function () {
-                  self.getRouter().navTo("soa.list.ListSoa");
+                  self.getRouter().navTo("soa.list.ListSoa", {
+                    Reload: false,
+                  });
                 },
               });
             }
@@ -86,7 +92,9 @@ sap.ui.define(
           var oModelSelectedItems = sap.ui.getCore().getModel("SelectedItems");
 
           if (!oModelSelectedItems) {
-            self.getRouter().navTo("soa.list.ListSoa");
+            self.getRouter().navTo("soa.list.ListSoa", {
+              Reload: false,
+            });
           }
 
           //Setto il modello per la tabella
@@ -146,6 +154,58 @@ sap.ui.define(
                 .navTo("soa.detail.scenery.Scenario4", oParameters);
               break;
           }
+        },
+
+        onAnnulla: function () {
+          var self = this;
+          var oModel = self.getModel();
+
+          MessageBox.warning(
+            "Procedere con l'annullamento dei SOA selezionati?",
+            {
+              actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+              title: "Annullamento SOA",
+              onClose: function (oAction) {
+                if (oAction === "OK") {
+                  var aModelListSoa = self.getModel("ListSoa").getData();
+
+                  var aSospesi = [];
+
+                  aModelListSoa.map((oSoa) => {
+                    var oSospeso = {
+                      Bukrs: oSoa.Bukrs,
+                      Gjahr: oSoa.Gjahr,
+                      Zchiavesop: oSoa.Zchiavesop,
+                      Zstep: oSoa.Zstep,
+                      Ztipososp: oSoa.Ztipososp,
+                      Ztipopag: oSoa.Ztipopag,
+                      Lifnr: oSoa.Lifnr,
+                      Witht: oSoa.Witht,
+                      ZzCebenra: oSoa.ZzCebenra,
+                    };
+
+                    aSospesi.push(oSospeso);
+                  });
+
+                  var oFunzionalitaDeep = {
+                    Funzionalita: "ANNULLAMENTO",
+                    ZuffcontFirm: "",
+                    Zcodord: "",
+                    ZdirigenteAmm: "",
+                    Sospeso: aSospesi,
+                    Messaggio: [],
+                  };
+
+                  oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                    success: function (result) {
+                      self.printMessage(result, "Annullamento SOA");
+                    },
+                    error: function () {},
+                  });
+                }
+              },
+            }
+          );
         },
       }
     );

@@ -30,7 +30,7 @@ sap.ui.define(
           ZnumsopTo: "",
           ZstatoSoa: "TU",
           //TODO - Mettere blank zchiaveaut
-          Zchiaveaut: "",
+          Zchiaveaut: "2023-080-00001",
           Ztipodisp2: "000",
           Ztipodisp3: "000",
           Zztipologia: "0",
@@ -70,6 +70,37 @@ sap.ui.define(
         });
         self.setModel(oModelAuthoryCheckSoa, "AuthorityCheckSoa");
         self.setModel(oModelFilter, "Filter");
+
+        self
+          .getRouter()
+          .getRoute("soa.list.ListSoa")
+          .attachPatternMatched(this._onObjectMatched, this);
+      },
+
+      _onObjectMatched: function (oEvent) {
+        var self = this;
+        var oUrlParameters = oEvent.getParameter("arguments");
+        var oModelFilter = self.getModel("Filter");
+
+        var oModelSoa = new JSONModel({
+          selectedItems: [],
+          enabledBtnDetail: false,
+          EnableBtnAnnullamento: false,
+          EnableBtnRevocaInvioFirma: false,
+          EnableBtnFirma: false,
+          EnablebtnRevocaFirma: false,
+          EnableBtnInvioFirma: false,
+          EnablebtnRegistrazioneRichAnn: false,
+        });
+        self.setModel(oModelSoa, SOA_MODEL);
+
+        if (
+          oUrlParameters.Reload === "true" &&
+          oModelFilter.getProperty("/Zchiaveaut")
+        ) {
+          this._getSoaList();
+        }
+        self.getLogModel();
       },
 
       onNavBack: function () {
@@ -100,19 +131,6 @@ sap.ui.define(
       },
 
       onSearch: function () {
-        var self = this;
-        var oModelSoa = new JSONModel({
-          selectedItems: [],
-          enabledBtnDetail: false,
-          EnableBtnAnnullamento: false,
-          EnableBtnRevocaInvioFirma: false,
-          EnableBtnFirma: false,
-          EnablebtnRevocaFirma: false,
-          EnableBtnInvioFirma: false,
-          EnablebtnRegistrazioneRichAnn: false,
-        });
-        self.setModel(oModelSoa, SOA_MODEL);
-
         this._getSoaList();
       },
 
@@ -625,9 +643,8 @@ sap.ui.define(
           return;
         }
 
-        //TODO - Rimettere "01"
         aSelectedItems.map((oSelectedItem) => {
-          if (oSelectedItem.ZcodStatosop !== "00") {
+          if (oSelectedItem.ZcodStatosop !== "01") {
             bEnabled = false;
             return;
           }
@@ -648,9 +665,8 @@ sap.ui.define(
           return;
         }
 
-        //TODO - Rimettere "01"
         aSelectedItems.map((oSelectedItem) => {
-          if (oSelectedItem.ZcodStatosop !== "00") {
+          if (oSelectedItem.ZcodStatosop !== "01") {
             bEnabled = false;
             return;
           }

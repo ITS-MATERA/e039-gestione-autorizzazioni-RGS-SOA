@@ -145,7 +145,7 @@
           "target": ["auth.registerAuth"]
         },
         {
-          "pattern": "soa.list.ListSoa",
+          "pattern": "soa.list.ListSoa/{Reload}",
           "name": "soa.list.ListSoa",
           "target": ["soa.list.ListSoa"]
         },

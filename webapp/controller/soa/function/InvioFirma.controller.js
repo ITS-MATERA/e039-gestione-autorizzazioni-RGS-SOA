@@ -1,11 +1,17 @@
 sap.ui.define(
-  ["../BaseSoaController", "sap/ui/model/json/JSONModel", "sap/m/MessageBox"],
-  function (BaseSoaController, JSONModel, MessageBox) {
+  [
+    "../BaseSoaController",
+    "sap/ui/model/json/JSONModel",
+    "sap/m/MessageBox",
+    "../../../model/formatter",
+  ],
+  function (BaseSoaController, JSONModel, MessageBox, formatter) {
     "use strict";
 
     return BaseSoaController.extend(
       "rgssoa.controller.soa.function.InvioFirma",
       {
+        formatter: formatter,
         onInit: function () {
           var self = this;
 
@@ -13,6 +19,8 @@ sap.ui.define(
             .getRouter()
             .getRoute("soa.function.InvioFirma")
             .attachPatternMatched(this._onObjectMatched, this);
+
+          self.acceptOnlyNumber("iptNumProtocollo");
         },
 
         _onObjectMatched: function () {
@@ -32,6 +40,7 @@ sap.ui.define(
             EnableRegistrazioneRichAnn: false,
             EnableCancellazioneRichAnn: false,
             VisibleBtnStart: false,
+            Zdataprot: null,
           });
           self.setModel(oModelUtility, "Utility");
 
@@ -41,7 +50,9 @@ sap.ui.define(
               MessageBox.error("Utente Non Autorizzato", {
                 actions: [MessageBox.Action.OK],
                 onClose: function () {
-                  self.getRouter().navTo("soa.list.ListSoa");
+                  self.getRouter().navTo("soa.list.ListSoa", {
+                    Reload: false,
+                  });
                 },
               });
             }
@@ -50,19 +61,24 @@ sap.ui.define(
           //Controllo se ci sono record selezionati dalla lista
           var oModelSelectedItems = sap.ui.getCore().getModel("SelectedItems");
           if (!oModelSelectedItems) {
-            self.getRouter().navTo("soa.list.ListSoa");
+            self.getRouter().navTo("soa.list.ListSoa", {
+              Reload: false,
+            });
           }
 
           //Setto il modello per la tabella
           self.setModel(oModelSelectedItems, "ListSoa");
 
+          self.getLogModel();
           self.setDatiFirmatario();
         },
 
         onNavBack: function () {
           var self = this;
 
-          self.getRouter().navTo("soa.list.ListSoa");
+          self.getRouter().navTo("soa.list.ListSoa", {
+            Reload: true,
+          });
         },
 
         onIconTabChange: function (oEvent) {
@@ -147,6 +163,83 @@ sap.ui.define(
           oModelUtility.setProperty("/SelectedItem", oSelectedItem);
 
           self.setWorkflowInFunction(oSelectedItem);
+        },
+
+        onInviaFirma: function () {
+          var self = this;
+          var oModel = self.getModel();
+          var oDatiFirma = self.getModel("DatiFirmatario")?.getData();
+
+          MessageBox.warning(
+            "Procedere con l'annullamento dei SOA selezionati?",
+            {
+              actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+              title: "Annullamento SOA",
+              onClose: function (oAction) {
+                if (oAction === "OK") {
+                  var aModelListSoa = self.getModel("ListSoa").getData();
+
+                  var aSospesi = [];
+
+                  aModelListSoa.map((oSoa) => {
+                    var oSospeso = {
+                      Bukrs: oSoa.Bukrs,
+                      Gjahr: oSoa.Gjahr,
+                      Zchiavesop: oSoa.Zchiavesop,
+                      Zstep: oSoa.Zstep,
+                      Ztipososp: oSoa.Ztipososp,
+                      Znumprot: oSoa.Znumprot,
+                      Zdataprot: oSoa.Zdataprot ? oSoa.Zdataprot : null,
+                      Zcdr: oSoa.Fistl,
+                    };
+
+                    aSospesi.push(oSospeso);
+                  });
+
+                  var oFunzionalitaDeep = {
+                    Funzionalita: "INVIO_FIRMA",
+                    ZuffcontFirm: self.setBlank(oDatiFirma.ZuffcontFirm),
+                    Zcodord: self.setBlank(oDatiFirma.Zcodord),
+                    ZdirigenteAmm: self.setBlank(oDatiFirma.ZdirigenteAmm),
+                    Sospeso: aSospesi,
+                    Messaggio: [],
+                  };
+
+                  oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                    success: function (result) {
+                      self.printMessage(result, "Invio alla firma SOA");
+                    },
+                    error: function () {},
+                  });
+                }
+              },
+            }
+          );
+        },
+
+        onValorizzaDataProt: function () {
+          var self = this;
+          var oModelUtility = self.getModel("Utility");
+          var aListSoa = self.getModel("ListSoa").getData();
+
+          aListSoa.map((oSoa) => {
+            oSoa.Zdataprot = oModelUtility.getProperty("/Zdataprot");
+          });
+
+          self.setModel(new JSONModel(aListSoa), "ListSoa");
+        },
+
+        onNumProtocolloChange: function (oEvent) {
+          var self = this;
+          var oInput = self.getView().byId(oEvent.getParameter("id"));
+
+          if (oEvent.getParameter("newValue")) {
+            oInput.setValue(
+              parseInt(oEvent.getParameter("newValue"))
+                .toString()
+                .padStart(6, "0")
+            );
+          }
         },
       }
     );

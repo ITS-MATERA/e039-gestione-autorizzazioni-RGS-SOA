@@ -107,20 +107,6 @@ sap.ui.define(
         return JSON.parse(oResponse.headers["sap-message"]);
       },
 
-      printMessage: function (oMessage) {
-        switch (oMessage.severity) {
-          case "error":
-            sap.m.MessageBox.error(oMessage.message);
-            break;
-          case "success":
-            sap.m.MessageBox.success(oMessage.message);
-            break;
-          case "warning":
-            sap.m.MessageBox.warning(oMessage.message);
-            break;
-        }
-      },
-
       clearModel: function (sNameModel) {
         var oModelJSON = new JSONModel({});
         this.getView().setModel(oModelJSON, sNameModel);
@@ -149,19 +135,19 @@ sap.ui.define(
         return sValue;
       },
 
-      setDateClass: function (sValue) {
-        if (sValue) {
-          sValue = new Date(sValue);
-          return sValue;
-        }
-
-        return null;
-      },
-
       acceptOnlyImport: function (sId) {
         var oInput = this.getView().byId(sId);
         oInput.attachBrowserEvent("keypress", function (oEvent) {
           if (oEvent.key === "." || oEvent.key === "-") {
+            oEvent.preventDefault();
+          }
+        });
+      },
+
+      acceptOnlyNumber: function (sId) {
+        var oInput = this.getView().byId(sId);
+        oInput.attachBrowserEvent("keypress", function (oEvent) {
+          if (isNaN(oEvent.key)) {
             oEvent.preventDefault();
           }
         });
@@ -337,14 +323,6 @@ sap.ui.define(
         oPaginatorModel.setProperty("/paginatorTotalPage", 1);
       },
 
-      setPaginatorVisible: function (oPaginatorModel, oData) {
-        if (oData?.results.length > 0) {
-          oPaginatorModel.setVisible(true);
-        } else {
-          oPaginatorModel.setVisible(false);
-        }
-      },
-
       setPaginatorProperties: function (
         oPaginatorModel,
         oData,
@@ -427,7 +405,7 @@ sap.ui.define(
                   PRCTR: data.results[0].PRCTR,
                   Z26Enabled: self.isIncluded(data.results, "ACTV_4", "Z26"),
                   Z01Enabled: self.isIncluded(data.results, "ACTV_1", "Z01"),
-                  Z03Enabled: self.isIncluded(data.results, "ACTV_2", "Z03"),
+                  Z03Enabled: self.isIncluded(data.results, "ACTV_3", "Z03"),
                 };
                 oModelJson.setData(model);
                 self.setModel(oModelJson, self.AUTHORITY_CHECK_AUTH);

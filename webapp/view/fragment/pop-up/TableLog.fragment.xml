@@ -11,7 +11,7 @@
 				<Table
 					id="tblLog"
 					items="{
-						path: 'Log>/'
+						path: 'Log>/Messaggio'
 					}"
 				>
 					<headerToolbar>
