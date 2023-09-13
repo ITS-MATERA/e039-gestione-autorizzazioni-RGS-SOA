@@ -3,7 +3,10 @@ sap.ui.define(["../../BaseController"], function (BaseController) {
 
   return BaseController.extend("rgssoa.controller.soa.create.ChoseTypeSoa", {
     onNavBack: function () {
-      history.go(-1);
+      var self = this;
+      self.getRouter().navTo("soa.list.ListSoa", {
+        Reload: false,
+      });
     },
 
     onDocumentiCosto: function () {

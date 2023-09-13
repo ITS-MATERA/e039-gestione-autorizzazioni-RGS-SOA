@@ -216,6 +216,7 @@ sap.ui.define(
 
         _onObjectMatched: function (oEvent) {
           var self = this;
+          self.resetWizard("wizScenario2");
           //Load Models
           var oModel = self.getModel();
           var oParameters = oEvent.getParameter("arguments");

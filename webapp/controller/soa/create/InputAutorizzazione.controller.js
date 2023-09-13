@@ -88,9 +88,8 @@ sap.ui.define(
         },
         onNavBack: function () {
           var self = this;
-          history.go(-1);
 
-          self._resetAutorizzazione();
+          self.getRouter().navTo("soa.create.ChoseTypeSoa");
         },
         onNavForward: function () {
           var self = this;
@@ -234,6 +233,7 @@ sap.ui.define(
           var oModelAuthoryCheckSoa = self.getModel("AuthorityCheckSoa");
           var oModelAutorizzazione = self.getModel("Autorizzazione");
           var oModelInputAutorizzazione = self.getModel("InputAutorizzazione");
+          var oView = self.getView();
 
           var sSoaType = oModelInputAutorizzazione.getProperty("/SoaType");
           var bDocumentiLiquidati = oModelInputAutorizzazione.getProperty(
@@ -262,6 +262,7 @@ sap.ui.define(
             return;
           }
 
+          oView.setBusy(true);
           oModel.callFunction("/AutorityCheckOnAutorizzazione", {
             method: "GET",
             urlParameters: {
@@ -273,6 +274,7 @@ sap.ui.define(
               Prctr: oModelAuthoryCheckSoa.getProperty("/Prctr"),
             },
             success: function (data, oResponse) {
+              oView.setBusy(false);
               if (self.setResponseMessage(oResponse)) {
                 return;
               }
@@ -298,46 +300,12 @@ sap.ui.define(
                   .navTo("soa.create.scenery.Scenario4", oParameters);
               }
             },
-            error: function (error) {},
+            error: function (error) {
+              oView.setBusy(false);
+            },
           });
         },
 
-        _resetAutorizzazione: function () {
-          var self = this;
-          var oModelInputAutorizzazione = new JSONModel({
-            SoaType: "",
-            DocumentiLiquidati: true,
-            DocumentiNonLiquidati: false,
-            Gjahr: "",
-          });
-          self.setModel(oModelInputAutorizzazione, "InputAutorizzazione");
-
-          var oModelAutorizzazione = new JSONModel({
-            Gjahr: "",
-            Zchiaveaut: "",
-            Bukrs: "",
-            ZstepAut: "",
-            Zzamministr: "",
-            DataStatoString: null,
-            DataStato: null,
-            Zimpaut: "",
-            Zimpdispaut: "",
-            Ztipodisp2: "",
-            Zdesctipodisp2: "",
-            Ztipodisp3: "",
-            Zdesctipodisp3: "",
-            Znoteaut: "",
-            ZufficioCont: "",
-            ZvimDescrufficio: "",
-            Zfunzdel: "",
-            Zdescriz: "",
-            ZflagFipos: "",
-            Fipos: "",
-            Fistl: "",
-            DescrEstesa: "",
-          });
-          self.setModel(oModelAutorizzazione, "Autorizzazione");
-        },
         //#endregion PRIVATE METHODS
       }
     );

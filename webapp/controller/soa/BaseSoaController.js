@@ -1777,6 +1777,7 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var oModelSoa = self.getModel("Soa");
+        var oView = self.getView();
 
         var aSoaPosizione = oModelSoa.getProperty("/data");
         var aSoaClassificazione = oModelSoa.getProperty("/Classificazione");
@@ -1892,8 +1893,11 @@ sap.ui.define(
           Messaggio: [],
         };
 
+        oView.setBusy(true);
+
         oModel.create("/SoaDeepSet", oSoaDeep, {
           success: function (result) {
+            oView.setBusy(false);
             var aMessaggio = result?.Messaggio.results;
 
             if (aMessaggio.length !== 0) {
@@ -1913,7 +1917,9 @@ sap.ui.define(
               }
             );
           },
-          error: function () {},
+          error: function () {
+            oView.setBusy(false);
+          },
         });
       },
 
@@ -2248,6 +2254,14 @@ sap.ui.define(
       },
 
       //#endregion
+
+      resetWizard: function (sId) {
+        var self = this;
+        var oWizard = self.getView().byId(sId);
+        for (var i = 0; i < oWizard.getProgress(); i++) {
+          oWizard.previousStep();
+        }
+      },
     });
   }
 );

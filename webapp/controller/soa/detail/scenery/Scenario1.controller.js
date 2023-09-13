@@ -325,10 +325,7 @@ sap.ui.define(
           switch (sKey) {
             case "Dettaglio": {
               var sPath = self.getModel().createKey("SOASet", oParameters);
-              var oWizard = self.getView().byId("wizScenario1");
-              for (var i = 0; i < oWizard.getProgress(); i++) {
-                oWizard.previousStep();
-              }
+              self.resetWizard("wizScenario1");
 
               this._resetSoaDetail();
               this._resetStepScenario();

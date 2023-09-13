@@ -219,6 +219,7 @@ sap.ui.define(
         //#region PRIVATE METHODS
         _onObjectMatched: function (oEvent) {
           var self = this;
+          self.resetWizard("wizScenario3");
           //Load Models
           var oDataModel = self.getModel();
           var oParameters = oEvent.getParameter("arguments");
