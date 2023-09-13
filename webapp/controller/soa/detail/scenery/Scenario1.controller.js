@@ -85,7 +85,7 @@ sap.ui.define(
             Zztipologia: "", //Tipololgia SOA
             DescZztipologia: "", //Descrizione Tipologia SOA
             Zfunzdel: "", //Codice FD
-            Zdescriz: "", //TODO - Open Point - Descrizione Codice FD
+            Zdescriz: "", //Descrizione Codice FD
             ZspecieSop: "", //Specie SOA
             DescZspecieSop: "", //Descrizione Specie SOA
 
@@ -165,7 +165,7 @@ sap.ui.define(
             Zzonaint: "", //Zona di intervento
             Znumprot: "", //Numero protocollo
             Zdataprot: "", //Data protocollo
-            Zdataesig: "", //TODO - Punto Aperto - Data esigibilità
+            Zdataesig: "", //Data esigibilità
           });
           self.setModel(oModelSoa, "Soa");
 
@@ -831,7 +831,6 @@ sap.ui.define(
             oModelSoa.getProperty("/Zimpdispaut")
           );
 
-          //TODO - Rimettere
           if (fImpTot > fImpDispAutorizzazione) {
             sap.m.MessageBox.error(
               oBundle.getText("msgImpTotGreaterImpDispAut")
@@ -1024,6 +1023,8 @@ sap.ui.define(
             },
             error: function (error) {},
           });
+
+          self.getLogModel();
         },
 
         _resetSoaDetail: function () {
@@ -1064,7 +1065,7 @@ sap.ui.define(
             Zztipologia: "", //Tipololgia SOA
             DescZztipologia: "", //Descrizione Tipologia SOA
             Zfunzdel: "", //Codice FD
-            Zdescriz: "", //TODO - Open Point - Descrizione Codice FD
+            Zdescriz: "", //Descrizione Codice FD
             ZspecieSop: "", //Specie SOA
             DescZspecieSop: "", //Descrizione Specie SOA
 
@@ -1144,7 +1145,7 @@ sap.ui.define(
             Zzonaint: "", //Zona di intervento
             Znumprot: "", //Numero protocollo
             Zdataprot: "", //Data protocollo
-            Zdataesig: "", //TODO - Punto Aperto - Data esigibilità
+            Zdataesig: "", //Data esigibilità
           });
           self.setModel(oModelSoa, "Soa");
         },
@@ -1200,7 +1201,6 @@ sap.ui.define(
             "Esercizio",
             oModelSoa.getProperty("/Gjahr")
           );
-          //TODO - Rimettere
           self.setFilterEQ(aFilters, "Bukrs", oModelSoa.getProperty("/Bukrs"));
           self.setFilterEQ(
             aFilters,

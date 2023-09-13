@@ -15,27 +15,6 @@ sap.ui.define(
       {
         formatter: formatter,
         onInit: function () {
-          var self = this;
-          var oModelStepScenario = new JSONModel({
-            wizard1Step1: true,
-            wizard1Step2: false,
-            wizard1Step3: false,
-            wizard2: false,
-            wizard3: false,
-            wizard4: false,
-            visibleBtnForward: false,
-            visibleBtnStart: true,
-            visibleBtnSave: false,
-          });
-
-          var oModelUtility = new JSONModel({
-            EnableEdit: true,
-            DetailFromFunction: true,
-          });
-          self.setModel(oModelUtility, "Utility");
-
-          self.setModel(oModelStepScenario, "StepScenario");
-
           this.getRouter()
             .getRoute("soa.create.scenery.Scenario1")
             .attachPatternMatched(this._onObjectMatched, this);
@@ -415,7 +394,7 @@ sap.ui.define(
             Zztipologia: "", //Tipololgia SOA
             DescZztipologia: "", //Descrizione Tipologia SOA
             Zfunzdel: "", //Codice FD
-            Zdescriz: "", //TODO - Open Point - Descrizione Codice FD
+            Zdescriz: "", // Descrizione Codice FD
             ZspecieSop: "", //Specie SOA
             DescZspecieSop: "", //Descrizione Specie SOA
             Zsede: "", //Sede Estera
@@ -452,7 +431,7 @@ sap.ui.define(
             Zzonaint: "", //Zona di intervento
             Znumprot: "", //Numero protocollo
             Zdataprot: null, //Data protocollo
-            Zdataesig: null, //TODO - Punto Aperto - Data esigibilità
+            Zdataesig: null, //Data esigibilità
             Bukrs: "",
             Hkont: "",
             Kostl: "",
@@ -505,6 +484,23 @@ sap.ui.define(
             ImpTotAssociareCup: "0.00",
           });
 
+          var oModelStepScenario = new JSONModel({
+            wizard1Step1: true,
+            wizard1Step2: false,
+            wizard1Step3: false,
+            wizard2: false,
+            wizard3: false,
+            wizard4: false,
+            visibleBtnForward: false,
+            visibleBtnStart: true,
+            visibleBtnSave: false,
+          });
+
+          var oModelUtility = new JSONModel({
+            EnableEdit: true,
+            DetailFromFunction: true,
+          });
+
           oModel.read("/" + "PrevalUfficioContabileSet", {
             success: function (data) {
               oModelFilterDocumenti.setProperty(
@@ -522,6 +518,9 @@ sap.ui.define(
           self.setModel(oModelFilterDocumenti, "FilterDocumenti");
           self.setModel(oModelSoa, "Soa");
           self.setModel(oModelClassificazione, "Classificazione");
+          self.setModel(oModelUtility, "Utility");
+          self.setModel(oModelStepScenario, "StepScenario");
+          self.getLogModel();
         },
 
         _getQuoteDocumentiList: function () {

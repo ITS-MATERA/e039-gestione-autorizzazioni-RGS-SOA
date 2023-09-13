@@ -16,13 +16,47 @@ sap.ui.define(
         onInit: function () {
           var self = this;
 
+          var oModelAuthoryCheckSoa = new JSONModel({
+            AgrName: "",
+            Fikrs: "",
+            Prctr: "",
+            Gestione: false,
+            Registra: false,
+            Dettaglio: false,
+            Annullamento: false,
+            InvioFirma: false,
+            RevocaInvioFirma: false,
+            Firma: false,
+            RevocaFirma: false,
+            RegistrazioneRichAnn: false,
+            CancellazioneRichAnn: false,
+          });
+          self.setModel(oModelAuthoryCheckSoa, "AuthorityCheckSoa");
+
+          this.getRouter()
+            .getRoute("soa.create.InputAutorizzazione")
+            .attachPatternMatched(this._onObjectMatched, this);
+        },
+        _onObjectMatched: function (oEvent) {
+          var self = this;
+
           var oModelInputAutorizzazione = new JSONModel({
             SoaType: "",
             DocumentiLiquidati: true,
             DocumentiNonLiquidati: false,
             Gjahr: "",
           });
-          self.setModel(oModelInputAutorizzazione, "InputAutorizzazione");
+
+          var oArguments = oEvent.getParameter("arguments");
+
+          oModelInputAutorizzazione.setProperty(
+            "/SoaType",
+            oArguments?.SoaType
+          );
+
+          self.getPermissionsListSoa(true, function (callback) {
+            self.setModelAuthorityCheck(callback?.permissions);
+          });
 
           var oModelAutorizzazione = new JSONModel({
             Gjahr: "",
@@ -48,43 +82,9 @@ sap.ui.define(
             Fistl: "",
             DescrEstesa: "",
           });
+
           self.setModel(oModelAutorizzazione, "Autorizzazione");
-
-          var oModelAuthoryCheckSoa = new JSONModel({
-            AgrName: "",
-            Fikrs: "",
-            Prctr: "",
-            Gestione: false,
-            Registra: false,
-            Dettaglio: false,
-            Annullamento: false,
-            InvioFirma: false,
-            RevocaInvioFirma: false,
-            Firma: false,
-            RevocaFirma: false,
-            RegistrazioneRichAnn: false,
-            CancellazioneRichAnn: false,
-          });
-          self.setModel(oModelAuthoryCheckSoa, "AuthorityCheckSoa");
-
-          this.getRouter()
-            .getRoute("soa.create.InputAutorizzazione")
-            .attachPatternMatched(this._onObjectMatched, this);
-        },
-        _onObjectMatched: function (oEvent) {
-          var self = this;
-          var oModelInputAutorizzazione = self.getModel("InputAutorizzazione");
-
-          var oArguments = oEvent.getParameter("arguments");
-
-          oModelInputAutorizzazione.setProperty(
-            "/SoaType",
-            oArguments?.SoaType
-          );
-
-          self.getPermissionsListSoa(true, function (callback) {
-            self.setModelAuthorityCheck(callback?.permissions);
-          });
+          self.setModel(oModelInputAutorizzazione, "InputAutorizzazione");
         },
         onNavBack: function () {
           var self = this;

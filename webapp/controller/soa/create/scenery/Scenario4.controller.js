@@ -24,24 +24,6 @@ sap.ui.define(
         onInit: function () {
           var self = this;
 
-          var oModelStepScenario = new JSONModel({
-            wizard1Step1: true,
-            wizard1Step2: false,
-            wizard2: false,
-            wizard3: false,
-            wizard4: false,
-            visibleBtnForward: true,
-            visibleBtnInserisciProspLiquidazione: false,
-            visibleBtnSave: false,
-          });
-          self.setModel(oModelStepScenario, "StepScenario");
-
-          var oModelUtility = new JSONModel({
-            EnableEdit: true,
-            DetailFromFunction: true,
-          });
-          self.setModel(oModelUtility, "Utility");
-
           self.acceptOnlyImport("iptImportoLiquidazione");
 
           this.getRouter()
@@ -436,7 +418,7 @@ sap.ui.define(
             Zztipologia: "", //Tipololgia SOA
             DescZztipologia: "", //Descrizione Tipologia SOA
             Zfunzdel: "", //Codice FD
-            Zdescriz: "", //TODO - Open Point - Descrizione Codice FD
+            Zdescriz: "", //Descrizione Codice FD
             ZspecieSop: "", //Specie SOA
             DescZspecieSop: "", //Descrizione Specie SOA
 
@@ -516,7 +498,7 @@ sap.ui.define(
             Zzonaint: "", //Zona di intervento
             Znumprot: "", //Numero protocollo
             Zdataprot: null, //Data protocollo
-            Zdataesig: null, //TODO - Punto Aperto - Data esigibilità
+            Zdataesig: null, //Data esigibilità
 
             Bukrs: "",
             Zchiavesop: "",
@@ -539,6 +521,22 @@ sap.ui.define(
             ImpTotAssociareCpv: "0.00",
             ImpTotAssociareCig: "0.00",
             ImpTotAssociareCup: "0.00",
+          });
+
+          var oModelStepScenario = new JSONModel({
+            wizard1Step1: true,
+            wizard1Step2: false,
+            wizard2: false,
+            wizard3: false,
+            wizard4: false,
+            visibleBtnForward: true,
+            visibleBtnInserisciProspLiquidazione: false,
+            visibleBtnSave: false,
+          });
+
+          var oModelUtility = new JSONModel({
+            EnableEdit: true,
+            DetailFromFunction: true,
           });
 
           oDataModel.read("/" + sPath, {
@@ -566,6 +564,9 @@ sap.ui.define(
 
           self.setModel(oModelSoa, "Soa");
           self.setModel(oModelClassificazione, "Classificazione");
+          self.setModel(oModelUtility, "Utility");
+          self.setModel(oModelStepScenario, "StepScenario");
+          self.getLogModel();
         },
 
         _getModalitaPagamentoList: function () {

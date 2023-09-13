@@ -58,8 +58,10 @@
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>
 				</Text>
-				<!-- TODO - Rimettere non editabile -->
-				<Input value="{DatiFirmatario>/Zcodord}">
+				<Input
+					value="{DatiFirmatario>/Zcodord}"
+					editable="false"
+				>
 					<layoutData>
 						<l:GridData span="XL2 L2 M12 S12"/>
 					</layoutData>

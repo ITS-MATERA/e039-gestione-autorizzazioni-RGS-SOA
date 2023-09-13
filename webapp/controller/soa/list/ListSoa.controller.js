@@ -29,8 +29,7 @@ sap.ui.define(
           ZnumsopFrom: "",
           ZnumsopTo: "",
           ZstatoSoa: "TU",
-          //TODO - Mettere blank zchiaveaut
-          Zchiaveaut: "2023-080-00001",
+          Zchiaveaut: "",
           Ztipodisp2: "000",
           Ztipodisp3: "000",
           Zztipologia: "0",
@@ -387,8 +386,6 @@ sap.ui.define(
           AgrName: oModelAuthorityCheck.getProperty("/AgrName"),
           Fikrs: oModelAuthorityCheck.getProperty("/Fikrs"),
           Prctr: oModelAuthorityCheck.getProperty("/Prctr"),
-          //TODO - Rimuovere test
-          Test: "X",
         };
 
         //Controllo i filtri di tipo BEETWEN
@@ -689,9 +686,8 @@ sap.ui.define(
           return;
         }
 
-        //TODO - Rimettere "02"
         aSelectedItems.map((oSelectedItem) => {
-          if (oSelectedItem.ZcodStatosop !== "00") {
+          if (oSelectedItem.ZcodStatosop !== "02") {
             bEnabled = false;
             return;
           }
@@ -741,9 +737,8 @@ sap.ui.define(
           return;
         }
 
-        //TODO - Rimettere lo stato a 10
         aSelectedItems.map((oSelectedItem) => {
-          if (oSelectedItem.ZcodStatosop !== "00") {
+          if (oSelectedItem.ZcodStatosop !== "10") {
             bEnabled = false;
             return;
           }
@@ -774,7 +769,6 @@ sap.ui.define(
           return;
         }
 
-        //TODO - Rimettere lo stato a 10
         aSelectedItems.map((oSelectedItem) => {
           if (oSelectedItem.ZcodStatosop !== "00") {
             bEnabled = false;
