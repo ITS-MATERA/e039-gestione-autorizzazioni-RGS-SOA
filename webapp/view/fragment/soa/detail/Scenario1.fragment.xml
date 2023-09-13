@@ -31,15 +31,15 @@
 									type="XML"
 								/>
 								<c:Fragment
-									fragmentName="rgssoa.view.fragment.table.scenario1.TableAddPosizioniScen1"
+									fragmentName="rgssoa.view.fragment.soa.table.scenario1.TableAddPosizioniScen1"
 									type="XML"
 								/>
 								<c:Fragment
-									fragmentName="rgssoa.view.fragment.table.scenario1.TableEditPosizioniScen1"
+									fragmentName="rgssoa.view.fragment.soa.table.scenario1.TableEditPosizioniScen1"
 									type="XML"
 								/>
 								<c:Fragment
-									fragmentName="rgssoa.view.fragment.table.scenario1.TableRiepPosizioniScen1"
+									fragmentName="rgssoa.view.fragment.soa.table.scenario1.TableRiepPosizioniScen1"
 									type="XML"
 								/>
 							</WizardStep>

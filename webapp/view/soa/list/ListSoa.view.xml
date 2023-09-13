@@ -22,7 +22,7 @@
 		</f:header>
 		<f:content>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.table.TableListSOA"
+				fragmentName="rgssoa.view.fragment.soa.table.TableListSOA"
 				type="XML"
 			/>
 		</f:content>

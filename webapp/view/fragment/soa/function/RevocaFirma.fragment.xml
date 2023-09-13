@@ -7,7 +7,7 @@
 		class="sapUiNoContentPadding"
 	>
 		<c:Fragment
-			fragmentName="rgssoa.view.fragment.table.TableSoaFunction"
+			fragmentName="rgssoa.view.fragment.soa.table.TableSoaFunction"
 			type="XML"
 		/>
 		<Panel
