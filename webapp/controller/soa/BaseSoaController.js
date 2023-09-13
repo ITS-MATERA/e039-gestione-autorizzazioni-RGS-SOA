@@ -1897,6 +1897,7 @@ sap.ui.define(
             var aMessaggio = result?.Messaggio.results;
 
             if (aMessaggio.length !== 0) {
+              self.setLogModel(aMessaggio);
               sap.m.MessageBox.error("Operazione non eseguita correttamente");
               return;
             }

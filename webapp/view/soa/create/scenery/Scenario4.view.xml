@@ -39,7 +39,7 @@
 										type="XML"
 									/>
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.table.TableRiepNewProspettoLiquidazione"
+										fragmentName="rgssoa.view.fragment.table.TableRiepPosizioniScen4"
 										type="XML"
 									/>
 								</WizardStep>
@@ -92,7 +92,7 @@
 					type="Emphasized"
 					text="{i18n>btnLog}"
 					press="onLog"
-					visible="{= ${Soa>/Messaggio}.length !== 0 ? true : false}"
+					visible="{= ${Log>/Messaggio}.length !== 0 ? true : false}"
 				>
 					<layoutData>
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>

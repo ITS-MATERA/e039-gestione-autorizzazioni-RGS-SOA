@@ -39,11 +39,11 @@
 										type="XML"
 									/>
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.table.TableProspettoLiquidazione"
+										fragmentName="rgssoa.view.fragment.table.TablePosizioniScen3"
 										type="XML"
 									/>
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.table.TableRiepProspettoLiquidazione"
+										fragmentName="rgssoa.view.fragment.table.TableRiepPosizioniScen3"
 										type="XML"
 									/>
 								</WizardStep>
@@ -96,7 +96,7 @@
 					type="Emphasized"
 					text="{i18n>btnLog}"
 					press="onLog"
-					visible="{= ${Soa>/Messaggio}.length !== 0 ? true : false}"
+					visible="{= ${Log>/Messaggio}.length !== 0 ? true : false}"
 				>
 					<layoutData>
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>
