@@ -158,49 +158,52 @@ sap.ui.define(
         onRevocaInvioFirma: function () {
           var self = this;
           var oModel = self.getModel();
+          var oBundle = self.getResourceBundle();
 
-          MessageBox.warning(
-            "Procedere con l'annullamento dei SOA selezionati?",
-            {
-              actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-              title: "Annullamento SOA",
-              onClose: function (oAction) {
-                if (oAction === "OK") {
-                  var aModelListSoa = self.getModel("ListSoa").getData();
+          var sMessage =
+            aModelListSoa.length === 1
+              ? oBundle.getText("msgWarningRevocaInviaFirma")
+              : oBundle.getText("msgWarningRevocaInviaFirmaMulti");
 
-                  var aSospesi = [];
+          MessageBox.warning(sMessage, {
+            actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+            title: "Revoca Invio alla Firma SOA",
+            onClose: function (oAction) {
+              if (oAction === "OK") {
+                var aModelListSoa = self.getModel("ListSoa").getData();
 
-                  aModelListSoa.map((oSoa) => {
-                    var oSospeso = {
-                      Bukrs: oSoa.Bukrs,
-                      Gjahr: oSoa.Gjahr,
-                      Zchiavesop: oSoa.Zchiavesop,
-                      Zstep: oSoa.Zstep,
-                      Ztipososp: oSoa.Ztipososp,
-                    };
+                var aSospesi = [];
 
-                    aSospesi.push(oSospeso);
-                  });
-
-                  var oFunzionalitaDeep = {
-                    Funzionalita: "REVOCA_INVIO_FIRMA",
-                    ZuffcontFirm: "",
-                    Zcodord: "",
-                    ZdirigenteAmm: "",
-                    Sospeso: aSospesi,
-                    Messaggio: [],
+                aModelListSoa.map((oSoa) => {
+                  var oSospeso = {
+                    Bukrs: oSoa.Bukrs,
+                    Gjahr: oSoa.Gjahr,
+                    Zchiavesop: oSoa.Zchiavesop,
+                    Zstep: oSoa.Zstep,
+                    Ztipososp: oSoa.Ztipososp,
                   };
 
-                  oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
-                    success: function (result) {
-                      self.printMessage(result, "Revoca Invio alla Firma SOA");
-                    },
-                    error: function () {},
-                  });
-                }
-              },
-            }
-          );
+                  aSospesi.push(oSospeso);
+                });
+
+                var oFunzionalitaDeep = {
+                  Funzionalita: "REVOCA_INVIO_FIRMA",
+                  ZuffcontFirm: "",
+                  Zcodord: "",
+                  ZdirigenteAmm: "",
+                  Sospeso: aSospesi,
+                  Messaggio: [],
+                };
+
+                oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                  success: function (result) {
+                    self.printMessage(result, "Revoca Invio alla Firma SOA");
+                  },
+                  error: function () {},
+                });
+              }
+            },
+          });
         },
       }
     );

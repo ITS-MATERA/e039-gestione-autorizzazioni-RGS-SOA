@@ -169,52 +169,54 @@ sap.ui.define(
           var self = this;
           var oModel = self.getModel();
           var oDatiFirma = self.getModel("DatiFirmatario")?.getData();
+          var oBundle = self.getResourceBundle();
+          var aModelListSoa = self.getModel("ListSoa").getData();
 
-          MessageBox.warning(
-            "Procedere con l'annullamento dei SOA selezionati?",
-            {
-              actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-              title: "Annullamento SOA",
-              onClose: function (oAction) {
-                if (oAction === "OK") {
-                  var aModelListSoa = self.getModel("ListSoa").getData();
+          var sMessage =
+            aModelListSoa.length === 1
+              ? oBundle.getText("msgWarningInviaFirma")
+              : oBundle.getText("msgWarningInviaFirmaMulti");
 
-                  var aSospesi = [];
+          MessageBox.warning(sMessage, {
+            actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+            title: "Invio alla firma SOA",
+            onClose: function (oAction) {
+              if (oAction === "OK") {
+                var aSospesi = [];
 
-                  aModelListSoa.map((oSoa) => {
-                    var oSospeso = {
-                      Bukrs: oSoa.Bukrs,
-                      Gjahr: oSoa.Gjahr,
-                      Zchiavesop: oSoa.Zchiavesop,
-                      Zstep: oSoa.Zstep,
-                      Ztipososp: oSoa.Ztipososp,
-                      Znumprot: oSoa.Znumprot,
-                      Zdataprot: oSoa.Zdataprot ? oSoa.Zdataprot : null,
-                      Zcdr: oSoa.Fistl,
-                    };
-
-                    aSospesi.push(oSospeso);
-                  });
-
-                  var oFunzionalitaDeep = {
-                    Funzionalita: "INVIO_FIRMA",
-                    ZuffcontFirm: self.setBlank(oDatiFirma.ZuffcontFirm),
-                    Zcodord: self.setBlank(oDatiFirma.Zcodord),
-                    ZdirigenteAmm: self.setBlank(oDatiFirma.ZdirigenteAmm),
-                    Sospeso: aSospesi,
-                    Messaggio: [],
+                aModelListSoa.map((oSoa) => {
+                  var oSospeso = {
+                    Bukrs: oSoa.Bukrs,
+                    Gjahr: oSoa.Gjahr,
+                    Zchiavesop: oSoa.Zchiavesop,
+                    Zstep: oSoa.Zstep,
+                    Ztipososp: oSoa.Ztipososp,
+                    Znumprot: oSoa.Znumprot,
+                    Zdataprot: oSoa.Zdataprot ? oSoa.Zdataprot : null,
+                    Zcdr: oSoa.Fistl,
                   };
 
-                  oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
-                    success: function (result) {
-                      self.printMessage(result, "Invio alla firma SOA");
-                    },
-                    error: function () {},
-                  });
-                }
-              },
-            }
-          );
+                  aSospesi.push(oSospeso);
+                });
+
+                var oFunzionalitaDeep = {
+                  Funzionalita: "INVIO_FIRMA",
+                  ZuffcontFirm: self.setBlank(oDatiFirma.ZuffcontFirm),
+                  Zcodord: self.setBlank(oDatiFirma.Zcodord),
+                  ZdirigenteAmm: self.setBlank(oDatiFirma.ZdirigenteAmm),
+                  Sospeso: aSospesi,
+                  Messaggio: [],
+                };
+
+                oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                  success: function (result) {
+                    self.printMessage(result, "Invio alla firma SOA");
+                  },
+                  error: function () {},
+                });
+              }
+            },
+          });
         },
 
         onValorizzaDataProt: function () {

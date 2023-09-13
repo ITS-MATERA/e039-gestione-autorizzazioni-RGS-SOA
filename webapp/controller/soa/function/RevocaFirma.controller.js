@@ -34,13 +34,18 @@ sap.ui.define(
           switch (sKey) {
             case "Dettaglio": {
               oModelUtility.setProperty("/VisibleBtnStart", true);
+              oModelUtility.setProperty("/TableMode", "SingleSelectLeft");
               break;
             }
             case "RevocaFirma": {
+              self.clearModel("WFStateSoa");
+              oModelUtility.setProperty("/SelectedItem", {});
               oModelUtility.setProperty("/VisibleBtnStart", false);
+              oModelUtility.setProperty("/TableMode", "None");
               break;
             }
             case "Workflow": {
+              oModelUtility.setProperty("/TableMode", "SingleSelectLeft");
               oModelUtility.setProperty("/VisibleBtnStart", false);
               break;
             }
@@ -59,14 +64,11 @@ sap.ui.define(
             return;
           }
 
-          //Carico il workflow
-          var oSelectedItem = oModelSelectedItems.getData()[0];
-
           //Setto i modelli
           var oModelUtility = new JSONModel({
             Function: "RevocaFirma",
             TableMode: "None",
-            SelectedItem: oSelectedItem,
+            SelectedItem: {},
             EnableEdit: false,
             EnableAnnullamento: false,
             EnableRevocaInvioFirma: false,
@@ -96,9 +98,8 @@ sap.ui.define(
 
           //Setto il modello per la tabella
           self.setModel(oModelSelectedItems, "ListSoa");
-          this._setHeaderSoa(oSelectedItem);
 
-          self.setWorkflowInFunction(oSelectedItem);
+          self.getLogModel();
         },
 
         onStart: function () {
@@ -140,24 +141,73 @@ sap.ui.define(
           }
         },
 
-        _setHeaderSoa: function (oSoa) {
+        onRevocaFirma: function () {
           var self = this;
-
           var oModel = self.getModel();
-          var sPath = self.getModel().createKey("SOASet", {
-            Gjahr: oSoa.Gjahr,
-            Zchiavesop: oSoa.Zchiavesop,
-            Bukrs: oSoa.Bukrs,
-            Zstep: oSoa.Zstep,
-            Ztipososp: oSoa.Ztipososp,
-          });
+          var aModelListSoa = self.getModel("ListSoa").getData();
+          var oBundle = self.getResourceBundle();
 
-          oModel.read("/" + sPath, {
-            success: function (data, oResponse) {
-              self.setModelCustom("Soa", data);
+          var sMessage =
+            aModelListSoa.length === 1
+              ? oBundle.getText(
+                  "msgWarningRevocaFirma",
+                  aModelListSoa[0].Zchiavesop
+                )
+              : oBundle.getText("msgWarningRevocaFirmaMulti");
+
+          MessageBox.warning(sMessage, {
+            actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+            title: "Revoca firma SOA",
+            onClose: function (oAction) {
+              if (oAction === "OK") {
+                var aSospesi = [];
+
+                aModelListSoa.map((oSoa) => {
+                  var oSospeso = {
+                    Bukrs: oSoa.Bukrs,
+                    Gjahr: oSoa.Gjahr,
+                    Zchiavesop: oSoa.Zchiavesop,
+                    Zstep: oSoa.Zstep,
+                    Ztipososp: oSoa.Ztipososp,
+                  };
+
+                  aSospesi.push(oSospeso);
+                });
+
+                var oFunzionalitaDeep = {
+                  Funzionalita: "REVOCA_FIRMA",
+                  ZuffcontFirm: "",
+                  Zcodord: "",
+                  ZdirigenteAmm: "",
+                  Sospeso: aSospesi,
+                  Messaggio: [],
+                };
+
+                oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                  success: function (result) {
+                    self.printMessage(result, "Revoca firma SOA");
+                  },
+                  error: function () {},
+                });
+              }
             },
-            error: function () {},
           });
+        },
+
+        onSelectedItem: function (oEvent) {
+          var self = this;
+          var oListItem = oEvent.getParameter("listItem");
+          var oModelListSoa = self.getModel("ListSoa");
+          var oModelUtility = self.getModel("Utility");
+
+          //Recupero l'oggetto selezionato
+          var oSelectedItem = oModelListSoa.getObject(
+            oListItem.getBindingContextPath()
+          );
+
+          oModelUtility.setProperty("/SelectedItem", oSelectedItem);
+
+          self.setWorkflowInFunction(oSelectedItem);
         },
       }
     );

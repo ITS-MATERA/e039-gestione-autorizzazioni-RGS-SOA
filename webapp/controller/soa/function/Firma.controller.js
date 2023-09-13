@@ -57,14 +57,11 @@ sap.ui.define(
           return;
         }
 
-        //Carico il workflow
-        var oSelectedItem = oModelSelectedItems.getData()[0];
-
         //Setto i modelli
         var oModelUtility = new JSONModel({
           Function: "Firma",
           TableMode: "None",
-          SelectedItem: oSelectedItem,
+          SelectedItem: {},
           EnableEdit: false,
           EnableAnnullamento: false,
           EnableRevocaInvioFirma: false,
@@ -94,8 +91,7 @@ sap.ui.define(
 
         //Setto il modello per la tabella
         self.setModel(oModelSelectedItems, "ListSoa");
-        this._setHeaderSoa(oSelectedItem);
-
+        self.getLogModel();
         self.setWorkflowInFunction(oSelectedItem);
       },
 
@@ -130,24 +126,38 @@ sap.ui.define(
         }
       },
 
-      _setHeaderSoa: function (oSoa) {
+      onFirma: function () {
         var self = this;
-
         var oModel = self.getModel();
-        var sPath = self.getModel().createKey("SOASet", {
-          Gjahr: oSoa.Gjahr,
-          Zchiavesop: oSoa.Zchiavesop,
-          Bukrs: oSoa.Bukrs,
-          Zstep: oSoa.Zstep,
-          Ztipososp: oSoa.Ztipososp,
-        });
+        var aModelListSoa = self.getModel("ListSoa").getData();
+        var oBundle = self.getResourceBundle();
 
-        oModel.read("/" + sPath, {
-          success: function (data, oResponse) {
-            self.setModelCustom("Soa", data);
-          },
-          error: function () {},
+        var sMessage =
+          aModelListSoa.length === 1
+            ? oBundle.getText("msgWarningFirma", aModelListSoa[0].Zchiavesop)
+            : oBundle.getText("msgWarningFirmaMulti");
+
+        MessageBox.warning(sMessage, {
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          title: "Firma SOA",
+          onClose: function (oAction) {},
         });
+      },
+
+      onSelectedItem: function (oEvent) {
+        var self = this;
+        var oListItem = oEvent.getParameter("listItem");
+        var oModelListSoa = self.getModel("ListSoa");
+        var oModelUtility = self.getModel("Utility");
+
+        //Recupero l'oggetto selezionato
+        var oSelectedItem = oModelListSoa.getObject(
+          oListItem.getBindingContextPath()
+        );
+
+        oModelUtility.setProperty("/SelectedItem", oSelectedItem);
+
+        self.setWorkflowInFunction(oSelectedItem);
       },
     });
   }

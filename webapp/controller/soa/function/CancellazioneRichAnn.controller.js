@@ -59,14 +59,11 @@ sap.ui.define(
             return;
           }
 
-          //Carico il workflow
-          var oSelectedItem = oModelSelectedItems.getData()[0];
-
           //Setto i modelli
           var oModelUtility = new JSONModel({
             Function: "CancellazioneRichAnn",
             TableMode: "None",
-            SelectedItem: oSelectedItem,
+            SelectedItem: {},
             EnableEdit: false,
             EnableAnnullamento: false,
             EnableRevocaInvioFirma: false,
@@ -96,30 +93,9 @@ sap.ui.define(
 
           //Setto il modello per la tabella
           self.setModel(oModelSelectedItems, "ListSoa");
-          this._setHeaderSoa(oSelectedItem);
+          self.getLogModel();
 
-          self.setWorkflowInFunction(oSelectedItem);
           self.setDatiFirmatario();
-        },
-
-        _setHeaderSoa: function (oSoa) {
-          var self = this;
-
-          var oModel = self.getModel();
-          var sPath = self.getModel().createKey("SOASet", {
-            Gjahr: oSoa.Gjahr,
-            Zchiavesop: oSoa.Zchiavesop,
-            Bukrs: oSoa.Bukrs,
-            Zstep: oSoa.Zstep,
-            Ztipososp: oSoa.Ztipososp,
-          });
-
-          oModel.read("/" + sPath, {
-            success: function (data, oResponse) {
-              self.setModelCustom("Soa", data);
-            },
-            error: function () {},
-          });
         },
 
         onStart: function () {
@@ -159,6 +135,44 @@ sap.ui.define(
                 .navTo("soa.detail.scenery.Scenario4", oParameters);
               break;
           }
+        },
+
+        onCancellaRichAnn: function () {
+          var self = this;
+          var oModel = self.getModel();
+          var aModelListSoa = self.getModel("ListSoa").getData();
+          var oBundle = self.getResourceBundle();
+
+          var sMessage =
+            aModelListSoa.length === 1
+              ? oBundle.getText(
+                  "msgWarningCancellaRichAnn",
+                  aModelListSoa[0].Zricann,
+                  aModelListSoa[0].Zchiavesop
+                )
+              : oBundle.getText("msgWarningCancellaRichAnnMulti");
+
+          MessageBox.warning(sMessage, {
+            actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+            title: "Cancellazione Richiesta di annullamento",
+            onClose: function (oAction) {},
+          });
+        },
+
+        onSelectedItem: function (oEvent) {
+          var self = this;
+          var oListItem = oEvent.getParameter("listItem");
+          var oModelListSoa = self.getModel("ListSoa");
+          var oModelUtility = self.getModel("Utility");
+
+          //Recupero l'oggetto selezionato
+          var oSelectedItem = oModelListSoa.getObject(
+            oListItem.getBindingContextPath()
+          );
+
+          self.setWorkflowInFunction(oSelectedItem);
+
+          oModelUtility.setProperty("/SelectedItem", oSelectedItem);
         },
       }
     );

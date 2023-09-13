@@ -659,7 +659,7 @@ sap.ui.define(
         var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
         var bEnabled = true;
 
-        if (aSelectedItems.length !== 1) {
+        if (aSelectedItems.length === 0) {
           bEnabled = false;
           oModelSoaSettings.setProperty("/EnableBtnFirma", bEnabled);
           return;
@@ -681,7 +681,7 @@ sap.ui.define(
         var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
         var bEnabled = true;
 
-        if (aSelectedItems.length !== 1) {
+        if (aSelectedItems.length === 0) {
           bEnabled = false;
           oModelSoaSettings.setProperty("/EnableBtnRevocaFirma", bEnabled);
           return;

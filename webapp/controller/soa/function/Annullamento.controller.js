@@ -159,53 +159,55 @@ sap.ui.define(
         onAnnulla: function () {
           var self = this;
           var oModel = self.getModel();
+          var aModelListSoa = self.getModel("ListSoa").getData();
+          var oBundle = self.getResourceBundle();
 
-          MessageBox.warning(
-            "Procedere con l'annullamento dei SOA selezionati?",
-            {
-              actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-              title: "Annullamento SOA",
-              onClose: function (oAction) {
-                if (oAction === "OK") {
-                  var aModelListSoa = self.getModel("ListSoa").getData();
+          var sMessage =
+            aModelListSoa.length === 1
+              ? oBundle.getText("msgWarningAnnulla")
+              : oBundle.getText("msgWarningAnnullaMulti");
 
-                  var aSospesi = [];
+          MessageBox.warning(sMessage, {
+            actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+            title: "Annullamento SOA",
+            onClose: function (oAction) {
+              if (oAction === "OK") {
+                var aSospesi = [];
 
-                  aModelListSoa.map((oSoa) => {
-                    var oSospeso = {
-                      Bukrs: oSoa.Bukrs,
-                      Gjahr: oSoa.Gjahr,
-                      Zchiavesop: oSoa.Zchiavesop,
-                      Zstep: oSoa.Zstep,
-                      Ztipososp: oSoa.Ztipososp,
-                      Ztipopag: oSoa.Ztipopag,
-                      Lifnr: oSoa.Lifnr,
-                      Witht: oSoa.Witht,
-                      ZzCebenra: oSoa.ZzCebenra,
-                    };
-
-                    aSospesi.push(oSospeso);
-                  });
-
-                  var oFunzionalitaDeep = {
-                    Funzionalita: "ANNULLAMENTO",
-                    ZuffcontFirm: "",
-                    Zcodord: "",
-                    ZdirigenteAmm: "",
-                    Sospeso: aSospesi,
-                    Messaggio: [],
+                aModelListSoa.map((oSoa) => {
+                  var oSospeso = {
+                    Bukrs: oSoa.Bukrs,
+                    Gjahr: oSoa.Gjahr,
+                    Zchiavesop: oSoa.Zchiavesop,
+                    Zstep: oSoa.Zstep,
+                    Ztipososp: oSoa.Ztipososp,
+                    Ztipopag: oSoa.Ztipopag,
+                    Lifnr: oSoa.Lifnr,
+                    Witht: oSoa.Witht,
+                    ZzCebenra: oSoa.ZzCebenra,
                   };
 
-                  oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
-                    success: function (result) {
-                      self.printMessage(result, "Annullamento SOA");
-                    },
-                    error: function () {},
-                  });
-                }
-              },
-            }
-          );
+                  aSospesi.push(oSospeso);
+                });
+
+                var oFunzionalitaDeep = {
+                  Funzionalita: "ANNULLAMENTO",
+                  ZuffcontFirm: "",
+                  Zcodord: "",
+                  ZdirigenteAmm: "",
+                  Sospeso: aSospesi,
+                  Messaggio: [],
+                };
+
+                oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                  success: function (result) {
+                    self.printMessage(result, "Annullamento SOA");
+                  },
+                  error: function () {},
+                });
+              }
+            },
+          });
         },
       }
     );

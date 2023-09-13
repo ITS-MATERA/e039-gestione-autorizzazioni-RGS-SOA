@@ -154,6 +154,27 @@ sap.ui.define(
 
           oModelUtility.setProperty("/SelectedItem", oSelectedItem);
         },
+
+        onRegistraRichAnn: function () {
+          var self = this;
+          var oModel = self.getModel();
+          var aModelListSoa = self.getModel("ListSoa").getData();
+          var oBundle = self.getResourceBundle();
+
+          var sMessage =
+            aModelListSoa.length === 1
+              ? oBundle.getText(
+                  "msgWarningRegistraRichAnn",
+                  aModelListSoa[0].Zchiavesop
+                )
+              : oBundle.getText("msgWarningRegistraRichAnnMulti");
+
+          MessageBox.warning(sMessage, {
+            actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+            title: "Registrazione Richiesta di annullamento",
+            onClose: function (oAction) {},
+          });
+        },
       }
     );
   }

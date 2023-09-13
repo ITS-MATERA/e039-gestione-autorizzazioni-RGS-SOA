@@ -47,11 +47,21 @@
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>
 					</layoutData>
 				</Button>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnLog}"
+					press="onLog"
+					visible="{= ${Log>/Messaggio}.length !== 0 ? true : false}"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
 				<ToolbarSpacer/>
 				<Button
 					type="Emphasized"
 					text="{i18n>btnRegistrazioneRichAnn}"
-					press="onRegistrazioneRichAnn"
+					press="onRegistraRichAnn"
 					visible="{= ${Utility>/VisibleBtnStart} === false ? true : false}"
 				>
 					<layoutData>
