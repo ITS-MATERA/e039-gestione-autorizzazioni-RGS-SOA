@@ -761,7 +761,7 @@ sap.ui.define(
         var bEnabled = true;
 
         if (
-          aSelectedItems.length !== 1 ||
+          aSelectedItems.length === 0 ||
           oModelFilter.getProperty("/Zricann") !== "Si"
         ) {
           bEnabled = false;

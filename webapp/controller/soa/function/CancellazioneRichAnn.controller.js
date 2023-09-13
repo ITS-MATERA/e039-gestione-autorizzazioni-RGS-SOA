@@ -34,14 +34,19 @@ sap.ui.define(
           switch (sKey) {
             case "Dettaglio": {
               oModelUtility.setProperty("/VisibleBtnStart", true);
+              oModelUtility.setProperty("/TableMode", "SingleSelectLeft");
               break;
             }
             case "CancellazioneRichAnn": {
+              self.clearModel("WFStateSoa");
+              oModelUtility.setProperty("/SelectedItem", {});
               oModelUtility.setProperty("/VisibleBtnStart", false);
+              oModelUtility.setProperty("/TableMode", "None");
               break;
             }
             case "Workflow": {
               oModelUtility.setProperty("/VisibleBtnStart", false);
+              oModelUtility.setProperty("/TableMode", "SingleSelectLeft");
               break;
             }
           }
