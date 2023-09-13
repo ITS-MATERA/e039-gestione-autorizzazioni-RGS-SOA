@@ -25,160 +25,13 @@ sap.ui.define(
             visibleBtnSave: false,
           });
 
-          var oModelSoa = new JSONModel({
-            EnableEdit: true,
-            visibleBtnEdit: false,
-            /**   Scenario    */
-            Ztipopag: "3", //Tipo Pagamento
-
-            /**   Dati SOA (Parte celeste in alto)   */
-            Gjahr: "", //Esercizio di gestione
-            Zimptot: "0.00", //Importo
-            Zzamministr: "", //Amministrazione
-            ZufficioCont: "", //Ufficio Contabile
-            NameFirst: "", //Nome Beneficiairo
-            NameLast: "", //Cognome Beneficiario
-            ZzragSoc: "", //Ragione Sociale
-            TaxnumCf: "", //Codice Fiscale
-            TaxnumPiva: "", //Partita Iva
-            Fipos: "", //Posizione Finanziaria
-            Fistl: "", //Struttura Amministrativa Responsabile
-            Lifnr: "", //Beneficiario
-            Witht: "", //Codice Ritenuta
-            Text40: "", //Descrizione Ritenuta
-            ZzCebenra: "", //Codice Ente Beneficiario
-            ZzDescebe: "", //Descrizione Ente Beneficiario
-            Zchiaveaut: "", //Identificativo Autorizzazione
-            Ztipodisp2: "", //Codice Tipologia Autorizzazione
-            Zdesctipodisp2: "", //Tipologia Autorizzazione
-            Ztipodisp3: "", //Codice Tipologia Disponibilità
-            Zdesctipodisp3: "", //Tipologia Disponibilità
-            Zimpaut: "", //Importo autorizzato
-            Zimpdispaut: "", //Disponibilità autorizzazione
-            Zztipologia: "", //Tipololgia SOA
-            DescZztipologia: "", //Descrizione Tipologia SOA
-            Zfunzdel: "", //Codice FD
-            Zdescriz: "", //TODO - Open Point - Descrizione Codice FD
-            ZspecieSop: "", //Specie SOA
-            DescZspecieSop: "", //Descrizione Specie SOA
-
-            data: [], //Prospetti Liquidazione
-
-            /**   WIZARD 2 - Beneficiario SOA   */
-
-            BuType: "", //Tipologia Persona
-            Taxnumxl: "", //Codice Fiscale Estero
-            Zsede: "", //Sede Estera
-            Zdenominazione: "", //Descrizione Sede Estera
-            Zdurc: "", //Numero identificativo Durc
-            ZfermAmm: "", //Fermo amministrativo
-
-            /**   WIZARD 2 - Modalità Pagamento   */
-            Zwels: "", //Codice Modalità Pagamento
-            ZCausaleval: "", //Causale Valutaria
-            Swift: "", //BIC
-            Zcoordest: "", //Cordinate Estere
-            Iban: "", //IBAN
-            Zmotivaz: "", //Motivazione cambio IBAN
-            Zdescwels: "", //Descrizione Modalità Pagamento
-            Banks: "", //Paese di Residenza (Primi 2 digit IBAN)
-            ZDesccauval: "", //Descrizione Causale Valutaria
-
-            /**   WIZARD 2 - Dati Quietanzante/Destinatario Vaglia    */
-            Ztipofirma: "", //Tipologia Firma
-            ZpersCognomeQuiet1: "", //Cognome primo quietanzante
-            ZpersCognomeQuiet2: "", //Cognome secondo quietanzante
-            ZpersNomeQuiet1: "", //Nome primo quietanzante
-            ZpersNomeQuiet2: "", //Nome secondo quietanzante
-            ZpersNomeVaglia: "", //Nome persona vagliaesigibilità
-            ZpersCognomeVaglia: "", //Cognome persona vaglia
-            Zstcd1: "", //Codice Fiscale Utilizzatore
-            Zstcd12: "", //Codice fiscale secondo quietanzante
-            Zstcd13: "", //Codice fiscale destinatario vaglia
-            Zqindiriz: "", //Indirizzo primo quietanzante
-            Zqcitta: "", //Citta primo quietanzantez
-            Zqcap: "", //Cap primo quietanzante
-            Zqprovincia: "", //Provincia primo quietanzante
-            Zqindiriz12: "", //Indirizzo secondo quietanzante
-            Zqcitta12: "", //Citta secondo quietanzante
-            Zqcap12: "", //Cap secondo quietanzante
-            Zqprovincia12: "", //Provincia secondo quietanzante
-
-            /**   WIZARD 2 - INPS    */
-            Zcodprov: "", //INPS - Codice Provenienza
-            Zcfcommit: "", //INPS - Codice Fiscale Committente
-            Zcodtrib: "", //INPS - Codice tributo
-            Zperiodrifda: null, //INPS - Periodo riferimento da
-            Zperiodrifa: null, //INPS - Periodo riferimento a
-            Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
-            Zcfvers: "", //INPS - Codice Fiscale Versante
-            Zcodvers: "", //INPS - Codice Versante
-            FlagInpsEditabile: false,
-
-            /**   WIZARD 2 - Sede Beneficiario */
-            Stras: "", //Via,numero civico
-            Ort01: "", //Località
-            Regio: "", //Regione
-            Pstlz: "", //Codice di avviamento postale
-            Land1: "", //Codice paese
-
-            /**   WIZARD 3    */
-            Classificazione: [], //Classificazioni
-
-            /**   WIZARD 4    */
-            Zidsede: "", //Sede Beneficiario
-            Zcausale: "", //Causale di pagamento
-            ZE2e: "", //E2E ID
-            Zlocpag: "", //Località pagamento
-            Zzonaint: "", //Zona di intervento
-            Znumprot: "", //Numero protocollo
-            Zdataprot: null, //Data protocollo
-            Zdataesig: null, //TODO - Punto Aperto - Data esigibilità
-
-            Bukrs: "",
-            Hkont: "",
-            Kostl: "",
-            Zchiavesop: "",
-            ZcodStatosop: "",
-            Zdatasop: null,
-            Znumsop: "",
-            Zricann: "",
-            ZstatTest: "",
-            Zstep: "",
-            Zutenza: "",
-            Messaggio: [], //Messaggi di error
-          });
-
-          var oModelClassificazione = new JSONModel({
-            Cos: [],
-            Cpv: [],
-            Cig: [],
-            Cup: [],
-            ImpTotAssociareCos: "0.00",
-            ImpTotAssociareCpv: "0.00",
-            ImpTotAssociareCig: "0.00",
-            ImpTotAssociareCup: "0.00",
-          });
-
-          var oModelFilterDocumenti = new JSONModel({
-            Gjahr: "",
-            Lifnr: "",
-            Zuffliq: [],
-            ZnumliqFrom: "",
-            ZnumliqTo: "",
-            ZdescProsp: "",
-          });
-          self.setModel(oModelFilterDocumenti, "FilterDocumenti");
-
           var oModelUtility = new JSONModel({
             EnableEdit: true,
             DetailFromFunction: true,
           });
           self.setModel(oModelUtility, "Utility");
 
-          self.setModel(oModelSoa, "Soa");
           self.setModel(oModelStepScenario, "StepScenario");
-          self.setModel(oModelClassificazione, "Classificazione");
 
           this.getRouter()
             .getRoute("soa.create.scenery.Scenario3")
@@ -201,7 +54,6 @@ sap.ui.define(
           var bWizard4 = oModelStepScenario.getProperty("/wizard4");
 
           if (bWizard1Step1) {
-            self.resetSoa("3");
             history.go(-1);
           } else if (bWizard1Step2) {
             oModelStepScenario.setProperty("/wizard1Step2", false);
@@ -390,46 +242,179 @@ sap.ui.define(
           var self = this;
           //Load Models
           var oDataModel = self.getModel();
-          var oModelSoa = self.getModel("Soa");
           var oParameters = oEvent.getParameter("arguments");
           var sPath = self
             .getModel()
             .createKey("ChiaveAutorizzazioneSet", oParameters);
 
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oDataModel.read("/" + sPath, {
-                success: function (data, oResponse) {
-                  oModelSoa.setProperty("/Gjahr", data?.Gjahr);
-                  oModelSoa.setProperty("/Zzamministr", data?.Zzamministr);
-                  oModelSoa.setProperty("/ZufficioCont", data?.ZufficioCont);
-                  oModelSoa.setProperty("/Fipos", data?.Fipos);
-                  oModelSoa.setProperty("/Fistl", data?.Fistl);
-                  oModelSoa.setProperty("/Zchiaveaut", data?.Zchiaveaut);
-                  oModelSoa.setProperty("/Ztipodisp2", data?.Ztipodisp2);
-                  oModelSoa.setProperty(
-                    "/Zdesctipodisp2",
-                    data?.Zdesctipodisp2
-                  );
-                  oModelSoa.setProperty("/Ztipodisp3", data?.Ztipodisp3);
-                  oModelSoa.setProperty(
-                    "/Zdesctipodisp3",
-                    data?.Zdesctipodisp3
-                  );
-                  oModelSoa.setProperty(
-                    "/Zdesctipodisp3",
-                    data?.Zdesctipodisp3
-                  );
-                  oModelSoa.setProperty("/Zimpaut", data?.Zimpaut);
-                  oModelSoa.setProperty("/Zimpdispaut", data?.Zimpdispaut);
-                  oModelSoa.setProperty("/Zfunzdel", data?.Zfunzdel);
-                  oModelSoa.setProperty("/Zdescriz", data?.Zdescriz);
-                },
-                error: function () {},
-              });
-            });
+          var oModelSoa = new JSONModel({
+            EnableEdit: true,
+            visibleBtnEdit: false,
+            /**   Scenario    */
+            Ztipopag: "3", //Tipo Pagamento
+
+            /**   Dati SOA (Parte celeste in alto)   */
+            Gjahr: "", //Esercizio di gestione
+            Zimptot: "0.00", //Importo
+            Zzamministr: "", //Amministrazione
+            ZufficioCont: "", //Ufficio Contabile
+            NameFirst: "", //Nome Beneficiairo
+            NameLast: "", //Cognome Beneficiario
+            ZzragSoc: "", //Ragione Sociale
+            TaxnumCf: "", //Codice Fiscale
+            TaxnumPiva: "", //Partita Iva
+            Fipos: "", //Posizione Finanziaria
+            Fistl: "", //Struttura Amministrativa Responsabile
+            Lifnr: "", //Beneficiario
+            Witht: "", //Codice Ritenuta
+            Text40: "", //Descrizione Ritenuta
+            ZzCebenra: "", //Codice Ente Beneficiario
+            ZzDescebe: "", //Descrizione Ente Beneficiario
+            Zchiaveaut: "", //Identificativo Autorizzazione
+            Ztipodisp2: "", //Codice Tipologia Autorizzazione
+            Zdesctipodisp2: "", //Tipologia Autorizzazione
+            Ztipodisp3: "", //Codice Tipologia Disponibilità
+            Zdesctipodisp3: "", //Tipologia Disponibilità
+            Zimpaut: "", //Importo autorizzato
+            Zimpdispaut: "", //Disponibilità autorizzazione
+            Zztipologia: "", //Tipololgia SOA
+            DescZztipologia: "", //Descrizione Tipologia SOA
+            Zfunzdel: "", //Codice FD
+            Zdescriz: "", //TODO - Open Point - Descrizione Codice FD
+            ZspecieSop: "", //Specie SOA
+            DescZspecieSop: "", //Descrizione Specie SOA
+
+            data: [], //Prospetti Liquidazione
+
+            /**   WIZARD 2 - Beneficiario SOA   */
+
+            BuType: "", //Tipologia Persona
+            Taxnumxl: "", //Codice Fiscale Estero
+            Zsede: "", //Sede Estera
+            Zdenominazione: "", //Descrizione Sede Estera
+            Zdurc: "", //Numero identificativo Durc
+            ZfermAmm: "", //Fermo amministrativo
+
+            /**   WIZARD 2 - Modalità Pagamento   */
+            Zwels: "", //Codice Modalità Pagamento
+            ZCausaleval: "", //Causale Valutaria
+            Swift: "", //BIC
+            Zcoordest: "", //Cordinate Estere
+            Iban: "", //IBAN
+            Zmotivaz: "", //Motivazione cambio IBAN
+            Zdescwels: "", //Descrizione Modalità Pagamento
+            Banks: "", //Paese di Residenza (Primi 2 digit IBAN)
+            ZDesccauval: "", //Descrizione Causale Valutaria
+
+            /**   WIZARD 2 - Dati Quietanzante/Destinatario Vaglia    */
+            Ztipofirma: "", //Tipologia Firma
+            ZpersCognomeQuiet1: "", //Cognome primo quietanzante
+            ZpersCognomeQuiet2: "", //Cognome secondo quietanzante
+            ZpersNomeQuiet1: "", //Nome primo quietanzante
+            ZpersNomeQuiet2: "", //Nome secondo quietanzante
+            ZpersNomeVaglia: "", //Nome persona vagliaesigibilità
+            ZpersCognomeVaglia: "", //Cognome persona vaglia
+            Zstcd1: "", //Codice Fiscale Utilizzatore
+            Zstcd12: "", //Codice fiscale secondo quietanzante
+            Zstcd13: "", //Codice fiscale destinatario vaglia
+            Zqindiriz: "", //Indirizzo primo quietanzante
+            Zqcitta: "", //Citta primo quietanzantez
+            Zqcap: "", //Cap primo quietanzante
+            Zqprovincia: "", //Provincia primo quietanzante
+            Zqindiriz12: "", //Indirizzo secondo quietanzante
+            Zqcitta12: "", //Citta secondo quietanzante
+            Zqcap12: "", //Cap secondo quietanzante
+            Zqprovincia12: "", //Provincia secondo quietanzante
+
+            /**   WIZARD 2 - INPS    */
+            Zcodprov: "", //INPS - Codice Provenienza
+            Zcfcommit: "", //INPS - Codice Fiscale Committente
+            Zcodtrib: "", //INPS - Codice tributo
+            Zperiodrifda: null, //INPS - Periodo riferimento da
+            Zperiodrifa: null, //INPS - Periodo riferimento a
+            Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
+            Zcfvers: "", //INPS - Codice Fiscale Versante
+            Zcodvers: "", //INPS - Codice Versante
+            FlagInpsEditabile: false,
+
+            /**   WIZARD 2 - Sede Beneficiario */
+            Stras: "", //Via,numero civico
+            Ort01: "", //Località
+            Regio: "", //Regione
+            Pstlz: "", //Codice di avviamento postale
+            Land1: "", //Codice paese
+
+            /**   WIZARD 3    */
+            Classificazione: [], //Classificazioni
+
+            /**   WIZARD 4    */
+            Zidsede: "", //Sede Beneficiario
+            Zcausale: "", //Causale di pagamento
+            ZE2e: "", //E2E ID
+            Zlocpag: "", //Località pagamento
+            Zzonaint: "", //Zona di intervento
+            Znumprot: "", //Numero protocollo
+            Zdataprot: null, //Data protocollo
+            Zdataesig: null, //TODO - Punto Aperto - Data esigibilità
+
+            Bukrs: "",
+            Hkont: "",
+            Kostl: "",
+            Zchiavesop: "",
+            ZcodStatosop: "",
+            Zdatasop: null,
+            Znumsop: "",
+            Zricann: "",
+            ZstatTest: "",
+            Zstep: "",
+            Zutenza: "",
+            Messaggio: [], //Messaggi di error
+          });
+
+          var oModelClassificazione = new JSONModel({
+            Cos: [],
+            Cpv: [],
+            Cig: [],
+            Cup: [],
+            ImpTotAssociareCos: "0.00",
+            ImpTotAssociareCpv: "0.00",
+            ImpTotAssociareCig: "0.00",
+            ImpTotAssociareCup: "0.00",
+          });
+
+          var oModelFilterDocumenti = new JSONModel({
+            Gjahr: "",
+            Lifnr: "",
+            Zuffliq: [],
+            ZnumliqFrom: "",
+            ZnumliqTo: "",
+            ZdescProsp: "",
+          });
+
+          oDataModel.read("/" + sPath, {
+            success: function (data, oResponse) {
+              oModelSoa.setProperty("/Gjahr", data?.Gjahr);
+              oModelSoa.setProperty("/Zzamministr", data?.Zzamministr);
+              oModelSoa.setProperty("/ZufficioCont", data?.ZufficioCont);
+              oModelSoa.setProperty("/Fipos", data?.Fipos);
+              oModelSoa.setProperty("/Fistl", data?.Fistl);
+              oModelSoa.setProperty("/Zchiaveaut", data?.Zchiaveaut);
+              oModelSoa.setProperty("/Ztipodisp2", data?.Ztipodisp2);
+              oModelSoa.setProperty("/Zdesctipodisp2", data?.Zdesctipodisp2);
+              oModelSoa.setProperty("/Ztipodisp3", data?.Ztipodisp3);
+              oModelSoa.setProperty("/Zdesctipodisp3", data?.Zdesctipodisp3);
+              oModelSoa.setProperty("/Zdesctipodisp3", data?.Zdesctipodisp3);
+              oModelSoa.setProperty("/Zimpaut", data?.Zimpaut);
+              oModelSoa.setProperty("/Zimpdispaut", data?.Zimpdispaut);
+              oModelSoa.setProperty("/Zfunzdel", data?.Zfunzdel);
+              oModelSoa.setProperty("/Zdescriz", data?.Zdescriz);
+            },
+            error: function () {},
+          });
+
+          self.setModel(oModelFilterDocumenti, "FilterDocumenti");
+          self.setModel(oModelSoa, "Soa");
+          self.setModel(oModelClassificazione, "Classificazione");
         },
 
         _getProspettiLiquidazioneFilters: function () {
