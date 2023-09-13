@@ -81,6 +81,7 @@
 				/>
 				<IconTabSeparator/>
 				<IconTabFilter
+					key="FascicoloElettronico"
 					text="{i18n>iconTabFascicoloElettronico}"
 					icon="sap-icon://documents"
 				/>

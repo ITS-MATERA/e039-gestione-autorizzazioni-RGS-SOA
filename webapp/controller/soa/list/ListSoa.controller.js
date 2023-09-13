@@ -412,6 +412,8 @@ sap.ui.define(
             self.setModelCustom(SOA_ENTITY_MODEL, data.results);
             oView.setBusy(false);
             self._setSelectedItems(data);
+            var oModelSoaSettings = self.getModel("SoaSettings");
+            oModelSoaSettings.setProperty("/selectedItems", []);
           },
           error: function (error) {
             oView.setBusy(false);

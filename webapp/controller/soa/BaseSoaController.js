@@ -1918,7 +1918,7 @@ sap.ui.define(
 
       //#endregion
 
-      /** ------------------------GESTIONE LOG------------------------------- */
+      /** -------------------------GESTIONE LOG------------------------------ */
       //#region
       onLog: function () {
         var self = this;
@@ -1970,7 +1970,7 @@ sap.ui.define(
           workbook: {
             columns: aCols,
           },
-          dataSource: oTableModel.getData(),
+          dataSource: oTableModel.getData()?.Messaggio,
           fileName: "Lista Log.xlsx",
         };
 

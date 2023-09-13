@@ -7,7 +7,6 @@ sap.ui.define(
   function (BaseSoaController, JSONModel, formatter) {
     "use strict";
 
-    const PAGINATOR_MODEL = "paginatorModel";
     return BaseSoaController.extend(
       "rgssoa.controller.soa.create.scenery.Scenario3",
       {
@@ -150,21 +149,6 @@ sap.ui.define(
             Messaggio: [], //Messaggi di error
           });
 
-          var oModelPaginator = new JSONModel({
-            btnPrevEnabled: false,
-            btnFirstEnabled: false,
-            btnNextEnabled: false,
-            btnLastEnabled: false,
-            recordForPageEnabled: false,
-            currentPageEnabled: true,
-            numRecordsForPage: 10,
-            currentPage: 1,
-            maxPage: 1,
-            paginatorSkip: 0,
-            paginatorClick: 0,
-            paginatorTotalPage: 1,
-          });
-
           var oModelClassificazione = new JSONModel({
             Cos: [],
             Cpv: [],
@@ -193,7 +177,6 @@ sap.ui.define(
           self.setModel(oModelUtility, "Utility");
 
           self.setModel(oModelSoa, "Soa");
-          self.setModel(oModelPaginator, PAGINATOR_MODEL);
           self.setModel(oModelStepScenario, "StepScenario");
           self.setModel(oModelClassificazione, "Classificazione");
 
@@ -376,29 +359,6 @@ sap.ui.define(
           oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
         },
 
-        //#region PAGINATOR
-        onFirstPaginator: function () {
-          var self = this;
-
-          self.getFirstPaginator(PAGINATOR_MODEL);
-          this._getProspettiLiquidazioneList();
-        },
-
-        onLastPaginator: function () {
-          var self = this;
-
-          self.getLastPaginator(PAGINATOR_MODEL);
-          this._getProspettiLiquidazioneList();
-        },
-
-        onChangePage: function (oEvent) {
-          var self = this;
-
-          self.getChangePage(oEvent, PAGINATOR_MODEL);
-          this._getProspettiLiquidazioneList();
-        },
-        //#endregion PAGINATOR
-
         //#region SELECTION CHANGE
         onImpDaOrdinareChange: function (oEvent) {
           var self = this;
@@ -506,58 +466,19 @@ sap.ui.define(
           return aFilters;
         },
 
-        _setPaginatorProperties: function () {
-          var self = this;
-          var oDataModel = self.getModel();
-          var aFilters = this._getProspettiLiquidazioneFilters();
-
-          //Check BEETWEN filters
-          if (self.checkBTFilter(aFilters)) {
-            return;
-          }
-
-          var oPaginatorModel = self.getModel(PAGINATOR_MODEL);
-          self.resetPaginator(oPaginatorModel);
-          var iNumRecordsForPage =
-            oPaginatorModel.getProperty("/numRecordsForPage");
-
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oDataModel.read("/" + "ProspettoLiquidazioneSet" + "/$count", {
-                filters: aFilters,
-                success: function (data) {
-                  self.setPaginatorProperties(
-                    oPaginatorModel,
-                    data,
-                    iNumRecordsForPage
-                  );
-                },
-                error: function () {},
-              });
-            });
-        },
-
         _getProspettiLiquidazioneList: function () {
           var self = this;
           var oView = self.getView();
           //Load Model
           var oDataModel = self.getModel();
           var oModelStepScenario = self.getModel("StepScenario");
-          var oPaginatorModel = self.getModel(PAGINATOR_MODEL);
           var oModelSoa = self.getModel("Soa");
           //Load Component
-          var oPanelPaginator = oView.byId("pnlPaginator");
           var oTableDocumenti = oView.byId("tblProspettoLiquidazione");
           var oPanelCalculator = oView.byId("pnlCalculatorList");
 
           var aListRiepilogo = oModelSoa.getProperty("/data");
           var aFilters = this._getProspettiLiquidazioneFilters();
-          var urlParameters = {
-            $top: oPaginatorModel.getProperty("/numRecordsForPage"),
-            $skip: oPaginatorModel.getProperty("/paginatorSkip"),
-          };
 
           //Check BEETWEN filters
           var sIntervalFilter = self.checkBTFilter(aFilters);
@@ -569,50 +490,43 @@ sap.ui.define(
 
           oView.setBusy(true);
 
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oDataModel.read("/" + "ProspettoLiquidazioneSet", {
-                urlParameters: urlParameters,
-                filters: aFilters,
-                success: function (data, oResponse) {
-                  if (!self.setResponseMessage(oResponse)) {
-                    oModelStepScenario.setProperty("/wizard1Step1", false);
-                    oModelStepScenario.setProperty("/wizard1Step2", true);
-                    oModelStepScenario.setProperty("/visibleBtnForward", true);
-                    oModelStepScenario.setProperty("/visibleBtnStart", false);
-                  }
-                  self.setModelCustom("ProspettoLiquidazione", data.results);
+          oDataModel.read("/" + "ProspettoLiquidazioneSet", {
+            filters: aFilters,
+            success: function (data, oResponse) {
+              if (!self.setResponseMessage(oResponse)) {
+                oModelStepScenario.setProperty("/wizard1Step1", false);
+                oModelStepScenario.setProperty("/wizard1Step2", true);
+                oModelStepScenario.setProperty("/visibleBtnForward", true);
+                oModelStepScenario.setProperty("/visibleBtnStart", false);
+              }
+              self.setModelCustom("ProspettoLiquidazione", data.results);
 
-                  oPanelPaginator.setVisible(data.results.length !== 0);
-                  oPanelCalculator.setVisible(data.results.length !== 0);
+              oPanelCalculator.setVisible(data.results.length !== 0);
 
-                  if (data.results !== 0) {
-                    data.results.map((oItem, iIndex) => {
-                      //Vengono selezionati i record quando viene caricata l'entità
-                      aListRiepilogo.map((oSelectedItem) => {
-                        if (
-                          oItem.Bukrs === oSelectedItem.Bukrs &&
-                          oItem.Znumliq === oSelectedItem.Znumliq &&
-                          oItem.Zposizione === oSelectedItem.Zposizione &&
-                          oItem.Zversione === oSelectedItem.Zversione &&
-                          oItem.ZversioneOrig === oSelectedItem.ZversioneOrig
-                        ) {
-                          oTableDocumenti.setSelectedItem(
-                            oTableDocumenti.getItems()[iIndex]
-                          );
-                        }
-                      });
-                    });
-                  }
-                  oView.setBusy(false);
-                },
-                error: function (error) {
-                  oView.setBusy(false);
-                },
-              });
-            });
+              if (data.results !== 0) {
+                data.results.map((oItem, iIndex) => {
+                  //Vengono selezionati i record quando viene caricata l'entità
+                  aListRiepilogo.map((oSelectedItem) => {
+                    if (
+                      oItem.Bukrs === oSelectedItem.Bukrs &&
+                      oItem.Znumliq === oSelectedItem.Znumliq &&
+                      oItem.Zposizione === oSelectedItem.Zposizione &&
+                      oItem.Zversione === oSelectedItem.Zversione &&
+                      oItem.ZversioneOrig === oSelectedItem.ZversioneOrig
+                    ) {
+                      oTableDocumenti.setSelectedItem(
+                        oTableDocumenti.getItems()[iIndex]
+                      );
+                    }
+                  });
+                });
+              }
+              oView.setBusy(false);
+            },
+            error: function (error) {
+              oView.setBusy(false);
+            },
+          });
         },
 
         _checkProspettoLiquidazione: function () {
@@ -657,32 +571,24 @@ sap.ui.define(
             });
             var oBundle = self.getResourceBundle();
 
-            self
-              .getModel()
-              .metadataLoaded()
-              .then(function () {
-                oModel.read("/" + sPath, {
-                  success: function (data, oResponse) {
-                    if (oResponse?.headers["sap-message"]) {
-                      sap.m.MessageBox.warning(
-                        oBundle.getText("msgExistQuoteDocumenti"),
-                        {
-                          onClose: function (oAction) {
-                            self._setPaginatorProperties();
-                            self._getProspettiLiquidazioneList();
-                          },
-                        }
-                      );
-                    } else {
-                      self._setPaginatorProperties();
-                      self._getProspettiLiquidazioneList();
+            oModel.read("/" + sPath, {
+              success: function (data, oResponse) {
+                if (oResponse?.headers["sap-message"]) {
+                  sap.m.MessageBox.warning(
+                    oBundle.getText("msgExistQuoteDocumenti"),
+                    {
+                      onClose: function (oAction) {
+                        self._getProspettiLiquidazioneList();
+                      },
                     }
-                  },
-                  error: function () {},
-                });
-              });
+                  );
+                } else {
+                  self._getProspettiLiquidazioneList();
+                }
+              },
+              error: function () {},
+            });
           } else {
-            self._setPaginatorProperties();
             self._getProspettiLiquidazioneList();
           }
         },

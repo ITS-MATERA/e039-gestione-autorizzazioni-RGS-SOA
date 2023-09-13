@@ -8,7 +8,6 @@ sap.ui.define(
   function (BaseSoaController, formatter, JSONModel, MessageBox) {
     "use strict";
 
-    const PAGINATOR_MODEL = "paginatorModel";
     return BaseSoaController.extend(
       "rgssoa.controller.soa.detail.scenery.Scenario1",
       {
@@ -206,22 +205,6 @@ sap.ui.define(
           });
           self.setModel(oModelFilterDocumenti, "FilterDocumenti");
 
-          var oModelPaginator = new JSONModel({
-            btnPrevEnabled: false,
-            btnFirstEnabled: false,
-            btnNextEnabled: false,
-            btnLastEnabled: false,
-            recordForPageEnabled: false,
-            currentPageEnabled: true,
-            numRecordsForPage: 10,
-            currentPage: 1,
-            maxPage: 1,
-            paginatorSkip: 0,
-            paginatorClick: 0,
-            paginatorTotalPage: 1,
-          });
-          self.setModel(oModelPaginator, PAGINATOR_MODEL);
-
           this.getRouter()
             .getRoute("soa.detail.scenery.Scenario1")
             .attachPatternMatched(this._onObjectMatched, this);
@@ -324,6 +307,7 @@ sap.ui.define(
           var self = this;
           var oModel = self.getModel();
           var oModelUtility = self.getModel("Utility");
+          var oModelStepScenario = self.getModel("StepScenario");
           var oModelSoa = self.getModel("Soa");
           var oWizard = self.getView().byId("wizScenario1");
           var sKey = oEvent.getParameter("selectedKey");
@@ -364,11 +348,16 @@ sap.ui.define(
               break;
             }
             case "Workflow": {
+              oModelStepScenario.setProperty("/visibleBtnForward", false);
               this._getWorkflow();
               break;
             }
             case "Rettifica": {
               this._setPropertiesForEdit();
+              break;
+            }
+            case "FascicoloElettronico": {
+              oModelStepScenario.setProperty("/visibleBtnForward", false);
               break;
             }
           }
@@ -377,7 +366,6 @@ sap.ui.define(
         //#region WIZARD 1
 
         onStart: function () {
-          this._setPaginatorProperties();
           this._getQuoteDocumentiList();
         },
 
@@ -707,50 +695,15 @@ sap.ui.define(
           return aFilters;
         },
 
-        _setPaginatorProperties: function () {
-          var self = this;
-          var oDataModel = self.getModel();
-          var aFilters = this._getPositionsFilters();
-
-          //Check BEETWEN filters
-          if (self.checkBTFilter(aFilters)) {
-            return;
-          }
-          var oPaginatorModel = self.getModel(PAGINATOR_MODEL);
-
-          self.resetPaginator(oPaginatorModel);
-          var iNumRecordsForPage =
-            oPaginatorModel.getProperty("/numRecordsForPage");
-
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oDataModel.read("/" + "QuoteDocumentiSet" + "/$count", {
-                filters: aFilters,
-                success: function (data) {
-                  self.setPaginatorProperties(
-                    oPaginatorModel,
-                    data,
-                    iNumRecordsForPage
-                  );
-                },
-                error: function () {},
-              });
-            });
-        },
-
         _getQuoteDocumentiList: function () {
           var self = this;
           var oView = self.getView();
           //Load Model
           var oDataModel = self.getModel();
           var oModelStepScenario = self.getModel("StepScenario");
-          var oPaginatorModel = self.getModel(PAGINATOR_MODEL);
           var oModelSoa = self.getModel("Soa");
           var oModelUtility = self.getModel("Utility");
           //Load Component
-          var oPanelPaginator = oView.byId("pnlPaginator");
           var oTableDocumenti = oView.byId("tblQuoteDocumentiScen1");
 
           var aPositionSoa = oModelSoa.getProperty("/data");
@@ -766,10 +719,6 @@ sap.ui.define(
           );
 
           var aFilters = this._getPositionsFilters();
-          var urlParameters = {
-            $top: oPaginatorModel.getProperty("/numRecordsForPage"),
-            $skip: oPaginatorModel.getProperty("/paginatorSkip"),
-          };
 
           //Check BEETWEN filters
           var sIntervalFilter = self.checkBTFilter(aFilters);
@@ -782,7 +731,6 @@ sap.ui.define(
           oView.setBusy(true);
 
           oDataModel.read("/" + "QuoteDocumentiSet", {
-            urlParameters: urlParameters,
             filters: aFilters,
             success: function (data, oResponse) {
               if (!self.setResponseMessage(oResponse)) {
@@ -793,8 +741,6 @@ sap.ui.define(
               }
 
               var aQuoteDocumenti = data.results;
-
-              oPanelPaginator.setVisible(aQuoteDocumenti.length !== 0);
 
               if (aQuoteDocumenti.length !== 0) {
                 aAddSelectedPositions.map((oQuotaDocumento) => {
@@ -1305,29 +1251,6 @@ sap.ui.define(
         },
 
         //#endregion PRIVATE METHODS
-
-        //#region PAGINATOR
-        onFirstPaginator: function () {
-          var self = this;
-
-          self.getFirstPaginator(PAGINATOR_MODEL);
-          this._getQuoteDocumentiList();
-        },
-
-        onLastPaginator: function () {
-          var self = this;
-
-          self.getLastPaginator(PAGINATOR_MODEL);
-          this._getQuoteDocumentiList();
-        },
-
-        onChangePage: function (oEvent) {
-          var self = this;
-
-          self.getChangePage(oEvent, PAGINATOR_MODEL);
-          this._getQuoteDocumentiList();
-        },
-        //#endregion PAGINATOR
       }
     );
   }

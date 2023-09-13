@@ -159,6 +159,7 @@ sap.ui.define(
           var self = this;
           var oModel = self.getModel();
           var oBundle = self.getResourceBundle();
+          var aModelListSoa = self.getModel("ListSoa").getData();
 
           var sMessage =
             aModelListSoa.length === 1
@@ -170,8 +171,6 @@ sap.ui.define(
             title: "Revoca Invio alla Firma SOA",
             onClose: function (oAction) {
               if (oAction === "OK") {
-                var aModelListSoa = self.getModel("ListSoa").getData();
-
                 var aSospesi = [];
 
                 aModelListSoa.map((oSoa) => {

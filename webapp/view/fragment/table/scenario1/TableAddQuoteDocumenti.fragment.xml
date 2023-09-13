@@ -181,14 +181,6 @@
 					</ColumnListItem>
 				</items>
 			</Table>
-			<!-- <c:Fragment
-				fragmentName="rgssoa.view.fragment.panel.Calculator"
-				type="XML"
-			/> -->
-			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.Paginator"
-				type="XML"
-			/>
 		</content>
 	</Panel>
 </c:FragmentDefinition>
