@@ -22,7 +22,7 @@
 		</f:header>
 		<f:content>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.function.Annullamento"
+				fragmentName="rgssoa.view.fragment.soa.function.Annullamento"
 				type="XML"
 			/>
 		</f:content>

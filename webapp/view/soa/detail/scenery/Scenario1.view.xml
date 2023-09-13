@@ -25,7 +25,7 @@
 		</f:header>
 		<f:content>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.detail.Scenario1"
+				fragmentName="rgssoa.view.fragment.soa.detail.Scenario1"
 				type="XML"
 			/>
 		</f:content>

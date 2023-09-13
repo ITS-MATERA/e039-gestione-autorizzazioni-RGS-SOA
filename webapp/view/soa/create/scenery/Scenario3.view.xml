@@ -35,7 +35,7 @@
 							>
 								<WizardStep title="{i18n>titleWizard1ProspLiquidazione}">
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.panel.FiltersDocumenti"
+										fragmentName="rgssoa.view.fragment.panel.FiltersPosizioni"
 										type="XML"
 									/>
 									<c:Fragment

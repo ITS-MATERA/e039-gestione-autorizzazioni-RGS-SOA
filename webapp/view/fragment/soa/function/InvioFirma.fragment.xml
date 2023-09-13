@@ -7,7 +7,7 @@
 		class="sapUiNoContentPadding"
 	>
 		<c:Fragment
-			fragmentName="rgssoa.view.fragment.panel.DatiFirma"
+			fragmentName="rgssoa.view.fragment.panel.DatiFirmatario"
 			type="XML"
 		/>
 		<c:Fragment

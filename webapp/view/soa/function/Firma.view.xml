@@ -22,7 +22,7 @@
 		</f:header>
 		<f:content>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.function.Firma"
+				fragmentName="rgssoa.view.fragment.soa.function.Firma"
 				type="XML"
 			/>
 		</f:content>
