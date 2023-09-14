@@ -50,7 +50,21 @@
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>
 					</layoutData>
 				</Button>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnLog}"
+					press="onLog"
+					visible="{= ${Log>/Messaggio}.length !== 0 ? true : false}"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
 				<ToolbarSpacer/>
+				<c:Fragment
+					fragmentName="rgssoa.view.fragment.soa.detail.toolbar.ToolbarFunzionalita"
+					type="XML"
+				/>
 				<Button
 					type="Emphasized"
 					text="{i18n>btnStart}"

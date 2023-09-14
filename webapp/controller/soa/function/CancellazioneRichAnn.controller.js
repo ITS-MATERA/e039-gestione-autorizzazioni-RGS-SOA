@@ -19,7 +19,7 @@ sap.ui.define(
           var self = this;
 
           self.getRouter().navTo("soa.list.ListSoa", {
-            Reload: true,
+            Reload: false,
           });
         },
 
@@ -79,6 +79,7 @@ sap.ui.define(
             EnableCancellazioneRichAnn: true,
             DetailFromFunction: true,
             VisibleBtnStart: false,
+            RemoveFunctionButtons: true,
           });
           self.setModel(oModelUtility, "Utility");
 
@@ -144,24 +145,8 @@ sap.ui.define(
 
         onCancellaRichAnn: function () {
           var self = this;
-          var oModel = self.getModel();
-          var aModelListSoa = self.getModel("ListSoa").getData();
-          var oBundle = self.getResourceBundle();
 
-          var sMessage =
-            aModelListSoa.length === 1
-              ? oBundle.getText(
-                  "msgWarningCancellaRichAnn",
-                  aModelListSoa[0].Zricann,
-                  aModelListSoa[0].Zchiavesop
-                )
-              : oBundle.getText("msgWarningCancellaRichAnnMulti");
-
-          MessageBox.warning(sMessage, {
-            actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-            title: "Cancellazione Richiesta di annullamento",
-            onClose: function (oAction) {},
-          });
+          self.doCancellaRichAnn();
         },
 
         onSelectedItem: function (oEvent) {
@@ -175,7 +160,7 @@ sap.ui.define(
             oListItem.getBindingContextPath()
           );
 
-          self.setWorkflowInFunction(oSelectedItem);
+          self.setWorkflowModel(oSelectedItem);
 
           oModelUtility.setProperty("/SelectedItem", oSelectedItem);
         },

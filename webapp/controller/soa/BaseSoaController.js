@@ -37,6 +37,8 @@ sap.ui.define(
         self.acceptOnlyImport("iptImpDaAssociareCup");
       },
 
+      //#region ----------------------WIZARD---------------------------------- /
+
       //#region WIZARD 1
 
       //#region VALUE HELP
@@ -1925,8 +1927,10 @@ sap.ui.define(
 
       //#endregion
 
-      /** -------------------------GESTIONE LOG------------------------------ */
-      //#region
+      //#endregion
+
+      //#region -------------------GESTIONE LOG------------------------------- /
+
       onLog: function () {
         var self = this;
         var oDialog = self.loadFragment("rgssoa.view.fragment.pop-up.TableLog");
@@ -2014,8 +2018,9 @@ sap.ui.define(
       },
       //#endregion
 
-      /** ---------------------------DETTAGLIO------------------------------- */
-      //#region
+      //#region ----------------------DETTAGLIO------------------------------- /
+
+      //#region SET MODELLI
       setInpsEditable: function () {
         var self = this;
         //Load Models
@@ -2030,24 +2035,19 @@ sap.ui.define(
 
           var sPath = self.getModel().createKey("InpsSOASet", oParameters);
 
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oModel.read("/" + sPath, {
-                success: function (data) {
-                  oModelSoa.setProperty(
-                    "/FlagInpsEditabile",
-                    data?.FlagInpsEditabile ? true : false
-                  );
-                },
-                error: function () {},
-              });
-            });
+          oModel.read("/" + sPath, {
+            success: function (data) {
+              oModelSoa.setProperty(
+                "/FlagInpsEditabile",
+                data?.FlagInpsEditabile ? true : false
+              );
+            },
+            error: function () {},
+          });
         }
       },
 
-      setSoaModel: function (oData) {
+      _setSoa: function (oData) {
         var self = this;
         var oModelSoa = self.getModel("Soa");
 
@@ -2143,12 +2143,833 @@ sap.ui.define(
         oModelSoa.setProperty("/Znumprot", oData.Znumprot);
         oModelSoa.setProperty("/Zdataprot", oData.Zdataprot);
         oModelSoa.setProperty("/Zdataesig", oData.Zdataesig);
+        oModelSoa.setProperty("/ZcodStatosop", oData.ZcodStatosop);
+        oModelSoa.setProperty("/Zricann", oData.Zricann);
+        oModelSoa.setProperty("/DescStateSoa", oData.DescStateSoa);
+        oModelSoa.setProperty("/Zdatarichann", oData.Zdatarichann);
       },
+
+      enableFunctions: function () {
+        var self = this;
+        var oModelSoa = self.getModel("Soa");
+        var oSoa = oModelSoa.getData();
+        var oModelUtility = self.getModel("Utility");
+
+        self.getPermissionsListSoa(false, function (callback) {
+          var oPermissions = callback.permissions;
+
+          if (oSoa.ZcodStatosop === "00" && oPermissions.Annullamento) {
+            oModelUtility.setProperty("/EnableBtnAnnullamento", true);
+          }
+
+          oModelUtility.setProperty(
+            "/EnableBtnInvioFirma",
+            oSoa.ZcodStatosop === "00" && oPermissions.InvioFirma
+          );
+          oModelUtility.setProperty(
+            "/EnableBtnRevocaInvioFirma",
+            oSoa.ZcodStatosop === "01" && oPermissions.RevocaInvioFirma
+          );
+          oModelUtility.setProperty(
+            "/EnableBtnFirma",
+            oSoa.ZcodStatosop === "01" && oPermissions.Firma
+          );
+          oModelUtility.setProperty(
+            "/EnableBtnRevocaFirma",
+            oSoa.ZcodStatosop === "02" && oPermissions.RevocaFirma
+          );
+          oModelUtility.setProperty(
+            "/EnableBtnRegistrazioneRichAnn",
+            oSoa.ZcodStatosop === "00" &&
+              oPermissions.RegistrazioneRichAnn &&
+              oSoa.Zricann === "0000000"
+          );
+          oModelUtility.setProperty(
+            "/EnableBtnCancellazioneRichAnn",
+            oSoa.ZcodStatosop === "00" &&
+              oPermissions.CancellazioneRichAnn &&
+              oSoa.Zricann === "0000000"
+          );
+        });
+      },
+
+      setSoaModel: function (oParameters, callback) {
+        var self = this;
+        var oModel = self.getModel();
+        var oView = self.getView();
+        var sPath = self.getModel().createKey("/SOASet", {
+          Gjahr: oParameters.Gjahr,
+          Zchiavesop: oParameters.Zchiavesop,
+          Bukrs: oParameters.Bukrs,
+          Zstep: oParameters.Zstep,
+          Ztipososp: oParameters.Ztipososp,
+        });
+
+        var oModelSoa = new JSONModel({
+          EnableEdit: false,
+          visibleBtnEdit: true,
+          /**  CHIAVI */
+          Gjahr: "",
+          Bukrs: "",
+          Zchiavesop: "",
+          Ztipososp: "",
+          Zstep: "",
+
+          Ztipopag: "", //Tipo Pagamento
+
+          /**   Dati SOA (Parte celeste in alto)   */
+          Zimptot: "", //Importo
+          Zzamministr: "", //Amministrazione
+          ZufficioCont: "", //Ufficio Contabile
+          NameFirst: "", //Nome Beneficiairo
+          NameLast: "", //Cognome Beneficiario
+          ZzragSoc: "", //Ragione Sociale
+          TaxnumCf: "", //Codice Fiscale
+          TaxnumPiva: "", //Partita Iva
+          Fipos: "", //Posizione Finanziaria
+          Fistl: "", //Struttura Amministrativa Responsabile
+          Lifnr: "", //Beneficiario
+          Witht: "", //Codice Ritenuta
+          Text40: "", //Descrizione Ritenuta
+          ZzCebenra: "", //Codice Ente Beneficiario
+          ZzDescebe: "", //Descrizione Ente Beneficiario
+          Zchiaveaut: "", //Identificativo Autorizzazione
+          Ztipodisp2: "", //Codice Tipologia Autorizzazione
+          Zdesctipodisp2: "", //Tipologia Autorizzazione
+          Ztipodisp3: "", //Codice Tipologia Disponibilità
+          Zdesctipodisp3: "", //Tipologia Disponibilità
+          Zimpaut: "", //Importo autorizzato
+          Zimpdispaut: "", //Disponibilità autorizzazione
+          Zztipologia: "", //Tipololgia SOA
+          DescZztipologia: "", //Descrizione Tipologia SOA
+          Zfunzdel: "", //Codice FD
+          Zdescriz: "", //Descrizione Codice FD
+          ZspecieSop: "", //Specie SOA
+          DescZspecieSop: "", //Descrizione Specie SOA
+
+          /**   WIZARD 1 - SCENARIO 4 */
+          Kostl: "", //Centro Costo
+          Hkont: "", // Conto Co.Ge.
+          DescKostl: "", //Descrizione Centro Costo
+          DescHkont: "", //Descrizione Conto Co.Ge.
+
+          data: [], //Quote Documenti
+
+          /**   WIZARD 2 - Beneficiario SOA   */
+          BuType: "", //Tipologia Persona
+          Taxnumxl: "", //Codice Fiscale Estero
+          Zsede: "", //Sede Estera
+          Zdenominazione: "", //Descrizione Sede Estera
+          Zdurc: "", //Numero identificativo Durc
+          ZfermAmm: "", //Fermo amministrativo
+
+          /**   WIZARD 2 - Modalità Pagamento   */
+          Zwels: "", //Codice Modalità Pagamento
+          ZCausaleval: "", //Causale Valutaria
+          Swift: "", //BIC
+          Zcoordest: "", //Cordinate Estere
+          Iban: "", //IBAN
+          Zmotivaz: "", //Motivazione cambio IBAN
+          Zdescwels: "", //Descrizione Modalità Pagamento
+          Banks: "", //Paese di Residenza (Primi 2 digit IBAN)
+          ZDesccauval: "", //Descrizione Causale Valutaria
+
+          /**   WIZARD 2 - Dati Quietanzante/Destinatario Vaglia    */
+          Ztipofirma: "", //Tipologia Firma
+          ZpersCognomeQuiet1: "", //Cognome primo quietanzante
+          ZpersCognomeQuiet2: "", //Cognome secondo quietanzante
+          ZpersNomeQuiet1: "", //Nome primo quietanzante
+          ZpersNomeQuiet2: "", //Nome secondo quietanzante
+          ZpersNomeVaglia: "", //Nome persona vagliaesigibilità
+          ZpersCognomeVaglia: "", //Cognome persona vaglia
+          Zstcd1: "", //Codice Fiscale Utilizzatore
+          Zstcd12: "", //Codice fiscale secondo quietanzante
+          Zstcd13: "", //Codice fiscale destinatario vaglia
+          Zqindiriz: "", //Indirizzo primo quietanzante
+          Zqcitta: "", //Citta primo quietanzantez
+          Zqcap: "", //Cap primo quietanzante
+          Zqprovincia: "", //Provincia primo quietanzante
+          Zqindiriz12: "", //Indirizzo secondo quietanzante
+          Zqcitta12: "", //Citta secondo quietanzante
+          Zqcap12: "", //Cap secondo quietanzante
+          Zqprovincia12: "", //Provincia secondo quietanzante
+
+          /**   WIZARD 2 - INPS    */
+          Zcodprov: "", //INPS - Codice Provenienza
+          Zcfcommit: "", //INPS - Codice Fiscale Committente
+          Zcodtrib: "", //INPS - Codice tributo
+          Zperiodrifda: "", //INPS - Periodo riferimento da
+          Zperiodrifa: "", //INPS - Periodo riferimento a
+          Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
+          Zcfvers: "", //INPS - Codice Fiscale Versante
+          Zcodvers: "", //INPS - Codice Versante
+          FlagInpsEditabile: false,
+
+          /**   WIZARD 2 - Sede Beneficiario */
+          Zidsede: "", //Sede Beneficiario
+          Stras: "", //Via,numero civico
+          Ort01: "", //Località
+          Regio: "", //Regione
+          Pstlz: "", //Codice di avviamento postale
+          Land1: "", //Codice paese
+
+          /**   WIZARD 3    */
+          Classificazione: [], //Classificazioni
+
+          /**   WIZARD 4    */
+          Zcausale: "", //Causale di pagamento
+          ZE2e: "", //E2E ID
+          Zlocpag: "", //Località pagamento
+          Zzonaint: "", //Zona di intervento
+          Znumprot: "", //Numero protocollo
+          Zdataprot: "", //Data protocollo
+          Zdataesig: "", //Data esigibilità
+        });
+        self.setModel(oModelSoa, "Soa");
+
+        oView.setBusy(true);
+
+        oModel.read(sPath, {
+          success: function (data, oResponse) {
+            self._setSoa(data);
+            self._getPosizioniSoa();
+            self._getClassificazioniSoa();
+            // self.setInpsEditable();
+            // self.getSedeBeneficiario();
+            oView.setBusy(false);
+            callback(data);
+          },
+          error: function () {
+            oView.setBusy(true);
+          },
+        });
+      },
+
+      _getPosizioniSoa: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSoa = self.getModel("Soa");
+
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Bukrs", oModelSoa.getProperty("/Bukrs"));
+        self.setFilterEQ(aFilters, "Gjahr", oModelSoa.getProperty("/Gjahr"));
+        self.setFilterEQ(
+          aFilters,
+          "Zchiavesop",
+          oModelSoa.getProperty("/Zchiavesop")
+        );
+
+        oModel.read("/SoaPosizioneSet", {
+          filters: aFilters,
+          success: function (data) {
+            oModelSoa.setProperty("/data", data.results);
+          },
+          error: function () {},
+        });
+      },
+
+      setStepScenarioModel: function () {
+        var self = this;
+        var oModelStepScenario = new JSONModel({
+          wizard1Step1: false,
+          wizard1Step2: false,
+          wizard1Step3: true,
+          wizard2: false,
+          wizard3: false,
+          wizard4: false,
+          visibleBtnForward: true,
+          visibleBtnStart: false,
+        });
+
+        self.setModel(oModelStepScenario, "StepScenario");
+      },
+
+      setUtilityModel: function (bDetailFromFunction, bRemoveFunctionButtons) {
+        var self = this;
+        var oModelUtility = new JSONModel({
+          Function: "Dettaglio",
+          DeleteSelectedPositions: [],
+          AddSelectedPositions: [],
+          AddPositions: false,
+          DetailAfter: false,
+          EnableBtnDeleteSoa: false,
+          EnableEdit: false,
+          EnableAnnullamento: false,
+          EnableRevocaInvioFirma: false,
+          EnableFirma: false,
+          EnableRevocaFirma: false,
+          EnableInvioFirma: false,
+          EnableRegistrazioneRichAnn: false,
+          EnableCancellazioneRichAnn: false,
+          DetailFromFunction: bDetailFromFunction,
+          RemoveFunctionButtons: bRemoveFunctionButtons,
+        });
+        self.setModel(oModelUtility, "Utility");
+      },
+
+      _setClassificazioneModel: function (aData) {
+        var self = this;
+
+        var oDataClassificazione = {
+          Cos: [],
+          Cpv: [],
+          Cig: [],
+          Cup: [],
+          ImpTotAssociareCos: 0.0,
+          ImpTotAssociareCpv: 0.0,
+          ImpTotAssociareCig: 0.0,
+          ImpTotAssociareCup: 0.0,
+        };
+
+        aData.map((oClassificazione) => {
+          switch (oClassificazione.Zetichetta) {
+            case "COS":
+              oDataClassificazione.ImpTotAssociareCos += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+
+              oClassificazione.Index = oDataClassificazione.Cos.length;
+              oDataClassificazione.Cos.push(oClassificazione);
+              break;
+            case "CPV":
+              oDataClassificazione.ImpTotAssociareCpv += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+              oClassificazione.Index = oDataClassificazione.Cpv.length;
+              oDataClassificazione.Cpv.push(oClassificazione);
+              break;
+            case "CIG":
+              oDataClassificazione.ImpTotAssociareCig += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+              oClassificazione.Index = oDataClassificazione.Cig.length;
+              oDataClassificazione.Cig.push(oClassificazione);
+              break;
+            case "CUP":
+              oDataClassificazione.ImpTotAssociareCup += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+              oClassificazione.Index = oDataClassificazione.Cup.length;
+              oDataClassificazione.Cup.push(oClassificazione);
+              break;
+          }
+        });
+
+        oDataClassificazione.ImpTotAssociareCos =
+          oDataClassificazione.ImpTotAssociareCos.toFixed(2);
+        oDataClassificazione.ImpTotAssociareCpv =
+          oDataClassificazione.ImpTotAssociareCpv.toFixed(2);
+        oDataClassificazione.ImpTotAssociareCig =
+          oDataClassificazione.ImpTotAssociareCig.toFixed(2);
+        oDataClassificazione.ImpTotAssociareCup =
+          oDataClassificazione.ImpTotAssociareCup.toFixed(2);
+
+        self.setModel(new JSONModel(oDataClassificazione), "Classificazione");
+      },
+
+      setFiltersPosizioniModel: function () {
+        var self = this;
+        var oModelFilterDocumenti = new JSONModel({
+          CodRitenuta: "",
+          DescRitenuta: "",
+          CodEnte: "",
+          DescEnte: "",
+          QuoteEsigibili: true,
+          DataEsigibilitaFrom: "",
+          DataEsigibilitaTo: "",
+          TipoBeneficiario: "",
+          Lifnr: "",
+          UfficioContabile: "",
+          UfficioPagatore: "",
+          AnnoRegDocumento: [],
+          NumRegDocFrom: "",
+          NumRegDocTo: "",
+          AnnoDocBeneficiario: [],
+          NDocBen: [],
+          Cig: "",
+          Cup: "",
+          ScadenzaDocFrom: null,
+          ScadenzaDocTo: null,
+        });
+        self._setPrevalUfficio(oModelFilterDocumenti);
+        self.setModel(oModelFilterDocumenti, "FilterDocumenti");
+      },
+
+      _getClassificazioniSoa: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSoa = self.getModel("Soa");
+
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Bukrs", oModelSoa.getProperty("/Bukrs"));
+        self.setFilterEQ(
+          aFilters,
+          "Zchiavesop",
+          oModelSoa.getProperty("/Zchiavesop")
+        );
+
+        oModel.read("/SoaClassificazioneSet", {
+          filters: aFilters,
+          success: function (data) {
+            oModelSoa.setProperty("/Classificazione", data.results);
+            self._setClassificazioneModel(data.results);
+          },
+          error: function () {
+            self._setClassificazioneModel([]);
+          },
+        });
+      },
+
+      //#endregion SET MODELLI
 
       //#endregion
 
-      /** --------------------------FUNZIONALITA----------------------------- */
-      //#region
+      //#region ---------------------FUNZIONALITA----------------------------- /
+
+      //#region FUNZIONALITA - EVENTI
+      onAnnulla: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oModelStepScenario = self.getModel("StepScenario");
+        var oModelSoa = self.getModel("Soa");
+
+        var aListSoa = [];
+        aListSoa.push(oModelSoa.getData());
+        self.setModel(new JSONModel(aListSoa), "ListSoa");
+
+        if (!oModelUtility.getProperty("/EnableAnnullamento")) {
+          oModelUtility.setProperty("/RemoveFunctionButtons", true);
+          oModelUtility.setProperty("/Function", "Annullamento");
+          oModelUtility.setProperty("/EnableAnnullamento", true);
+          oModelStepScenario.setProperty("/visibleBtnForward", false);
+        } else {
+          self.doAnnulla();
+        }
+      },
+
+      onInviaFirma: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oModelStepScenario = self.getModel("StepScenario");
+        var oModelSoa = self.getModel("Soa");
+
+        var aListSoa = [];
+        aListSoa.push(oModelSoa.getData());
+        self.setModel(new JSONModel(aListSoa), "ListSoa");
+
+        if (!oModelUtility.getProperty("/EnableInvioFirma")) {
+          oModelUtility.setProperty("/RemoveFunctionButtons", true);
+          oModelUtility.setProperty("/Function", "InvioFirma");
+          oModelUtility.setProperty("/EnableInvioFirma", true);
+          oModelStepScenario.setProperty("/visibleBtnForward", false);
+          self.setDatiFirmatario();
+        } else {
+          self.doInviaFirma();
+        }
+      },
+
+      onRevocaInvioFirma: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oModelStepScenario = self.getModel("StepScenario");
+        var oModelSoa = self.getModel("Soa");
+
+        var aListSoa = [];
+        aListSoa.push(oModelSoa.getData());
+        self.setModel(new JSONModel(aListSoa), "ListSoa");
+
+        if (!oModelUtility.getProperty("/EnableRevocaInvioFirma")) {
+          oModelUtility.setProperty("/RemoveFunctionButtons", true);
+          oModelUtility.setProperty("/Function", "RevocaInvioFirma");
+          oModelUtility.setProperty("/EnableRevocaInvioFirma", true);
+          oModelStepScenario.setProperty("/visibleBtnForward", false);
+        } else {
+          self.doRevocaInvioFirma();
+        }
+      },
+
+      onFirma: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oModelStepScenario = self.getModel("StepScenario");
+        var oModelSoa = self.getModel("Soa");
+
+        var aListSoa = [];
+        aListSoa.push(oModelSoa.getData());
+        self.setModel(new JSONModel(aListSoa), "ListSoa");
+
+        if (!oModelUtility.getProperty("/EnableFirma")) {
+          oModelUtility.setProperty("/RemoveFunctionButtons", true);
+          oModelUtility.setProperty("/Function", "Firma");
+          oModelUtility.setProperty("/EnableFirma", true);
+          oModelStepScenario.setProperty("/visibleBtnForward", false);
+        } else {
+          self.doFirma();
+        }
+      },
+
+      onRevocaFirma: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oModelStepScenario = self.getModel("StepScenario");
+        var oModelSoa = self.getModel("Soa");
+
+        var aListSoa = [];
+        aListSoa.push(oModelSoa.getData());
+        self.setModel(new JSONModel(aListSoa), "ListSoa");
+
+        if (!oModelUtility.getProperty("/EnableRevocaFirma")) {
+          oModelUtility.setProperty("/RemoveFunctionButtons", true);
+          oModelUtility.setProperty("/Function", "RevocaFirma");
+          oModelUtility.setProperty("/EnableRevocaFirma", true);
+          oModelStepScenario.setProperty("/visibleBtnForward", false);
+        } else {
+          self.doRevocaFirma();
+        }
+      },
+
+      onRegistraRichAnn: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oModelStepScenario = self.getModel("StepScenario");
+        var oModelSoa = self.getModel("Soa");
+
+        var aListSoa = [];
+        aListSoa.push(oModelSoa.getData());
+        self.setModel(new JSONModel(aListSoa), "ListSoa");
+
+        if (!oModelUtility.getProperty("/EnableRegistrazioneRichAnn")) {
+          oModelUtility.setProperty("/RemoveFunctionButtons", true);
+          oModelUtility.setProperty("/Function", "RegistrazioneRichAnn");
+          oModelUtility.setProperty("/EnableRegistrazioneRichAnn", true);
+          oModelStepScenario.setProperty("/visibleBtnForward", false);
+          self.setDatiFirmatario();
+        } else {
+          self.doRegistraRichAnn();
+        }
+      },
+
+      onCancellaRichAnn: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oModelStepScenario = self.getModel("StepScenario");
+        var oModelSoa = self.getModel("Soa");
+
+        var aListSoa = [];
+        aListSoa.push(oModelSoa.getData());
+        self.setModel(new JSONModel(aListSoa), "ListSoa");
+
+        if (!oModelUtility.getProperty("/EnableCancellazioneRichAnn")) {
+          oModelUtility.setProperty("/RemoveFunctionButtons", true);
+          oModelUtility.setProperty("/Function", "CancellazioneRichAnn");
+          oModelUtility.setProperty("/EnableCancellazioneRichAnn", true);
+          oModelStepScenario.setProperty("/visibleBtnForward", false);
+          self.setDatiFirmatario();
+        } else {
+          self.doCancellaRichAnn();
+        }
+      },
+      onValorizzaDataProt: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var aListSoa = self.getModel("ListSoa").getData();
+
+        aListSoa.map((oSoa) => {
+          oSoa.Zdataprot = oModelUtility.getProperty("/Zdataprot");
+        });
+
+        self.setModel(new JSONModel(aListSoa), "ListSoa");
+      },
+
+      onNumProtocolloChange: function (oEvent) {
+        var self = this;
+        var oInput = self.getView().byId(oEvent.getParameter("id"));
+
+        if (oEvent.getParameter("newValue")) {
+          oInput.setValue(
+            parseInt(oEvent.getParameter("newValue"))
+              .toString()
+              .padStart(6, "0")
+          );
+        }
+      },
+
+      //#endregion FUNZIONALITA - EVENTI
+
+      //#region FUNZIONALITA - METHODS
+      doAnnulla: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oBundle = self.getResourceBundle();
+        var aListSoa = self.getModel("ListSoa").getData();
+
+        var sMessage =
+          aListSoa.length === 1
+            ? oBundle.getText("msgWarningAnnulla")
+            : oBundle.getText("msgWarningAnnullaMulti");
+
+        MessageBox.warning(sMessage, {
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          title: "Annullamento SOA",
+          onClose: function (oAction) {
+            if (oAction === "OK") {
+              var aSospesi = [];
+
+              aListSoa.map((oSoa) => {
+                var oSospeso = {
+                  Bukrs: oSoa.Bukrs,
+                  Gjahr: oSoa.Gjahr,
+                  Zchiavesop: oSoa.Zchiavesop,
+                  Zstep: oSoa.Zstep,
+                  Ztipososp: oSoa.Ztipososp,
+                  Ztipopag: oSoa.Ztipopag,
+                  Lifnr: oSoa.Lifnr,
+                  Witht: oSoa.Witht,
+                  ZzCebenra: oSoa.ZzCebenra,
+                };
+
+                aSospesi.push(oSospeso);
+              });
+
+              var oFunzionalitaDeep = {
+                Funzionalita: "ANNULLAMENTO",
+                ZuffcontFirm: "",
+                Zcodord: "",
+                ZdirigenteAmm: "",
+                Sospeso: aSospesi,
+                Messaggio: [],
+              };
+
+              oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                success: function (result) {
+                  self._printMessage(result, "Annullamento SOA");
+                },
+                error: function () {},
+              });
+            }
+          },
+        });
+      },
+
+      doInviaFirma: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oDatiFirma = self.getModel("DatiFirmatario")?.getData();
+        var oBundle = self.getResourceBundle();
+        var aModelListSoa = self.getModel("ListSoa").getData();
+
+        var sMessage =
+          aModelListSoa.length === 1
+            ? oBundle.getText("msgWarningInviaFirma")
+            : oBundle.getText("msgWarningInviaFirmaMulti");
+
+        MessageBox.warning(sMessage, {
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          title: "Invio alla firma SOA",
+          onClose: function (oAction) {
+            if (oAction === "OK") {
+              var aSospesi = [];
+
+              aModelListSoa.map((oSoa) => {
+                var oSospeso = {
+                  Bukrs: oSoa.Bukrs,
+                  Gjahr: oSoa.Gjahr,
+                  Zchiavesop: oSoa.Zchiavesop,
+                  Zstep: oSoa.Zstep,
+                  Ztipososp: oSoa.Ztipososp,
+                  Znumprot: oSoa.Znumprot,
+                  Zdataprot: oSoa.Zdataprot ? oSoa.Zdataprot : null,
+                  Zcdr: oSoa.Fistl,
+                };
+
+                aSospesi.push(oSospeso);
+              });
+
+              var oFunzionalitaDeep = {
+                Funzionalita: "INVIO_FIRMA",
+                ZuffcontFirm: self.setBlank(oDatiFirma.ZuffcontFirm),
+                Zcodord: self.setBlank(oDatiFirma.Zcodord),
+                ZdirigenteAmm: self.setBlank(oDatiFirma.ZdirigenteAmm),
+                Sospeso: aSospesi,
+                Messaggio: [],
+              };
+
+              oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                success: function (result) {
+                  self._printMessage(result, "Invio alla firma SOA");
+                },
+                error: function () {},
+              });
+            }
+          },
+        });
+      },
+
+      doRevocaInvioFirma: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oBundle = self.getResourceBundle();
+        var aModelListSoa = self.getModel("ListSoa").getData();
+
+        var sMessage =
+          aModelListSoa.length === 1
+            ? oBundle.getText("msgWarningRevocaInviaFirma")
+            : oBundle.getText("msgWarningRevocaInviaFirmaMulti");
+
+        MessageBox.warning(sMessage, {
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          title: "Revoca Invio alla Firma SOA",
+          onClose: function (oAction) {
+            if (oAction === "OK") {
+              var aSospesi = [];
+
+              aModelListSoa.map((oSoa) => {
+                var oSospeso = {
+                  Bukrs: oSoa.Bukrs,
+                  Gjahr: oSoa.Gjahr,
+                  Zchiavesop: oSoa.Zchiavesop,
+                  Zstep: oSoa.Zstep,
+                  Ztipososp: oSoa.Ztipososp,
+                };
+
+                aSospesi.push(oSospeso);
+              });
+
+              var oFunzionalitaDeep = {
+                Funzionalita: "REVOCA_INVIO_FIRMA",
+                ZuffcontFirm: "",
+                Zcodord: "",
+                ZdirigenteAmm: "",
+                Sospeso: aSospesi,
+                Messaggio: [],
+              };
+
+              oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                success: function (result) {
+                  self._printMessage(result, "Revoca Invio alla Firma SOA");
+                },
+                error: function () {},
+              });
+            }
+          },
+        });
+      },
+
+      doFirma: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var aModelListSoa = self.getModel("ListSoa").getData();
+        var oBundle = self.getResourceBundle();
+
+        var sMessage =
+          aModelListSoa.length === 1
+            ? oBundle.getText("msgWarningFirma", aModelListSoa[0].Zchiavesop)
+            : oBundle.getText("msgWarningFirmaMulti");
+
+        MessageBox.warning(sMessage, {
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          title: "Firma SOA",
+          onClose: function (oAction) {},
+        });
+      },
+
+      doRevocaFirma: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var aModelListSoa = self.getModel("ListSoa").getData();
+        var oBundle = self.getResourceBundle();
+
+        var sMessage =
+          aModelListSoa.length === 1
+            ? oBundle.getText(
+                "msgWarningRevocaFirma",
+                aModelListSoa[0].Zchiavesop
+              )
+            : oBundle.getText("msgWarningRevocaFirmaMulti");
+
+        MessageBox.warning(sMessage, {
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          title: "Revoca firma SOA",
+          onClose: function (oAction) {
+            if (oAction === "OK") {
+              var aSospesi = [];
+
+              aModelListSoa.map((oSoa) => {
+                var oSospeso = {
+                  Bukrs: oSoa.Bukrs,
+                  Gjahr: oSoa.Gjahr,
+                  Zchiavesop: oSoa.Zchiavesop,
+                  Zstep: oSoa.Zstep,
+                  Ztipososp: oSoa.Ztipososp,
+                };
+
+                aSospesi.push(oSospeso);
+              });
+
+              var oFunzionalitaDeep = {
+                Funzionalita: "REVOCA_FIRMA",
+                ZuffcontFirm: "",
+                Zcodord: "",
+                ZdirigenteAmm: "",
+                Sospeso: aSospesi,
+                Messaggio: [],
+              };
+
+              oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                success: function (result) {
+                  self._printMessage(result, "Revoca firma SOA");
+                },
+                error: function () {},
+              });
+            }
+          },
+        });
+      },
+
+      doRegistraRichAnn: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var aModelListSoa = self.getModel("ListSoa").getData();
+        var oBundle = self.getResourceBundle();
+
+        var sMessage =
+          aModelListSoa.length === 1
+            ? oBundle.getText("msgWarningRegistraRichAnn", [
+                aModelListSoa[0].Zchiavesop,
+              ])
+            : oBundle.getText("msgWarningRegistraRichAnnMulti");
+
+        MessageBox.warning(sMessage, {
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          title: "Registrazione Richiesta di annullamento",
+          onClose: function (oAction) {},
+        });
+      },
+
+      doCancellaRichAnn: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var aModelListSoa = self.getModel("ListSoa").getData();
+        var oBundle = self.getResourceBundle();
+
+        console.log(aModelListSoa);
+
+        var sMessage =
+          aModelListSoa.length === 1
+            ? oBundle.getText("msgWarningCancellaRichAnn", [
+                aModelListSoa[0].Zricann,
+                aModelListSoa[0].Zchiavesop,
+              ])
+            : oBundle.getText("msgWarningCancellaRichAnnMulti");
+
+        MessageBox.warning(sMessage, {
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          title: "Cancellazione Richiesta di annullamento",
+          onClose: function (oAction) {},
+        });
+      },
 
       setDatiFirmatario: function () {
         var self = this;
@@ -2186,15 +3007,15 @@ sap.ui.define(
         self.setModel(oModelDatiFirmatatario, "DatiFirmatario");
       },
 
-      setWorkflowInFunction: function (oSelectedItem) {
+      setWorkflowModel: function (oSoa) {
         var self = this;
         var oModel = self.getModel();
 
         //Carico il workflow
         var aFilters = [];
-        self.setFilterEQ(aFilters, "Esercizio", oSelectedItem.Gjahr);
-        self.setFilterEQ(aFilters, "Bukrs", oSelectedItem.Bukrs);
-        self.setFilterEQ(aFilters, "Zchiavesop", oSelectedItem.Zchiavesop);
+        self.setFilterEQ(aFilters, "Esercizio", oSoa.Gjahr);
+        self.setFilterEQ(aFilters, "Bukrs", oSoa.Bukrs);
+        self.setFilterEQ(aFilters, "Zchiavesop", oSoa.Zchiavesop);
 
         oModel.read("/WFStateSoaSet", {
           filters: aFilters,
@@ -2208,7 +3029,7 @@ sap.ui.define(
         });
       },
 
-      printMessage: function (oResult, sTitle) {
+      _printMessage: function (oResult, sTitle) {
         var self = this;
         var aMessage = oResult?.Messaggio.results;
 
@@ -2253,7 +3074,11 @@ sap.ui.define(
         }
       },
 
+      //#endregion FUNZIONALITA - METHODS
+
       //#endregion
+
+      //#region ------------------------GLOBAL-------------------------------- /
 
       resetWizard: function (sId) {
         var self = this;
@@ -2262,6 +3087,144 @@ sap.ui.define(
           oWizard.previousStep();
         }
       },
+
+      _setPrevalUfficio: function (oModelFilter) {
+        var self = this;
+        var oModel = self.getModel();
+
+        oModel.read("/" + "PrevalUfficioContabileSet", {
+          success: function (data) {
+            oModelFilter.setProperty(
+              "/UfficioContabile",
+              data?.results[0]?.Fkber
+            );
+            oModelFilter.setProperty(
+              "/UfficioPagatore",
+              data?.results[0]?.Fkber
+            );
+          },
+          error: function (error) {},
+        });
+      },
+      //#endregion
+
+      //#region -------------------GESTIONE FILTRI-----------------------------/
+      setFiltersScenario1: function () {
+        var self = this;
+        var aFilters = [];
+        var oModelSoa = self.getModel("Soa");
+        var oModelFilter = self.getModel("FilterDocumenti");
+
+        //Estremi di ricerca per Ritenute
+        self.setFilterEQ(
+          aFilters,
+          "CodRitenuta",
+          oModelFilter.getProperty("/CodRitenuta")
+        );
+        self.setFilterEQ(
+          aFilters,
+          "CodEnte",
+          oModelFilter.getProperty("/CodEnte")
+        );
+        self.setFilterEQ(
+          aFilters,
+          "QuoteEsigibili",
+          oModelFilter.getProperty("/QuoteEsigibili")
+        );
+        self.setFilterBT(
+          aFilters,
+          "DataEsigibilita",
+          oModelFilter.getProperty("/DataEsigibilitaFrom"),
+          oModelFilter.getProperty("/DataEsigibilitaTo")
+        );
+
+        //Estremi di ricerca per Beneficiario
+        self.setFilterEQ(aFilters, "Lifnr", oModelFilter.getProperty("/Lifnr"));
+        self.setFilterEQ(
+          aFilters,
+          "TipoBeneficiario",
+          oModelFilter.getProperty("/TipoBeneficiario")
+        );
+
+        //Estremi di ricerca per Documento di Costo
+        self.setFilterEQ(
+          aFilters,
+          "UfficioContabile",
+          oModelFilter.getProperty("/UfficioContabile")
+        );
+        self.setFilterEQ(
+          aFilters,
+          "UfficioPagatore",
+          oModelFilter.getProperty("/UfficioPagatore")
+        );
+        var aAnnoRegDocumento = oModelFilter.getProperty("/AnnoRegDocumento");
+        aAnnoRegDocumento.map((sAnno) => {
+          self.setFilterEQ(aFilters, "AnnoRegDocumento", sAnno);
+        });
+        self.setFilterBT(
+          aFilters,
+          "Belnr",
+          oModelFilter.getProperty("/NumRegDocFrom"),
+          oModelFilter.getProperty("/NumRegDocTo")
+        );
+        var aAnnoDocBeneficiario = oModelFilter.getProperty(
+          "/AnnoDocBeneficiario"
+        );
+        aAnnoDocBeneficiario.map((sAnno) => {
+          self.setFilterEQ(aFilters, "AnnoDocBeneficiario", sAnno);
+        });
+        var aNDocBen = oModelFilter.getProperty("/NDocBen");
+        aNDocBen.map((sNDocBen) => {
+          self.setFilterEQ(aFilters, "Xblnr", sNDocBen);
+        });
+        self.setFilterEQ(aFilters, "Cig", oModelFilter.getProperty("/Cig"));
+        self.setFilterEQ(aFilters, "Cup", oModelFilter.getProperty("/Cup"));
+        self.setFilterBT(
+          aFilters,
+          "ScadenzaDoc",
+          oModelFilter.getProperty("/ScadenzaDocFrom"),
+          oModelFilter.getProperty("/ScadenzaDocTo")
+        );
+
+        self.setFilterEQ(
+          aFilters,
+          "EsercizioContabile",
+          oModelSoa.getProperty("/Gjahr")
+        );
+        self.setFilterEQ(aFilters, "Fipex", oModelSoa.getProperty("/Fipos"));
+        self.setFilterEQ(aFilters, "Fistl", oModelSoa.getProperty("/Fistl"));
+
+        return aFilters;
+      },
+      checkPosizioniScenario1: function () {
+        var self = this;
+        var oModelSoa = self.getModel("Soa");
+        var oBundle = self.getResourceBundle();
+
+        var fImpTot = parseFloat(oModelSoa.getProperty("/Zimptot"));
+        var fImpDispAutorizzazione = parseFloat(
+          oModelSoa.getProperty("/Zimpdispaut")
+        );
+
+        if (fImpTot > fImpDispAutorizzazione) {
+          sap.m.MessageBox.error(oBundle.getText("msgImpTotGreaterImpDispAut"));
+          return false;
+        }
+
+        if (
+          oModelSoa.getProperty("/data").length === 0 ||
+          oModelSoa.getProperty("/Zimptot") === "0.00"
+        ) {
+          sap.m.MessageBox.error(oBundle.getText("msgNoDocuments"));
+          return false;
+        }
+
+        return true;
+      },
+
+      //#endregion-----------------GESTIONE FILTRI-----------------------------/
+
+      //#endregion
     });
   }
 );

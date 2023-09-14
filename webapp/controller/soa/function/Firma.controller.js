@@ -17,7 +17,7 @@ sap.ui.define(
         var self = this;
 
         self.getRouter().navTo("soa.list.ListSoa", {
-          Reload: true,
+          Reload: false,
         });
       },
 
@@ -77,6 +77,7 @@ sap.ui.define(
           EnableCancellazioneRichAnn: false,
           DetailFromFunction: true,
           VisibleBtnStart: false,
+          RemoveFunctionButtons: true,
         });
         self.setModel(oModelUtility, "Utility");
 
@@ -97,7 +98,7 @@ sap.ui.define(
         //Setto il modello per la tabella
         self.setModel(oModelSelectedItems, "ListSoa");
         self.getLogModel();
-        self.setWorkflowInFunction(oSelectedItem);
+        self.setWorkflowModel(oSelectedItem);
       },
 
       onStart: function () {
@@ -133,20 +134,8 @@ sap.ui.define(
 
       onFirma: function () {
         var self = this;
-        var oModel = self.getModel();
-        var aModelListSoa = self.getModel("ListSoa").getData();
-        var oBundle = self.getResourceBundle();
 
-        var sMessage =
-          aModelListSoa.length === 1
-            ? oBundle.getText("msgWarningFirma", aModelListSoa[0].Zchiavesop)
-            : oBundle.getText("msgWarningFirmaMulti");
-
-        MessageBox.warning(sMessage, {
-          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-          title: "Firma SOA",
-          onClose: function (oAction) {},
-        });
+        self.doFirma();
       },
 
       onSelectedItem: function (oEvent) {
@@ -162,7 +151,7 @@ sap.ui.define(
 
         oModelUtility.setProperty("/SelectedItem", oSelectedItem);
 
-        self.setWorkflowInFunction(oSelectedItem);
+        self.setWorkflowModel(oSelectedItem);
       },
     });
   }

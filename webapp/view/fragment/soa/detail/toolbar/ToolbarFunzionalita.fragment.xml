@@ -1,0 +1,54 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+	<Button
+		text="{i18n>btnAnnullamentoSoa}"
+		type="Emphasized"
+		enabled="{= ${Utility>/EnableBtnAnnullamento} ? true : false}"
+		visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableAnnullamento} ? true : false}"
+		press="onAnnulla"
+	/>
+	<Button
+		text="{i18n>btnInvioFirma}"
+		type="Emphasized"
+		enabled="{= ${Utility>/EnableBtnInvioFirma} ? true : false}"
+		visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableInvioFirma} ? true : false}"
+		press="onInviaFirma"
+	/>
+	<Button
+		text="{i18n>btnRevocaInvioFirma}"
+		type="Emphasized"
+		enabled="{= ${Utility>/EnableBtnRevocaInvioFirma} ? true : false}"
+		visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableRevocaInvioFirma} ? true : false}"
+		press="onRevocaInvioFirma"
+	/>
+	<Button
+		text="{i18n>btnFirmaSoa}"
+		type="Emphasized"
+		enabled="{= ${Utility>/EnableBtnFirma} ? true : false}"
+		visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableFirma} ? true : false}"
+		press="onFirma"
+	/>
+	<Button
+		text="{i18n>btnRevocaFirma}"
+		type="Emphasized"
+		enabled="{= ${Utility>/EnableBtnRevocaFirma} ? true : false}"
+		visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableRevocaFirma} ? true : false}"
+		press="onRevocaFirma"
+	/>
+	<Button
+		text="{i18n>btnRegistraRichiestaAnnullamento}"
+		type="Emphasized"
+		enabled="{= ${Utility>/EnableBtnRegistrazioneRichAnn} ? true : false}"
+		visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableRegistrazioneRichAnn} ? true : false}"
+		press="onRegistraRichAnn"
+	/>
+	<Button
+		text="{i18n>btnCancellazioneRichiestaAnnullamento}"
+		type="Emphasized"
+		enabled="{= ${Utility>/EnableBtnCancellazioneRichAnn} ? true : false}"
+		visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableCancellazioneRichAnn} ? true : false}"
+		press="onCancellaRichAnn"
+	/>
+</c:FragmentDefinition>

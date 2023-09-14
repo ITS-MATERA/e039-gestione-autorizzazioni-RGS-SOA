@@ -75,7 +75,7 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step2) {
-            if (this._checkQuoteDocumenti()) {
+            if (self.checkPosizioniScenario1()) {
               oModelStepScenario.setProperty("/wizard1Step2", false);
               oModelStepScenario.setProperty("/wizard1Step3", true);
             }
@@ -192,118 +192,6 @@ sap.ui.define(
         //#endregion
 
         //#region PRIVATE METHODS
-        _getPositionsFilters: function () {
-          var self = this;
-          var aFilters = [];
-          var oModelSoa = self.getModel("Soa");
-          var oModelFilter = self.getModel("FilterDocumenti");
-
-          //Estremi di ricerca per Ritenute
-          self.setFilterEQ(
-            aFilters,
-            "CodRitenuta",
-            oModelFilter.getProperty("/CodRitenuta")
-          );
-          self.setFilterEQ(
-            aFilters,
-            "CodEnte",
-            oModelFilter.getProperty("/CodEnte")
-          );
-          self.setFilterEQ(
-            aFilters,
-            "QuoteEsigibili",
-            oModelFilter.getProperty("/QuoteEsigibili")
-          );
-          self.setFilterBT(
-            aFilters,
-            "DataEsigibilita",
-            oModelFilter.getProperty("/DataEsigibilitaFrom"),
-            oModelFilter.getProperty("/DataEsigibilitaTo")
-          );
-
-          //Estremi di ricerca per Beneficiario
-          self.setFilterEQ(
-            aFilters,
-            "Lifnr",
-            oModelFilter.getProperty("/Lifnr")
-          );
-          self.setFilterEQ(
-            aFilters,
-            "TipoBeneficiario",
-            oModelFilter.getProperty("/TipoBeneficiario")
-          );
-
-          //Estremi di ricerca per Prospetti di liquidazione
-          var aUfficioLiquidatore = oModelFilter.getProperty("/Zuffliq");
-          aUfficioLiquidatore.map((sUfficioLiquidatore) => {
-            self.setFilterEQ(
-              aFilters,
-              "UfficioLiquidatore",
-              sUfficioLiquidatore
-            );
-          });
-          self.setFilterBT(
-            aFilters,
-            "Znumliq",
-            oModelFilter.getProperty("/ZnumliqFrom"),
-            oModelFilter.getProperty("/ZnumliqTo")
-          );
-          self.setFilterEQ(
-            aFilters,
-            "DescProspLiquidazione",
-            oModelFilter.getProperty("/ZdescProsp")
-          );
-
-          //Estremi di ricerca per Documento di Costo
-          self.setFilterEQ(
-            aFilters,
-            "UfficioContabile",
-            oModelFilter.getProperty("/UfficioContabile")
-          );
-          self.setFilterEQ(
-            aFilters,
-            "UfficioPagatore",
-            oModelFilter.getProperty("/UfficioPagatore")
-          );
-          var aAnnoRegDocumento = oModelFilter.getProperty("/AnnoRegDocumento");
-          aAnnoRegDocumento.map((sAnno) => {
-            self.setFilterEQ(aFilters, "AnnoRegDocumento", sAnno);
-          });
-          self.setFilterBT(
-            aFilters,
-            "Belnr",
-            oModelFilter.getProperty("/NumRegDocFrom"),
-            oModelFilter.getProperty("/NumRegDocTo")
-          );
-          var aAnnoDocBeneficiario = oModelFilter.getProperty(
-            "/AnnoDocBeneficiario"
-          );
-          aAnnoDocBeneficiario.map((sAnno) => {
-            self.setFilterEQ(aFilters, "AnnoDocBeneficiario", sAnno);
-          });
-          var aNDocBen = oModelFilter.getProperty("/NDocBen");
-          aNDocBen.map((sNDocBen) => {
-            self.setFilterEQ(aFilters, "Xblnr", sNDocBen);
-          });
-          self.setFilterEQ(aFilters, "Cig", oModelFilter.getProperty("/Cig"));
-          self.setFilterEQ(aFilters, "Cup", oModelFilter.getProperty("/Cup"));
-          self.setFilterBT(
-            aFilters,
-            "ScadenzaDoc",
-            oModelFilter.getProperty("/ScadenzaDocFrom"),
-            oModelFilter.getProperty("/ScadenzaDocTo")
-          );
-
-          self.setFilterEQ(
-            aFilters,
-            "EsercizioContabile",
-            oModelSoa.getProperty("/Gjahr")
-          );
-          self.setFilterEQ(aFilters, "Fipex", oModelSoa.getProperty("/Fipos"));
-          self.setFilterEQ(aFilters, "Fistl", oModelSoa.getProperty("/Fistl"));
-
-          return aFilters;
-        },
 
         _onObjectMatched: function (oEvent) {
           var self = this;
@@ -536,7 +424,7 @@ sap.ui.define(
           var oPanelCalculator = oView.byId("pnlCalculatorList");
 
           var aListRiepilogo = oModelSoa.getProperty("/data");
-          var aFilters = this._getPositionsFilters();
+          var aFilters = this.setFiltersScenario1();
 
           //Check BEETWEN filters
           var sIntervalFilter = self.checkBTFilter(aFilters);
@@ -585,34 +473,6 @@ sap.ui.define(
               oView.setBusy(false);
             },
           });
-        },
-
-        _checkQuoteDocumenti: function () {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var oBundle = self.getResourceBundle();
-
-          var fImpTot = parseFloat(oModelSoa.getProperty("/Zimptot"));
-          var fImpDispAutorizzazione = parseFloat(
-            oModelSoa.getProperty("/Zimpdispaut")
-          );
-
-          if (fImpTot > fImpDispAutorizzazione) {
-            sap.m.MessageBox.error(
-              oBundle.getText("msgImpTotGreaterImpDispAut")
-            );
-            return false;
-          }
-
-          if (
-            oModelSoa.getProperty("/data").length === 0 ||
-            oModelSoa.getProperty("/Zimptot") === "0.00"
-          ) {
-            sap.m.MessageBox.error(oBundle.getText("msgNoDocuments"));
-            return false;
-          }
-
-          return true;
         },
 
         //#endregion PRIVATE METHODS

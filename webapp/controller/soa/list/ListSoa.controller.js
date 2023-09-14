@@ -29,7 +29,8 @@ sap.ui.define(
           ZnumsopFrom: "",
           ZnumsopTo: "",
           ZstatoSoa: "TU",
-          Zchiaveaut: "",
+          //TODO
+          Zchiaveaut: "2023-020-00004",
           Ztipodisp2: "000",
           Ztipodisp3: "000",
           Zztipologia: "0",
@@ -89,7 +90,8 @@ sap.ui.define(
           EnableBtnFirma: false,
           EnablebtnRevocaFirma: false,
           EnableBtnInvioFirma: false,
-          EnablebtnRegistrazioneRichAnn: false,
+          EnableBtnRegistrazioneRichAnn: false,
+          EnableBtnCancellazioneRichAnn: false,
         });
         self.setModel(oModelSoa, SOA_MODEL);
 
@@ -97,7 +99,14 @@ sap.ui.define(
           oUrlParameters.Reload === "true" &&
           oModelFilter.getProperty("/Zchiaveaut")
         ) {
-          this._getSoaList();
+          self.getPermissionsListSoa(true, function (callback) {
+            self.setModelAuthorityCheck(callback?.permissions);
+            self._getSoaList();
+          });
+        } else {
+          self.getPermissionsListSoa(true, function (callback) {
+            self.setModelAuthorityCheck(callback?.permissions);
+          });
         }
         self.getLogModel();
       },
@@ -106,14 +115,6 @@ sap.ui.define(
         var self = this;
 
         self.getRouter().navTo("startpage");
-      },
-
-      onBeforeRendering: function () {
-        var self = this;
-
-        self.getPermissionsListSoa(true, function (callback) {
-          self.setModelAuthorityCheck(callback?.permissions);
-        });
       },
 
       onAfterRendering: function () {
@@ -135,6 +136,8 @@ sap.ui.define(
 
       onRegisterSoa: function () {
         var self = this;
+        var oTableListSoa = self.getView().byId("tblListSoa");
+        oTableListSoa.removeSelections(true);
         self.getRouter().navTo("soa.create.ChoseTypeSoa");
       },
 
@@ -182,6 +185,9 @@ sap.ui.define(
       onDetail: function () {
         var self = this;
         var oModelSoaSettings = self.getModel("SoaSettings");
+        var oTableListSoa = self.getView().byId("tblListSoa");
+        oTableListSoa.removeSelections(true);
+
         var oSelectedItem = oModelSoaSettings.getProperty("/selectedItems")[0];
 
         var oParameters = {
@@ -565,42 +571,56 @@ sap.ui.define(
       //#region GESTIONE FUNZIONALITA'
       onAnnullamento: function () {
         var self = this;
+        var oTableListSoa = self.getView().byId("tblListSoa");
+        oTableListSoa.removeSelections(true);
 
         self.getRouter().navTo("soa.function.Annullamento");
       },
 
       onRevocaInvioFirma: function () {
         var self = this;
+        var oTableListSoa = self.getView().byId("tblListSoa");
+        oTableListSoa.removeSelections(true);
 
         self.getRouter().navTo("soa.function.RevocaInvioFirma");
       },
 
       onFirma: function () {
         var self = this;
+        var oTableListSoa = self.getView().byId("tblListSoa");
+        oTableListSoa.removeSelections(true);
 
         self.getRouter().navTo("soa.function.Firma");
       },
 
       onRevocaFirma: function () {
         var self = this;
+        var oTableListSoa = self.getView().byId("tblListSoa");
+        oTableListSoa.removeSelections(true);
 
         self.getRouter().navTo("soa.function.RevocaFirma");
       },
 
-      onInvioFirma: function () {
+      oninviaFirma: function () {
         var self = this;
+        var oTableListSoa = self.getView().byId("tblListSoa");
+        oTableListSoa.removeSelections(true);
 
         self.getRouter().navTo("soa.function.InvioFirma");
       },
 
       onRegistrazioneRichAnn: function () {
         var self = this;
+        var oTableListSoa = self.getView().byId("tblListSoa");
+        oTableListSoa.removeSelections(true);
 
         self.getRouter().navTo("soa.function.RegistrazioneRichAnn");
       },
 
       onCancellazioneRichAnn: function () {
         var self = this;
+        var oTableListSoa = self.getView().byId("tblListSoa");
+        oTableListSoa.removeSelections(true);
 
         self.getRouter().navTo("soa.function.CancellazioneRichAnn");
       },

@@ -297,7 +297,7 @@
 				</layoutData>
 			</HBox>
 			<Button
-				visible="{= ${Utility>/EnableEdit} || ${Utility>/DetailFromFunction} ? false : true}"
+				visible="{= ${Utility>/RemoveFunctionButtons} ? false : true}"
 				text="{i18n>btnEdit}"
 				icon="sap-icon://edit"
 				press="onEdit"

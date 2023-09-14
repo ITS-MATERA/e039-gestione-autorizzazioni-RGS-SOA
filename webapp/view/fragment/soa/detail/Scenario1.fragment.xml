@@ -19,6 +19,35 @@
 					<Panel
 						class="sapUiNoContentPadding"
 						backgroundDesign="Transparent"
+						visible="{= 
+							${Utility>/Function} === 'InvioFirma' ||
+							${Utility>/Function} === 'RegistrazioneRichAnn' ||
+							${Utility>/Function} === 'CancellazioneRichAnn'
+							? true : false}"
+					>
+						<c:Fragment
+							fragmentName="rgssoa.view.fragment.panel.DatiFirmatario"
+							type="XML"
+						/>
+					</Panel>
+					<Panel
+						class="sapUiNoContentPadding"
+						backgroundDesign="Transparent"
+						visible="{= 
+							${Utility>/Function} === 'Dettaglio' || 
+							${Utility>/Function} === 'Rettifica' || 
+							${Utility>/Function} === 'Workflow'  || 
+							${Utility>/Function} === 'FascicoloElettronico'
+							? false : true}"
+					>
+						<c:Fragment
+							fragmentName="rgssoa.view.fragment.soa.table.TableSoaFunction"
+							type="XML"
+						/>
+					</Panel>
+					<Panel
+						class="sapUiNoContentPadding"
+						backgroundDesign="Transparent"
 						visible="{= ${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica' ? true : false}"
 					>
 						<Wizard

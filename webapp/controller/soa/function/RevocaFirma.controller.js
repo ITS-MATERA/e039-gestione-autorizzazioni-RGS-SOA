@@ -19,7 +19,7 @@ sap.ui.define(
           var self = this;
 
           self.getRouter().navTo("soa.list.ListSoa", {
-            Reload: true,
+            Reload: false,
           });
         },
 
@@ -79,6 +79,7 @@ sap.ui.define(
             EnableCancellazioneRichAnn: false,
             DetailFromFunction: true,
             VisibleBtnStart: false,
+            RemoveFunctionButtons: true,
           });
           self.setModel(oModelUtility, "Utility");
 
@@ -143,55 +144,8 @@ sap.ui.define(
 
         onRevocaFirma: function () {
           var self = this;
-          var oModel = self.getModel();
-          var aModelListSoa = self.getModel("ListSoa").getData();
-          var oBundle = self.getResourceBundle();
 
-          var sMessage =
-            aModelListSoa.length === 1
-              ? oBundle.getText(
-                  "msgWarningRevocaFirma",
-                  aModelListSoa[0].Zchiavesop
-                )
-              : oBundle.getText("msgWarningRevocaFirmaMulti");
-
-          MessageBox.warning(sMessage, {
-            actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-            title: "Revoca firma SOA",
-            onClose: function (oAction) {
-              if (oAction === "OK") {
-                var aSospesi = [];
-
-                aModelListSoa.map((oSoa) => {
-                  var oSospeso = {
-                    Bukrs: oSoa.Bukrs,
-                    Gjahr: oSoa.Gjahr,
-                    Zchiavesop: oSoa.Zchiavesop,
-                    Zstep: oSoa.Zstep,
-                    Ztipososp: oSoa.Ztipososp,
-                  };
-
-                  aSospesi.push(oSospeso);
-                });
-
-                var oFunzionalitaDeep = {
-                  Funzionalita: "REVOCA_FIRMA",
-                  ZuffcontFirm: "",
-                  Zcodord: "",
-                  ZdirigenteAmm: "",
-                  Sospeso: aSospesi,
-                  Messaggio: [],
-                };
-
-                oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
-                  success: function (result) {
-                    self.printMessage(result, "Revoca firma SOA");
-                  },
-                  error: function () {},
-                });
-              }
-            },
-          });
+          self.doRevocaFirma();
         },
 
         onSelectedItem: function (oEvent) {
@@ -207,7 +161,7 @@ sap.ui.define(
 
           oModelUtility.setProperty("/SelectedItem", oSelectedItem);
 
-          self.setWorkflowInFunction(oSelectedItem);
+          self.setWorkflowModel(oSelectedItem);
         },
       }
     );

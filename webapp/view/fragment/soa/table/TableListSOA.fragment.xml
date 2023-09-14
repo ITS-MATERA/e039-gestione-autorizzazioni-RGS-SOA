@@ -36,7 +36,7 @@
 							text="{i18n>btnInvioFirma}"
 							type="Emphasized"
 							enabled="{= ${AuthorityCheckSoa>/InvioFirma} &amp;&amp; ${SoaSettings>/EnableBtnInvioFirma} ? true : false}"
-							press="onInvioFirma"
+							press="oninviaFirma"
 						/>
 						<Button
 							text="{i18n>btnRevocaInvioFirma}"
