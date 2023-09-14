@@ -1148,29 +1148,24 @@ sap.ui.define(
           .getModel()
           .createKey("BeneficiarioSOASet", oParameters);
 
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/" + sPath, {
-              success: function (data, oResponse) {
-                self.setResponseMessage(oResponse);
-                oModelSoa.setProperty("/Lifnr", data?.Beneficiario);
-                oModelSoa.setProperty("/NameFirst", data?.Nome);
-                oModelSoa.setProperty("/NameLast", data?.Cognome);
-                oModelSoa.setProperty("/ZzragSoc", data?.RagSoc);
-                oModelSoa.setProperty("/TaxnumCf", data?.CodFisc);
-                oModelSoa.setProperty("/Taxnumxl", data?.CodFiscEst);
-                oModelSoa.setProperty("/TaxnumPiva", data?.PIva);
-                oModelSoa.setProperty("/Zsede", data?.Sede);
-                oModelSoa.setProperty("/Zdenominazione", data?.DescrSede);
-                oModelSoa.setProperty("/ZzDescebe", data?.EnteBen);
-                oModelSoa.setProperty("/Zdurc", data?.Zdurc);
-                oModelSoa.setProperty("/ZfermAmm", data?.ZfermAmm);
-              },
-              error: function (error) {},
-            });
-          });
+        oDataModel.read("/" + sPath, {
+          success: function (data, oResponse) {
+            self.setResponseMessage(oResponse);
+            oModelSoa.setProperty("/Lifnr", data?.Beneficiario);
+            oModelSoa.setProperty("/NameFirst", data?.Nome);
+            oModelSoa.setProperty("/NameLast", data?.Cognome);
+            oModelSoa.setProperty("/ZzragSoc", data?.RagSoc);
+            oModelSoa.setProperty("/TaxnumCf", data?.CodFisc);
+            oModelSoa.setProperty("/Taxnumxl", data?.CodFiscEst);
+            oModelSoa.setProperty("/TaxnumPiva", data?.PIva);
+            oModelSoa.setProperty("/Zsede", data?.Sede);
+            oModelSoa.setProperty("/Zdenominazione", data?.DescrSede);
+            oModelSoa.setProperty("/ZzDescebe", data?.EnteBen);
+            oModelSoa.setProperty("/Zdurc", data?.Zdurc);
+            oModelSoa.setProperty("/ZfermAmm", data?.ZfermAmm);
+          },
+          error: function (error) {},
+        });
       },
 
       setModalitaPagamento: function () {

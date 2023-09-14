@@ -141,6 +141,7 @@ sap.ui.define(
               break;
             }
             case "Rettifica": {
+              self.setInpsEditable();
               this._setPropertiesForEdit();
               break;
             }
