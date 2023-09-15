@@ -2329,8 +2329,6 @@ sap.ui.define(
             self._setSoa(data);
             self._getPosizioniSoa();
             self._getClassificazioniSoa();
-            // self.setInpsEditable();
-            // self.getSedeBeneficiario();
             oView.setBusy(false);
             callback(data);
           },
@@ -2515,6 +2513,34 @@ sap.ui.define(
             self._setClassificazioneModel([]);
           },
         });
+      },
+
+      setMode: function (sMode) {
+        if (sMode === "Dettaglio") {
+          return;
+        }
+
+        var self = this;
+        var oModelSoa = self.getModel("Soa");
+        var oModelUtility = self.getModel("Utility");
+        var oModelStepScenario = self.getModel("StepScenario");
+
+        var aListSoa = [];
+        aListSoa.push(oModelSoa.getData());
+        self.setModel(new JSONModel(aListSoa), "ListSoa");
+
+        oModelUtility.setProperty("/RemoveFunctionButtons", true);
+        oModelUtility.setProperty("/Function", sMode);
+        oModelUtility.setProperty("/Enable" + sMode, true);
+        oModelStepScenario.setProperty("/visibleBtnForward", false);
+
+        if (
+          sMode === "InvioFirma" ||
+          sMode === "RegistrazioneRichAnn" ||
+          sMode === "CancellazioneRichAnn"
+        ) {
+          self.setDatiFirmatario();
+        }
       },
 
       //#endregion SET MODELLI
@@ -2948,8 +2974,6 @@ sap.ui.define(
         var oModel = self.getModel();
         var aModelListSoa = self.getModel("ListSoa").getData();
         var oBundle = self.getResourceBundle();
-
-        console.log(aModelListSoa);
 
         var sMessage =
           aModelListSoa.length === 1

@@ -197,6 +197,7 @@ sap.ui.define(
           Zstep: oSelectedItem.Zstep,
           Ztipososp: oSelectedItem.Ztipososp,
           DetailFromFunction: false,
+          Mode: "Dettaglio",
         };
 
         switch (oSelectedItem?.Ztipopag) {
@@ -574,6 +575,10 @@ sap.ui.define(
         var oTableListSoa = self.getView().byId("tblListSoa");
         oTableListSoa.removeSelections(true);
 
+        if (this._goToDetail("Annullamento")) {
+          return;
+        }
+
         self.getRouter().navTo("soa.function.Annullamento");
       },
 
@@ -581,6 +586,10 @@ sap.ui.define(
         var self = this;
         var oTableListSoa = self.getView().byId("tblListSoa");
         oTableListSoa.removeSelections(true);
+
+        if (this._goToDetail("RevocaInvioFirma")) {
+          return;
+        }
 
         self.getRouter().navTo("soa.function.RevocaInvioFirma");
       },
@@ -590,6 +599,10 @@ sap.ui.define(
         var oTableListSoa = self.getView().byId("tblListSoa");
         oTableListSoa.removeSelections(true);
 
+        if (this._goToDetail("Firma")) {
+          return;
+        }
+
         self.getRouter().navTo("soa.function.Firma");
       },
 
@@ -598,13 +611,21 @@ sap.ui.define(
         var oTableListSoa = self.getView().byId("tblListSoa");
         oTableListSoa.removeSelections(true);
 
+        if (this._goToDetail("RevocaFirma")) {
+          return;
+        }
+
         self.getRouter().navTo("soa.function.RevocaFirma");
       },
 
-      oninviaFirma: function () {
+      onInvioFirma: function () {
         var self = this;
         var oTableListSoa = self.getView().byId("tblListSoa");
         oTableListSoa.removeSelections(true);
+
+        if (this._goToDetail("InvioFirma")) {
+          return;
+        }
 
         self.getRouter().navTo("soa.function.InvioFirma");
       },
@@ -614,6 +635,10 @@ sap.ui.define(
         var oTableListSoa = self.getView().byId("tblListSoa");
         oTableListSoa.removeSelections(true);
 
+        if (this._goToDetail("RegistrazioneRichAnn")) {
+          return;
+        }
+
         self.getRouter().navTo("soa.function.RegistrazioneRichAnn");
       },
 
@@ -621,6 +646,10 @@ sap.ui.define(
         var self = this;
         var oTableListSoa = self.getView().byId("tblListSoa");
         oTableListSoa.removeSelections(true);
+
+        if (this._goToDetail("CancellazioneRichAnn")) {
+          return;
+        }
 
         self.getRouter().navTo("soa.function.CancellazioneRichAnn");
       },
@@ -800,6 +829,57 @@ sap.ui.define(
           "/EnableBtnCancellazioneRichAnn",
           bEnabled
         );
+      },
+
+      _goToDetail: function (sMode) {
+        var self = this;
+        var aSelectedItems = sap.ui
+          .getCore()
+          .getModel("SelectedItems")
+          .getData();
+
+        var oParameters = {
+          Gjahr: aSelectedItems[0].Gjahr,
+          Zchiavesop: aSelectedItems[0].Zchiavesop,
+          Bukrs: aSelectedItems[0].Bukrs,
+          Zstep: aSelectedItems[0].Zstep,
+          Ztipososp: aSelectedItems[0].Ztipososp,
+          DetailFromFunction: false,
+          Mode: sMode,
+        };
+
+        if (aSelectedItems.length === 1) {
+          switch (aSelectedItems[0].Ztipopag) {
+            case "1": {
+              self
+                .getRouter()
+                .navTo("soa.detail.scenery.Scenario1", oParameters);
+              break;
+            }
+            case "2": {
+              self
+                .getRouter()
+                .navTo("soa.detail.scenery.Scenario2", oParameters);
+              break;
+            }
+            case "3": {
+              self
+                .getRouter()
+                .navTo("soa.detail.scenery.Scenario3", oParameters);
+              break;
+            }
+            case "4": {
+              self
+                .getRouter()
+                .navTo("soa.detail.scenery.Scenario4", oParameters);
+              break;
+            }
+          }
+
+          return true;
+        }
+
+        return false;
       },
 
       //#endregion GESTIONE FUNZIONALITA'

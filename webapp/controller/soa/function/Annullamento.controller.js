@@ -131,6 +131,7 @@ sap.ui.define(
             Zstep: oSelectedItem.Zstep,
             Ztipososp: oSelectedItem.Ztipososp,
             DetailFromFunction: true,
+            Mode: "Dettaglio",
           };
 
           switch (oSelectedItem?.Ztipopag) {
@@ -159,9 +160,8 @@ sap.ui.define(
 
         onAnnulla: function () {
           var self = this;
-          var aListSoa = self.getModel("ListSoa").getData();
 
-          self.doAnnulla(aListSoa);
+          self.doAnnulla();
         },
       }
     );

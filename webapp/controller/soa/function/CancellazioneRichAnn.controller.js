@@ -117,6 +117,7 @@ sap.ui.define(
             Zstep: oSelectedItem.Zstep,
             Ztipososp: oSelectedItem.Ztipososp,
             DetailFromFunction: true,
+            Mode: "Dettaglio",
           };
 
           switch (oSelectedItem?.Ztipopag) {

@@ -53,8 +53,10 @@ sap.ui.define(
             if (bRettifica) {
               oModelStepScenario.setProperty("/wizard1Step2", true);
               oModelStepScenario.setProperty("/wizard1Step3", false);
-            } else {
+            } else if (oModelUtility.getProperty("/DetailFromFunction")) {
               history.back();
+            } else {
+              self.getRouter().navTo("soa.list.ListSoa", { Reload: false });
             }
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
@@ -538,6 +540,7 @@ sap.ui.define(
           self.setFiltersPosizioniModel();
           self.setSoaModel(oParameters, function () {
             self.enableFunctions();
+            self.setMode(oParameters.Mode);
           });
           self.getLogModel();
         },
