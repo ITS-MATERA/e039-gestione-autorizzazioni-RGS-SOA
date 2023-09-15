@@ -510,6 +510,7 @@ sap.ui.define(
             ZstatTest: "",
             Zstep: "",
             Zutenza: "",
+            Ztipososp: "2",
             Messaggio: [], //Messaggi di error
           });
 
@@ -538,6 +539,7 @@ sap.ui.define(
           var oModelUtility = new JSONModel({
             EnableEdit: true,
             DetailFromFunction: true,
+            RemoveFunctionButtons: true,
           });
 
           oDataModel.read("/" + sPath, {
@@ -568,6 +570,7 @@ sap.ui.define(
           self.setModel(oModelUtility, "Utility");
           self.setModel(oModelStepScenario, "StepScenario");
           self.getLogModel();
+          self.resetWizard("wizScenario4");
         },
 
         _getModalitaPagamentoList: function () {

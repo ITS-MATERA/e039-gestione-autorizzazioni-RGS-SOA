@@ -368,6 +368,7 @@ sap.ui.define(
             ZstatTest: "",
             Zstep: "",
             Zutenza: "",
+            Ztipososp: "2",
             Messaggio: [], //Messaggi di errore
           });
 
@@ -397,6 +398,7 @@ sap.ui.define(
           var oModelUtility = new JSONModel({
             EnableEdit: true,
             DetailFromFunction: true,
+            RemoveFunctionButtons: true,
           });
 
           oModel.read("/" + sPath, {
@@ -441,6 +443,7 @@ sap.ui.define(
           self.setModel(oModelStepScenario, "StepScenario");
 
           self.getLogModel();
+          self.resetWizard("wizScenario2");
         },
 
         _getQuoteDocumentiFilters: function () {

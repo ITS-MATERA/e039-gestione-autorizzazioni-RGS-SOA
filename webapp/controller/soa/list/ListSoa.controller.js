@@ -5,16 +5,8 @@ sap.ui.define(
     "../../../model/formatter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/model/Model",
   ],
-  function (
-    BaseSoaController,
-    JSONModel,
-    formatter,
-    Filter,
-    FilterOperator,
-    Model
-  ) {
+  function (BaseSoaController, JSONModel, formatter, Filter, FilterOperator) {
     "use strict";
 
     const NE = FilterOperator.NE;
@@ -38,7 +30,7 @@ sap.ui.define(
           ZnumsopTo: "",
           ZstatoSoa: "TU",
           //TODO
-          Zchiaveaut: "",
+          Zchiaveaut: "2023-020-00004",
           Ztipodisp2: "000",
           Ztipodisp3: "000",
           Zztipologia: "0",
@@ -127,7 +119,7 @@ sap.ui.define(
 
       onAfterRendering: function () {
         var self = this;
-        var oModel = new Model();
+        var oModel = self.getModel();
 
         oModel.read("/TipoDisp3Set", {
           success: function (data, oResponse) {
@@ -265,7 +257,7 @@ sap.ui.define(
 
       onValueHelpEnteBeneficiario: function () {
         var self = this;
-        var oModel = new Model();
+        var oModel = self.getModel();
         var oModelFilter = self.getModel("Filter");
         var oDialog = self.loadFragment(
           "rgssoa.view.fragment.valueHelp.EnteBeneficiario"
@@ -346,7 +338,7 @@ sap.ui.define(
 
       onTipologiaAutorizzazioneChange: function (oEvent) {
         var self = this;
-        var oModel = new Model();
+        var oModel = self.getModel();
         var oModelFilter = self.getModel("Filter");
 
         var aFilters = [];
@@ -372,7 +364,7 @@ sap.ui.define(
 
       _getSoaList: function () {
         var self = this;
-        var oModel = new Model();
+        var oModel = self.getModel();
         var oView = self.getView();
         var aFilters = this._getHeaderFilters();
         var oListSoa = oView.byId("pnlListSoa");

@@ -543,6 +543,7 @@ sap.ui.define(
             self.setMode(oParameters.Mode);
           });
           self.getLogModel();
+          self.resetWizard("wizScenario1");
         },
 
         _setPropertiesForEdit: function () {

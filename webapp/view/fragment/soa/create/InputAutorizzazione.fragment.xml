@@ -26,7 +26,6 @@
 							<l:GridData span="XL2 L3 M5 S12"/>
 						</layoutData>
 					</Text>
-					<!-- TODO - Open Point -->
 					<ComboBox
 						id="fltEsercizioGestione"
 						selectionChange="onSelectEsercizioGestione"

@@ -348,6 +348,7 @@ sap.ui.define(
             ZstatTest: "",
             Zstep: "",
             Zutenza: "",
+            Ztipososp: "2",
             Messaggio: [], //Messaggi di error
           });
 
@@ -386,6 +387,7 @@ sap.ui.define(
           var oModelUtility = new JSONModel({
             EnableEdit: true,
             DetailFromFunction: true,
+            RemoveFunctionButtons: true,
           });
           self.setModel(oModelUtility, "Utility");
 
@@ -416,6 +418,7 @@ sap.ui.define(
           self.setModel(oModelSoa, "Soa");
           self.setModel(oModelClassificazione, "Classificazione");
           self.getLogModel();
+          self.resetWizard("wizScenario3");
         },
 
         _getProspettiLiquidazioneFilters: function () {
