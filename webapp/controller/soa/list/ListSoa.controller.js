@@ -5,8 +5,16 @@ sap.ui.define(
     "../../../model/formatter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "sap/ui/model/Model",
   ],
-  function (BaseSoaController, JSONModel, formatter, Filter, FilterOperator) {
+  function (
+    BaseSoaController,
+    JSONModel,
+    formatter,
+    Filter,
+    FilterOperator,
+    Model
+  ) {
     "use strict";
 
     const NE = FilterOperator.NE;
@@ -30,7 +38,7 @@ sap.ui.define(
           ZnumsopTo: "",
           ZstatoSoa: "TU",
           //TODO
-          Zchiaveaut: "2023-020-00004",
+          Zchiaveaut: "",
           Ztipodisp2: "000",
           Ztipodisp3: "000",
           Zztipologia: "0",
@@ -119,9 +127,9 @@ sap.ui.define(
 
       onAfterRendering: function () {
         var self = this;
-        var oDataModel = self.getModel();
+        var oModel = new Model();
 
-        oDataModel.read("/TipoDisp3Set", {
+        oModel.read("/TipoDisp3Set", {
           success: function (data, oResponse) {
             self.setResponseMessage(oResponse);
             self.setModelCustom("TipoDisp3Set", data.results);
@@ -220,28 +228,18 @@ sap.ui.define(
 
       onValueHelpRitenuta: function () {
         var self = this;
-        var oDataModel = self.getModel();
+        var oModel = new oModel();
         var oDialog = self.loadFragment(
           "rgssoa.view.fragment.valueHelp.Ritenuta"
         );
 
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/" + "RitenutaSet", {
-              success: function (data, oResponse) {
-                self.setResponseMessage(oResponse);
-                self.setModelSelectDialog(
-                  "Ritenuta",
-                  data,
-                  "sdRitenuta",
-                  oDialog
-                );
-              },
-              error: function (error) {},
-            });
-          });
+        oModel.read("/" + "RitenutaSet", {
+          success: function (data, oResponse) {
+            self.setResponseMessage(oResponse);
+            self.setModelSelectDialog("Ritenuta", data, "sdRitenuta", oDialog);
+          },
+          error: function (error) {},
+        });
       },
 
       onValueHelpRitenutaClose: function (oEvent) {
@@ -267,7 +265,7 @@ sap.ui.define(
 
       onValueHelpEnteBeneficiario: function () {
         var self = this;
-        var oDataModel = self.getModel();
+        var oModel = new Model();
         var oModelFilter = self.getModel("Filter");
         var oDialog = self.loadFragment(
           "rgssoa.view.fragment.valueHelp.EnteBeneficiario"
@@ -288,24 +286,19 @@ sap.ui.define(
           );
         }
 
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/" + "EnteBeneficiarioSet", {
-              filters: aFilters,
-              success: function (data, oResponse) {
-                self.setResponseMessage(oResponse);
-                self.setModelSelectDialog(
-                  "EnteBeneficiario",
-                  data,
-                  "sdEnteBeneficiario",
-                  oDialog
-                );
-              },
-              error: function (error) {},
-            });
-          });
+        oModel.read("/" + "EnteBeneficiarioSet", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            self.setResponseMessage(oResponse);
+            self.setModelSelectDialog(
+              "EnteBeneficiario",
+              data,
+              "sdEnteBeneficiario",
+              oDialog
+            );
+          },
+          error: function (error) {},
+        });
       },
 
       onValueHelpEnteBeneficiarioClose: function () {
@@ -353,7 +346,7 @@ sap.ui.define(
 
       onTipologiaAutorizzazioneChange: function (oEvent) {
         var self = this;
-        var oDataModel = self.getModel();
+        var oModel = new Model();
         var oModelFilter = self.getModel("Filter");
 
         var aFilters = [];
@@ -364,19 +357,14 @@ sap.ui.define(
           oModelFilter.getProperty("/Ztipodisp2")
         );
 
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/TipoDisp3Set", {
-              filters: aFilters,
-              success: function (data, oResponse) {
-                self.setResponseMessage(oResponse);
-                self.setModelCustom("TipoDisp3Set", data.results);
-              },
-              error: function (error) {},
-            });
-          });
+        oModel.read("/TipoDisp3Set", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            self.setResponseMessage(oResponse);
+            self.setModelCustom("TipoDisp3Set", data.results);
+          },
+          error: function (error) {},
+        });
       },
       //#endregion
 
@@ -384,7 +372,7 @@ sap.ui.define(
 
       _getSoaList: function () {
         var self = this;
-        var oDataModel = self.getModel();
+        var oModel = new Model();
         var oView = self.getView();
         var aFilters = this._getHeaderFilters();
         var oListSoa = oView.byId("pnlListSoa");
@@ -408,7 +396,7 @@ sap.ui.define(
 
         oView.setBusy(true);
 
-        oDataModel.read("/" + SOA_ENTITY_SET, {
+        oModel.read("/" + SOA_ENTITY_SET, {
           urlParameters: urlParameters,
           filters: aFilters,
           success: function (data, oResponse) {

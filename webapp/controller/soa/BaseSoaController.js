@@ -131,18 +131,13 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "Lifnr", oSelectedItem?.getTitle());
 
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/" + "RicercaAnnoDocBeneSet", {
-              filters: aFilters,
-              success: function (data, oResponse) {
-                self.setModelCustom("AnnoDocBeneficiario", data?.results);
-              },
-              error: function (error) {},
-            });
-          });
+        oDataModel.read("/" + "RicercaAnnoDocBeneSet", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            self.setModelCustom("AnnoDocBeneficiario", data?.results);
+          },
+          error: function (error) {},
+        });
 
         self.unloadFragment();
       },
@@ -1480,28 +1475,22 @@ sap.ui.define(
         var oDataModel = self.getModel();
 
         var oSourceData = oEvent.getSource().data();
-        var sFragmentName = oSourceData.fragmentName;
         var dialogName = oSourceData.dialogName;
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp." + sFragmentName
+          "rgssoa.view.fragment.valueHelp.CodiceGestionale"
         );
 
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/" + "CodiceGestionaleClassificazioneSet", {
-              success: function (data, oResponse) {
-                var oModelJson = new JSONModel();
-                oModelJson.setData(data.results);
-                var oSelectDialog = sap.ui.getCore().byId(dialogName);
-                oSelectDialog?.setModel(oModelJson, "Cos");
-                oSelectDialog?.data("index", oSourceData.index);
-                oDialog.open();
-              },
-              error: function (error) {},
-            });
-          });
+        oDataModel.read("/" + "CodiceGestionaleClassificazioneSet", {
+          success: function (data, oResponse) {
+            var oModelJson = new JSONModel();
+            oModelJson.setData(data.results);
+            var oSelectDialog = sap.ui.getCore().byId(dialogName);
+            oSelectDialog?.setModel(oModelJson, "Cos");
+            oSelectDialog?.data("index", oSourceData.index);
+            oDialog.open();
+          },
+          error: function (error) {},
+        });
       },
 
       onValueHelpCosClose: function (oEvent) {
@@ -1532,11 +1521,8 @@ sap.ui.define(
         var oDataModel = self.getModel();
 
         var oSourceData = oEvent.getSource().data();
-        var sFragmentName = oSourceData.fragmentName;
         var dialogName = oSourceData.dialogName;
-        var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp." + sFragmentName
-        );
+        var oDialog = self.loadFragment("rgssoa.view.fragment.valueHelp.Cpv");
 
         self
           .getModel()
@@ -1636,7 +1622,9 @@ sap.ui.define(
         var self = this;
         var oModelSoa = self.getModel("Soa");
         var oModelClassificazione = self.getModel("Classificazione");
-        var oBundle = self.getResourceBundle();
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
 
         var aListCos = oModelClassificazione.getProperty("/Cos");
         var aListCpv = oModelClassificazione.getProperty("/Cpv");
@@ -1898,7 +1886,7 @@ sap.ui.define(
             var aMessaggio = result?.Messaggio.results;
 
             if (aMessaggio.length !== 0) {
-              self.setLogModel(aMessaggio);
+              self._setLogModel(aMessaggio);
               sap.m.MessageBox.error("Operazione non eseguita correttamente");
               return;
             }
@@ -1944,7 +1932,9 @@ sap.ui.define(
         var self = this;
         const EDM_TYPE = exportLibrary.EdmType;
 
-        var oBundle = self.getResourceBundle();
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
 
         var oTable = sap.ui.getCore().byId("tblLog");
         var oTableModel = oTable.getModel("Log");
@@ -2002,7 +1992,7 @@ sap.ui.define(
         sap.ui.getCore().setModel(oEmptyModel, "GlobalLog");
       },
 
-      setLogModel: function (aLog) {
+      _setLogModel: function (aLog) {
         var self = this;
         var oModel = new JSONModel({
           Messaggio: aLog,
@@ -2723,7 +2713,9 @@ sap.ui.define(
       doAnnulla: function () {
         var self = this;
         var oModel = self.getModel();
-        var oBundle = self.getResourceBundle();
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
         var aListSoa = self.getModel("ListSoa").getData();
 
         var sMessage =
@@ -2778,7 +2770,9 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var oDatiFirma = self.getModel("DatiFirmatario")?.getData();
-        var oBundle = self.getResourceBundle();
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
         var aModelListSoa = self.getModel("ListSoa").getData();
 
         var sMessage =
@@ -2831,7 +2825,9 @@ sap.ui.define(
       doRevocaInvioFirma: function () {
         var self = this;
         var oModel = self.getModel();
-        var oBundle = self.getResourceBundle();
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
         var aModelListSoa = self.getModel("ListSoa").getData();
 
         var sMessage =
@@ -2882,7 +2878,9 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var aModelListSoa = self.getModel("ListSoa").getData();
-        var oBundle = self.getResourceBundle();
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
 
         var sMessage =
           aModelListSoa.length === 1
@@ -2900,7 +2898,9 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var aModelListSoa = self.getModel("ListSoa").getData();
-        var oBundle = self.getResourceBundle();
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
 
         var sMessage =
           aModelListSoa.length === 1
@@ -2953,7 +2953,9 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var aModelListSoa = self.getModel("ListSoa").getData();
-        var oBundle = self.getResourceBundle();
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
 
         var sMessage =
           aModelListSoa.length === 1
@@ -2973,7 +2975,9 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var aModelListSoa = self.getModel("ListSoa").getData();
-        var oBundle = self.getResourceBundle();
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
 
         var sMessage =
           aModelListSoa.length === 1
@@ -3072,7 +3076,7 @@ sap.ui.define(
             });
           }
         } else {
-          self.setLogModel(aMessage);
+          self._setLogModel(aMessage);
 
           if (oResult.IsSuccess) {
             MessageBox.success("Operazione eseguita correttamente", {
@@ -3218,7 +3222,9 @@ sap.ui.define(
       checkPosizioniScenario1: function () {
         var self = this;
         var oModelSoa = self.getModel("Soa");
-        var oBundle = self.getResourceBundle();
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
 
         var fImpTot = parseFloat(oModelSoa.getProperty("/Zimptot"));
         var fImpDispAutorizzazione = parseFloat(

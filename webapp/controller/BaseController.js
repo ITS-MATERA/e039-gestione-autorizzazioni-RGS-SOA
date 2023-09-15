@@ -85,7 +85,7 @@ sap.ui.define(
       setResponseMessage: function (oResponse) {
         var bError = false;
         if (oResponse?.headers["sap-message"]) {
-          var oMessage = this.getMessage(oResponse);
+          var oMessage = this._getMessage(oResponse);
 
           switch (oMessage.severity) {
             case "error":
@@ -103,7 +103,7 @@ sap.ui.define(
         return bError;
       },
 
-      getMessage: function (oResponse) {
+      _getMessage: function (oResponse) {
         return JSON.parse(oResponse.headers["sap-message"]);
       },
 
@@ -309,65 +309,10 @@ sap.ui.define(
         oPaginatorModel.setProperty("/currentPage", 1);
       },
 
-      resetPaginator: function (oPaginatorModel) {
-        oPaginatorModel.setProperty("/btnPrevEnabled", false);
-        oPaginatorModel.setProperty("/btnFirstEnabled", false);
-        oPaginatorModel.setProperty("/btnNextEnabled", false);
-        oPaginatorModel.setProperty("/btnLastEnabled", false);
-        oPaginatorModel.setProperty("/recordForPageEnabled", false);
-        oPaginatorModel.setProperty("/currentPageEnabled", true);
-        oPaginatorModel.setProperty("/currentPage", 1);
-        oPaginatorModel.setProperty("/maxPage", 1);
-        oPaginatorModel.setProperty("/paginatorClick", 0);
-        oPaginatorModel.setProperty("/paginatorSkip", 0);
-        oPaginatorModel.setProperty("/paginatorTotalPage", 1);
-      },
-
-      setPaginatorProperties: function (
-        oPaginatorModel,
-        oData,
-        iNumRecordsForPage
-      ) {
-        if (oData > iNumRecordsForPage) {
-          oPaginatorModel.setProperty("/btnLastEnabled", true);
-
-          var paginatorTotalPage = oData / iNumRecordsForPage;
-          var moduleN = Number.isInteger(paginatorTotalPage);
-
-          if (!moduleN) {
-            paginatorTotalPage = Math.trunc(paginatorTotalPage) + 1;
-          }
-          oPaginatorModel.setProperty(
-            "/paginatorTotalPage",
-            paginatorTotalPage
-          );
-          oPaginatorModel.setProperty("/maxPage", paginatorTotalPage);
-        } else {
-          oPaginatorModel.setProperty("/maxPage", 1);
-          oPaginatorModel.setProperty("/btnLastEnabled", false);
-        }
-      },
-
       //#endregion
 
       /** --------------CONTROLLI AUTORIZZATIVI AUTORIZZAZIONI--------------- */
       //#region
-
-      getPermissionsList: function () {
-        var self = this;
-        var oAuthModel = self.getModel("ZSS4_CA_CONI_VISIBILITA_SRV");
-
-        var aFilters = [];
-
-        self.setFilterEQ(aFilters, "SEM_OBJ", "ZS4_SOA_SRV");
-        self.setFilterEQ(aFilters, "AUTH_OBJ", "Z_GEST_SOA");
-
-        oAuthModel.read("/ZES_CONIAUTH_SET", {
-          filters: aFilters,
-          success: function (data) {},
-          error: function (error) {},
-        });
-      },
 
       getAuthorityCheck: function (callback) {
         var self = this,
@@ -403,9 +348,9 @@ sap.ui.define(
                   FIKRS: data.results[0].FIKRS,
                   BUKRS: data.results[0].BUKRS,
                   PRCTR: data.results[0].PRCTR,
-                  Z26Enabled: self.isIncluded(data.results, "ACTV_4", "Z26"),
-                  Z01Enabled: self.isIncluded(data.results, "ACTV_1", "Z01"),
-                  Z03Enabled: self.isIncluded(data.results, "ACTV_3", "Z03"),
+                  Z26Enabled: self._isIncluded(data.results, "ACTV_4", "Z26"),
+                  Z01Enabled: self._isIncluded(data.results, "ACTV_1", "Z01"),
+                  Z03Enabled: self._isIncluded(data.results, "ACTV_3", "Z03"),
                 };
                 oModelJson.setData(model);
                 self.setModel(oModelJson, self.AUTHORITY_CHECK_AUTH);
@@ -429,7 +374,7 @@ sap.ui.define(
           });
       },
 
-      isIncluded: function (array, param, value) {
+      _isIncluded: function (array, param, value) {
         return array.filter((x) => x[param] === value).length > 0;
       },
 
