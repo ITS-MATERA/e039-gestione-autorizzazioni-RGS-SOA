@@ -2125,7 +2125,10 @@ sap.ui.define(
         oModelSoa.setProperty("/ZE2e", oData.ZE2e);
         oModelSoa.setProperty("/Zlocpag", oData.Zlocpag);
         oModelSoa.setProperty("/Zzonaint", oData.Zzonaint);
-        oModelSoa.setProperty("/Znumprot", oData.Znumprot);
+        oModelSoa.setProperty(
+          "/Znumprot",
+          oData.Znumprot === "000000" ? "" : oData.Znumprot
+        );
         oModelSoa.setProperty("/Zdataprot", oData.Zdataprot);
         oModelSoa.setProperty("/Zdataesig", oData.Zdataesig);
         oModelSoa.setProperty("/ZcodStatosop", oData.ZcodStatosop);
@@ -2165,15 +2168,15 @@ sap.ui.define(
           );
           oModelUtility.setProperty(
             "/EnableBtnRegistrazioneRichAnn",
-            oSoa.ZcodStatosop === "00" &&
+            oSoa.ZcodStatosop === "10" &&
               oPermissions.RegistrazioneRichAnn &&
               oSoa.Zricann === "0000000"
           );
           oModelUtility.setProperty(
             "/EnableBtnCancellazioneRichAnn",
-            oSoa.ZcodStatosop === "00" &&
+            oSoa.ZcodStatosop === "10" &&
               oPermissions.CancellazioneRichAnn &&
-              oSoa.Zricann === "0000000"
+              oSoa.Zricann !== "0000000"
           );
         });
       },
@@ -3219,12 +3222,122 @@ sap.ui.define(
 
         return aFilters;
       },
+
+      setFiltersScenario2: function () {
+        var self = this;
+        var aFilters = [];
+        var oModelSoa = self.getModel("Soa");
+        var oModelFilter = self.getModel("FilterDocumenti");
+
+        //Estremi di ricerca per Ritenute
+        self.setFilterEQ(
+          aFilters,
+          "CodRitenuta",
+          oModelFilter.getProperty("/CodRitenuta")
+        );
+        self.setFilterEQ(
+          aFilters,
+          "CodEnte",
+          oModelFilter.getProperty("/CodEnte")
+        );
+        self.setFilterEQ(
+          aFilters,
+          "Zquoteesi",
+          oModelFilter.getProperty("/QuoteEsigibili")
+        );
+        self.setFilterBT(
+          aFilters,
+          "DateEsigibilita",
+          oModelFilter.getProperty("/DataEsigibilitaFrom"),
+          oModelFilter.getProperty("/DataEsigibilitaTo")
+        );
+
+        //Estremi di ricerca per Beneficiario
+        self.setFilterEQ(aFilters, "Lifnr", oModelFilter.getProperty("/Lifnr"));
+
+        //Estremi di ricerca per Documento di Costo
+        self.setFilterEQ(
+          aFilters,
+          "UfficioContabile",
+          oModelFilter.getProperty("/UfficioContabile")
+        );
+        self.setFilterEQ(
+          aFilters,
+          "AreaFunz",
+          oModelFilter.getProperty("/UfficioContabile")
+        );
+        self.setFilterEQ(
+          aFilters,
+          "UfficioPagatore",
+          oModelFilter.getProperty("/UfficioPagatore")
+        );
+        var aAnnoRegDocumento = oModelFilter.getProperty("/AnnoRegDocumento");
+        aAnnoRegDocumento.map((sAnno) => {
+          self.setFilterEQ(aFilters, "AnnoRegDocumento", sAnno);
+        });
+        self.setFilterBT(
+          aFilters,
+          "Belnr",
+          oModelFilter.getProperty("/NumRegDocFrom"),
+          oModelFilter.getProperty("/NumRegDocTo")
+        );
+        var aAnnoDocBeneficiario = oModelFilter.getProperty(
+          "/AnnoDocBeneficiario"
+        );
+        aAnnoDocBeneficiario.map((sAnno) => {
+          self.setFilterEQ(aFilters, "AnnoDocBeneficiario", sAnno);
+        });
+        var aNDocBen = oModelFilter.getProperty("/NDocBen");
+        aNDocBen.map((sNDocBen) => {
+          self.setFilterEQ(aFilters, "NDocBen", sNDocBen);
+        });
+        self.setFilterEQ(aFilters, "Cig", oModelFilter.getProperty("/Cig"));
+        self.setFilterEQ(aFilters, "Cup", oModelFilter.getProperty("/Cup"));
+        self.setFilterBT(
+          aFilters,
+          "ScadenzaDoc",
+          oModelFilter.getProperty("/ScadenzaDocFrom"),
+          oModelFilter.getProperty("/ScadenzaDocTo")
+        );
+
+        self.setFilterEQ(aFilters, "Gjahr", oModelSoa.getProperty("/Gjahr"));
+        self.setFilterEQ(aFilters, "Fipex", oModelSoa.getProperty("/Fipos"));
+        self.setFilterEQ(aFilters, "Fistl", oModelSoa.getProperty("/Fistl"));
+        return aFilters;
+      },
+
       checkPosizioniScenario1: function () {
         var self = this;
         var oModelSoa = self.getModel("Soa");
         var oBundle = this.getOwnerComponent()
           .getModel("i18n")
           .getResourceBundle();
+
+        var fImpTot = parseFloat(oModelSoa.getProperty("/Zimptot"));
+        var fImpDispAutorizzazione = parseFloat(
+          oModelSoa.getProperty("/Zimpdispaut")
+        );
+
+        if (fImpTot > fImpDispAutorizzazione) {
+          sap.m.MessageBox.error(oBundle.getText("msgImpTotGreaterImpDispAut"));
+          return false;
+        }
+
+        if (
+          oModelSoa.getProperty("/data").length === 0 ||
+          oModelSoa.getProperty("/Zimptot") === "0.00"
+        ) {
+          sap.m.MessageBox.error(oBundle.getText("msgNoDocuments"));
+          return false;
+        }
+
+        return true;
+      },
+
+      checkPosizioniScen2: function () {
+        var self = this;
+        var oModelSoa = self.getModel("Soa");
+        var oBundle = self.getResourceBundle();
 
         var fImpTot = parseFloat(oModelSoa.getProperty("/Zimptot"));
         var fImpDispAutorizzazione = parseFloat(

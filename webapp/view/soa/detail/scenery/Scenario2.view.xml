@@ -6,4 +6,76 @@
 	displayBlock="true"
 	height="100%"
 	busyIndicatorDelay="0"
-/>
+	xmlns:f="sap.f"
+>
+	<f:DynamicPage
+		showFooter="true"
+		class="sapUiNoContentPadding"
+	>
+		<f:header>
+			<f:DynamicPageHeader
+				pinnable="false"
+				class="noPadding"
+			>
+				<c:Fragment
+					fragmentName="rgssoa.view.fragment.panel.HeaderSoa"
+					type="XML"
+				/>
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<c:Fragment
+				fragmentName="rgssoa.view.fragment.soa.detail.Scenario2"
+				type="XML"
+			/>
+		</f:content>
+		<f:footer>
+			<OverflowToolbar>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnBack}"
+					press="onNavBack"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnForward}"
+					press="onNavForward"
+					visible="{StepScenario>/visibleBtnForward}"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnLog}"
+					press="onLog"
+					visible="{= ${Log>/Messaggio}.length !== 0 ? true : false}"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<ToolbarSpacer/>
+				<c:Fragment
+					fragmentName="rgssoa.view.fragment.soa.detail.toolbar.ToolbarFunzionalita"
+					type="XML"
+				/>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnStart}"
+					press="onStart"
+					visible="{StepScenario>/visibleBtnStart}"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+			</OverflowToolbar>
+		</f:footer>
+	</f:DynamicPage>
+</mvc:View>

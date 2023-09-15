@@ -395,7 +395,6 @@ sap.ui.define(
             oListSoa.setVisible(!self.setResponseMessage(oResponse));
             self.setModelCustom(SOA_ENTITY_MODEL, data.results);
             oView.setBusy(false);
-            self._setSelectedItems(data);
             var oModelSoaSettings = self.getModel("SoaSettings");
             oModelSoaSettings.setProperty("/selectedItems", []);
           },
@@ -520,30 +519,6 @@ sap.ui.define(
 
         if (iIndex > -1) {
           aSelectedItems.splice(iIndex, 1);
-        }
-      },
-
-      _setSelectedItems: function (data) {
-        var self = this;
-        var oTableListSoa = self.getView().byId("tblListSoa");
-        var oModelSoaSettings = self.getModel("SoaSettings");
-
-        var aSelectedItems = oModelSoaSettings.getProperty("/selectedItems");
-
-        if (data.results.length !== 0) {
-          data.results.map((oItem, iIndex) => {
-            aSelectedItems.map((oSelectedItem) => {
-              if (
-                oItem.Gjahr === oSelectedItem.Gjahr &&
-                oItem.Zchiavesop === oSelectedItem.Zchiavesop &&
-                oItem.Bukrs === oSelectedItem.Bukrs &&
-                oItem.Zstep === oSelectedItem.Zstep &&
-                oItem.Ztipososp === oSelectedItem.Ztipososp
-              ) {
-                oTableListSoa.setSelectedItem(oTableListSoa.getItems()[iIndex]);
-              }
-            });
-          });
         }
       },
 

@@ -56,6 +56,18 @@
 						>
 							<WizardStep title="{i18n>titleWizard1DocContabili}">
 								<c:Fragment
+									fragmentName="rgssoa.view.fragment.panel.FiltersPosizioni"
+									type="XML"
+								/>
+								<c:Fragment
+									fragmentName="rgssoa.view.fragment.soa.table.scenario2.TableAddPosizioniScen2"
+									type="XML"
+								/>
+								<c:Fragment
+									fragmentName="rgssoa.view.fragment.soa.table.scenario2.TableEditPosizioniScen2"
+									type="XML"
+								/>
+								<c:Fragment
 									fragmentName="rgssoa.view.fragment.soa.table.scenario2.TableRiepPosizioniScen2"
 									type="XML"
 								/>

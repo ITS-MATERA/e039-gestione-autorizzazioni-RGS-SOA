@@ -75,7 +75,7 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step2) {
-            if (this._checkQuoteDocumenti()) {
+            if (self.checkPosizioniScen2()) {
               oModelStepScenario.setProperty("/wizard1Step2", false);
               oModelStepScenario.setProperty("/wizard1Step3", true);
             }
@@ -445,94 +445,6 @@ sap.ui.define(
           self.getLogModel();
           self.resetWizard("wizScenario2");
         },
-
-        _getQuoteDocumentiFilters: function () {
-          var self = this;
-          var aFilters = [];
-          var oModelSoa = self.getModel("Soa");
-          var oModelFilter = self.getModel("FilterDocumenti");
-
-          //Estremi di ricerca per Ritenute
-          self.setFilterEQ(
-            aFilters,
-            "CodRitenuta",
-            oModelFilter.getProperty("/CodRitenuta")
-          );
-          self.setFilterEQ(
-            aFilters,
-            "CodEnte",
-            oModelFilter.getProperty("/CodEnte")
-          );
-          self.setFilterEQ(
-            aFilters,
-            "Zquoteesi",
-            oModelFilter.getProperty("/QuoteEsigibili")
-          );
-          self.setFilterBT(
-            aFilters,
-            "DateEsigibilita",
-            oModelFilter.getProperty("/DataEsigibilitaFrom"),
-            oModelFilter.getProperty("/DataEsigibilitaTo")
-          );
-
-          //Estremi di ricerca per Beneficiario
-          self.setFilterEQ(
-            aFilters,
-            "Lifnr",
-            oModelFilter.getProperty("/Lifnr")
-          );
-
-          //Estremi di ricerca per Documento di Costo
-          self.setFilterEQ(
-            aFilters,
-            "UfficioContabile",
-            oModelFilter.getProperty("/UfficioContabile")
-          );
-          self.setFilterEQ(
-            aFilters,
-            "AreaFunz",
-            oModelFilter.getProperty("/UfficioContabile")
-          );
-          self.setFilterEQ(
-            aFilters,
-            "UfficioPagatore",
-            oModelFilter.getProperty("/UfficioPagatore")
-          );
-          var aAnnoRegDocumento = oModelFilter.getProperty("/AnnoRegDocumento");
-          aAnnoRegDocumento.map((sAnno) => {
-            self.setFilterEQ(aFilters, "AnnoRegDocumento", sAnno);
-          });
-          self.setFilterBT(
-            aFilters,
-            "Belnr",
-            oModelFilter.getProperty("/NumRegDocFrom"),
-            oModelFilter.getProperty("/NumRegDocTo")
-          );
-          var aAnnoDocBeneficiario = oModelFilter.getProperty(
-            "/AnnoDocBeneficiario"
-          );
-          aAnnoDocBeneficiario.map((sAnno) => {
-            self.setFilterEQ(aFilters, "AnnoDocBeneficiario", sAnno);
-          });
-          var aNDocBen = oModelFilter.getProperty("/NDocBen");
-          aNDocBen.map((sNDocBen) => {
-            self.setFilterEQ(aFilters, "NDocBen", sNDocBen);
-          });
-          self.setFilterEQ(aFilters, "Cig", oModelFilter.getProperty("/Cig"));
-          self.setFilterEQ(aFilters, "Cup", oModelFilter.getProperty("/Cup"));
-          self.setFilterBT(
-            aFilters,
-            "ScadenzaDoc",
-            oModelFilter.getProperty("/ScadenzaDocFrom"),
-            oModelFilter.getProperty("/ScadenzaDocTo")
-          );
-
-          self.setFilterEQ(aFilters, "Gjahr", oModelSoa.getProperty("/Gjahr"));
-          self.setFilterEQ(aFilters, "Fipex", oModelSoa.getProperty("/Fipos"));
-          self.setFilterEQ(aFilters, "Fistl", oModelSoa.getProperty("/Fistl"));
-          return aFilters;
-        },
-
         _getQuoteDocumentiList: function () {
           var self = this;
           var oView = self.getView();
@@ -545,7 +457,7 @@ sap.ui.define(
           var oPanelCalculator = oView.byId("pnlCalculatorList");
 
           var aListRiepilogo = oModelSoa.getProperty("/data");
-          var aFilters = this._getQuoteDocumentiFilters();
+          var aFilters = self.setFiltersScenario2();
           //Check BEETWEN filters
           var sIntervalFilter = self.checkBTFilter(aFilters);
           if (sIntervalFilter) {
@@ -587,34 +499,6 @@ sap.ui.define(
               oView.setBusy(false);
             },
           });
-        },
-
-        _checkQuoteDocumenti: function () {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var oBundle = self.getResourceBundle();
-
-          var fImpTot = parseFloat(oModelSoa.getProperty("/Zimptot"));
-          var fImpDispAutorizzazione = parseFloat(
-            oModelSoa.getProperty("/Zimpdispaut")
-          );
-
-          if (fImpTot > fImpDispAutorizzazione) {
-            sap.m.MessageBox.error(
-              oBundle.getText("msgImpTotGreaterImpDispAut")
-            );
-            return false;
-          }
-
-          if (
-            oModelSoa.getProperty("/data").length === 0 ||
-            oModelSoa.getProperty("/Zimptot") === "0.00"
-          ) {
-            sap.m.MessageBox.error(oBundle.getText("msgNoDocuments"));
-            return false;
-          }
-
-          return true;
         },
 
         //#endregion

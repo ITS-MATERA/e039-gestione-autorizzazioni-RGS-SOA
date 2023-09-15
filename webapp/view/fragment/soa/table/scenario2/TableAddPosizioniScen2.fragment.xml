@@ -3,7 +3,7 @@
 	xmlns:c="sap.ui.core"
 >
 	<Panel
-		id="pnlAddQuoteDocumenti"
+		id="pnlAddPosizioniScen2"
 		class="onlyTopPadding"
 		visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/AddPositions} ? true : false}"
 		backgroundDesign="Transparent"
@@ -15,10 +15,10 @@
 		</headerToolbar>
 		<content>
 			<Table
-				id="tblQuoteDocumentiScen1"
+				id="tblAddPosizioniScen2"
 				mode="MultiSelect"
 				items="{
-					path: 'QuoteDocumenti>/'
+					path: 'PosizioniScen2>/'
 				}"
 				selectionChange="onAddSelectedItem"
 				fixedLayout="false"
@@ -68,34 +68,24 @@
 					<Column
 						minScreenWidth="Desktop"
 						demandPopin="true"
-						visible="{= ${Soa>/Lifnr} ? true : false}"
+						visible="{= ${Soa>/ZzCebenra} ? false : true}"
 					>
 						<header>
-							<Text text="{i18n>labelImpLiquidato}"/>
+							<Text text="{i18n>labelImpQuotaDocumento}"/>
 						</header>
 					</Column>
 					<Column
 						minScreenWidth="Desktop"
 						demandPopin="true"
-						visible="{= ${Soa>/Lifnr} ? true : false}"
 					>
 						<header>
-							<Text text="{i18n>labelImpOrdinato}"/>
+							<Text text="{i18n>labelImpLiquidabile}"/>
 						</header>
 					</Column>
 					<Column
 						minScreenWidth="Desktop"
 						demandPopin="true"
-						visible="{= ${Soa>/Lifnr} ? false : true}"
-					>
-						<header>
-							<Text text="{i18n>labelImpLiqNonOrdinata}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-						visible="{= ${Soa>/Lifnr} ? false : true}"
+						visible="{= ${Soa>/ZzCebenra} ? true : false}"
 					>
 						<header>
 							<Text text="{i18n>labelResiduoVersabile}"/>
@@ -104,7 +94,7 @@
 					<Column
 						minScreenWidth="Desktop"
 						demandPopin="true"
-						visible="{= ${Soa>/Lifnr} ? false : true}"
+						visible="{= ${Soa>/ZzCebenra} ? true : false}"
 					>
 						<header>
 							<Text text="{i18n>labelResiduoEsigibile}"/>
@@ -121,52 +111,52 @@
 					<Column
 						minScreenWidth="Desktop"
 						demandPopin="true"
+						visible="{= ${Soa>/ZzCebenra} ? false : true}"
 					>
 						<header>
-							<Text text="{i18n>labelProspetto}"/>
+							<Text text="{i18n>labelDurc}"/>
 						</header>
 					</Column>
 					<Column
 						minScreenWidth="Desktop"
 						demandPopin="true"
+						visible="{= ${Soa>/ZzCebenra} ? false : true}"
 					>
 						<header>
-							<Text text="{i18n>labelRigaProspetto}"/>
+							<Text text="{i18n>labelFermoAmministrativo}"/>
 						</header>
 					</Column>
 				</columns>
 				<items>
 					<ColumnListItem vAlign="Middle">
 						<cells>
-							<ObjectIdentifier text="{QuoteDocumenti>AnnoRegDocumento}"/>
-							<ObjectIdentifier text="{QuoteDocumenti>Belnr}"/>
-							<Text text="{QuoteDocumenti>Blart}"/>
+							<ObjectIdentifier text="{
+								path: 'PosizioniScen2>Gjahr'
+							}"/>
+							<ObjectIdentifier text="{PosizioniScen2>Belnr}"/>
+							<Text text="{PosizioniScen2>Blart}"/>
 							<Text text="{
-								path: 'QuoteDocumenti>Bldat',
+								path: 'PosizioniScen2>Bldat',
 								type: 'sap.ui.model.type.Date',
 								formatOptions: {
 									pattern: 'dd.MM.yyyy'
 								}
 							}"/>
-							<Text text="{QuoteDocumenti>ZbenaltName}"/>
+							<Text text="{PosizioniScen2>ZzragSoc}"/>
 							<Text text="{
-								path: 'QuoteDocumenti>Zimpliq',
+								path: 'PosizioniScen2>Wrbtr',
 								formatter: '.formatter.convertFormattedNumber'
 							}"/>
 							<Text text="{
-								path: 'QuoteDocumenti>Zimppag',
+								path: 'PosizioniScen2>Zimpliq',
 								formatter: '.formatter.convertFormattedNumber'
 							}"/>
 							<Text text="{
-								path: 'QuoteDocumenti>Zimpliq',
+								path: 'PosizioniScen2>Zresvers',
 								formatter: '.formatter.convertFormattedNumber'
 							}"/>
 							<Text text="{
-								path: 'QuoteDocumenti>Zresvers',
-								formatter: '.formatter.convertFormattedNumber'
-							}"/>
-							<Text text="{
-								path: 'QuoteDocumenti>Zresesig',
+								path: 'PosizioniScen2>Zresesig',
 								formatter: '.formatter.convertFormattedNumber'
 							}"/>
 							<Input
@@ -174,11 +164,11 @@
 								change="onAddImpDaOrdinareChange"
 								type="Number"
 								value="{
-									path: 'QuoteDocumenti>Zimpdaord'
+									path: 'PosizioniScen2>Zimpdaord'
 								}"
 							/>
-							<Text text="{QuoteDocumenti>Znumliq}"/>
-							<Text text="{QuoteDocumenti>Zposizione}"/>
+							<Text text="{PosizioniScen2>Zdurc}"/>
+							<Text text="{PosizioniScen2>ZfermAmm}"/>
 						</cells>
 					</ColumnListItem>
 				</items>

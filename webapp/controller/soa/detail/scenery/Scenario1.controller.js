@@ -148,6 +148,9 @@ sap.ui.define(
               break;
             }
             default: {
+              var aListSoa = [];
+              aListSoa.push(oModelSoa.getData());
+              self.setModel(new JSONModel(aListSoa), "ListSoa");
               oModelStepScenario.setProperty("/visibleBtnForward", false);
               break;
             }
