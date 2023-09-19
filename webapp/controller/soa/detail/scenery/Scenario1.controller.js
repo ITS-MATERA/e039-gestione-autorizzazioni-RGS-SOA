@@ -5,7 +5,7 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
   ],
-  function (BaseSoaController, formatter, JSONModel, MessageBox, Annullamento) {
+  function (BaseSoaController, formatter, JSONModel, MessageBox) {
     "use strict";
 
     return BaseSoaController.extend(
@@ -70,6 +70,7 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard4", false);
             oModelStepScenario.setProperty("/wizard3", true);
             oModelStepScenario.setProperty("/visibleBtnForward", true);
+            oModelStepScenario.setProperty("/visibleBtnSave", false);
             oWizard.previousStep();
           }
         },
@@ -79,6 +80,7 @@ sap.ui.define(
           var oWizard = self.getView().byId("wizScenario1");
           var oModelStepScenario = self.getModel("StepScenario");
           var oModelUtility = self.getModel("Utility");
+          var oModelSoa = self.getModel("Soa");
 
           var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
           var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
@@ -88,6 +90,13 @@ sap.ui.define(
 
           if (bWizard1Step2) {
             if (bGoToRiepilogo) {
+              var aSoaPositions = oModelSoa.getProperty("/data");
+              var fTotal = 0.0;
+              aSoaPositions.map((oPosition) => {
+                fTotal += parseFloat(oPosition?.Zimpdaord);
+              });
+              oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
+
               oModelStepScenario.setProperty("/wizard1Step2", false);
               oModelStepScenario.setProperty("/wizard1Step3", true);
             } else {
@@ -102,12 +111,15 @@ sap.ui.define(
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
             oModelStepScenario.setProperty("/wizard3", true);
+
             oWizard.nextStep();
           } else if (bWizard3) {
             if (self.checkClassificazione()) {
               oModelStepScenario.setProperty("/wizard3", false);
               oModelStepScenario.setProperty("/wizard4", true);
               oModelStepScenario.setProperty("/visibleBtnForward", false);
+              oModelStepScenario.setProperty("/visibleBtnSave", true);
+              self.setCausalePagamento();
               oWizard.nextStep();
             }
           }
@@ -143,7 +155,6 @@ sap.ui.define(
               break;
             }
             case "Rettifica": {
-              self.setInpsEditable();
               this._setPropertiesForEdit();
               break;
             }
@@ -423,14 +434,6 @@ sap.ui.define(
 
           var aFilters = this.setFiltersScenario1();
 
-          //Check BEETWEN filters
-          var sIntervalFilter = self.checkBTFilter(aFilters);
-          if (sIntervalFilter) {
-            sap.m.MessageBox.error(sIntervalFilter);
-            self.clearModel("QuoteDocumenti");
-            return;
-          }
-
           oView.setBusy(true);
 
           oDataModel.read("/" + "QuoteDocumentiSet", {
@@ -505,7 +508,12 @@ sap.ui.define(
           var aSoaPositions = oModelSoa.getProperty("/data");
 
           aAddSelectedPositions.map((oPosition) => {
-            aSoaPositions.push(oPosition);
+            oPosition.Zchiavesop = "";
+            oPosition.Bukrs = "";
+            oPosition.Gjahr = "";
+            (oPosition.Zposso = ""),
+              (oPosition.ZstepSop = ""),
+              aSoaPositions.push(oPosition);
           });
 
           oModelSoa.setProperty("/data", aSoaPositions);
@@ -544,6 +552,7 @@ sap.ui.define(
           self.setSoaModel(oParameters, function () {
             self.enableFunctions();
             self.setMode(oParameters.Mode);
+            self.getSedeBeneficiario();
           });
           self.getLogModel();
           self.resetWizard("wizScenario1");
@@ -573,6 +582,10 @@ sap.ui.define(
           oModelStepScenario.setProperty("/wizard2", false);
           oModelStepScenario.setProperty("/wizard3", false);
           oModelStepScenario.setProperty("/wizard4", false);
+          oModelStepScenario.setProperty("/visibleBtnSave", false);
+          oModelStepScenario.setProperty("/visibleBtnForward", true);
+
+          self.setInpsEditable();
         },
 
         //#endregion PRIVATE METHODS

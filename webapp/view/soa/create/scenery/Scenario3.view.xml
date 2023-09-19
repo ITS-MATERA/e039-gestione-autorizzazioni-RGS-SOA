@@ -39,11 +39,11 @@
 										type="XML"
 									/>
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.table.TablePosizioniScen3"
+										fragmentName="rgssoa.view.fragment.soa.table.scenario3.TablePosizioniScen3"
 										type="XML"
 									/>
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.table.TableRiepPosizioniScen3"
+										fragmentName="rgssoa.view.fragment.soa.table.scenario3.TableRiepPosizioniScen3"
 										type="XML"
 									/>
 								</WizardStep>

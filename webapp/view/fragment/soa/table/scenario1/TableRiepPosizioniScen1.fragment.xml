@@ -20,6 +20,7 @@
 					path: 'Soa>/data'
 				}"
 				fixedLayout="false"
+				growing="true"
 			>
 				<columns>
 					<Column

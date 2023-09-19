@@ -3,7 +3,6 @@
 	xmlns:c="sap.ui.core"
 >
 	<Panel
-		id="pnlListQuoteDocumenti"
 		class="onlyTopPadding"
 		visible="{StepScenario>/wizard1Step2}"
 		backgroundDesign="Transparent"
@@ -21,6 +20,8 @@
 					path: 'QuoteDocumenti>/'
 				}"
 				selectionChange="onSelectedItem"
+				growing="true"
+				fixedLayout="false"
 			>
 				<columns>
 					<Column

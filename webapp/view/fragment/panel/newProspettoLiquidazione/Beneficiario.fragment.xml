@@ -36,10 +36,11 @@
 					</layoutData>
 				</Text>
 				<Input
-					valueHelpRequest="onValueHelpBeneficiario"
+					valueHelpRequest="onValueHelpBeneficiarioScen4"
 					showValueHelp="true"
 					valueHelpOnly="true"
 					value="{Soa>/Lifnr}"
+					editable="{Soa>/EnableEdit}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -196,7 +197,7 @@
 						path: 'ModalitaPagamento>/'
 					}"
 					selectedKey="{Soa>/Zwels}"
-					editable="{= ${Soa>/Lifnr} ? true : false}"
+					editable="{= ${Soa>/Lifnr} &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
 					selectionChange="onModalitaPagamentoChange"
 				>
 					<c:Item
@@ -220,11 +221,11 @@
 					</layoutData>
 				</Label>
 				<Input
-					valueHelpRequest="onValueHelpIban"
+					valueHelpRequest="onValueHelpIbanScen4"
 					showValueHelp="true"
 					valueHelpOnly="true"
 					value="{Soa>/Iban}"
-					editable="{= ${Soa>/Lifnr} ? true : false}"
+					editable="{= ${Soa>/Lifnr} &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>

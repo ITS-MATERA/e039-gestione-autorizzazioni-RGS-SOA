@@ -207,30 +207,6 @@ sap.ui.define(
 
       /** -------------------GESTIONE FILTRI--------------------- */
 
-      checkBTFilter: function (aFilters) {
-        var oBundle = this.getResourceBundle();
-
-        var oIntervalFilters = aFilters.filter((oFilter) => {
-          if (
-            oFilter?.sOperator === "BT" &&
-            (!oFilter?.oValue1 || !oFilter?.oValue2)
-          ) {
-            return oFilter;
-          }
-        });
-
-        if (oIntervalFilters.length > 0) {
-          return (
-            oBundle.getText("checkBTFilter") +
-            " '" +
-            oBundle.getText("label" + oIntervalFilters[0]?.sPath) +
-            "'"
-          );
-        }
-
-        return;
-      },
-
       setFilterEQ: function (aFilters, sPropertyModel, sValue) {
         if (sValue) {
           aFilters.push(new Filter(sPropertyModel, EQ, sValue));
@@ -238,8 +214,14 @@ sap.ui.define(
       },
 
       setFilterBT: function (aFilters, sPropertyModel, sValueFrom, sValueTo) {
-        if (sValueFrom || sValueTo) {
+        if (sValueFrom && sValueTo) {
           aFilters.push(new Filter(sPropertyModel, BT, sValueFrom, sValueTo));
+          return;
+        }
+        if (sValueFrom || sValueTo) {
+          this.setFilterEQ(aFilters, sPropertyModel, sValueFrom);
+          this.setFilterEQ(aFilters, sPropertyModel, sValueTo);
+          return;
         }
       },
 

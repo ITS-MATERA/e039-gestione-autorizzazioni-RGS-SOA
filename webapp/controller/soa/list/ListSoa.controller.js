@@ -5,14 +5,25 @@ sap.ui.define(
     "../../../model/formatter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "sap/ui/export/Spreadsheet",
+    "sap/ui/export/library",
   ],
-  function (BaseSoaController, JSONModel, formatter, Filter, FilterOperator) {
+  function (
+    BaseSoaController,
+    JSONModel,
+    formatter,
+    Filter,
+    FilterOperator,
+    Spreadsheet,
+    exportLibrary
+  ) {
     "use strict";
 
     const NE = FilterOperator.NE;
     const SOA_ENTITY_SET = "SOASet";
     const SOA_ENTITY_MODEL = "SOASet";
     const SOA_MODEL = "SoaSettings";
+    const EDM_TYPE = exportLibrary.EdmType;
 
     return BaseSoaController.extend("rgssoa.controller.soa.list.ListSoa", {
       formatter: formatter,
@@ -216,6 +227,30 @@ sap.ui.define(
         }
       },
 
+      onExport: function () {
+        var oSheet;
+        var self = this;
+
+        var oTable = self.getView().byId("tblListSoa");
+        var oTableModel = oTable.getModel("SOASet");
+
+        console.log(oTableModel.getData());
+
+        var aCols = this._createColumnConfig();
+        var oSettings = {
+          workbook: {
+            columns: aCols,
+          },
+          dataSource: oTableModel.getData(),
+          fileName: "Lista SOA.xlsx",
+        };
+
+        oSheet = new Spreadsheet(oSettings);
+        oSheet.build().finally(function () {
+          oSheet.destroy();
+        });
+      },
+
       //#region VALUE HELP
 
       onValueHelpRitenuta: function () {
@@ -375,17 +410,6 @@ sap.ui.define(
           Prctr: oModelAuthorityCheck.getProperty("/Prctr"),
         };
 
-        //Controllo i filtri di tipo BEETWEN
-        var sIntervalFilter = self.checkBTFilter(aFilters);
-        if (sIntervalFilter) {
-          sap.m.MessageBox.error(sIntervalFilter);
-
-          var oModelJson = new JSONModel();
-          oListSoa.setVisible(false);
-          oView.setModel(oModelJson, SOA_ENTITY_MODEL);
-          return;
-        }
-
         oView.setBusy(true);
 
         oModel.read("/" + SOA_ENTITY_SET, {
@@ -520,6 +544,69 @@ sap.ui.define(
         if (iIndex > -1) {
           aSelectedItems.splice(iIndex, 1);
         }
+      },
+
+      _createColumnConfig: function () {
+        var self = this;
+        var oBundle = self.getResourceBundle();
+        var aCols = [
+          {
+            label: oBundle.getText("columnNameChiaveSOA"),
+            property: "Zchiavesop",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("columnNameDataRegSOA"),
+            property: "Zdatasop",
+            type: EDM_TYPE.Date,
+            format: "dd.mm.yyyy",
+          },
+          {
+            label: oBundle.getText("columnNameDenBeneficiario"),
+            property: "ZzragSoc",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("columnNameRitenuta"),
+            property: "Text40",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("columnNameEnteBeneficiario"),
+            property: "ZzDescebe",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("columnNamePosizioneFinanziaria"),
+            property: "Fipos",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("columnNameStruttAmmResp"),
+            property: "Fistl",
+            type: EDM_TYPE.String,
+          },
+
+          {
+            label: oBundle.getText("columnNameImporto"),
+            property: "Zimptot",
+            type: EDM_TYPE.Number,
+            scale: 2,
+            delimiter: true,
+          },
+          {
+            label: oBundle.getText("columnNameTipologiaDisposizione"),
+            property: "Zdesctipodisp3",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("columnNameStatoSOA"),
+            property: "DescStateSoa",
+            type: EDM_TYPE.String,
+          },
+        ];
+
+        return aCols;
       },
 
       //#endregion

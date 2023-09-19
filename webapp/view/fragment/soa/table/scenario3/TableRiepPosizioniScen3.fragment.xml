@@ -4,23 +4,21 @@
 >
 	<Panel
 		class="onlyTopPadding"
-		visible="{StepScenario>/wizard1Step2}"
+		visible="{StepScenario>/wizard1Step3}"
 		backgroundDesign="Transparent"
 	>
 		<headerToolbar>
 			<OverflowToolbar>
-				<Title text="{i18n>titleListProspettiLiquidazione}"/>
+				<Title text="{i18n>titleRiepilogoListProspettoLiquidazione}"/>
 			</OverflowToolbar>
 		</headerToolbar>
 		<content>
 			<Table
-				id="tblProspettoLiquidazione"
-				mode="MultiSelect"
 				items="{
-					path: 'ProspettoLiquidazione>/'
+					path: 'Soa>/data'
 				}"
-				selectionChange="onSelectedItem"
 				fixedLayout="false"
+				growing="true"
 			>
 				<columns>
 					<Column
@@ -60,57 +58,30 @@
 						demandPopin="true"
 					>
 						<header>
-							<Text text="{i18n>labelImpLiquidato}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelImpOrdinato}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
 							<Text text="{i18n>labelImpDaOrdinare}"/>
 						</header>
 					</Column>
 				</columns>
 				<items>
-					<ColumnListItem vAlign="Middle">
+					<ColumnListItem
+						vAlign="Middle"
+						class="bgNotEditable"
+					>
 						<cells>
+							<Text text="{Soa>Znumliq}"/>
+							<Text text="{Soa>Zposizione}"/>
+							<Text text="{Soa>ZdescProsp}"/>
+							<Text text="{Soa>Belnr}"/>
 							<Text text="{
-								path: 'ProspettoLiquidazione>Znumliq'
-							}"/>
-							<Text text="{ProspettoLiquidazione>Zposizione}"/>
-							<Text text="{ProspettoLiquidazione>ZdescProsp}"/>
-							<Text text="{ProspettoLiquidazione>Belnr}"/>
-							<Text text="{
-								path: 'ProspettoLiquidazione>Zimpliq',
+								path: 'Soa>Zimpdaord',
 								formatter: '.formatter.convertFormattedNumber'
 							}"/>
-							<Text text="{
-								path: 'ProspettoLiquidazione>Zimppag',
-								formatter: '.formatter.convertFormattedNumber'
-							}"/>
-							<Input
-								id="iptImpDaOrd"
-								change="onImpDaOrdinareChange"
-								type="Number"
-								value="{
-									path: 'ProspettoLiquidazione>Zimpdaord'
-								}"
-							/>
 						</cells>
 					</ColumnListItem>
 				</items>
 			</Table>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.panel.Calculator"
+				fragmentName="rgssoa.view.fragment.panel.CalculatorNoEditable"
 				type="XML"
 			/>
 		</content>

@@ -99,7 +99,7 @@ sap.ui.define(
               oModelStepScenario.setProperty("/wizard4", true);
               oModelStepScenario.setProperty("/visibleBtnForward", false);
               oModelStepScenario.setProperty("/visibleBtnSave", true);
-              this._setCausalePagamento();
+              self.setCausalePagamento();
               oWizard.nextStep();
             }
           }
@@ -458,13 +458,6 @@ sap.ui.define(
 
           var aListRiepilogo = oModelSoa.getProperty("/data");
           var aFilters = self.setFiltersScenario2();
-          //Check BEETWEN filters
-          var sIntervalFilter = self.checkBTFilter(aFilters);
-          if (sIntervalFilter) {
-            sap.m.MessageBox.error(sIntervalFilter);
-            self.clearModel("QuoteDocumentiScen2");
-            return;
-          }
 
           oView.setBusy(true);
 
@@ -506,30 +499,6 @@ sap.ui.define(
         //#endregion
 
         //#region WIZARD 4
-
-        //#region PRIVATE METHODS
-
-        _setCausalePagamento: function () {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-
-          var aListDocumenti = oModelSoa.getProperty("/data");
-
-          var sZcausale = "";
-
-          aListDocumenti.map((oDocumento) => {
-            sZcausale =
-              sZcausale +
-              " " +
-              oDocumento.Belnr +
-              " " +
-              formatter.dateWithPoints(oDocumento.Bldat);
-          });
-
-          oModelSoa.setProperty("/Zcausale", sZcausale);
-        },
-
-        //#endregion
 
         //#endregion
       }

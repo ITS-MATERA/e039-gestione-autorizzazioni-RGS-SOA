@@ -5,7 +5,7 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
   ],
-  function (BaseSoaController, formatter, JSONModel, MessageBox, Annullamento) {
+  function (BaseSoaController, formatter, JSONModel, MessageBox) {
     "use strict";
 
     return BaseSoaController.extend(
@@ -17,6 +17,26 @@ sap.ui.define(
           this.getRouter()
             .getRoute("soa.detail.scenery.Scenario2")
             .attachPatternMatched(this._onObjectMatched, this);
+        },
+
+        _onObjectMatched: function (oEvent) {
+          var self = this;
+          var oParameters = oEvent.getParameter("arguments");
+          var bDetailFromFunction =
+            oParameters.DetailFromFunction === "true" ? true : false;
+          var bRemoveFunctionButtons = bDetailFromFunction;
+
+          //Load Models
+          self.setStepScenarioModel();
+          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons);
+          self.setFiltersPosizioniModel();
+          self.setSoaModel(oParameters, function () {
+            self.enableFunctions();
+            self.setMode(oParameters.Mode);
+            self.getSedeBeneficiario();
+          });
+          self.getLogModel();
+          self.resetWizard("wizScenario2");
         },
 
         onNavBack: function () {
@@ -70,6 +90,7 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard4", false);
             oModelStepScenario.setProperty("/wizard3", true);
             oModelStepScenario.setProperty("/visibleBtnForward", true);
+            oModelStepScenario.setProperty("/visibleBtnSave", false);
             oWizard.previousStep();
           }
         },
@@ -79,6 +100,7 @@ sap.ui.define(
           var oWizard = self.getView().byId("wizScenario2");
           var oModelStepScenario = self.getModel("StepScenario");
           var oModelUtility = self.getModel("Utility");
+          var oModelSoa = self.getModel("Soa");
 
           var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
           var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
@@ -87,18 +109,23 @@ sap.ui.define(
           var bGoToRiepilogo = oModelUtility.getProperty("/DeletePositions");
 
           if (bWizard1Step2) {
-            if (bGoToRiepilogo) {
+            if (bGoToRiepilogo && self.checkPosizioniScen2()) {
+              var aSoaPositions = oModelSoa.getProperty("/data");
+              var fTotal = 0.0;
+              aSoaPositions.map((oPosition) => {
+                fTotal += parseFloat(oPosition?.Zimpdaord);
+              });
+              oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
+
               oModelStepScenario.setProperty("/wizard1Step2", false);
               oModelStepScenario.setProperty("/wizard1Step3", true);
             } else {
               this._addNewPositions();
             }
           } else if (bWizard1Step3) {
-            if (self.checkPosizioniScen2()) {
-              oModelStepScenario.setProperty("/wizard1Step3", false);
-              oModelStepScenario.setProperty("/wizard2", true);
-              oWizard.nextStep();
-            }
+            oModelStepScenario.setProperty("/wizard1Step3", false);
+            oModelStepScenario.setProperty("/wizard2", true);
+            oWizard.nextStep();
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
             oModelStepScenario.setProperty("/wizard3", true);
@@ -108,28 +135,11 @@ sap.ui.define(
               oModelStepScenario.setProperty("/wizard3", false);
               oModelStepScenario.setProperty("/wizard4", true);
               oModelStepScenario.setProperty("/visibleBtnForward", false);
+              oModelStepScenario.setProperty("/visibleBtnSave", true);
+              self.setCausalePagamento();
               oWizard.nextStep();
             }
           }
-        },
-
-        _onObjectMatched: function (oEvent) {
-          var self = this;
-          var oParameters = oEvent.getParameter("arguments");
-          var bDetailFromFunction =
-            oParameters.DetailFromFunction === "true" ? true : false;
-          var bRemoveFunctionButtons = bDetailFromFunction;
-
-          //Load Models
-          self.setStepScenarioModel();
-          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons);
-          self.setFiltersPosizioniModel();
-          self.setSoaModel(oParameters, function () {
-            self.enableFunctions();
-            self.setMode(oParameters.Mode);
-          });
-          self.getLogModel();
-          self.resetWizard("wizScenario2");
         },
 
         onIconTabChange: function (oEvent) {
@@ -162,7 +172,6 @@ sap.ui.define(
               break;
             }
             case "Rettifica": {
-              self.setInpsEditable();
               this._setPropertiesForEdit();
               break;
             }
@@ -258,7 +267,7 @@ sap.ui.define(
 
         onDeletePositionSoa: function () {
           var self = this;
-          var oTable = self.getView().byId("tblEditQuoteDocumentiScen1");
+          var oTable = self.getView().byId("tblEditPosizioniScen2");
 
           MessageBox.warning(
             "Procedere con la cancellazione delle righe selezionate?",
@@ -290,15 +299,7 @@ sap.ui.define(
                       });
                     } else {
                       iIndex = aPositionSoa.findIndex((oPositionSoa) => {
-                        return (
-                          oPositionSoa.Bukrs === oSelectedItem.Bukrs &&
-                          oPositionSoa.Zposizione ===
-                            oSelectedItem.Zposizione &&
-                          oPositionSoa.Znumliq === oSelectedItem.Znumliq &&
-                          oPositionSoa.Zversione === oSelectedItem.Zversione &&
-                          oPositionSoa.ZversioneOrig ===
-                            oSelectedItem.ZversioneOrig
-                        );
+                        return oPositionSoa.Docid === oSelectedItem.Docid;
                       });
                     }
 
@@ -360,6 +361,50 @@ sap.ui.define(
           );
         },
 
+        onSelectedItem: function (oEvent) {
+          var self = this;
+          var bSelected = oEvent.getParameter("selected");
+          //Load Model
+          var oModelUtility = self.getModel("Utility");
+          var oTablePosizioniSoa = self.getView().byId("tblEditPosizioniScen2");
+          var oModelTablePosizioniSoa = oTablePosizioniSoa.getModel("Soa");
+
+          var aSelectedItems = oModelUtility.getProperty(
+            "/DeleteSelectedPositions"
+          );
+          var aListItems = oEvent.getParameter("listItems");
+
+          aListItems.map((oListItem) => {
+            var oSelectedItem = oModelTablePosizioniSoa.getObject(
+              oListItem.getBindingContextPath()
+            );
+
+            if (bSelected) {
+              aSelectedItems.push(oSelectedItem);
+            } else {
+              var iIndex = aSelectedItems.findIndex((obj) => {
+                return (
+                  obj.Bukrs === oSelectedItem.Bukrs &&
+                  obj.Gjahr === oSelectedItem.Gjahr &&
+                  obj.Zchiavesop === oSelectedItem.Zchiavesop &&
+                  obj.Zpossop === oSelectedItem.Zpossop &&
+                  obj.ZstepSop === oSelectedItem.ZstepSop
+                );
+              });
+
+              if (iIndex > -1) {
+                aSelectedItems.splice(iIndex, 1);
+              }
+            }
+          });
+
+          oModelUtility.setProperty(
+            "/EnableBtnDeleteSoa",
+            aSelectedItems.length > 0
+          );
+          oModelUtility.setProperty("/DeleteSelectedPositions", aSelectedItems);
+        },
+
         _getPosizioniScen2: function () {
           var self = this;
           var oView = self.getView();
@@ -384,14 +429,6 @@ sap.ui.define(
           );
 
           var aFilters = self.setFiltersScenario2();
-
-          //Check BEETWEN filters
-          var sIntervalFilter = self.checkBTFilter(aFilters);
-          if (sIntervalFilter) {
-            sap.m.MessageBox.error(sIntervalFilter);
-            self.clearModel("PosizioniScen2");
-            return;
-          }
 
           oView.setBusy(true);
 
@@ -502,6 +539,10 @@ sap.ui.define(
           oModelStepScenario.setProperty("/wizard2", false);
           oModelStepScenario.setProperty("/wizard3", false);
           oModelStepScenario.setProperty("/wizard4", false);
+          oModelStepScenario.setProperty("/visibleBtnSave", false);
+          oModelStepScenario.setProperty("/visibleBtnForward", true);
+
+          self.setInpsEditable();
         },
         //#endregion
       }

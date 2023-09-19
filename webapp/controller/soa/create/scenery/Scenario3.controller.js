@@ -421,40 +421,6 @@ sap.ui.define(
           self.resetWizard("wizScenario3");
         },
 
-        _getProspettiLiquidazioneFilters: function () {
-          var self = this;
-          var aFilters = [];
-          var oModelSoa = self.getModel("Soa");
-          var oModelFilter = self.getModel("FilterDocumenti");
-
-          self.setFilterEQ(aFilters, "Fipex", oModelSoa?.getProperty("/Fipos"));
-          self.setFilterEQ(aFilters, "Fistl", oModelSoa?.getProperty("/Fistl"));
-          self.setFilterEQ(aFilters, "Gjahr", oModelSoa?.getProperty("/Gjahr"));
-          self.setFilterEQ(
-            aFilters,
-            "Lifnr",
-            oModelFilter?.getProperty("/Lifnr")
-          );
-
-          var aUfficioLiquidatore = oModelFilter.getProperty("/Zuffliq");
-          aUfficioLiquidatore.map((sUfficioLiquidatore) => {
-            self.setFilterEQ(aFilters, "Zuffliq", sUfficioLiquidatore);
-          });
-          self.setFilterBT(
-            aFilters,
-            "Znumliq",
-            oModelFilter.getProperty("/ZnumliqFrom"),
-            oModelFilter.getProperty("/ZnumliqTo")
-          );
-          self.setFilterEQ(
-            aFilters,
-            "ZdescProsp",
-            oModelFilter.getProperty("/ZdescProsp")
-          );
-
-          return aFilters;
-        },
-
         _getProspettiLiquidazioneList: function () {
           var self = this;
           var oView = self.getView();
@@ -467,15 +433,7 @@ sap.ui.define(
           var oPanelCalculator = oView.byId("pnlCalculatorList");
 
           var aListRiepilogo = oModelSoa.getProperty("/data");
-          var aFilters = this._getProspettiLiquidazioneFilters();
-
-          //Check BEETWEN filters
-          var sIntervalFilter = self.checkBTFilter(aFilters);
-          if (sIntervalFilter) {
-            sap.m.MessageBox.error(sIntervalFilter);
-            self.clearModel("ProspettoLiquidazione");
-            return;
-          }
+          var aFilters = self.setFiltersScenario3();
 
           oView.setBusy(true);
 
@@ -553,12 +511,15 @@ sap.ui.define(
           //Load Models
           var oModel = self.getModel();
           var oModelSoa = self.getModel("Soa");
+          var oView = self.getView();
 
           if (oModelSoa.getProperty("/Lifnr")) {
             var sPath = self.getModel().createKey("CheckBeneficiarioScen3Set", {
               Lifnr: oModelSoa.getProperty("/Lifnr"),
             });
             var oBundle = self.getResourceBundle();
+
+            oView.setBusy(true);
 
             oModel.read("/" + sPath, {
               success: function (data, oResponse) {
@@ -574,8 +535,11 @@ sap.ui.define(
                 } else {
                   self._getProspettiLiquidazioneList();
                 }
+                oView.setBusy(false);
               },
-              error: function () {},
+              error: function () {
+                oView.setBusy(false);
+              },
             });
           } else {
             self._getProspettiLiquidazioneList();

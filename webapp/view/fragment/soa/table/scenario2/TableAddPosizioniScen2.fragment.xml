@@ -3,7 +3,6 @@
 	xmlns:c="sap.ui.core"
 >
 	<Panel
-		id="pnlAddPosizioniScen2"
 		class="onlyTopPadding"
 		visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/AddPositions} ? true : false}"
 		backgroundDesign="Transparent"

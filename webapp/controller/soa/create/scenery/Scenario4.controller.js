@@ -85,8 +85,8 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step1) {
-            if (this._checkNewProspettoLiquidazione()) {
-              this._getNewProspettoLiquidazione();
+            if (self.checkPosizioniScen4()) {
+              self.setPosizioneScen4();
               self.setDataBenficiario();
               self.getSedeBeneficiario();
               self.setInpsData();
@@ -96,11 +96,13 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard3", true);
             oWizard.nextStep();
           } else if (bWizard3) {
-            oModelStepScenario.setProperty("/wizard3", false);
-            oModelStepScenario.setProperty("/wizard4", true);
-            oModelStepScenario.setProperty("/visibleBtnForward", false);
-            oModelStepScenario.setProperty("/visibleBtnSave", true);
-            oWizard.nextStep();
+            if (self.checkClassificazione()) {
+              oModelStepScenario.setProperty("/wizard3", false);
+              oModelStepScenario.setProperty("/wizard4", true);
+              oModelStepScenario.setProperty("/visibleBtnForward", false);
+              oModelStepScenario.setProperty("/visibleBtnSave", true);
+              oWizard.nextStep();
+            }
           }
         },
 
@@ -127,10 +129,34 @@ sap.ui.define(
         },
 
         //#region WIZARD 1
-        onInserisciProspettoLiquidazione: function (oEvent) {
+        onInserisciProspettoLiquidazione: function () {
           var self = this;
           var oWizard = self.getView().byId("wizScenario4");
           var oModelStepScenario = self.getModel("StepScenario");
+          var oModelSoa = self.getModel("Soa");
+          var oSoa = oModelSoa.getData();
+
+          var oPosizione = {
+            Znumliq: "",
+            Zposizione: "",
+            ZdescProsp: "",
+            Belnr: "",
+            GjahrDc: "",
+            Xblnr: "",
+            Blart: "",
+            Bldat: null,
+            Zbenalt: "",
+            ZbenaltName: "",
+            Wrbtr: "",
+            Zimpliq: oSoa.Zimptot,
+            Zimppag: oSoa.Zimptot,
+            Zimpdaord: oSoa.Zimptot,
+          };
+
+          var aPosizioni = [];
+          aPosizioni.push(oPosizione);
+
+          oModelSoa.setProperty("/data", aPosizioni);
 
           oModelStepScenario.setProperty("/wizard1Step2", false);
           oModelStepScenario.setProperty("/wizard2", true);
@@ -143,207 +169,6 @@ sap.ui.define(
         },
 
         //#region VALUE HELP
-        onValueHelpBeneficiario: function () {
-          var self = this;
-          var oModel = self.getModel();
-          var oDialog = self.loadFragment(
-            "rgssoa.view.fragment.valueHelp.BeneficiarioScen4"
-          );
-
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oModel.read("/" + "RicercaBeneficiarioSet", {
-                success: function (data, oResponse) {
-                  self.setResponseMessage(oResponse);
-                  var oModelJson = new JSONModel();
-                  oModelJson.setData(data.results);
-                  var oSelectDialog = sap.ui
-                    .getCore()
-                    .byId("sdBeneficiarioScen4");
-                  oSelectDialog?.setModel(oModelJson, "Beneficiario");
-                  oDialog.open();
-                },
-                error: function (error) {},
-              });
-            });
-        },
-
-        onValueHelpBeneficiarioClose: function (oEvent) {
-          var self = this;
-          //Load Models
-          var oModelSoa = self.getModel("Soa");
-
-          var oSelectedItem = oEvent.getParameter("selectedItem");
-
-          oModelSoa.setProperty(
-            "/Lifnr",
-            self.setBlank(oSelectedItem?.getTitle())
-          );
-          oModelSoa.setProperty("/NameFirst", oSelectedItem?.data("NameFirst"));
-          oModelSoa.setProperty("/NameLast", oSelectedItem?.data("NameLast"));
-          oModelSoa.setProperty("/ZzragSoc", oSelectedItem?.data("ZzragSoc"));
-          oModelSoa.setProperty("/TaxnumCf", oSelectedItem?.data("TaxnumCf"));
-          oModelSoa.setProperty(
-            "/TaxnumPiva",
-            oSelectedItem?.data("TaxnumPiva")
-          );
-          oModelSoa.setProperty("/Taxnumxl", oSelectedItem?.data("Taxnumxl"));
-          oModelSoa.setProperty("/BuType", oSelectedItem?.data("BuType"));
-
-          oModelSoa.setProperty("/Zwels", "");
-          oModelSoa.setProperty("/Iban", "");
-          this._getModalitaPagamentoList();
-          this._setDurc();
-          this._setFermoAmministrativo();
-
-          self.unloadFragment();
-        },
-
-        onValueHelpIban: function () {
-          var self = this;
-          //Load Models
-          var oModel = self.getModel();
-          var oModelSoa = self.getModel("Soa");
-          var oDialog = self.loadFragment(
-            "rgssoa.view.fragment.valueHelp.IbanScen4"
-          );
-
-          var aFilters = [];
-          self.setFilterEQ(aFilters, "Lifnr", oModelSoa.getProperty("/Lifnr"));
-
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oModel.read("/" + "IbanScen4Set", {
-                filters: aFilters,
-                success: function (data, oResponse) {
-                  self.setModelSelectDialog(
-                    "Iban",
-                    data,
-                    "sdIbanScen4",
-                    oDialog
-                  );
-                },
-                error: function (error) {},
-              });
-            });
-        },
-
-        onValueHelpIbanClose: function (oEvent) {
-          var self = this;
-          //Load Models
-          var oModelSoa = self.getModel("Soa");
-
-          var oSelectedItem = oEvent.getParameter("selectedItem");
-
-          oModelSoa.setProperty("/Iban", oSelectedItem?.getTitle());
-          oModelSoa.setProperty(
-            "/Banks",
-            oSelectedItem?.getTitle().slice(0, 2)
-          );
-
-          self.unloadFragment();
-        },
-
-        onValueHelpCentroCosto: function () {
-          var self = this;
-          //Load Models
-          var oModel = self.getModel();
-          var oDialog = self.loadFragment(
-            "rgssoa.view.fragment.valueHelp.CentroCosto"
-          );
-
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oModel.read("/" + "CentroCostoSet", {
-                success: function (data, oResponse) {
-                  self.setModelSelectDialog(
-                    "CentroCosto",
-                    data,
-                    "sdCentroCosto",
-                    oDialog
-                  );
-                },
-                error: function (error) {},
-              });
-            });
-        },
-
-        onValueHelpCentroCostoClose: function (oEvent) {
-          var self = this;
-          //Load Models
-          var oModelSoa = self.getModel("Soa");
-
-          var oSelectedItem = oEvent.getParameter("selectedItem");
-
-          oModelSoa.setProperty(
-            "/Kostl",
-            self.setBlank(oSelectedItem?.getTitle())
-          );
-          oModelSoa.setProperty(
-            "/DescKostl",
-            self.setBlank(oSelectedItem?.data("Description"))
-          );
-
-          self.unloadFragment();
-        },
-
-        onValueHelpContoCoGe: function () {
-          var self = this;
-          //Load Models
-          var oModel = self.getModel();
-          var oModelSoa = self.getModel("Soa");
-          var oDialog = self.loadFragment(
-            "rgssoa.view.fragment.valueHelp.ContoCoGe"
-          );
-
-          var aFilters = [];
-
-          self.setFilterEQ(aFilters, "Fipos", oModelSoa.getProperty("/Fipos"));
-          self.setFilterEQ(aFilters, "Gjahr", oModelSoa.getProperty("/Gjahr"));
-
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oModel.read("/" + "ContoCoGeSet", {
-                filters: aFilters,
-                success: function (data, oResponse) {
-                  self.setModelSelectDialog(
-                    "ContoCoGe",
-                    data,
-                    "sdContoCoGe",
-                    oDialog
-                  );
-                },
-                error: function (error) {},
-              });
-            });
-        },
-
-        onValueHelpContoCoGeClose: function (oEvent) {
-          var self = this;
-          //Load Models
-          var oModelSoa = self.getModel("Soa");
-
-          var oSelectedItem = oEvent.getParameter("selectedItem");
-
-          oModelSoa.setProperty(
-            "/Hkont",
-            self.setBlank(oSelectedItem?.getTitle())
-          );
-          oModelSoa.setProperty(
-            "/DescHkont",
-            self.setBlank(oSelectedItem?.data("Description"))
-          );
-
-          self.unloadFragment();
-        },
 
         //#endregion
 
@@ -359,19 +184,6 @@ sap.ui.define(
           } else {
             oModelSoa.setProperty("/Zimptot", "0.00");
           }
-        },
-
-        onModalitaPagamentoChange: function (oEvent) {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var oSelectedItem = oEvent.getParameter("selectedItem");
-
-          oModelSoa.setProperty(
-            "/Zdescwels",
-            self.setBlank(oSelectedItem.getText())
-          );
-
-          self.setDatiVaglia();
         },
         //#endregion
 
@@ -571,148 +383,6 @@ sap.ui.define(
           self.setModel(oModelStepScenario, "StepScenario");
           self.getLogModel();
           self.resetWizard("wizScenario4");
-        },
-
-        _getModalitaPagamentoList: function () {
-          var self = this;
-          //Load Models
-          var oModel = self.getModel();
-          var oModelSoa = self.getModel("Soa");
-
-          var aFilters = [];
-
-          self.setFilterEQ(aFilters, "Lifnr", oModelSoa.getProperty("/Lifnr"));
-
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oModel.read("/" + "ModalitaPagamentoScen4Set", {
-                filters: aFilters,
-                success: function (data, oResponse) {
-                  self.setModelCustom("ModalitaPagamento", data.results);
-                },
-                error: function (error) {},
-              });
-            });
-        },
-
-        _setDurc: function () {
-          var self = this;
-          //Load Models
-          var oModel = self.getModel();
-          var oModelSoa = self.getModel("Soa");
-
-          oModelSoa.setProperty("/Zdurc", "");
-
-          if (oModelSoa.getProperty("/Lifnr")) {
-            var sPath = self.getModel().createKey("PrevalDurcSet", {
-              Lifnr: oModelSoa.getProperty("/Lifnr"),
-            });
-
-            self
-              .getModel()
-              .metadataLoaded()
-              .then(function () {
-                oModel.read("/" + sPath, {
-                  success: function (data, oResponse) {
-                    oModelSoa.setProperty("/Zdurc", data?.Zdurc);
-                  },
-                  error: function () {},
-                });
-              });
-          }
-        },
-
-        _setFermoAmministrativo: function () {
-          var self = this;
-          //Load Models
-          var oModel = self.getModel();
-          var oModelSoa = self.getModel("Soa");
-
-          oModelSoa.setProperty("/ZfermAmm", "");
-
-          if (oModelSoa.getProperty("/Lifnr")) {
-            var sPath = self
-              .getModel()
-              .createKey("PrevalFermoAmministrativoSet", {
-                Lifnr: oModelSoa.getProperty("/Lifnr"),
-              });
-
-            self
-              .getModel()
-              .metadataLoaded()
-              .then(function () {
-                oModel.read("/" + sPath, {
-                  success: function (data, oResponse) {
-                    oModelSoa.setProperty("/ZfermAmm", data?.ZfermAmm);
-                  },
-                  error: function () {},
-                });
-              });
-          }
-        },
-
-        _getNewProspettoLiquidazione: function () {
-          var self = this;
-          //Load Models
-          var oModel = self.getModel();
-          var oModelSoa = self.getModel("Soa");
-          var oModelStepScenario = self.getModel("StepScenario");
-
-          var aFilters = [];
-
-          self.setFilterEQ(aFilters, "Lifnr", oModelSoa?.getProperty("/Lifnr"));
-          self.setFilterEQ(aFilters, "Zwels", oModelSoa?.getProperty("/Zwels"));
-          self.setFilterEQ(
-            aFilters,
-            "Zimpliq",
-            oModelSoa?.getProperty("/Zimptot")
-          );
-          self.setFilterEQ(aFilters, "Iban", oModelSoa?.getProperty("/Iban"));
-
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              oModel.read("/RegProspettoLiquidazioneSet", {
-                filters: aFilters,
-                success: function (data, oResponse) {
-                  if (!self.setResponseMessage(oResponse)) {
-                    self.setModelCustom(
-                      "NewProspettoLiquidazione",
-                      data?.results
-                    );
-                    oModelStepScenario.setProperty("/wizard1Step1", false);
-                    oModelStepScenario.setProperty("/wizard1Step2", true);
-                    oModelStepScenario.setProperty("/visibleBtnForward", false);
-                    oModelStepScenario.setProperty(
-                      "/visibleBtnInserisciProspLiquidazione",
-                      true
-                    );
-                  }
-                },
-                error: function () {},
-              });
-            });
-        },
-
-        _checkNewProspettoLiquidazione: function () {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var oBundle = self.getResourceBundle();
-
-          if (!oModelSoa.getProperty("/Kostl")) {
-            sap.m.MessageBox.error(oBundle.getText("msgKostlRequired"));
-            return false;
-          }
-
-          if (!oModelSoa.getProperty("/Hkont")) {
-            sap.m.MessageBox.error(oBundle.getText("msgHkontRequired"));
-            return false;
-          }
-
-          return true;
         },
 
         _createColumnConfig: function () {

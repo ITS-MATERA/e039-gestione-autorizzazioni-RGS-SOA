@@ -1,21 +1,24 @@
 <c:FragmentDefinition
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
-  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-<SelectDialog
+	<SelectDialog
 		id="sdIbanScen4"
-    noDataText="{i18n>noIbanBeneficiario}"
+		noDataText="{i18n>noIbanBeneficiario}"
 		title="{i18n>labelIbanBeneficiario}"
 		search="onValueHelpChange"
-		confirm="onValueHelpIbanClose"
-		cancel="onValueHelpIbanClose"
-    app:FilterValueHelp="Iban"
-		items="{path: 'Iban>/'}">		
+		confirm="onValueHelpIbanScen4Close"
+		cancel="onValueHelpIbanScen4Close"
+		app:FilterValueHelp="Iban"
+		items="{
+			path: 'Iban>/'
+		}"
+	>
 		<StandardListItem
-      iconDensityAware="false"
-      iconInset="false"
-      title="{Iban>Iban}"
-    />
+			iconDensityAware="false"
+			iconInset="false"
+			title="{Iban>Iban}"
+		/>
 	</SelectDialog>
 </c:FragmentDefinition>

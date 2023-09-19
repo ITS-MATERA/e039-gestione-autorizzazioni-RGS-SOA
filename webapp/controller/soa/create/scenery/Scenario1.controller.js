@@ -99,7 +99,7 @@ sap.ui.define(
               oModelStepScenario.setProperty("/wizard4", true);
               oModelStepScenario.setProperty("/visibleBtnForward", false);
               oModelStepScenario.setProperty("/visibleBtnSave", true);
-              this._setCausalePagamento();
+              self.setCausalePagamento();
               oWizard.nextStep();
             }
           }
@@ -428,14 +428,6 @@ sap.ui.define(
           var aListRiepilogo = oModelSoa.getProperty("/data");
           var aFilters = this.setFiltersScenario1();
 
-          //Check BEETWEN filters
-          var sIntervalFilter = self.checkBTFilter(aFilters);
-          if (sIntervalFilter) {
-            sap.m.MessageBox.error(sIntervalFilter);
-            self.clearModel("QuoteDocumenti");
-            return;
-          }
-
           oView.setBusy(true);
 
           oDataModel.read("/" + "QuoteDocumentiSet", {
@@ -478,29 +470,6 @@ sap.ui.define(
         },
 
         //#endregion PRIVATE METHODS
-
-        //#region PRIVATE METHODS
-
-        _setCausalePagamento: function () {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-
-          var aListDocumenti = oModelSoa.getProperty("/data");
-
-          var sZcausale = "";
-          aListDocumenti.map((oDocumento) => {
-            sZcausale =
-              sZcausale +
-              " " +
-              oDocumento.Belnr +
-              " " +
-              formatter.dateWithPoints(oDocumento.Bldat);
-          });
-
-          oModelSoa.setProperty("/Zcausale", sZcausale);
-        },
-
-        //#endregion
 
         //#endregion
       }

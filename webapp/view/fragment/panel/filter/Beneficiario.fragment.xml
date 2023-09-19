@@ -33,7 +33,7 @@
 						${FilterDocumenti>/QuoteEsigibili} === false ||
 						${FilterDocumenti>/DataEsigibilitaFrom} ||
 						${FilterDocumenti>/DataEsigibilitaTo} ||
-						${Soa>/EnableEdit} === false
+						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
 				>
@@ -62,7 +62,7 @@
 							${FilterDocumenti>/QuoteEsigibili} === false ||
 							${FilterDocumenti>/DataEsigibilitaFrom} ||
 							${FilterDocumenti>/DataEsigibilitaTo}) ||
-						${Soa>/EnableEdit} === false
+						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
 					change="onBeneficiarioChange"

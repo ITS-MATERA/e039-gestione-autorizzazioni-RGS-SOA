@@ -25,7 +25,7 @@
 				<Table
 					id="tblRiepNewProspettoLiquidazione"
 					items="{
-						path: 'NewProspettoLiquidazione>/'
+						path: 'Soa>/data'
 					}"
 					fixedLayout="false"
 					width="120%"
@@ -111,28 +111,28 @@
 							class="bgNotEditable"
 						>
 							<cells>
-								<Text text="{NewProspettoLiquidazione>TpDoc}"/>
+								<Text text="{Soa>Blart}"/>
 								<Text text="{
-									path: 'NewProspettoLiquidazione>DataDoc',
+									path: 'Soa>Bldat',
 									type: 'sap.ui.model.type.Date',
 									formatOptions: {
 										pattern: 'dd.MM.yyyy'
 									}
 								}"/>
 								<Text text="{
-									path: 'NewProspettoLiquidazione>DataComp',
+									path: 'Soa>Bldat',
 									type: 'sap.ui.model.type.Date',
 									formatOptions: {
 										pattern: 'dd.MM.yyyy'
 									}
 								}"/>
-								<Text text="{NewProspettoLiquidazione>ZzragSoc}"/>
-								<Text text="{NewProspettoLiquidazione>Zdescwels}"/>
-								<Text text="{NewProspettoLiquidazione>Iban}"/>
-								<Text text="{NewProspettoLiquidazione>Zdurc}"/>
-								<Text text="{NewProspettoLiquidazione>ZfermAmm}"/>
+								<Text text="{Soa>ZbenaltName}"/>
+								<Text text="{Soa>Zdescwels}"/>
+								<Text text="{Soa>Iban}"/>
+								<Text text="{Soa>Zdurc}"/>
+								<Text text="{Soa>ZfermAmm}"/>
 								<Text text="{
-									path: 'NewProspettoLiquidazione>Zimpliq',
+									path: 'Soa>Zimpliq',
 									formatter: '.formatter.convertFormattedNumber'
 								}"/>
 							</cells>
