@@ -80,22 +80,8 @@ sap.ui.define(
           ZstepAut: "",
         });
 
-        var oModelJsonButton = new JSONModel({
-          btnRettificaAutorizzazioneEnabled: false,
-          btnSaveRettificaAuthVisible: false,
-          btnAnnullamentoAuthVisible: true,
-          btnFirmaAuthVisible: true,
-          btnRevocaFirmaAuthVisible: true,
-        });
-
-        var oModelJsonState = new JSONModel({
-          isDetailVisible: true,
-        });
-
         self.getView().setModel(oModelJsonKey, KEY_MODEL);
         self.getView().setModel(oModelJson, AUTORIZZAZIONE_DETAIL_MODEL);
-        self.getView().setModel(oModelJsonButton, AUTH_BUTTON_MODEL);
-        self.getView().setModel(oModelJsonState, AUTH_STATE_MODEL);
 
         self
           .getRouter()
@@ -110,9 +96,6 @@ sap.ui.define(
         if (authDetailTabBarControl)
           authDetailTabBarControl.setSelectedKey("detail");
       },
-      /* =========================================================== */
-      /* event handlers                                              */
-      /* =========================================================== */
 
       onNavBack: function (oEvent) {
         var self = this,
@@ -122,10 +105,6 @@ sap.ui.define(
 
         self.getRouter().navTo("auth.authPage");
       },
-
-      /* =========================================================== */
-      /* internal methods                                            */
-      /* =========================================================== */
 
       _onObjectMatched: function (oEvent) {
         var self = this,
@@ -143,9 +122,32 @@ sap.ui.define(
           self.getAuthorityCheck(function (callback) {
             if (!callback.success || !callback.permission.Z03Enabled) {
               self.getRouter().navTo("auth.authPage");
-            } else self._getAutorizzazioneSet();
+              return;
+            }
           });
         }
+
+        var oModelJsonButton = new JSONModel({
+          btnRettificaAutorizzazioneEnabled: false,
+          btnSaveRettificaAuthVisible: false,
+          btnAnnullamentoAuthVisible: true,
+          btnFirmaAuthVisible: true,
+          btnRevocaFirmaAuthVisible: true,
+        });
+        self.getView().setModel(oModelJsonButton, AUTH_BUTTON_MODEL);
+
+        var oModelJsonState = new JSONModel({
+          isDetailVisible: true,
+        });
+        self.getView().setModel(oModelJsonState, AUTH_STATE_MODEL);
+
+        self._getAutorizzazioneSet();
+
+        var oModelUtility = {
+          EnableEdit: false,
+        };
+
+        self.setModel(new JSONModel(oModelUtility), "Utility");
       },
 
       _getAutorizzazioneSet: function () {
@@ -166,7 +168,8 @@ sap.ui.define(
           .then(function () {
             oDataModel.read("/" + path, {
               success: function (data, oResponse) {
-                self._loadTipologiaDisposizione(data.Ztipodisp2);
+                self.getTipoAutorizzazioneModel();
+                self.getTipoDisposizioneModel(data.Ztipodisp2);
                 self.setDetailModel(data);
                 self.getView().setBusy(false);
               },
@@ -204,34 +207,6 @@ sap.ui.define(
         if (functionName && functionName !== "") {
           eval(`this.${functionName}(value)`);
         }
-      },
-
-      _loadTipologiaDisposizione: function (key) {
-        var self = this,
-          oDataModel = self.getModel(),
-          filters = [];
-
-        filters.push(
-          new sap.ui.model.Filter(
-            "Ztipodisp2",
-            sap.ui.model.FilterOperator.EQ,
-            key
-          )
-        );
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/TipoDisp3Set", {
-              filters: filters,
-              success: function (data, oResponse) {
-                var oModelJson = new sap.ui.model.json.JSONModel();
-                oModelJson.setData(data.results);
-                self.getView().setModel(oModelJson, "TipoDisp3Set");
-              },
-              error: function (error) {},
-            });
-          });
       },
 
       _clearFiposFistl: function (value) {
@@ -468,6 +443,13 @@ sap.ui.define(
             "/btnSaveRettificaAuthVisible"
           );
 
+        var oModelUtility = self.getModel("Utility");
+        oModelUtility.setProperty("/EnableEdit", true);
+        oModelUtility.setProperty("/Function", "Rettifica");
+
+        var oIconTabBar = self.getView().byId("authDetailTabBar");
+        oIconTabBar.setSelectedKey("Rettifica");
+
         if (btnSaveRettificaState) {
           MessageBox.information(
             oBundle.getText("msg-authDetailOnRettificaAutorizzazione"),
@@ -596,6 +578,7 @@ sap.ui.define(
         MessageBox.warning(
           oBundle.getText("msg-authDetailOnAnnullamentoAuth"),
           {
+            title: "Annullamento Autorizzazione",
             actions: [
               oBundle.getText("dialogOk"),
               oBundle.getText("dialogCancel"),
@@ -616,6 +599,7 @@ sap.ui.define(
                   self.getView().setBusy(false);
                   if (callback.success) {
                     MessageBox.success(callback.message, {
+                      title: "Annullamento Autorizzazione",
                       actions: [MessageBox.Action.CLOSE],
                       onClose: function (sAction) {
                         self.onNavBack();
@@ -636,47 +620,37 @@ sap.ui.define(
       },
 
       onFirmaAuth: function (oEvent) {
-        var self = this,
-          oBundle = self.getResourceBundle();
-        MessageBox.warning(oBundle.getText("msg-authDetailOnFirmaAuth"), {
-          actions: [
-            oBundle.getText("dialogOk"),
-            oBundle.getText("dialogCancel"),
-          ],
-          emphasizedAction: oBundle.getText("dialogOk"),
-          onClose: function (sAction) {
-            if (sAction === oBundle.getText("dialogOk")) {
-              self.getView().setBusy(true);
-              self.callDeep(
-                "FIRMA",
-                self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getData(),
-                function (callback) {
-                  self.getView().setBusy(false);
-                  if (callback.success) {
-                    MessageBox.success(callback.message, {
-                      actions: [MessageBox.Action.CLOSE],
-                      onClose: function (sAction) {
-                        self.onNavBack();
-                        location.reload();
-                      },
-                    });
-                  } else {
-                    MessageBox.error(callback.message, {
-                      actions: [MessageBox.Action.CLOSE],
-                      onClose: function (sAction) {},
-                    });
-                  }
-                }
-              );
+        var self = this;
+
+        self.callDeep(
+          "FIRMA",
+          self.getView().getModel(AUTORIZZAZIONE_DETAIL_MODEL).getData(),
+          function (callback) {
+            self.getView().setBusy(false);
+            if (callback.success) {
+              MessageBox.success(callback.message, {
+                title: "Firma Autorizzazione",
+                actions: [MessageBox.Action.CLOSE],
+                onClose: function (sAction) {
+                  self.onNavBack();
+                  location.reload();
+                },
+              });
+            } else {
+              MessageBox.error(callback.message, {
+                actions: [MessageBox.Action.CLOSE],
+                onClose: function (sAction) {},
+              });
             }
-          },
-        });
+          }
+        );
       },
 
       onRevocaFirmaAuth: function (oEvent) {
         var self = this,
           oBundle = self.getResourceBundle();
         MessageBox.warning(oBundle.getText("msg-authDetailOnRevocaFirmaAuth"), {
+          title: "Revoca Firma Autorizzazione",
           actions: [
             oBundle.getText("dialogOk"),
             oBundle.getText("dialogCancel"),
@@ -692,6 +666,7 @@ sap.ui.define(
                   self.getView().setBusy(false);
                   if (callback.success) {
                     MessageBox.success(callback.message, {
+                      title: "Revoca Firma Autorizzazione",
                       actions: [MessageBox.Action.CLOSE],
                       onClose: function (sAction) {
                         self.onNavBack();
@@ -719,6 +694,23 @@ sap.ui.define(
           btnRevocaFirmaAuth = self.getView().byId("btnRevocaFirmaAuth"),
           modelState = self.getView().getModel(AUTH_STATE_MODEL),
           key = oEvent.getParameters().selectedKey;
+
+        var oModelAuthButton = self.getModel("AuthButtonSet");
+
+        switch (key) {
+          case "detail": {
+            self._getAutorizzazioneSet();
+            oModelAuthButton.setProperty("/btnSaveRettificaAuthVisible", false);
+            break;
+          }
+          case "Rettifica": {
+            oModelAuthButton.setProperty("/btnSaveRettificaAuthVisible", true);
+            break;
+          }
+          case "file": {
+            oModelAuthButton.setProperty("/btnSaveRettificaAuthVisible", false);
+          }
+        }
 
         btnAnnullamentoAuth.setVisible(key === "detail" ? true : false);
         btnFirmaAuth.setVisible(key === "detail" ? true : false);

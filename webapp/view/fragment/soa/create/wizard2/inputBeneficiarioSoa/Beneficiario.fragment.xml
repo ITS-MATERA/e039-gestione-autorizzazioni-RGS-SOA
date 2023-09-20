@@ -2,16 +2,16 @@
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
 	xmlns:l="sap.ui.layout"
+	xmlns:zcontrolanagrafica="acn.zlibanagrafica.controls"
+	xmlns:zcontrolmodpag="acn.zlibmodpag.controls"
 >
 	<Panel backgroundDesign="Transparent">
 		<headerToolbar>
 			<OverflowToolbar>
 				<Title text="{i18n>titleBeneficiario}"/>
 				<ToolbarSpacer/>
-				<Button
-					text="{i18n>btnNewModalitaPagamento}"
-					class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
-					type="Emphasized"
+				<zcontrolanagrafica:AnagraficaPopup
+					viewId="zsap.com.r3.cosp.s4.zliqcosto.view.VisualizzaDettagli"
 					enabled="{= 
 						${Soa>/ZspecieSop} === '1' &amp;&amp; 
 						(${Soa>/Ztipopag} === '1' || ${Soa>/Ztipopag} === '2' || ${Soa>/Ztipopag} === '3')
@@ -19,10 +19,9 @@
 						${Soa>/EnableEdit} ? true : false 
 					}"
 				/>
-				<Button
-					text="{i18n>btnNewBeneficiario}"
-					class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
-					type="Emphasized"
+				<zcontrolmodpag:ModPagamentoPopup
+					viewId="zsap.com.r3.cosp.s4.zliqcosto.view.VisualizzaDettagli"
+					Lifnr="{Soa>/Lifnr}"
 					enabled="{= 
 						${Soa>/ZspecieSop} === '1' &amp;&amp; 
 						${Soa>/Ztipopag} === '2' &amp;&amp; 

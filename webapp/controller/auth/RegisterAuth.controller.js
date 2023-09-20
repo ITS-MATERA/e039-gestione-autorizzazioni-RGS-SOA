@@ -55,6 +55,7 @@ sap.ui.define(
         var self = this;
 
         self.getAuthorityCheck(function (callback) {});
+        self.getTipoAutorizzazioneModel();
       },
 
       onRegisterAuth: function (oEvent) {
@@ -333,35 +334,30 @@ sap.ui.define(
         }
       },
 
-      _loadTipologiaDisposizione: function (key) {
-        var self = this,
-          oDataModel = self.getModel(),
-          filters = [];
-        self.getView().setBusy(true);
-        filters.push(
-          new sap.ui.model.Filter(
-            "Ztipodisp2",
-            sap.ui.model.FilterOperator.EQ,
-            key
-          )
-        );
-        self
-          .getModel()
-          .metadataLoaded()
-          .then(function () {
-            oDataModel.read("/TipoDisp3Set", {
-              filters: filters,
-              success: function (data, oResponse) {
-                self.getView().setBusy(false);
-                var oModelJson = new sap.ui.model.json.JSONModel();
-                oModelJson.setData(data.results);
-                self.getView().setModel(oModelJson, "TipoDisp3Set");
-              },
-              error: function (error) {
-                self.getView().setBusy(false);
-              },
-            });
-          });
+      _loadTipologiaDisposizione: function (sKey) {
+        var self = this;
+        var oModel = self.getModel();
+        var aFilters = [];
+        var oView = self.getView();
+
+        self.setFilterEQ(aFilters, "Ztipodisp2", sKey);
+
+        oView.setBusy(true);
+
+        oModel.read("/TipoDisp3Set", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            var oTipoDisposizioni = data.results.filter(
+              (oTipoAut) => oTipoAut.Ztipodisp3
+            );
+
+            self.setModelCustom("TipoDisp3Set", oTipoDisposizioni);
+            oView.setBusy(false);
+          },
+          error: function (error) {
+            oView.setBusy(false);
+          },
+        });
       },
 
       setPropertyDatePickerFromChange: function (oEvent) {

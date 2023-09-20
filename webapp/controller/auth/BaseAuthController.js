@@ -153,6 +153,41 @@ sap.ui.define(
           },
         });
       },
+
+      getTipoAutorizzazioneModel: function () {
+        var self = this;
+        var oModel = self.getModel();
+
+        oModel.read("/TipoDisp2Set", {
+          success: function (data) {
+            var oTipoAutorizzazioni = data.results.filter(
+              (oTipoAut) => oTipoAut.Ztipodisp2
+            );
+            self.setModelCustom("TipoDisp2Set", oTipoAutorizzazioni);
+          },
+          error: function () {},
+        });
+      },
+
+      getTipoDisposizioneModel: function (sZtipodisp2) {
+        var self = this;
+        var oModel = self.getModel();
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Ztipodisp2", sZtipodisp2);
+
+        oModel.read("/TipoDisp3Set", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            var oTipoDisposizioni = data.results.filter(
+              (oTipoAut) => oTipoAut.Ztipodisp3
+            );
+
+            self.setModelCustom("TipoDisp3Set", oTipoDisposizioni);
+          },
+          error: function (error) {},
+        });
+      },
     });
   }
 );

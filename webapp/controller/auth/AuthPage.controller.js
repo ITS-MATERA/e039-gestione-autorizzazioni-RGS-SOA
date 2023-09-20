@@ -414,67 +414,6 @@ sap.ui.define(
         }
       },
 
-      onAuthfAutorizzazioneDaLiveChange: function (oEvent) {
-        var self = this,
-          authfAutorizzazioneDaControl = self
-            .getView()
-            .byId("authfAutorizzazioneA");
-
-        if (
-          oEvent.getParameters().value &&
-          oEvent.getParameters().value !== ""
-        ) {
-          authfAutorizzazioneDaControl.setEnabled(true);
-        } else {
-          authfAutorizzazioneDaControl.setValue("");
-          authfAutorizzazioneDaControl.setEnabled(false);
-        }
-      },
-
-      onAuthfPosizioneFinanziariaDaLiveChange: function (oEvent) {
-        var self = this,
-          authfPosizioneFinanziariaAControl = self
-            .getView()
-            .byId("authfPosizioneFinanziariaA");
-
-        if (
-          oEvent.getParameters().value &&
-          oEvent.getParameters().value !== ""
-        ) {
-          authfPosizioneFinanziariaAControl.setEnabled(true);
-        } else {
-          authfPosizioneFinanziariaAControl.setValue("");
-          authfPosizioneFinanziariaAControl.setEnabled(false);
-        }
-      },
-
-      onAuthfdataAutorizzazioneDaChangeDatePicker: function (oEvent) {
-        var self = this,
-          onAuthfdataAutorizzazioneAControl = self
-            .getView()
-            .byId("authfdataAutorizzazioneA");
-        var bValid = oEvent.getParameter("valid");
-        var newValue = oEvent.getParameter("newValue");
-        if (!bValid || newValue === "") {
-          oEvent.getSource().setValue("");
-          onAuthfdataAutorizzazioneAControl.setEnabled(false);
-          return;
-        }
-        oEvent.getSource().setValue(newValue);
-        onAuthfdataAutorizzazioneAControl.setEnabled(true);
-      },
-
-      handleChangeDatePicker: function (oEvent) {
-        var bValid = oEvent.getParameter("valid");
-
-        if (!bValid) {
-          oEvent.getSource().setValue("");
-          return;
-        }
-        var newValue = oEvent.getParameter("newValue");
-        oEvent.getSource().setValue(newValue);
-      },
-
       onSelectedItem: function (oEvent) {
         var self = this,
           oTable = self.getView().byId("authTable"),
@@ -495,155 +434,55 @@ sap.ui.define(
       getAuthFilterBar: function () {
         var self = this,
           object = {},
-          filters = [],
+          aFilters = [],
           dataRegFromControl = self.getView().byId("authfdataAutorizzazioneDa"),
           dataRegToControl = self.getView().byId("authfdataAutorizzazioneA");
 
         var entityFilters = self.getView().getModel(AUTH_MODEL).getData();
 
-        if (entityFilters.Gjahr && entityFilters.Gjahr !== "")
-          filters.push(
-            new sap.ui.model.Filter(
-              "Gjahr",
-              sap.ui.model.FilterOperator.EQ,
-              entityFilters.Gjahr
-            )
-          );
-        if (entityFilters.Zzamministr && entityFilters.Zzamministr !== "")
-          filters.push(
-            new sap.ui.model.Filter(
-              "Zzamministr",
-              sap.ui.model.FilterOperator.EQ,
-              entityFilters.Zzamministr
-            )
-          );
+        self.setFilterEQ(aFilters, "Gjahr", entityFilters.Gjahr);
+        self.setFilterEQ(aFilters, "Zzamministr", entityFilters.Zzamministr);
+        self.setFilterBT(
+          aFilters,
+          "Znumaut",
+          entityFilters.authFrom,
+          entityFilters.authTo
+        );
+        self.setFilterEQ(
+          aFilters,
+          "ZzstatoAut",
+          entityFilters.statoAutorizzazione
+        );
+        self.setFilterEQ(
+          aFilters,
+          "ZufficioCont",
+          entityFilters.ufficioOrdinante
+        );
+        self.setFilterEQ(
+          aFilters,
+          "Ztipodisp2",
+          entityFilters.tipologiaAutorizzazione
+        );
+        self.setFilterEQ(
+          aFilters,
+          "Ztipodisp3",
+          entityFilters.tipologiaDisposizione
+        );
+        self.setFilterBT(
+          aFilters,
+          "Zdata",
+          dataRegFromControl?.getDateValue(),
+          dataRegToControl?.getDateValue()
+        );
+        self.setFilterBT(
+          aFilters,
+          "Fipos",
+          entityFilters.fipexFrom,
+          entityFilters.fipexTo
+        );
+        self.setFilterEQ(aFilters, "Fistl", entityFilters.fistl);
 
-        if (entityFilters.authFrom && entityFilters.authFrom !== "") {
-          if (entityFilters.authTo && entityFilters.authTo !== "")
-            filters.push(
-              new sap.ui.model.Filter(
-                "Znumaut",
-                sap.ui.model.FilterOperator.BT,
-                entityFilters.authFrom,
-                entityFilters.authTo
-              )
-            );
-          else
-            filters.push(
-              new sap.ui.model.Filter(
-                "Znumaut",
-                sap.ui.model.FilterOperator.EQ,
-                entityFilters.authFrom
-              )
-            );
-        }
-
-        if (
-          entityFilters.statoAutorizzazione &&
-          entityFilters.statoAutorizzazione !== ""
-        )
-          filters.push(
-            new sap.ui.model.Filter(
-              "ZzstatoAut",
-              sap.ui.model.FilterOperator.EQ,
-              entityFilters.statoAutorizzazione
-            )
-          );
-
-        if (
-          entityFilters.ufficioOrdinante &&
-          entityFilters.ufficioOrdinante !== ""
-        )
-          filters.push(
-            new sap.ui.model.Filter(
-              "ZzstatoAut",
-              sap.ui.model.FilterOperator.EQ,
-              entityFilters.ufficioOrdinante
-            )
-          ); //TODO
-
-        if (
-          entityFilters.tipologiaAutorizzazione &&
-          entityFilters.tipologiaAutorizzazione !== ""
-        )
-          filters.push(
-            new sap.ui.model.Filter(
-              "Ztipodisp2",
-              sap.ui.model.FilterOperator.EQ,
-              entityFilters.tipologiaAutorizzazione
-            )
-          );
-
-        if (
-          entityFilters.tipologiaDisposizione &&
-          entityFilters.tipologiaDisposizione !== ""
-        )
-          filters.push(
-            new sap.ui.model.Filter(
-              "Ztipodisp3",
-              sap.ui.model.FilterOperator.EQ,
-              entityFilters.tipologiaDisposizione
-            )
-          );
-
-        if (
-          dataRegFromControl &&
-          dataRegFromControl.getDateValue() &&
-          dataRegFromControl.getDateValue() !== ""
-        ) {
-          if (
-            dataRegToControl &&
-            dataRegToControl.getDateValue() &&
-            dataRegToControl.getDateValue() !== ""
-          )
-            filters.push(
-              new sap.ui.model.Filter(
-                "Zdata",
-                sap.ui.model.FilterOperator.BT,
-                dataRegFromControl.getDateValue(),
-                dataRegToControl.getDateValue()
-              )
-            );
-          else
-            filters.push(
-              new sap.ui.model.Filter(
-                "Zdata",
-                sap.ui.model.FilterOperator.BT,
-                dataRegFromControl.getDateValue()
-              )
-            );
-        }
-
-        if (entityFilters.fipexFrom && entityFilters.fipexFrom !== "") {
-          if (entityFilters.fipexTo && entityFilters.fipexTo !== "")
-            filters.push(
-              new sap.ui.model.Filter(
-                "Fipos",
-                sap.ui.model.FilterOperator.BT,
-                entityFilters.fipexFrom,
-                entityFilters.fipexTo
-              )
-            );
-          else
-            filters.push(
-              new sap.ui.model.Filter(
-                "Fipos",
-                sap.ui.model.FilterOperator.EQ,
-                entityFilters.fipexFrom
-              )
-            );
-        }
-
-        if (entityFilters.fistl && entityFilters.fistl !== "")
-          filters.push(
-            new sap.ui.model.Filter(
-              "Fistl",
-              sap.ui.model.FilterOperator.EQ,
-              entityFilters.fistl
-            )
-          );
-
-        object.filters = filters;
+        object.filters = aFilters;
         return object;
       },
 

@@ -4,7 +4,7 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
-    xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
+	xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
 >
 	<VBox>
 		<items>
@@ -25,11 +25,10 @@
 						<ComboBox
 							id="authfEsercizio"
 							width="100%"
-              selectionChange="onAuthfEsercizio_Change"
+							selectionChange="onAuthfEsercizio_Change"
 							items="{
 								path: '/EsercizioGestioneSet'
 							}"
-
 						>
 							<core:Item
 								key="{Gjahr}"
@@ -51,7 +50,7 @@
 						<FlexBox alignItems="Start">
 							<Input
 								id="authfAmministrazione"
-                value="{authModel>/Zzamministr}"
+								value="{authModel>/Zzamministr}"
 							>
 								<layoutData>
 									<FlexItemData growFactor="4"/>
@@ -73,8 +72,7 @@
 						<FlexBox alignItems="Start">
 							<Input
 								id="authfAutorizzazioneDa"
-								liveChange="onAuthfAutorizzazioneDaLiveChange"
-                value="{authModel>/authFrom}"
+								value="{authModel>/authFrom}"
 							>
 								<layoutData>
 									<FlexItemData growFactor="4"/>
@@ -96,7 +94,6 @@
 						<FlexBox alignItems="Start">
 							<Input
 								id="authfAutorizzazioneA"
-								enabled="false"
 								value="{authModel>/authTo}"
 							>
 								<layoutData>
@@ -144,12 +141,12 @@
 						<Label
 							design="Bold"
 							text="{i18n>authFilterUfficioOrdinante}"
-						/>						
-							<Input
-								id="authfUfficioOrdinante"
-								placeholder="{i18n>authFilterUfficioOrdinante}"
-                value="{authModel>/ufficioOrdinante}"								
-							/>		
+						/>
+						<Input
+							id="authfUfficioOrdinante"
+							placeholder="{i18n>authFilterUfficioOrdinante}"
+							value="{authModel>/ufficioOrdinante}"
+						/>
 					</items>
 					<layoutData>
 						<l:GridData span="XL3 L3 M6 S12"/>
@@ -167,7 +164,7 @@
 							id="authfTipologiaAutorizzazione"
 							width="100%"
 							selectedKey="000"
-              selectionChange="onAuthfTipologiaAutorizzazione_Change"
+							selectionChange="onAuthfTipologiaAutorizzazione_Change"
 							items="{
 								path: '/TipoDisp2Set'
 							}"
@@ -192,7 +189,7 @@
 						<ComboBox
 							id="authfTipologiaDisposizione"
 							width="100%"
-              selectionChange="onAuthfTipologiaDisposizione_change"
+							selectionChange="onAuthfTipologiaDisposizione_change"
 							items="{
 								path: 'TipoDisp3Set>/'
 							}"
@@ -218,7 +215,6 @@
 							<DatePicker
 								id="authfdataAutorizzazioneDa"
 								app:searchPropertyModel="Zdatasop"
-								change="onAuthfdataAutorizzazioneDaChangeDatePicker"
 								valueFormat="yyyy-MM-dd"
 								displayFormat="dd.MM.yyyy"
 							>
@@ -235,7 +231,7 @@
 						/>
 					</layoutData>
 				</VBox>
-				<!-- Data reg autorizzazione da -->
+				<!-- Data reg autorizzazione a -->
 				<VBox>
 					<items>
 						<Label
@@ -246,10 +242,8 @@
 							<DatePicker
 								id="authfdataAutorizzazioneA"
 								app:searchPropertyModel="Zdatasop"
-								change="handleChangeDatePicker"
 								valueFormat="yyyy-MM-dd"
 								displayFormat="dd.MM.yyyy"
-								enabled="false"
 							>
 								<layoutData>
 									<FlexItemData growFactor="4"/>
@@ -268,10 +262,20 @@
 							design="Bold"
 							text="{i18n>authFilterPosizioneFinanziariaDa}"
 						/>
-              <zcontrol:InputPosizioneFinanziaria id="input_PF_da" fase="GEST" spesa="X" maxLength="24"
-                 reale="R" anno="{authModel>/Gjahr}" versione="D" maxSuggestionWidth="60%" submit="posizioneFinanziariaLiveChange" 
-                 liveChange="posizioneFinanziariaLiveChange"  width="100%"
-                 app:search_model="fipexFrom"/>
+						<zcontrol:InputPosizioneFinanziaria
+							id="input_PF_da"
+							fase="GEST"
+							spesa="X"
+							maxLength="24"
+							reale="R"
+							anno="{authModel>/Gjahr}"
+							versione="D"
+							maxSuggestionWidth="60%"
+							submit="posizioneFinanziariaLiveChange"
+							liveChange="posizioneFinanziariaLiveChange"
+							width="100%"
+							app:search_model="fipexFrom"
+						/>
 					</items>
 					<layoutData>
 						<l:GridData
@@ -287,11 +291,20 @@
 							design="Bold"
 							text="{i18n>authFilterPosizioneFinanziariaA}"
 						/>
-            <zcontrol:InputPosizioneFinanziaria id="input_PF_a" fase="GEST" spesa="X" maxLength="24"
-                 reale="R" anno="{authModel>/Gjahr}" versione="D" maxSuggestionWidth="60%" submit="posizioneFinanziariaLiveChange" 
-                 liveChange="posizioneFinanziariaLiveChange"  width="100%"
-                 app:search_model="fipexTo"/>
-
+						<zcontrol:InputPosizioneFinanziaria
+							id="input_PF_a"
+							fase="GEST"
+							spesa="X"
+							maxLength="24"
+							reale="R"
+							anno="{authModel>/Gjahr}"
+							versione="D"
+							maxSuggestionWidth="60%"
+							submit="posizioneFinanziariaLiveChange"
+							liveChange="posizioneFinanziariaLiveChange"
+							width="100%"
+							app:search_model="fipexTo"
+						/>
 					</items>
 					<layoutData>
 						<l:GridData span="XL3 L3 M6 S12"/>
@@ -304,9 +317,21 @@
 							design="Bold"
 							text="{i18n>authFilterStruttAmmResp}"
 						/>
-						  <zcontrolMatchSar:GestioneLogUser eos="S" id="authfStruttAmmResp" fase="GEST" entrata="X" reale="R"  maxLength="16"
-                anno="{authModel>/Gjahr}" SEM_OBJ="Z_TEST_LIB"  versione="D" width="100%" placeholder="Scegli struttura amministrativa"
-                submit="strutturaAmministrativaLiveChange" liveChange="strutturaAmministrativaLiveChange" />
+						<zcontrolMatchSar:GestioneLogUser
+							eos="S"
+							id="authfStruttAmmResp"
+							fase="GEST"
+							entrata="X"
+							reale="R"
+							maxLength="16"
+							anno="{authModel>/Gjahr}"
+							SEM_OBJ="Z_TEST_LIB"
+							versione="D"
+							width="100%"
+							placeholder="Scegli struttura amministrativa"
+							submit="strutturaAmministrativaLiveChange"
+							liveChange="strutturaAmministrativaLiveChange"
+						/>
 					</items>
 					<layoutData>
 						<l:GridData span="XL3 L3 M6 S12"/>
