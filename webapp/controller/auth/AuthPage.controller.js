@@ -69,9 +69,29 @@ sap.ui.define(
           self.getAuthorityCheck(function (callback) {
             if (!callback.success || !callback.permission.Z26Enabled) {
               self.getRouter().navTo("startpage");
+              return;
             }
           });
         }
+
+        var oModel = self.getModel();
+        var oModelAuth = self.getModel(AUTH_MODEL);
+
+        var sPath = self.getModel().createKey("/UserParamSet", {
+          ParameterName: "PRC",
+        });
+
+        self.getView().setBusy(true);
+
+        oModel.read(sPath, {
+          success: function (data) {
+            self.getView().setBusy(false);
+            oModelAuth.setProperty("/Zzamministr", data.ParameterValue);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
       },
 
       onNavBack: function () {

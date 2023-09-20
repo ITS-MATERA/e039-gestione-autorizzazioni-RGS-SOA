@@ -120,6 +120,7 @@ sap.ui.define(
           });
         }
         self.getLogModel();
+        self._setUserAmministrazione();
       },
 
       onNavBack: function () {
@@ -607,6 +608,28 @@ sap.ui.define(
         ];
 
         return aCols;
+      },
+
+      _setUserAmministrazione: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelFilter = self.getModel("Filter");
+
+        var sPath = self.getModel().createKey("/UserParamSet", {
+          ParameterName: "PRC",
+        });
+
+        self.getView().setBusy(true);
+
+        oModel.read(sPath, {
+          success: function (data) {
+            self.getView().setBusy(false);
+            oModelFilter.setProperty("/Zzamministr", data.ParameterValue);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
       },
 
       //#endregion
