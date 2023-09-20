@@ -14,7 +14,6 @@ sap.ui.define(
     const AUTH_BUTTON_MODEL = "AuthButtonSet";
     const AUTH_STATE_MODEL = "AuthStateSet";
     const KEY_MODEL = "KeyModel";
-    const PAGINATOR_MODEL = "paginatorModel";
 
     return BaseController.extend("rgssoa.controller.auth.AuthDetail", {
       formatter: formatter,

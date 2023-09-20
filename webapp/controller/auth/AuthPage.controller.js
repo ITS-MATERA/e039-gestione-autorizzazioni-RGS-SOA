@@ -10,52 +10,34 @@ sap.ui.define(
     "use strict";
 
     const AUTH_MODEL = "authModel";
-    const PAGINATOR_MODEL = "paginatorModel";
     const AUTORIZZAZIONE_ENTITY_SET = "AutorizzazioneSet";
     const AUTORIZZAZIONE_MODEL = "AutorizzazioneSet";
     return BaseController.extend("rgssoa.controller.auth.AuthPage", {
       onInit: function () {
         var self = this,
           oAuthModel,
-          oPaginatorModel;
-
-        oAuthModel = new JSONModel({
-          authTableTitle: self
-            .getResourceBundle()
-            .getText("authPageTitleCountNoRows"),
-          total: 0,
-          // areFiltersValid: true,
-          // isSelectedAll: false,
-          btnDetailEnabled: false,
-          Zzamministr: null,
-          ufficioOrdinante: null,
-          authFrom: null,
-          authTo: null,
-          Gjahr: null,
-          statoAutorizzazione: null,
-          tipologiaDisposizione: null,
-          tipologiaAutorizzazione: null,
-          fipexFrom: null,
-          fipexTo: null,
-          fistl: null,
-        });
-
-        oPaginatorModel = new JSONModel({
-          btnPrevEnabled: false,
-          btnFirstEnabled: false,
-          btnNextEnabled: false,
-          btnLastEnabled: false,
-          recordForPageEnabled: false,
-          currentPageEnabled: true,
-          stepInputDefault: 20,
-          currentPage: 1,
-          maxPage: 1,
-          paginatorSkip: 0,
-          paginatorClick: 0,
-        });
+          oAuthModel = new JSONModel({
+            authTableTitle: self
+              .getResourceBundle()
+              .getText("authPageTitleCountNoRows"),
+            total: 0,
+            // areFiltersValid: true,
+            // isSelectedAll: false,
+            btnDetailEnabled: false,
+            Zzamministr: null,
+            ufficioOrdinante: null,
+            authFrom: null,
+            authTo: null,
+            Gjahr: null,
+            statoAutorizzazione: null,
+            tipologiaDisposizione: null,
+            tipologiaAutorizzazione: null,
+            fipexFrom: null,
+            fipexTo: null,
+            fistl: null,
+          });
 
         self.setModel(oAuthModel, AUTH_MODEL);
-        self.setModel(oPaginatorModel, PAGINATOR_MODEL);
 
         self
           .getRouter()
@@ -145,7 +127,6 @@ sap.ui.define(
         var self = this,
           sTitle,
           oTable = oEvent.getSource(),
-          // oPaginatorPanel = this.getView().byId("paginatorPanel"),
           iTotalItems = self
             .getView()
             .getModel(AUTH_MODEL)
@@ -166,114 +147,16 @@ sap.ui.define(
           .getView()
           .getModel(AUTH_MODEL)
           .setProperty("/authTableTitle", sTitle);
-        // oPaginatorPanel.setVisible(!isChange);
         self.getView().setBusy(false);
       },
 
       /* PAGINAZIONE - start */
 
-      getChangePage: function (sNameModel, maxPage) {
-        var self = this,
-          bFirst = false,
-          bLast = false,
-          paginatorModel = self.getModel(sNameModel),
-          numRecordsForPage = paginatorModel.getProperty("/stepInputDefault"),
-          currentPage = paginatorModel.getProperty("/currentPage");
-
-        if (currentPage === 0) {
-          return;
-        }
-
-        paginatorModel.setProperty(
-          "/paginatorSkip",
-          (currentPage - 1) * numRecordsForPage
-        );
-
-        if (currentPage === maxPage) {
-          bFirst = true;
-          bLast = false;
-          if (currentPage === 1) {
-            bFirst = false;
-          }
-        } else if (currentPage === 1) {
-          bFirst = false;
-          if (currentPage < maxPage) {
-            bLast = true;
-          }
-        } else if (currentPage > maxPage) {
-          bFirst = false;
-          bLast = false;
-        } else {
-          if (currentPage > 1) {
-            bFirst = true;
-          }
-          bLast = true;
-        }
-        paginatorModel.setProperty("/btnLastEnabled", bLast);
-        paginatorModel.setProperty("/btnFirstEnabled", bFirst);
-      },
-
-      getFirstPaginator: function (sNameModel) {
-        var self = this,
-          paginatorModel = self.getModel(sNameModel);
-
-        paginatorModel.setProperty("/btnLastEnabled", true);
-        paginatorModel.setProperty("/btnFirstEnabled", false);
-        paginatorModel.setProperty("/paginatorClick", 0);
-        paginatorModel.setProperty("/paginatorSkip", 0);
-        paginatorModel.setProperty("/currentPage", 1);
-      },
-
-      getLastPaginator: function (sNameModel) {
-        var self = this,
-          paginatorModel = self.getModel(sNameModel),
-          numRecordsForPage = paginatorModel.getProperty("/stepInputDefault");
-
-        paginatorModel.setProperty("/btnLastEnabled", false);
-        paginatorModel.setProperty("/btnFirstEnabled", true);
-        var paginatorClick = self.paginatorTotalPage;
-
-        paginatorModel.setProperty("/paginatorClick", paginatorClick);
-        paginatorModel.setProperty(
-          "/paginatorSkip",
-          (paginatorClick - 1) * numRecordsForPage
-        );
-
-        paginatorModel.setProperty(
-          "/currentPage",
-          self.paginatorTotalPage === 0 ? 1 : self.paginatorTotalPage
-        );
-      },
-
-      onFirstPaginator: function (oEvent) {
-        var self = this;
-        self.getFirstPaginator(PAGINATOR_MODEL);
-        self._search(true);
-      },
-
-      onLastPaginator: function (oEvent) {
-        var self = this;
-        self.getLastPaginator(PAGINATOR_MODEL);
-        self._search(true);
-      },
-
-      onChangePage: function (oEvent) {
-        var self = this,
-          paginatorModel = self.getModel(PAGINATOR_MODEL),
-          maxPage = paginatorModel.getProperty("/maxPage");
-        self.getChangePage(PAGINATOR_MODEL, maxPage);
-        self._search(true);
-      },
-
       /* PAGINAZIONE - end */
-      _search: function (fromPaginator = false) {
+      _search: function () {
         var self = this,
           oDataModel = self.getModel(),
-          oView = self.getView(),
-          skip = self.getModel("paginatorModel").getProperty("/paginatorSkip"),
-          numRecordsForPage = self
-            .getModel("paginatorModel")
-            .getProperty("/stepInputDefault");
+          oView = self.getView();
 
         oView.setBusy(true);
         var headerObject = self.getAuthFilterBar();
@@ -283,8 +166,6 @@ sap.ui.define(
           .then(function () {
             oDataModel.read("/" + AUTORIZZAZIONE_ENTITY_SET, {
               urlParameters: {
-                $top: numRecordsForPage,
-                $skip: skip,
                 $inlinecount: "allpages",
                 AutorityRole: self
                   .getModel(self.AUTHORITY_CHECK_AUTH)
@@ -316,7 +197,6 @@ sap.ui.define(
                   .getView()
                   .getModel(AUTH_MODEL)
                   .setProperty("/total", linesCounter);
-                self.counterRecords(linesCounter);
                 oModelJson.setData(data.results);
                 oView.setModel(oModelJson, AUTORIZZAZIONE_MODEL);
                 self.getView().setBusy(false);
@@ -326,25 +206,6 @@ sap.ui.define(
               },
             });
           });
-      },
-
-      counterRecords: function (data) {
-        var self = this,
-          paginatorModel = self.getModel(PAGINATOR_MODEL),
-          numRecordsForPage = paginatorModel.getProperty("/stepInputDefault");
-
-        if (data > numRecordsForPage) {
-          paginatorModel.setProperty("/btnLastEnabled", true);
-          self.paginatorTotalPage = data / numRecordsForPage;
-          var moduleN = Number.isInteger(self.paginatorTotalPage);
-          if (!moduleN) {
-            self.paginatorTotalPage = Math.trunc(self.paginatorTotalPage) + 1;
-          }
-          paginatorModel.setProperty("/maxPage", self.paginatorTotalPage);
-        } else {
-          paginatorModel.setProperty("/maxPage", 1);
-          paginatorModel.setProperty("/btnLastEnabled", false);
-        }
       },
 
       onDetail: function (oEvent) {

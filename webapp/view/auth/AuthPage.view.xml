@@ -1,29 +1,43 @@
 <mvc:View
-    controllerName="rgssoa.controller.auth.AuthPage"
-    xmlns="sap.m"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns:core="sap.ui.core" >
-
-    <Page showHeader="false" > 
+	controllerName="rgssoa.controller.auth.AuthPage"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+>
+	<Page showHeader="false">
 		<content>
-				<core:Fragment fragmentName="rgssoa.view.fragment.auth.AuthHeaderFilterbar" type="XML"/>
-				<core:Fragment fragmentName="rgssoa.view.fragment.auth.AuthTable" type="XML"/>
-                <core:Fragment fragmentName="rgssoa.view.fragment.auth.Paginator" type="XML"/>
+			<core:Fragment
+				fragmentName="rgssoa.view.fragment.auth.AuthHeaderFilterbar"
+				type="XML"
+			/>
+			<core:Fragment
+				fragmentName="rgssoa.view.fragment.auth.AuthTable"
+				type="XML"
+			/>
 		</content>
-        <footer>
-            <OverflowToolbar>
-                <Button type="Emphasized" text="{i18n>btnBack}" press="onNavBack" >
-                    <layoutData>
-                        <OverflowToolbarLayoutData priority="NeverOverflow" />
-                    </layoutData>
-                </Button>
-                <ToolbarSpacer />
-                <Button type="Emphasized" text="{i18n>btnRegisterAuth}" press="onRegisterAuth" enabled="{AuthorityCheckAuth>/Z01Enabled}" >
-                    <layoutData>
-                        <OverflowToolbarLayoutData priority="NeverOverflow" />
-                    </layoutData>
-                </Button>
-            </OverflowToolbar>
-        </footer>
-    </Page>
+		<footer>
+			<OverflowToolbar>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnBack}"
+					press="onNavBack"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<ToolbarSpacer/>
+				<Button
+					type="Emphasized"
+					text="{i18n>btnRegisterAuth}"
+					press="onRegisterAuth"
+					enabled="{AuthorityCheckAuth>/Z01Enabled}"
+				>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+			</OverflowToolbar>
+		</footer>
+	</Page>
 </mvc:View>
