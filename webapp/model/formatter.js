@@ -62,7 +62,7 @@ sap.ui.define([], function () {
     },
 
     deleteFirstZeros: function (sValue) {
-      if (parseInt(sValue) === 0) {
+      if (parseInt(sValue) === 0 || !sValue) {
         return "";
       }
       return parseInt(sValue).toString();
