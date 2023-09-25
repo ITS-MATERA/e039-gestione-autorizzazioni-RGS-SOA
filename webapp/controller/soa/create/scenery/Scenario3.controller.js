@@ -12,6 +12,12 @@ sap.ui.define(
       {
         formatter: formatter,
         onInit: function () {
+          var self = this;
+          var oModelUtility = {
+            ViewId: "rgssoa.view.soa.create.scenery.Scenario3",
+          };
+          self.setModel(new JSONModel(oModelUtility), "Utility");
+
           this.getRouter()
             .getRoute("soa.create.scenery.Scenario3")
             .attachPatternMatched(this._onObjectMatched, this);

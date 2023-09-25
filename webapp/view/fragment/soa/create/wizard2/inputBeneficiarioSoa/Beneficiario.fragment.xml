@@ -11,7 +11,7 @@
 				<Title text="{i18n>titleBeneficiario}"/>
 				<ToolbarSpacer/>
 				<zcontrolanagrafica:AnagraficaPopup
-					viewId="zsap.com.r3.cosp.s4.zliqcosto.view.VisualizzaDettagli"
+					viewId="{Utility>/ViewId}"
 					enabled="{= 
 						${Soa>/ZspecieSop} === '1' &amp;&amp; 
 						(${Soa>/Ztipopag} === '1' || ${Soa>/Ztipopag} === '2' || ${Soa>/Ztipopag} === '3')
@@ -20,7 +20,7 @@
 					}"
 				/>
 				<zcontrolmodpag:ModPagamentoPopup
-					viewId="zsap.com.r3.cosp.s4.zliqcosto.view.VisualizzaDettagli"
+					viewId="{Utility>/ViewId}"
 					Lifnr="{Soa>/Lifnr}"
 					enabled="{= 
 						${Soa>/ZspecieSop} === '1' &amp;&amp; 

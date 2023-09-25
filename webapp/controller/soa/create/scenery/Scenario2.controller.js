@@ -15,6 +15,12 @@ sap.ui.define(
         formatter: formatter,
 
         onInit: function () {
+          var self = this;
+          var oModelUtility = {
+            ViewId: "rgssoa.view.soa.create.scenery.Scenario2",
+          };
+          self.setModel(new JSONModel(oModelUtility), "Utility");
+
           this.getRouter()
             .getRoute("soa.create.scenery.Scenario2")
             .attachPatternMatched(this._onObjectMatched, this);
@@ -497,8 +503,6 @@ sap.ui.define(
         //#endregion
 
         //#endregion
-
-        //#region WIZARD 4
 
         //#endregion
       }

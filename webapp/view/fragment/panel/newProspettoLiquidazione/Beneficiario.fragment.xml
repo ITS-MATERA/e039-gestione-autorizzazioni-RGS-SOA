@@ -11,11 +11,11 @@
 				<Title text="{i18n>titleBeneficiario}"/>
 				<ToolbarSpacer/>
 				<zcontrolanagrafica:AnagraficaPopup
-					viewId="zsap.com.r3.cosp.s4.zliqcosto.view.VisualizzaDettagli"
-					enabled="false"
+					viewId="{Utility>/ViewId}"
+					enabled="true"
 				/>
 				<zcontrolmodpag:ModPagamentoPopup
-					viewId="zsap.com.r3.cosp.s4.zliqcosto.view.VisualizzaDettagli"
+					viewId="{Utility>/ViewId}"
 					Lifnr="{Soa>/Lifnr}"
 					enabled="false"
 				/>

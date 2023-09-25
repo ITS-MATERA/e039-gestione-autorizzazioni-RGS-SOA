@@ -40,8 +40,7 @@ sap.ui.define(
           ZnumsopFrom: "",
           ZnumsopTo: "",
           ZstatoSoa: "TU",
-          //TODO
-          Zchiaveaut: "2023-020-00004",
+          Zchiaveaut: "",
           Ztipodisp2: "000",
           Ztipodisp3: "000",
           Zztipologia: "0",

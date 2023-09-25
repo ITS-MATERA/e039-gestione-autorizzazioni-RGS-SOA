@@ -3732,6 +3732,155 @@ sap.ui.define(
       //#endregion-----------------GESTIONE FILTRI-----------------------------/
 
       //#endregion
+
+      functionReturnValueAnag: function (obj) {
+        console.log(obj);
+        var oData = obj?.data;
+        var aDataQuietaVaglia = obj?.data?.QuietVaglia?.results;
+        var self = this;
+        var oModelSoa = self.getModel("Soa");
+
+        if (oData.MessageType !== "S") {
+          return;
+        }
+
+        //Dati beneficiario
+        oModelSoa.setProperty("/Lifnr", oData.Lifnr);
+        oModelSoa.setProperty("/BuType", oData.Type);
+        oModelSoa.setProperty("/TaxnumCf", oData.Stcd1);
+        oModelSoa.setProperty("/TaxnumPiva", oData.Stcd2);
+        oModelSoa.setProperty("/Taxnumxl", oData.Stcd3);
+        oModelSoa.setProperty("/NameFirst", oData.Name);
+        oModelSoa.setProperty("/NameLast", oData.Surname);
+        oModelSoa.setProperty("/ZzragSoc", oData.Ragsoc);
+        oModelSoa.setProperty("/Zdurc", oData.Durc);
+        oModelSoa.setProperty("/Zdstatodes", oData.Statodurc);
+        oModelSoa.setProperty("/Zdscadenza", oData.Scadenzadurc);
+        oModelSoa.setProperty("/ZfermAmm", oData.ZfermAmm);
+
+        //Modalita di pagamento
+        oModelSoa.setProperty("/Banks", oData.CountryRes);
+        oModelSoa.setProperty("/Zwels", oData.Zwels);
+        oModelSoa.setProperty("/Zdescwels", oData.Zdescwels);
+        oModelSoa.setProperty("/Swift", oData.Swift);
+        oModelSoa.setProperty("/Zcoordest", oData.Zcoordest);
+        oModelSoa.setProperty("/Iban", oData.Iban);
+        oModelSoa.setProperty("/Ztipofirma", oData.Ztipofirma);
+
+        //Banca Accredito
+        oModelSoa.setProperty("/Zibanb", oData.Zibanb);
+        oModelSoa.setProperty("/Zbicb", oData.Zbicb);
+        oModelSoa.setProperty("/Zcoordestb", oData.Zcoordestb);
+        oModelSoa.setProperty("/Zdenbancab", oData.Zdenbanca);
+        oModelSoa.setProperty("/Zclearsystb", oData.Zclearsyst);
+        oModelSoa.setProperty("/Strasb", oData.Stras);
+        oModelSoa.setProperty("/Zcivicob", oData.Zcivico);
+        oModelSoa.setProperty("/Ort01b", oData.Ort01);
+        oModelSoa.setProperty("/Regiob", oData.Regio);
+        oModelSoa.setProperty("/Pstlzb", oData.Stlz);
+        oModelSoa.setProperty("/Land1b", oData.Land1);
+
+        //Intermediario 1
+        oModelSoa.setProperty("/Zibani", oData.Zibani);
+        oModelSoa.setProperty("/Zbici", oData.Zbici);
+        oModelSoa.setProperty("/Zcoordesti", oData.Zcoordesti);
+        oModelSoa.setProperty("/Zdenbancai", oData.Zdenbancai);
+        oModelSoa.setProperty("/Zclearsysti", oData.Zclearsysti);
+        oModelSoa.setProperty("/Zstrasi", oData.Zstrasi);
+        oModelSoa.setProperty("/Zcivicoi", oData.Zcivicoi);
+        oModelSoa.setProperty("/Zort01i", oData.Zort01i);
+        oModelSoa.setProperty("/Zregioi", oData.Zregioi);
+        oModelSoa.setProperty("/Zpstlzi", oData.Zpstlzi);
+        oModelSoa.setProperty("/Zland1i", oData.Zland1i);
+
+        //Sede beneficiario
+        oModelSoa.setProperty("/Ort01", oData.City);
+        oModelSoa.setProperty("/Regio", oData.Region);
+        oModelSoa.setProperty("/Pstlz", oData.Pstlz);
+        oModelSoa.setProperty("/Land1", oData.Country);
+        oModelSoa.setProperty("/Stras", oData.Street + ", " + oData.Housenum);
+
+        this._setDatiQuagliaVaglia(aDataQuietaVaglia, false);
+      },
+
+      functionReturnValueModPag: function (obj) {
+        var aDataQuietaVaglia = obj?.data?.QuietVaglia?.results;
+        var oData = obj?.data;
+
+        if (oData.MessageType !== "S" || aDataQuietaVaglia.length !== 0) {
+          return;
+        }
+
+        this._setDatiQuagliaVaglia(aDataQuietaVaglia, true);
+      },
+
+      _setDatiQuagliaVaglia: function (aData, bModPag) {
+        var self = this;
+        var oModelSoa = self.getModel("Soa");
+
+        aData.map((oData) => {
+          if (oData.TipVis === "P" && bModPag) {
+            oModelSoa.setProperty("/Banks", oData.Country_res);
+            oModelSoa.setProperty("/Zwels", oData.Zwels);
+            oModelSoa.setProperty("/Zdescwels", oData.Zdescwels);
+            oModelSoa.setProperty("/Swift", oData.Swift);
+            oModelSoa.setProperty("/Zcoordest", oData.Zcoordest);
+            oModelSoa.setProperty("/Iban", oData.Iban);
+            oModelSoa.setProperty("/Ztipofirma", oData.Ztipofirma);
+
+            //Banca Accredito
+            oModelSoa.setProperty("/Zibanb", oData.Zibanb);
+            oModelSoa.setProperty("/Zbicb", oData.Zbicb);
+            oModelSoa.setProperty("/Zcoordestb", oData.Zcoordestb);
+            oModelSoa.setProperty("/Zdenbancab", oData.Zdenbanca);
+            oModelSoa.setProperty("/Zclearsystb", oData.Zclearsyst);
+            oModelSoa.setProperty("/Strasb", oData.Stras);
+            oModelSoa.setProperty("/Zcivicob", oData.Zcivico);
+            oModelSoa.setProperty("/Ort01b", oData.Ort01);
+            oModelSoa.setProperty("/Regiob", oData.Regio);
+            oModelSoa.setProperty("/Pstlzb", oData.Stlz);
+            oModelSoa.setProperty("/Land1b", oData.Land1);
+
+            //Intermediario 1
+            oModelSoa.setProperty("/Zibani", oData.Zibani);
+            oModelSoa.setProperty("/Zbici", oData.Zbici);
+            oModelSoa.setProperty("/Zcoordesti", oData.Zcoordesti);
+            oModelSoa.setProperty("/Zdenbancai", oData.Zdenbancai);
+            oModelSoa.setProperty("/Zclearsysti", oData.Zclearsysti);
+            oModelSoa.setProperty("/Zstrasi", oData.Zstrasi);
+            oModelSoa.setProperty("/Zcivicoi", oData.Zcivicoi);
+            oModelSoa.setProperty("/Zort01i", oData.Zort01i);
+            oModelSoa.setProperty("/Zregioi", oData.Zregioi);
+            oModelSoa.setProperty("/Zpstlzi", oData.Zpstlzi);
+            oModelSoa.setProperty("/Zland1i", oData.Zland1i);
+          } else if (oData.TipVis === "D" || oData.TipVis === "Q") {
+            if (oModelSoa.getProperty("/Zstcd1")) {
+              oModelSoa.setProperty("/ZpersCognomeQuiet2", oData.ZQCognome);
+              oModelSoa.setProperty("/ZpersNomeQuiet2", oData.ZQNome);
+              oModelSoa.setProperty("/Zstcd12", oData.Stcd2);
+              oModelSoa.setProperty("/Zqindiriz12", oData.ZQIndiriz);
+              oModelSoa.setProperty("/Zqcitta12", oData.ZQCitta);
+              oModelSoa.setProperty("/Zqcap12", oData.ZQCAP);
+              oModelSoa.setProperty("/Zqprovincia12", oData.ZQProvincia);
+            }
+
+            if (oData.Zwels === "ID1") {
+              oModelSoa.setProperty("/ZpersNomeQuiet1", oData.ZQNome);
+              oModelSoa.setProperty("/ZpersCognomeQuiet1", oData.ZQCognome);
+              oModelSoa.setProperty("/Zstcd1", oData.Stcd1);
+            } else if (oData.Zwels === "ID2") {
+              oModelSoa.setProperty("/ZpersNomeVaglia", oData.ZQNome);
+              oModelSoa.setProperty("/ZpersCognomeVaglia", oData.ZQCognome);
+              oModelSoa.setProperty("/Zstcd13", oData.Stcd3);
+            }
+
+            oModelSoa.setProperty("/Zqindiriz", oData.ZQIndiriz);
+            oModelSoa.setProperty("/Zqcitta", oData.ZQCitta);
+            oModelSoa.setProperty("/Zqcap", oData.ZQCAP);
+            oModelSoa.setProperty("/Zqprovincia", oData.ZQProvincia);
+          }
+        });
+      },
     });
   }
 );

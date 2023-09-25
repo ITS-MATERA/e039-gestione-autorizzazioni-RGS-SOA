@@ -23,6 +23,10 @@ sap.ui.define(
         formatter: formatter,
         onInit: function () {
           var self = this;
+          var oModelUtility = {
+            ViewId: "rgssoa.view.soa.create.scenery.Scenario4",
+          };
+          self.setModel(new JSONModel(oModelUtility), "Utility");
 
           self.acceptOnlyImport("iptImportoLiquidazione");
 
