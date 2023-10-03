@@ -2,8 +2,12 @@
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
 	xmlns:l="sap.ui.layout"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-	<Panel backgroundDesign="Transparent">
+	<Panel
+		backgroundDesign="Transparent"
+		visible="{= ${Soa>/Zwels} === 'ID1' || ${Soa>/Zwels} === 'ID2'}"
+	>
 		<headerToolbar>
 			<OverflowToolbar>
 				<Title text="{i18n>titleDatiVaglia}"/>
@@ -32,6 +36,7 @@
 						${Soa>/Zwels} === 'ID1' &amp;&amp; 
 						${Soa>/EnableEdit} ? true : false
 					}"
+					selectionChange="onTipoFirmaChange"
 				>
 					<c:Item
 						key="{Ztipofirma}"
@@ -87,15 +92,46 @@
 				<Input
 					editable="{=
 						(${Soa>/Zwels} === 'ID1' || ${Soa>/Zwels} === 'ID2') &amp;&amp; 
-						${Soa>/EnableEdit} ? true : false
+						${Soa>/EnableEdit} &amp;&amp;
+						${Soa>/Zstcd14} === '' ? true : false
 					}"
-					valueHelpRequest="onValueHelpCodiceFiscale1"
+					valueHelpRequest="onValueHelpCFQuietanzante"
 					showValueHelp="true"
-					valueHelpOnly="true"
-					value="{=${Soa>/Zwels} === 'ID1' ? ${Soa>/Zstcd1} : ${Soa>/Zstcd13}}"
+					value="{= 
+						${Soa>/Zwels} === 'ID1' ? ${Soa>/Zstcd1} :
+						${Soa>/Zwels} === 'ID2' ? ${Soa>/Zstcd13} : ''}"
+					change="onCFQuietanzanteChange"
+					maxLength="16"
+					app:Quietanzante="Primo"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputCFEstero1}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= ${Soa>/Zwels} === 'ID1'}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					visible="{= ${Soa>/Zwels} === 'ID1'}"
+					editable="{= 
+						${Soa>/EnableEdit} &amp;&amp;
+						${Soa>/Zstcd1} === ''
+						? true : false}"
+					value="{Soa>/Zstcd14}"
+					maxLength="16"
+					valueHelpRequest="onValueHelpCFEsteroQuietanzante"
+					showValueHelp="true"
+					app:Quietanzante="Primo"
+					change="onCFEsteroQuietanzanteChange"
+				>
+					<layoutData>
+						<l:GridData span="XL1 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
@@ -143,7 +179,10 @@
 				</Text>
 				<Input
 					editable="false"
-					value="{= ${Soa>/Zqcap} === '0000000000' ? '' : ${Soa>/Zqcap}}"
+					value="{
+						path: 'Soa>/Zqcap',
+						formatter: '.formatter.deleteFirstZeros'
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -166,7 +205,7 @@
 					</layoutData>
 				</Input>
 				<Text
-					text="{i18n>inputNome}"
+					text="{i18n>inputRagSociale}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
@@ -178,14 +217,14 @@
 				</Text>
 				<Input
 					editable="false"
-					value="{Soa>/ZpersNomeQuiet2}"
+					value="{Soa>/ZzragSocQuietenzante}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
-					text="{i18n>inputCognome}"
+					text="{i18n>inputNazione}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
@@ -194,7 +233,62 @@
 				</Text>
 				<Input
 					editable="false"
+					value="{Soa>/Land1Quietenzante}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<!-- Secondo quietanzante -->
+				<Text
+					text="{i18n>inputNome}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= 
+						${Soa>/Zwels} === 'ID1' &amp;&amp; 
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false 
+					}"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL1 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					value="{Soa>/ZpersNomeQuiet2}"
+					visible="{= 
+						${Soa>/Zwels} === 'ID1' &amp;&amp; 
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') 
+						? true : false 
+					}"
+					editable="false"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputCognome}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= 
+						${Soa>/Zwels} === 'ID1' &amp;&amp; 
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') 
+						? true : false 
+					}"
+				>
+					<layoutData>
+						<l:GridData span="XL1 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					visible="{= 
+						${Soa>/Zwels} === 'ID1' &amp;&amp; 
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') 
+						? true : false 
+					}"
 					value="{Soa>/ZpersCognomeQuiet2}"
+					editable="false"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -203,6 +297,10 @@
 				<Text
 					text="{i18n>inputCF}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL1 L3 M5 S12"/>
@@ -210,21 +308,66 @@
 				</Text>
 				<Input
 					editable="{=
-						(${Soa>/Zwels} === 'ID1' || ${Soa>/Zwels} === 'ID2') &amp;&amp; 
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') &amp;&amp;
+						${Soa>/Zstcd15} === '' &amp;&amp;
 						${Soa>/EnableEdit} ? true : false
 					}"
-					valueHelpRequest="onValueHelpCodiceFiscale2"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
+					valueHelpRequest="onValueHelpCFQuietanzante"
 					showValueHelp="true"
-					valueHelpOnly="true"
 					value="{Soa>/Zstcd12}"
+					app:Quietanzante="Secondo"
+					change="onCFQuietanzanteChange"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
+					text="{i18n>inputCFEstero2}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') &amp;&amp;
+						${Soa>/Zstcd12} === '' &amp;&amp;
+						${Soa>/EnableEdit} ? true : false
+					}"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
+					value="{Soa>/Zstcd15}"
+					maxLength="16"
+					valueHelpRequest="onValueHelpCFEsteroQuietanzante"
+					showValueHelp="true"
+					app:Quietanzante="Secondo"
+					change="onCFEsteroQuietanzanteChange"
+				>
+					<layoutData>
+						<l:GridData span="XL1 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
 					text="{i18n>inputIndirizzo}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
 				>
 					<layoutData>
 						<l:GridData
@@ -236,6 +379,10 @@
 				<Input
 					editable="false"
 					value="{Soa>/Zqindiriz12}"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -244,6 +391,10 @@
 				<Text
 					text="{i18n>inputCitta}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL1 L3 M5 S12"/>
@@ -252,6 +403,10 @@
 				<Input
 					editable="false"
 					value="{Soa>/Zqcitta12}"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -260,6 +415,10 @@
 				<Text
 					text="{i18n>inputCap}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL1 L3 M5 S12"/>
@@ -267,7 +426,14 @@
 				</Text>
 				<Input
 					editable="false"
-					value="{= ${Soa>/Zqcap12} === '0000000000' ? '' : ${Soa>/Zqcap12}}"
+					value="{
+						path: 'Soa>/Zqcap12',
+						formatter: '.formatter.deleteFirstZeros'
+					}"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -276,6 +442,10 @@
 				<Text
 					text="{i18n>inputPaeseResidenza}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -284,9 +454,37 @@
 				<Input
 					editable="false"
 					value="{Soa>/Zqprovincia12}"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL1 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputNazione}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
+				>
+					<layoutData>
+						<l:GridData span="XL1 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					visible="{=
+						${Soa>/Zwels} === 'ID1' &amp;&amp;
+						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
+					}"
+					editable="false"
+					value="{Soa>/Land1Quietenzante2}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 			</l:Grid>

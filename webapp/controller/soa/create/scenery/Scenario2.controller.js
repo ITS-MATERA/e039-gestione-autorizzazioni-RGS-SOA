@@ -90,10 +90,10 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard2", true);
             self.setDataBenficiario();
             self.setModalitaPagamento();
-            self.setIbanBeneficiario();
-            self.setDatiVaglia();
+            self.setDataQuietanzante2();
+            self.setDataQuietanzante();
             self.getSedeBeneficiario();
-            self.setInpsData();
+            self.setDataInps();
             oWizard.nextStep();
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
@@ -222,13 +222,16 @@ sap.ui.define(
 
         _onObjectMatched: function (oEvent) {
           var self = this;
+
           self.resetWizard("wizScenario2");
+          self.setSoaRegModel("2");
+          self.setDataAutorizzazione(oEvent.getParameter("arguments"));
+          self.setClassificazioneRegModel();
+          self.setUtilityRegModel();
+          self.setStepScenarioRegModel();
+
           //Load Models
           var oModel = self.getModel();
-          var oParameters = oEvent.getParameter("arguments");
-          var sPath = self
-            .getModel()
-            .createKey("ChiaveAutorizzazioneSet", oParameters);
 
           var oModelFilter = new JSONModel({
             CodRitenuta: "",
@@ -253,181 +256,6 @@ sap.ui.define(
             ScadenzaDocTo: null,
           });
 
-          var oModelSoa = new JSONModel({
-            EnableEdit: true,
-            visibleBtnEdit: false,
-            /**   Scenario    */
-            Ztipopag: "2", //Tipo Pagamento
-
-            /**   Dati SOA (Parte celeste in alto)   */
-            Gjahr: "", //Esercizio di gestione
-            Zimptot: "0.00", //Importo
-            Zzamministr: "", //Amministrazione
-            ZufficioCont: "", //Ufficio Contabile
-            NameFirst: "", //Nome Beneficiairo
-            NameLast: "", //Cognome Beneficiario
-            ZzragSoc: "", //Ragione Sociale
-            TaxnumCf: "", //Codice Fiscale
-            TaxnumPiva: "", //Partita Iva
-            Fipos: "", //Posizione Finanziaria
-            Fistl: "", //Struttura Amministrativa Responsabile
-            Lifnr: "", //Beneficiario
-            Witht: "", //Codice Ritenuta
-            Text40: "", //Descrizione Ritenuta
-            ZzCebenra: "", //Codice Ente Beneficiario
-            ZzDescebe: "", //Descrizione Ente Beneficiario
-            Zchiaveaut: "", //Identificativo Autorizzazione
-            Ztipodisp2: "", //Codice Tipologia Autorizzazione
-            Zdesctipodisp2: "", //Tipologia Autorizzazione
-            Ztipodisp3: "", //Codice Tipologia Disponibilità
-            Zdesctipodisp3: "", //Tipologia Disponibilità
-            Zimpaut: "", //Importo autorizzato
-            Zimpdispaut: "", //Disponibilità autorizzazione
-            Zztipologia: "", //Tipololgia SOA
-            DescZztipologia: "", //Descrizione Tipologia SOA
-            Zfunzdel: "", //Codice FD
-            Zdescriz: "", //Descrizione Codice FD
-            ZspecieSop: "", //Specie SOA
-            DescZspecieSop: "", //Descrizione Specie SOA
-
-            data: [], //Quote Documenti
-
-            /**   WIZARD 2 - Beneficiario SOA   */
-            BuType: "", //Tipologia Persona
-            Taxnumxl: "", //Codice Fiscale Estero
-            Zsede: "", //Sede Estera
-            Zdenominazione: "", //Descrizione Sede Estera
-            Zdurc: "", //Numero identificativo Durc
-            ZfermAmm: "", //Fermo amministrativo
-
-            /**   WIZARD 2 - Modalità Pagamento   */
-            Zwels: "", //Codice Modalità Pagamento
-            ZCausaleval: "", //Causale Valutaria
-            Swift: "", //BIC
-            Zcoordest: "", //Cordinate Estere
-            Iban: "", //IBAN
-            Zmotivaz: "", //Motivazione cambio IBAN
-            Zdescwels: "", //Descrizione Modalità Pagamento
-            Banks: "", //Paese di Residenza (Primi 2 digit IBAN)
-            ZDesccauval: "", //Descrizione Causale Valutaria
-
-            /**   WIZARD 2 - Dati Quietanzante/Destinatario Vaglia    */
-            Ztipofirma: "", //Tipologia Firma
-            ZpersCognomeQuiet1: "", //Cognome primo quietanzante
-            ZpersCognomeQuiet2: "", //Cognome secondo quietanzante
-            ZpersNomeQuiet1: "", //Nome primo quietanzante
-            ZpersNomeQuiet2: "", //Nome secondo quietanzante
-            ZpersNomeVaglia: "", //Nome persona vagliaesigibilità
-            ZpersCognomeVaglia: "", //Cognome persona vaglia
-            Zstcd1: "", //Codice Fiscale Utilizzatore
-            Zstcd12: "", //Codice fiscale secondo quietanzante
-            Zstcd13: "", //Codice fiscale destinatario vaglia
-            Zqindiriz: "", //Indirizzo primo quietanzante
-            Zqcitta: "", //Citta primo quietanzantez
-            Zqcap: "", //Cap primo quietanzante
-            Zqprovincia: "", //Provincia primo quietanzante
-            Zqindiriz12: "", //Indirizzo secondo quietanzante
-            Zqcitta12: "", //Citta secondo quietanzante
-            Zqcap12: "", //Cap secondo quietanzante
-            Zqprovincia12: "", //Provincia secondo quietanzante
-
-            /**   WIZARD 2 - INPS    */
-            Zcodprov: "", //INPS - Codice Provenienza
-            Zcfcommit: "", //INPS - Codice Fiscale Committente
-            Zcodtrib: "", //INPS - Codice tributo
-            Zperiodrifda: null, //INPS - Periodo riferimento da
-            Zperiodrifa: null, //INPS - Periodo riferimento a
-            Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
-            Zcfvers: "", //INPS - Codice Fiscale Versante
-            Zcodvers: "", //INPS - Codice Versante
-            FlagInpsEditabile: false,
-
-            /**   WIZARD 2 - Sede Beneficiario */
-            Zidsede: "", //Sede
-            Stras: "", //Via,numero civico
-            Ort01: "", //Località
-            Regio: "", //Regione
-            Pstlz: "", //Codice di avviamento postale
-            Land1: "", //Codice paese
-
-            /**   WIZARD 3    */
-            Classificazione: [], //Classificazioni
-
-            /**   WIZARD 4    */
-            Zcausale: "", //Causale di pagamento
-            ZE2e: "", //E2E ID
-            Zlocpag: "", //Località pagamento
-            Zzonaint: "", //Zona di intervento
-            Znumprot: "", //Numero protocollo
-            Zdataprot: null, //Data protocollo
-            Zdataesig: null, //Data esigibilità
-
-            /** ALTRI CAMPI */
-            Bukrs: "",
-            Hkont: "",
-            Kostl: "",
-            Zchiavesop: "",
-            ZcodStatosop: "",
-            Zdatasop: null,
-            Znumsop: "",
-            Zricann: "",
-            ZstatTest: "",
-            Zstep: "",
-            Zutenza: "",
-            Ztipososp: "2",
-            Messaggio: [], //Messaggi di errore
-          });
-
-          var oModelClassificazione = new JSONModel({
-            Cos: [],
-            Cpv: [],
-            Cig: [],
-            Cup: [],
-            ImpTotAssociareCos: "0.00",
-            ImpTotAssociareCpv: "0.00",
-            ImpTotAssociareCig: "0.00",
-            ImpTotAssociareCup: "0.00",
-          });
-
-          var oModelStepScenario = new JSONModel({
-            wizard1Step1: true,
-            wizard1Step2: false,
-            wizard1Step3: false,
-            wizard2: false,
-            wizard3: false,
-            wizard4: false,
-            visibleBtnForward: false,
-            visibleBtnStart: true,
-            visibleBtnSave: false,
-          });
-
-          var oModelUtility = new JSONModel({
-            EnableEdit: true,
-            DetailFromFunction: true,
-            RemoveFunctionButtons: true,
-          });
-
-          oModel.read("/" + sPath, {
-            success: function (data, oResponse) {
-              oModelSoa.setProperty("/Gjahr", data?.Gjahr);
-              oModelSoa.setProperty("/Zzamministr", data?.Zzamministr);
-              oModelSoa.setProperty("/ZufficioCont", data?.ZufficioCont);
-              oModelSoa.setProperty("/Fipos", data?.Fipos);
-              oModelSoa.setProperty("/Fistl", data?.Fistl);
-              oModelSoa.setProperty("/Zchiaveaut", data?.Zchiaveaut);
-              oModelSoa.setProperty("/Ztipodisp2", data?.Ztipodisp2);
-              oModelSoa.setProperty("/Zdesctipodisp2", data?.Zdesctipodisp2);
-              oModelSoa.setProperty("/Ztipodisp3", data?.Ztipodisp3);
-              oModelSoa.setProperty("/Zdesctipodisp3", data?.Zdesctipodisp3);
-              oModelSoa.setProperty("/Zdesctipodisp3", data?.Zdesctipodisp3);
-              oModelSoa.setProperty("/Zimpaut", data?.Zimpaut);
-              oModelSoa.setProperty("/Zimpdispaut", data?.Zimpdispaut);
-              oModelSoa.setProperty("/Zfunzdel", data?.Zfunzdel);
-              oModelSoa.setProperty("/Zdescriz", data?.Zdescriz);
-            },
-            error: function () {},
-          });
-
           oModel.read("/" + "PrevalUfficioContabileSet", {
             success: function (data) {
               oModelFilter.setProperty(
@@ -443,13 +271,7 @@ sap.ui.define(
           });
 
           self.setModel(oModelFilter, "FilterDocumenti");
-          self.setModel(oModelSoa, "Soa");
-          self.setModel(oModelClassificazione, "Classificazione");
-          self.setModel(oModelUtility, "Utility");
-          self.setModel(oModelStepScenario, "StepScenario");
-
           self.getLogModel();
-          self.resetWizard("wizScenario2");
         },
         _getQuoteDocumentiList: function () {
           var self = this;

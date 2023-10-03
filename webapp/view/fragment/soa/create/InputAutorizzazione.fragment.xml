@@ -13,7 +13,7 @@
 			backgroundDesign="Transparent"
 			class="removePanelPaddingBottom"
 		>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<l:Grid
 					defaultSpan="XL12 L12 M12 S12"
 					hSpacing="0.5"
@@ -51,7 +51,7 @@
 					<Title text="{i18n>chiaveAutDatiAutorizzazione}"/>
 				</OverflowToolbar>
 			</headerToolbar>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<l:Grid
 					defaultSpan="XL12 L12 M12 S12"
 					hSpacing="0.5"
@@ -96,7 +96,7 @@
 					</Input>
 				</l:Grid>
 			</FlexBox>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<l:Grid
 					defaultSpan="XL12 L12 M12 S12"
 					hSpacing="0.5"
@@ -144,7 +144,7 @@
 					</Input>
 				</l:Grid>
 			</FlexBox>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<l:Grid
 					defaultSpan="XL12 L12 M12 S12"
 					hSpacing="0.5"
@@ -186,7 +186,7 @@
 					</Input>
 				</l:Grid>
 			</FlexBox>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<l:Grid
 					defaultSpan="XL12 L12 M12 S12"
 					hSpacing="0.5"
@@ -209,7 +209,7 @@
 					</Input>
 				</l:Grid>
 			</FlexBox>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<l:Grid
 					defaultSpan="XL12 L12 M12 S12"
 					hSpacing="0.5"
@@ -251,7 +251,7 @@
 					</Input>
 				</l:Grid>
 			</FlexBox>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<l:Grid
 					defaultSpan="XL12 L12 M12 S12"
 					hSpacing="0.5"
@@ -293,7 +293,7 @@
 					</Input>
 				</l:Grid>
 			</FlexBox>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<l:Grid
 					defaultSpan="XL12 L12 M12 S12"
 					hSpacing="0.5"
@@ -316,7 +316,7 @@
 					</CheckBox>
 				</l:Grid>
 			</FlexBox>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<l:Grid
 					defaultSpan="XL12 L12 M12 S12"
 					hSpacing="0.5"
@@ -393,7 +393,7 @@
 					</VBox>
 				</l:Grid>
 			</FlexBox>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<l:Grid
 					defaultSpan="XL12 L12 M12 S12"
 					hSpacing="0.5"
@@ -423,7 +423,7 @@
 					<Title text="{i18n>chiaveAutSceltaOperativa}"/>
 				</OverflowToolbar>
 			</headerToolbar>
-			<FlexBox class="labelWidth sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<RadioButtonGroup columns="2">
 					<RadioButton
 						text="{i18n>documentiLiquidati}"

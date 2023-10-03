@@ -162,7 +162,7 @@ sap.ui.define(
           if (bWizard1Step1) {
             if (self.checkPosizioniScen4()) {
               self.setPosizioneScen4();
-              self.setInpsData();
+              self.setDataInps();
             }
           } else if (bWizard1Step2) {
             if (!bRettifica) {

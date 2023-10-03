@@ -1,0 +1,25 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+	<SelectDialog
+		id="sdCFEsteroQuietanzante"
+		noDataText="{i18n>noCodiceFiscale1}"
+		title="{i18n>labelCodiceFiscale1}"
+		search="onValueHelpChange"
+		confirm="onValueHelpCFEsteroQuietanzanteClose"
+		cancel="onValueHelpCFEsteroQuietanzanteClose"
+		app:FilterValueHelp="Zstcd14"
+		items="{
+			path: 'CFEsteroQuietanzante>/'
+		}"
+	>
+		<StandardListItem
+			iconDensityAware="false"
+			iconInset="false"
+			title="{CFEsteroQuietanzante>Zstcd14}"
+			app:Znumquiet="{CFEsteroQuietanzante>Znumquiet}"
+		/>
+	</SelectDialog>
+</c:FragmentDefinition>

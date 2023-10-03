@@ -244,6 +244,85 @@
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
+				<Text
+					text="{i18n>inputDurc}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{
+						path: 'Soa>/Zdurc',
+						formatter: '.formatter.deleteFirstZeros'
+					}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputStatoDurc}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							indent="XL1"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/Zdstatodes}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputScadenzaDurc}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/Zdscadenza}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputFermoAmministrativo}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							indent="XL1"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/ZfermAmm}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
 			</l:Grid>
 		</content>
 	</Panel>

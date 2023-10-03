@@ -60,7 +60,7 @@
 					value="{Soa>/Ort01}"
 				>
 					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
@@ -68,10 +68,7 @@
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
-						<l:GridData
-							span="XL1 L3 M5 S12"
-							indent="XL1"
-						/>
+						<l:GridData span="XL1 L3 M5 S12"/>
 					</layoutData>
 				</Text>
 				<Input
@@ -79,7 +76,7 @@
 					value="{Soa>/Regio}"
 				>
 					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
@@ -87,10 +84,7 @@
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
-						<l:GridData
-							span="XL1 L3 M5 S12"
-							indent="XL1"
-						/>
+						<l:GridData span="XL1 L3 M5 S12"/>
 					</layoutData>
 				</Text>
 				<Input
@@ -98,7 +92,7 @@
 					value="{Soa>/Pstlz}"
 				>
 					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
@@ -106,10 +100,7 @@
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
-						<l:GridData
-							span="XL1 L3 M5 S12"
-							indent="XL1"
-						/>
+						<l:GridData span="XL1 L3 M5 S12"/>
 					</layoutData>
 				</Text>
 				<Input
@@ -117,7 +108,7 @@
 					value="{Soa>/Land1}"
 				>
 					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 			</l:Grid>

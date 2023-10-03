@@ -234,8 +234,6 @@ sap.ui.define(
         var oTable = self.getView().byId("tblListSoa");
         var oTableModel = oTable.getModel("SOASet");
 
-        console.log(oTableModel.getData());
-
         var aCols = this._createColumnConfig();
         var oSettings = {
           workbook: {

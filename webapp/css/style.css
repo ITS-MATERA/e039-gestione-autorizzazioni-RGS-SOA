@@ -4,7 +4,7 @@
 .tableTitle {
   padding-left: 8px;
 }
-.labelWidth > div {
+.flexBoxWitdh > div {
   width: 100% !important;
 }
 .removePanelPaddingBottom > div {

@@ -2,15 +2,14 @@
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
 	xmlns:l="sap.ui.layout"
-	xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
 	<Panel
 		backgroundDesign="Transparent"
-		visible="{= ${Soa>/Zwels} === 'ID3' || ${Soa>/Zwels} === 'ID4' ? true : false}"
+		visible="{= ${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10' ? true : false}"
 	>
 		<headerToolbar>
 			<OverflowToolbar>
-				<Title text="{i18n>titleInps}"/>
+				<Title text="{i18n>titleBancaAccredito}"/>
 			</OverflowToolbar>
 		</headerToolbar>
 		<content>
@@ -19,7 +18,7 @@
 				hSpacing="0.5"
 			>
 				<Text
-					text="{i18n>inputCodiceProvenienza}"
+					text="{i18n>inputIban}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
@@ -28,109 +27,15 @@
 				</Text>
 				<Input
 					editable="false"
-					value="{Soa>/Zcodprov}"
+					value="{Soa>/Zibanb}"
+					maxLength="34"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
-					text="{i18n>inputCFCommittente}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					editable="{= 
-						${Soa>/FlagInpsEditabile} &amp;&amp; 
-						${Soa>/EnableEdit} ? true : false
-					}"
-					value="{Soa>/Zcfcommit}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Input>
-				<Text
-					text="{i18n>inputCodiceTributo}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<FlexBox class="flexBoxWitdh">
-					<zcontrolmccross:MatchcodeCross
-						id="iptCodiceTributo"
-						viewId="{Utility>/ViewId}"
-						whichMC="CodiceTributo"
-						value="{Soa>/Zcodtrib}"
-						editable="{= 
-							${Soa>/FlagInpsEditabile} &amp;&amp; 
-							${Soa>/EnableEdit} ? true : false
-						}"
-						change="onCausaleTributoChange"
-						maxLength="200"
-					/>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</FlexBox>
-				<Text
-					text="{i18n>inputPeridoRiferimentoFrom}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData
-							span="XL2 L3 M5 S12"
-							linebreak="true"
-						/>
-					</layoutData>
-				</Text>
-				<DatePicker
-					valueFormat="yyyy-MM-dd"
-					displayFormat="dd.MM.yyyy"
-					editable="false"
-					value="{
-						path: 'Soa>/Zperiodrifda',
-						type: 'sap.ui.model.type.Date',
-						formatOptions: {
-							pattern: 'dd.MM.yyyy'
-						}
-					}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</DatePicker>
-				<Text
-					text="{i18n>inputPeridoRiferimentoTo}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<DatePicker
-					valueFormat="yyyy-MM-dd"
-					displayFormat="dd.MM.yyyy"
-					editable="false"
-					value="{
-						path: 'Soa>/Zperiodrifa',
-						type: 'sap.ui.model.type.Date',
-						formatOptions: {
-							pattern: 'dd.MM.yyyy'
-						}
-					}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</DatePicker>
-				<Text
-					text="{i18n>inputMatricolaINPS}"
+					text="{i18n>inputBic}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
@@ -139,14 +44,33 @@
 				</Text>
 				<Input
 					editable="false"
-					value="{Soa>/Zcodinps}"
+					value="{Soa>/Zbicb}"
+					maxLength="11"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
-					text="{i18n>inputCodiceVersante}"
+					text="{i18n>inputCoordinateEstere}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/Zcoordestb}"
+					maxLength="35"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Title text="{i18n>titleDatiAltraBanca}"/>
+				<Text
+					text="{i18n>inputDenBanca}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
@@ -157,16 +81,16 @@
 					</layoutData>
 				</Text>
 				<Input
-					editable="{Soa>/EnableEdit}"
-					value="{Soa>/Zcodvers}"
-					maxLength="50"
+					editable="false"
+					value="{Soa>/Zdenbancab}"
+					maxLength="70"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
-					text="{i18n>inputCFVersante}"
+					text="{i18n>inputClearingSystemid}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
@@ -174,87 +98,118 @@
 					</layoutData>
 				</Text>
 				<Input
-					editable="{Soa>/EnableEdit}"
-					value="{Soa>/Zcfvers}"
-					maxLength="16"
+					editable="false"
+					value="{Soa>/Zclearsystb}"
+					maxLength="5"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
+				<Title text="{i18n>titleIndirizzoAltraBanca}"/>
 				<Text
-					text="{i18n>inputDescVersante}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					editable="{Soa>/EnableEdit}"
-					value="{Soa>/Zdescvers}"
-					maxLength="255"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Input>
-				<Text
-					text="{i18n>inputDataVersamento}"
+					text="{i18n>inputVia}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
 						<l:GridData
-							span="XL2 L3 M5 S12"
+							span="XL1 L3 M5 S12"
 							linebreak="true"
 						/>
 					</layoutData>
 				</Text>
-				<DatePicker
-					valueFormat="yyyy-MM-dd"
-					displayFormat="dd.MM.yyyy"
-					editable="{Soa>/EnableEdit}"
-					value="{
-						path: 'Soa>/Zdatavers',
-						type: 'sap.ui.model.type.Date',
-						formatOptions: {
-							pattern: 'dd.MM.yyyy'
-						}
-					}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</DatePicker>
-				<Text
-					text="{i18n>inputProvVersante}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
 				<Input
-					editable="{Soa>/EnableEdit}"
-					value="{Soa>/Zprovvers}"
-					maxLength="20"
+					editable="false"
+					value="{Soa>/Strasb}"
+					maxLength="35"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
-					text="{i18n>inputSedeVersante}"
+					text="{i18n>inputCivico}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL1 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/Zcivicob}"
+					maxLength="5"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputCitta}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL1 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
 				</Text>
 				<Input
-					value="{Soa>/Zsedevers}"
-					editable="{Soa>/EnableEdit}"
-					maxLength="2"
+					editable="false"
+					value="{Soa>/Ort01b}"
+					maxLength="35"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputProvincia}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL1 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/Regiob}"
+					maxLength="3"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputCap}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL1 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/Pstlzb}"
+					maxLength="10"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputNazione}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
+						<l:GridData span="XL1 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					value="{Soa>/Land1b}"
+					maxLength="3"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>

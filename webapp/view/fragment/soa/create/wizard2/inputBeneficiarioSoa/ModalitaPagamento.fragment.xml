@@ -2,6 +2,7 @@
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
 	xmlns:l="sap.ui.layout"
+	xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
 	<Panel backgroundDesign="Transparent">
 		<headerToolbar>
@@ -46,8 +47,7 @@
 				</Text>
 				<Input
 					value="{Soa>/Banks}"
-					change="onPaeseResidenzaChange"
-					editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+					editable="false"
 				>
 					<layoutData>
 						<l:GridData span="XL1 L3 M5 S12"/>
@@ -58,60 +58,165 @@
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							indent="XL1"
+						/>
+					</layoutData>
+				</Text>
+				<FlexBox class="flexBoxWitdh">
+					<items>
+						<zcontrolmccross:MatchcodeCross
+							id="iptCausaleValutaria"
+							viewId="{Utility>/ViewId}"
+							whichMC="CausaleValutaria"
+							value="{Soa>/ZDesccauval}"
+							editable="{= 
+								${Soa>/Banks} !== 'IT' &amp;&amp; 
+								${Soa>/Banks} !== '' &amp;&amp; 
+								${Soa>/EnableEdit} ? true : false
+							}"
+							change="onCausaleValutariaChange"
+						/>
+					</items>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</FlexBox>
+				<Text
+					text="{i18n>inputIban}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+				>
+					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Text>
+				<FlexBox class="flexBoxWitdh">
+					<zcontrolmccross:MatchcodeCross
+						id="iptIban"
+						viewId="{Utility>/ViewId}"
+						whichMC="Iban"
+						Lifnr="{Soa>/Lifnr}"
+						value="{Soa>/Iban}"
+						editable="{= 
+							${Soa>/Ztipopag} !== '4' &amp;&amp;
+							${Soa>/Zwels} !== '' &amp;&amp; 
+							${Soa>/Zwels} !== 'ID1' &amp;&amp; 
+							${Soa>/Zwels} !== 'ID2'  &amp;&amp; 
+							${Soa>/Zwels} !== 'ID3'  &amp;&amp; 
+							${Soa>/Zwels} !== 'ID4' &amp;&amp;  
+							${Soa>/EnableEdit} ? true : false
+						}"
+						change="onIbanChange"
+						maxLength="34"
+					/>
+					<!-- <c:Icon
+						src="sap-icon://message-popup"
+						class="messagePopup"
+						visible="{= 
+							${Soa>/Ztipopag} !== '4' &amp;&amp;
+							${Soa>/Zwels} !== '' &amp;&amp; 
+							${Soa>/Zwels} !== 'ID1' &amp;&amp; 
+							${Soa>/Zwels} !== 'ID2'  &amp;&amp; 
+							${Soa>/Zwels} !== 'ID3'  &amp;&amp; 
+							${Soa>/Zwels} !== 'ID4' &amp;&amp;  
+							${Soa>/EnableEdit} ? true : false
+						}"
+					/> -->
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</FlexBox>
+				<Text
+					text="{i18n>inputAliasRGS}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</Text>
 				<Input
-					valueHelpRequest="onValueHelpCausaleValutaria"
-					showValueHelp="true"
-					valueHelpOnly="true"
-					value="{Soa>/ZDesccauval}"
-					editable="{= 
-						${Soa>/Ztipopag} !== '4' &amp;&amp; 
-						( ${Soa>/Zwels} === 'ID6' || ${Soa>/Banks} !== 'IT' ) &amp;&amp; 
-						${Soa>/EnableEdit} ? true : false
-					}"
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+					editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+					value="{Soa>/Zalias}"
+					maxLength="17"
+					change="onAliasChange"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
-					text="{i18n>inputIban}"
+					text="{i18n>inputTipoConto}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
 				>
-					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<FlexBox width="100%">
-					<Input
-						valueHelpRequest="onValueHelpIban"
-						showValueHelp="true"
-						valueHelpOnly="true"
-						value="{Soa>/Iban}"
-						editable="{= 
-							${Soa>/Ztipopag} !== '4' &amp;&amp; 
-							${Soa>/EnableEdit} ? true : false
-						}"
-					/>
-					<c:Icon
-						src="sap-icon://message-popup"
-						class="messagePopup"
-						visible="{= 
-							${Soa>/Ztipopag} !== '4' &amp;&amp; 
-							${Soa>/EnableEdit} ? true : false}"
-					/>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
-				</FlexBox>
+				</Text>
+				<Input
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+					editable="false"
+					value="{Soa>/AccTypeId}"
+					maxLength="10"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputProvincia}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+					editable="false"
+					value="{Soa>/RegioConto}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputDescConto}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+					editable="false"
+					value="{Soa>/ZaccText}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
 				<Text
 					text="{i18n>inputBic}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="{= ${Soa>/Zwels} === 'ID3' ? false : true}"
+						/>
 					</layoutData>
 				</Text>
 				<Input
@@ -119,7 +224,7 @@
 					value="{Soa>/Swift}"
 				>
 					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Input>
 				<Text
@@ -133,12 +238,105 @@
 				<Input
 					valueHelpRequest="onValueHelpCoordEstere"
 					showValueHelp="true"
-					valueHelpOnly="true"
 					editable="{= 
 						${Soa>/Ztipopag} !== '4' &amp;&amp; 
-						${Soa>/Zwels} === 'ID6' &amp;&amp; 
+						(${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10') &amp;&amp; 
 						${Soa>/EnableEdit} ? true : false}"
 					value="{Soa>/Zcoordest}"
+					change="onCoordinateEstereChange"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputPosFinEntrate}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= ${Soa>/Zwels} === 'ID4'}"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="true"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					visible="{= ${Soa>/Zwels} === 'ID4'}"
+					editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+					value="{Soa>/Zzposfinent}"
+					maxLength="24"
+					change="onPosFinanziariaEntrateChange"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputPurpose}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= ${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10'}"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="{= ${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10'}"
+						/>
+					</layoutData>
+				</Text>
+				<Input
+					visible="{= ${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10'}"
+					editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+					value="{Soa>/Zpurpose}"
+					maxLength="4"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Input>
+				<Text
+					text="{i18n>inputFlagFruttInfrutt}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+				>
+					<layoutData>
+						<l:GridData
+							span="XL2 L3 M5 S12"
+							linebreak="{= ${Soa>/Zwels} === 'ID3'}"
+						/>
+					</layoutData>
+				</Text>
+				<ComboBox
+					width="100%"
+					items="{
+						path: '/FlagFruttiferoSet'
+					}"
+					selectedKey="{Soa>/Zflagfrutt}"
+					editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+					change="onFlagFruttiferoChange"
+				>
+					<c:Item
+						key="{Zflagfrutt}"
+						text="{DescFlagFruttifero}"
+					/>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</ComboBox>
+				<Text
+					text="{i18n>inputCausaleBen}"
+					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+				>
+					<layoutData>
+						<l:GridData span="XL2 L3 M5 S12"/>
+					</layoutData>
+				</Text>
+				<Input
+					editable="false"
+					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+					value="{Soa>/Zcausben}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>

@@ -90,10 +90,10 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard2", true);
             self.setDataBenficiario();
             self.setModalitaPagamento();
-            self.setIbanBeneficiario();
-            self.setDatiVaglia();
+            self.setDataQuietanzante();
+            self.setDataQuietanzante2();
             self.getSedeBeneficiario();
-            self.setInpsData();
+            self.setDataInps();
             oWizard.nextStep();
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
@@ -201,34 +201,15 @@ sap.ui.define(
 
         _onObjectMatched: function (oEvent) {
           var self = this;
-          self.resetWizard("wizScenario1");
           //Load Models
           var oModel = self.getModel();
-          var oParameters = oEvent.getParameter("arguments");
-          var sPath = self
-            .getModel()
-            .createKey("ChiaveAutorizzazioneSet", oParameters);
 
-          oModel.read("/" + sPath, {
-            success: function (data, oResponse) {
-              oModelSoa.setProperty("/Gjahr", data?.Gjahr);
-              oModelSoa.setProperty("/Zzamministr", data?.Zzamministr);
-              oModelSoa.setProperty("/ZufficioCont", data?.ZufficioCont);
-              oModelSoa.setProperty("/Fipos", data?.Fipos);
-              oModelSoa.setProperty("/Fistl", data?.Fistl);
-              oModelSoa.setProperty("/Zchiaveaut", data?.Zchiaveaut);
-              oModelSoa.setProperty("/Ztipodisp2", data?.Ztipodisp2);
-              oModelSoa.setProperty("/Zdesctipodisp2", data?.Zdesctipodisp2);
-              oModelSoa.setProperty("/Ztipodisp3", data?.Ztipodisp3);
-              oModelSoa.setProperty("/Zdesctipodisp3", data?.Zdesctipodisp3);
-              oModelSoa.setProperty("/Zdesctipodisp3", data?.Zdesctipodisp3);
-              oModelSoa.setProperty("/Zimpaut", data?.Zimpaut);
-              oModelSoa.setProperty("/Zimpdispaut", data?.Zimpdispaut);
-              oModelSoa.setProperty("/Zfunzdel", data?.Zfunzdel);
-              oModelSoa.setProperty("/Zdescriz", data?.Zdescriz);
-            },
-            error: function () {},
-          });
+          self.resetWizard("wizScenario1");
+          self.setSoaRegModel("1");
+          self.setDataAutorizzazione(oEvent.getParameter("arguments"));
+          self.setClassificazioneRegModel();
+          self.setUtilityRegModel();
+          self.setStepScenarioRegModel();
 
           var oModelFilterDocumenti = new JSONModel({
             CodRitenuta: "",
@@ -259,144 +240,6 @@ sap.ui.define(
             ScadenzaDocTo: null,
           });
 
-          var oModelSoa = new JSONModel({
-            EnableEdit: true,
-            visibleBtnEdit: false,
-            //Dati SOA (Parte celeste in alto)
-            Gjahr: "", //Esercizio di gestione
-            Zimptot: "0.00", //Importo
-            Zzamministr: "", //Amministrazione
-            ZufficioCont: "", //Ufficio Contabile
-            NameFirst: "", //Nome Beneficiairo
-            NameLast: "", //Cognome Beneficiario
-            ZzragSoc: "", //Ragione Sociale
-            TaxnumCf: "", //Codice Fiscale
-            TaxnumPiva: "", //Partita Iva
-            Fipos: "", //Posizione Finanziaria
-            Fistl: "", //Struttura Amministrativa Responsabile
-            Lifnr: "", //Beneficiario
-            Witht: "", //Codice Ritenuta
-            Text40: "", //Descrizione Ritenuta
-            ZzCebenra: "", //Codice Ente Beneficiario
-            ZzDescebe: "", //Descrizione Ente Beneficiario
-            Zchiaveaut: "", //Identificativo Autorizzazione
-            Ztipodisp2: "", //Codice Tipologia Autorizzazione
-            Zdesctipodisp2: "", //Tipologia Autorizzazione
-            Ztipodisp3: "", //Codice Tipologia Disponibilità
-            Zdesctipodisp3: "", //Tipologia Disponibilità
-            Zimpaut: "", //Importo autorizzato
-            Zimpdispaut: "", //Disponibilità autorizzazione
-            Zztipologia: "", //Tipololgia SOA
-            DescZztipologia: "", //Descrizione Tipologia SOA
-            Zfunzdel: "", //Codice FD
-            Zdescriz: "", // Descrizione Codice FD
-            ZspecieSop: "", //Specie SOA
-            DescZspecieSop: "", //Descrizione Specie SOA
-            Zsede: "", //Sede Estera
-            Zdenominazione: "", //Descrizione Sede Estera
-            Zidsede: "", //Sede Beneficiario
-            Zwels: "", //Codice Modalità Pagamento
-            ZCausaleval: "", //Causale Valutaria
-            Swift: "", //BIC
-            Zcoordest: "", //Cordinate Estere
-            Iban: "", //IBAN
-            Zmotivaz: "", //Motivazione cambio IBAN
-            Ztipofirma: "", //Tipologia Firma
-            ZpersCognomeQuiet1: "", //Cognome primo quietanzante
-            ZpersCognomeQuiet2: "", //Cognome secondo quietanzante
-            ZpersNomeQuiet1: "", //Nome primo quietanzante
-            ZpersNomeQuiet2: "", //Nome secondo quietanzante
-            ZpersNomeVaglia: "", //Nome persona vagliaesigibilità
-            ZpersCognomeVaglia: "", //Cognome persona vaglia
-            Zstcd1: "", //Codice Fiscale Utilizzatore
-            Zstcd12: "", //Codice fiscale secondo quietanzante
-            Zstcd13: "", //Codice fiscale destinatario vaglia
-            Zcodprov: "", //INPS - Codice Provenienza
-            Zcfcommit: "", //INPS - Codice Fiscale Committente
-            Zcodtrib: "", //INPS - Codice tributo
-            Zperiodrifda: null, //INPS - Periodo riferimento da
-            Zperiodrifa: null, //INPS - Periodo riferimento a
-            Zcodinps: "", //INPS - Matricola INPS/Codice INPS/Filiale azienda
-            Zcfvers: "", //INPS - Codice Fiscale Versante
-            Zcodvers: "", //INPS - Codice Versante
-            Ztipopag: "1", //Tipo Pagamento
-            Zcausale: "", //Causale di pagamento
-            ZE2e: "", //E2E ID
-            Zlocpag: "", //Località pagamento
-            Zzonaint: "", //Zona di intervento
-            Znumprot: "", //Numero protocollo
-            Zdataprot: null, //Data protocollo
-            Zdataesig: null, //Data esigibilità
-            Bukrs: "",
-            Hkont: "",
-            Kostl: "",
-            Zchiavesop: "",
-            ZcodStatosop: "",
-            Zdatasop: null,
-            Znumsop: "",
-            Zricann: "",
-            ZstatTest: "",
-            Zstep: "",
-            Ztipososp: "2",
-            Zutenza: "",
-            data: [],
-            Classificazione: [], //Classificazioni
-            Messaggio: [], //Messaggi di errore
-
-            BuType: "", //Tipologia Persona
-            Taxnumxl: "", //Codice Fiscale Estero
-
-            Zdurc: "", //Numero identificativo Durc
-            ZfermAmm: "", //Fermo amministrativo
-            Zdescwels: "", //Descrizione Modalità Pagamento
-            Banks: "", //Paese di Residenza (Primi 2 digit IBAN)
-            ZDesccauval: "", //Descrizione Causale Valutaria
-
-            Zqindiriz: "", //Indirizzo primo quietanzante
-            Zqcitta: "", //Citta primo quietanzantez
-            Zqcap: "", //Cap primo quietanzante
-            Zqprovincia: "", //Provincia primo quietanzante
-            Zqindiriz12: "", //Indirizzo secondo quietanzante
-            Zqcitta12: "", //Citta secondo quietanzante
-            Zqcap12: "", //Cap secondo quietanzante
-            Zqprovincia12: "", //Provincia secondo quietanzante
-            Stras: "", //Via,numero civico
-            Ort01: "", //Località
-            Regio: "", //Regione
-            Pstlz: "", //Codice di avviamento postale
-            Land1: "", //Codice paese
-            FlagInpsEditabile: false,
-          });
-
-          var oModelClassificazione = new JSONModel({
-            Cos: [],
-            Cpv: [],
-            Cig: [],
-            Cup: [],
-            ImpTotAssociareCos: "0.00",
-            ImpTotAssociareCpv: "0.00",
-            ImpTotAssociareCig: "0.00",
-            ImpTotAssociareCup: "0.00",
-          });
-
-          var oModelStepScenario = new JSONModel({
-            wizard1Step1: true,
-            wizard1Step2: false,
-            wizard1Step3: false,
-            wizard2: false,
-            wizard3: false,
-            wizard4: false,
-            visibleBtnForward: false,
-            visibleBtnStart: true,
-            visibleBtnSave: false,
-          });
-
-          var oModelUtility = new JSONModel({
-            EnableEdit: true,
-            DetailFromFunction: true,
-            RemoveFunctionButtons: true,
-          });
-
           oModel.read("/" + "PrevalUfficioContabileSet", {
             success: function (data) {
               oModelFilterDocumenti.setProperty(
@@ -412,12 +255,7 @@ sap.ui.define(
           });
 
           self.setModel(oModelFilterDocumenti, "FilterDocumenti");
-          self.setModel(oModelSoa, "Soa");
-          self.setModel(oModelClassificazione, "Classificazione");
-          self.setModel(oModelUtility, "Utility");
-          self.setModel(oModelStepScenario, "StepScenario");
           self.getLogModel();
-          self.resetWizard("wizScenario1");
         },
 
         _getQuoteDocumentiList: function () {
