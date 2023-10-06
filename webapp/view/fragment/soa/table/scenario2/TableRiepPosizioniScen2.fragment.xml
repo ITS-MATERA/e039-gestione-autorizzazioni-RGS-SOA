@@ -109,7 +109,10 @@
 								path: 'Soa>Zimpdaord',
 								formatter: '.formatter.convertFormattedNumber'
 							}"/>
-							<Text text="{Soa>Zdurc}"/>
+							<Text text="{
+								path: 'Soa>Zdurc',
+								formatter: '.formatter.deleteFirstZeros'
+							}"/>
 							<Text text="{Soa>ZfermAmm}"/>
 						</cells>
 					</ColumnListItem>

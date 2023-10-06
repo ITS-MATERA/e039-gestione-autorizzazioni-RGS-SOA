@@ -227,10 +227,10 @@
 			<ComboBox
 				width="100%"
 				change="setPropertyComboFromChange"
-				app:propertyModel="EsercicioFinanziario"
+				app:propertyModel="EsercizioFinanziario"
 				app:propertyCallFunction="_clearFiposFistl"
 				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-				value="{AutorizzazioneDetailSet>/EsercicioFinanziario}"
+				value="{AutorizzazioneDetailSet>/EsercizioFinanziario}"
 				items="{
 					path: '/EsercizioGestioneSet'
 				}"
@@ -259,7 +259,7 @@
 					spesa="X"
 					maxLength="24"
 					reale="R"
-					anno="{AutorizzazioneDetailSet>/EsercicioFinanziario}"
+					anno="{AutorizzazioneDetailSet>/EsercizioFinanziario}"
 					versione="D"
 					maxSuggestionWidth="60%"
 					submit="posizioneFinanziariaLiveChange"
@@ -292,7 +292,7 @@
 					entrata="X"
 					reale="R"
 					maxLength="16"
-					anno="{AutorizzazioneDetailSet>/EsercicioFinanziario}"
+					anno="{AutorizzazioneDetailSet>/EsercizioFinanziario}"
 					SEM_OBJ="Z_TEST_LIB"
 					versione="D"
 					width="100%"
@@ -317,7 +317,7 @@
 				</layoutData>
 			</Label>
 			<Input
-				value="{AutorizzazioneDetailSet>/Beschr}"
+				value="{AutorizzazioneDetailSet>/DescrEstesa}"
 				width="100%"
 				enabled="false"
 			>
@@ -359,7 +359,7 @@
 			</Label>
 			<Input
 				value="{AutorizzazioneDetailSet>/ZufficioCont}"
-				submit="checkZUfficioCont"
+				submit="onUfficioContabileChange"
 				width="100%"
 				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
 			>

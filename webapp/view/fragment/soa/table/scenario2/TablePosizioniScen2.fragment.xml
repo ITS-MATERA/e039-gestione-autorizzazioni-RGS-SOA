@@ -166,7 +166,10 @@
 									path: 'QuoteDocumentiScen2>Zimpdaord'
 								}"
 							/>
-							<Text text="{QuoteDocumentiScen2>Zdurc}"/>
+							<Text text="{
+								path: 'QuoteDocumentiScen2>/Zdurc',
+								formatter: '.formatter.deleteFirstZeros'
+							}"/>
 							<Text text="{QuoteDocumentiScen2>ZfermAmm}"/>
 						</cells>
 					</ColumnListItem>

@@ -38,9 +38,10 @@
 				<Input
 					valueHelpRequest="onValueHelpBeneficiarioScen4"
 					showValueHelp="true"
-					valueHelpOnly="true"
 					value="{Soa>/Lifnr}"
 					editable="{Soa>/EnableEdit}"
+					maxLength="10"
+					change="onBeneficiarioScen4Change"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -220,7 +221,7 @@
 						/>
 					</layoutData>
 				</Label>
-				<FlexBox width="100%">
+				<FlexBox class="flexBoxWitdh">
 					<zcontrolmccross:MatchcodeCross
 						id="iptIban4"
 						viewId="{Utility>/ViewId}"
@@ -256,7 +257,10 @@
 				</Text>
 				<Input
 					editable="false"
-					value="{Soa>/Zdurc}"
+					value="{
+						path: 'Soa>/Zdurc',
+						formatter: '.formatter.deleteFirstZeros'
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>

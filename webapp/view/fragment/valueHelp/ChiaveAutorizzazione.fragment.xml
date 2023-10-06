@@ -23,22 +23,7 @@
 			app:Zchiaveaut="{ChiaveAutorizzazione>Zchiaveaut}"
 			app:Bukrs="{ChiaveAutorizzazione>Bukrs}"
 			app:Gjahr="{ChiaveAutorizzazione>Gjahr}"
-			app:DataStato="{ChiaveAutorizzazione>DataStato}"
-			app:Zimpaut="{ChiaveAutorizzazione>Zimpaut}"
-			app:Zimpdispaut="{ChiaveAutorizzazione>Zimpdispaut}"
-			app:Zdesctipodisp2="{ChiaveAutorizzazione>Zdesctipodisp2}"
-			app:Zdesctipodisp3="{ChiaveAutorizzazione>Zdesctipodisp3}"
-			app:Znoteaut="{ChiaveAutorizzazione>Znoteaut}"
-			app:ZufficioCont="{ChiaveAutorizzazione>ZufficioCont}"
-			app:ZvimDescrufficio="{ChiaveAutorizzazione>ZvimDescrufficio}"
-			app:Zfunzdel="{ChiaveAutorizzazione>Zfunzdel}"
-			app:Zdescriz="{ChiaveAutorizzazione>Zdescriz}"
-			app:ZflagFipos="{ChiaveAutorizzazione>ZflagFipos}"
-			app:Fipos="{ChiaveAutorizzazione>Fipos}"
-			app:Fistl="{ChiaveAutorizzazione>Fistl}"
-			app:DescrEstesa="{ChiaveAutorizzazione>DescrEstesa}"
-			app:DataStatoString="{ChiaveAutorizzazione>DataStatoString}"
+			app:ZstepAut="{ChiaveAutorizzazione>ZstepAut}"
 		/>
-		<!-- TODO - Esercizio Finanziario -->
 	</SelectDialog>
 </c:FragmentDefinition>

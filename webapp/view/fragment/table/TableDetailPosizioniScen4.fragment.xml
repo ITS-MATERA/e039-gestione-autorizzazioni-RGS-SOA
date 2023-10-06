@@ -129,7 +129,10 @@
 								<Text text="{Soa>ZbenaltName}"/>
 								<Text text="{Soa>Zdescwels}"/>
 								<Text text="{Soa>Iban}"/>
-								<Text text="{Soa>Zdurc}"/>
+								<Text text="{
+									path: 'Soa>Zdurc',
+									formatter: '.formatter.deleteFirstZeros'
+								}"/>
 								<Text text="{Soa>ZfermAmm}"/>
 								<Text text="{
 									path: 'Soa>Zimpliq',

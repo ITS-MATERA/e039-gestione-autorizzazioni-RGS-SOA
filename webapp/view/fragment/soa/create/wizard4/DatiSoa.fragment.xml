@@ -2,6 +2,7 @@
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
 	xmlns:l="sap.ui.layout"
+	xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
 	<Panel>
 		<content>
@@ -77,14 +78,20 @@
 						/>
 					</layoutData>
 				</Label>
-				<Input
-					value="{Soa>/Zlocpag}"
-					editable="{Soa>/EnableEdit}"
-				>
+				<FlexBox class="flexBoxWitdh">
+					<items>
+						<zcontrolmccross:MatchcodeCross
+							id="iptLocalitaPagamento"
+							viewId="{Utility>/ViewId}"
+							whichMC="LocalitaPagamento"
+							value="{Soa>/Zlocpag}"
+							editable="{Soa>/EnableEdit}"
+						/>
+					</items>
 					<layoutData>
 						<l:GridData span="XL2 L2 M8 S12"/>
 					</layoutData>
-				</Input>
+				</FlexBox>
 				<Label
 					text="{i18n>inputCausalePagamento}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
@@ -170,14 +177,20 @@
 						/>
 					</layoutData>
 				</Label>
-				<Input
-					value="{Soa>/Zzonaint}"
-					editable="{Soa>/EnableEdit}"
-				>
+				<FlexBox class="flexBoxWitdh">
+					<items>
+						<zcontrolmccross:MatchcodeCross
+							id="iptZonaIntervento"
+							viewId="{Utility>/ViewId}"
+							whichMC="LocalitaPagamento"
+							value="{Soa>/Zzonaint}"
+							editable="{Soa>/EnableEdit}"
+						/>
+					</items>
 					<layoutData>
 						<l:GridData span="XL1 L2 M2 S12"/>
 					</layoutData>
-				</Input>
+				</FlexBox>
 			</l:Grid>
 		</content>
 	</Panel>

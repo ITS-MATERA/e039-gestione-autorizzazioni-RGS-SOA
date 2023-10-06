@@ -1,0 +1,24 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+	<SelectDialog
+		id="sdIdAutorizzazione"
+		noDataText="{i18n>noIdAutorizzazione}"
+		title="{i18n>titleIdAutorizzazione}"
+		search="onValueHelpChange"
+		confirm="onValueHelpIdAutorizzazioneClose"
+		cancel="onValueHelpIdAutorizzazioneClose"
+		app:FilterValueHelp="Zgeber"
+		items="{
+			path: 'IdAutorizzazione>/'
+		}"
+	>
+		<StandardListItem
+			iconDensityAware="false"
+			iconInset="false"
+			title="{IdAutorizzazione>Zgeber}"
+		/>
+	</SelectDialog>
+</c:FragmentDefinition>

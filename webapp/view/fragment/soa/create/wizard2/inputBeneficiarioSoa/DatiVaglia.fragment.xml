@@ -217,7 +217,7 @@
 				</Text>
 				<Input
 					editable="false"
-					value="{Soa>/ZzragSocQuietenzante}"
+					value="{Soa>/ZzragSocQuietanzante}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -233,7 +233,7 @@
 				</Text>
 				<Input
 					editable="false"
-					value="{Soa>/Land1Quietenzante}"
+					value="{Soa>/Land1Quietanzante}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -481,7 +481,7 @@
 						(${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') ? true : false
 					}"
 					editable="false"
-					value="{Soa>/Land1Quietenzante2}"
+					value="{Soa>/Land1Quietanzante2}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>

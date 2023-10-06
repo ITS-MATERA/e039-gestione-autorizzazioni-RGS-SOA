@@ -91,7 +91,7 @@
 						<cells>
 							<Input
 								id="iptCig"
-								valueHelpRequest="onValueHelpCos"
+								valueHelpRequest="onValueHelpCig"
 								showValueHelp="true"
 								valueHelpOnly="true"
 								app:dialogName="sdCig"

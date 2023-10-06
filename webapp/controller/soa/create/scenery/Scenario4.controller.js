@@ -91,7 +91,6 @@ sap.ui.define(
           if (bWizard1Step1) {
             if (self.checkPosizioniScen4()) {
               self.setPosizioneScen4();
-              self.setDataBenficiario();
               self.getSedeBeneficiario();
               self.setDataInps();
             }

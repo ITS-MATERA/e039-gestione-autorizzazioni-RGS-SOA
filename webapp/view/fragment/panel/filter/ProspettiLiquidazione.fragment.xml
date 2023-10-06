@@ -2,7 +2,7 @@
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
 	xmlns:l="sap.ui.layout"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
 	<Panel
 		backgroundDesign="Transparent"
@@ -67,17 +67,19 @@
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Text>
-				<Input
-					valueHelpRequest="onValueHelpNProspLiquidazione"
-					showValueHelp="true"
-					valueHelpOnly="true"
-					app:PropertyModel="ZnumliqFrom"
-					value="{FilterDocumenti>/ZnumliqFrom}"
-				>
+				<FlexBox class="flexBoxWitdh">
+					<items>
+						<zcontrolmccross:MatchcodeCross
+							id="iptNProspLiquidazioneFrom"
+							viewId="{Utility>/ViewId}"
+							whichMC="ProspettoLiquidazione"
+							value="{FilterDocumenti>/ZnumliqFrom}"
+						/>
+					</items>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
-				</Input>
+				</FlexBox>
 			</l:Grid>
 		</content>
 		<content>
@@ -93,17 +95,19 @@
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Text>
-				<Input
-					valueHelpRequest="onValueHelpNProspLiquidazione"
-					showValueHelp="true"
-					valueHelpOnly="true"
-					app:PropertyModel="ZnumliqTo"
-					value="{FilterDocumenti>/ZnumliqTo}"
-				>
+				<FlexBox class="flexBoxWitdh">
+					<items>
+						<zcontrolmccross:MatchcodeCross
+							id="iptNProspLiquidazioneTo"
+							viewId="{Utility>/ViewId}"
+							whichMC="ProspettoLiquidazione"
+							value="{FilterDocumenti>/ZnumliqTo}"
+						/>
+					</items>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
-				</Input>
+				</FlexBox>
 				<Text
 					text="{i18n>filterZdescProsp}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"

@@ -31,7 +31,7 @@ sap.ui.define(
             ZufficioIgepa: null,
             ZufficioRich: null,
             ZufficioUcb: null,
-            EsercicioFinanziario: null,
+            EsercizioFinanziario: null,
             Zfunzdel: null,
             Zdescriz: null,
             Znumprot: null,
@@ -39,7 +39,7 @@ sap.ui.define(
             ZufficioCont: null,
             Fipos: null,
             Fistl: null,
-            Beschr: null,
+            DescrEstesa: null,
             ZflagFipos: null,
             Descufficio: null,
           },
@@ -72,7 +72,7 @@ sap.ui.define(
           !entity.Zimpaut ||
           !entity.Ztipodisp2 ||
           !entity.Ztipodisp3 ||
-          !entity.EsercicioFinanziario ||
+          !entity.EsercizioFinanziario ||
           !entity.Fipos ||
           !entity.ZufficioCont
         ) {
@@ -111,6 +111,7 @@ sap.ui.define(
                   ZufficioRich: entity.ZufficioRich,
                   ZufficioUcb: entity.ZufficioUcb,
                   ZflagFipos: entity.ZflagFipos ? "X" : null,
+                  EsercizioFinanziario: entity.EsercizioFinanziario,
                 };
 
                 oModel.create("/AutorizzazioneSet", entityCreate, {
@@ -182,6 +183,8 @@ sap.ui.define(
           .getModel(MODEL_ENTITY)
           .setProperty("/" + prop, oEvent.getParameters().value);
 
+        var oEntity = self.getModel(MODEL_ENTITY).getProperty("/RegisterSet");
+
         if (value) {
           self.getView().setBusy(true);
           self
@@ -190,28 +193,27 @@ sap.ui.define(
             .then(function () {
               var path = self.getModel().createKey("/DescFistlSet", {
                 Fistl: value,
+                EsercizioFinanziario: oEntity.EsercizioFinanziario,
+                Zzamministr: "",
               });
               var oDataModel = self.getModel();
               oDataModel.read(path, {
                 success: function (data) {
                   self.getView().setBusy(false);
-                  if (data && data.Beschr && data.Beschr !== "")
-                    self
-                      .getView()
-                      .getModel(MODEL_ENTITY)
-                      .setProperty("/RegisterSet/Beschr", data.Beschr);
-                  else
-                    self
-                      .getView()
-                      .getModel(MODEL_ENTITY)
-                      .setProperty("/RegisterSet/Beschr", null);
-                },
-                error: function (error) {
-                  oView.setBusy(false);
                   self
                     .getView()
                     .getModel(MODEL_ENTITY)
-                    .setProperty("/RegisterSet/Beschr", null);
+                    .setProperty(
+                      "/RegisterSet/DescrEstesa",
+                      data?.DescrEstesa ? data?.DescrEstesa : null
+                    );
+                },
+                error: function (error) {
+                  self.getView().setBusy(false);
+                  self
+                    .getView()
+                    .getModel(MODEL_ENTITY)
+                    .setProperty("/RegisterSet/DescrEstesa", null);
                 },
               });
             });
@@ -219,101 +221,73 @@ sap.ui.define(
           self
             .getView()
             .getModel(MODEL_ENTITY)
-            .setProperty("/RegisterSet/Beschr", null);
+            .setProperty("/RegisterSet/DescrEstesa", null);
       },
 
-      checkZUfficioCont: function (oEvent) {
-        var self = this,
-          value =
-            oEvent.getParameters().value && oEvent.getParameters().value !== ""
-              ? oEvent.getParameters().value
-              : null;
+      onUfficioContabileChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelAut = self.getModel(MODEL_ENTITY);
+        var oAutorizzazione = oModelAut?.getData().RegisterSet;
 
-        self
-          .getView()
-          .getModel(MODEL_ENTITY)
-          .setProperty("/RegisterSet/ZufficioCont", value);
-        self
-          .getView()
-          .getModel(MODEL_ENTITY)
-          .setProperty("/RegisterSet/Descufficio", null);
-        self
-          .getView()
-          .getModel(MODEL_ENTITY)
-          .setProperty("/RegisterSet/Zfunzdel", null);
-        self
-          .getView()
-          .getModel(MODEL_ENTITY)
-          .setProperty("/RegisterSet/Zdescriz", null);
+        var sCodiceUfficio = oEvent.getParameter("value");
 
-        if (value) {
-          self.getView().setBusy(true);
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              var path = self.getModel().createKey("/UfficioContSet", {
-                Ztipodisp2: self
-                  .getView()
-                  .getModel(MODEL_ENTITY)
-                  .getProperty("/RegisterSet/Ztipodisp2"),
-                Ztipodisp3: self
-                  .getView()
-                  .getModel(MODEL_ENTITY)
-                  .getProperty("/RegisterSet/Ztipodisp3"),
-                ZufficioCont: value,
-              });
-              var oDataModel = self.getModel();
-              oDataModel.read(path, {
-                success: function (data, oResponse) {
-                  var sapMessage = oResponse.headers["sap-message"]
-                    ? JSON.parse(oResponse.headers["sap-message"])
-                    : null;
-                  self.getView().setBusy(false);
-                  if (sapMessage) {
-                    self
-                      .getView()
-                      .getModel(MODEL_ENTITY)
-                      .setProperty("/RegisterSet/Descufficio", null);
-                    self
-                      .getView()
-                      .getModel(MODEL_ENTITY)
-                      .setProperty("/RegisterSet/ZufficioCont", null);
-                    MessageBox.error(sapMessage.message, {
-                      title: "Ufficio Contabile",
-                      actions: [sap.m.MessageBox.Action.OK],
-                      emphasizedAction: MessageBox.Action.OK,
-                    });
-                  } else {
-                    if (
-                      data &&
-                      data.ZvimDescrufficio &&
-                      data.ZvimDescrufficio !== ""
-                    )
-                      self
-                        .getView()
-                        .getModel(MODEL_ENTITY)
-                        .setProperty(
-                          "/RegisterSet/Descufficio",
-                          data.ZvimDescrufficio
-                        );
-                    else
-                      self
-                        .getView()
-                        .getModel(MODEL_ENTITY)
-                        .setProperty("/RegisterSet/Descufficio", null);
-                  }
-                },
-                error: function (error) {
-                  self.getView().setBusy(false);
-                  self
-                    .getView()
-                    .getModel(MODEL_ENTITY)
-                    .setProperty("/RegisterSet/Descufficio", null);
-                },
-              });
-            });
+        if (!sCodiceUfficio) {
+          oModelAut.setProperty("/RegisterSet/ZufficioCont", null);
+          oModelAut.setProperty("/RegisterSet/Descufficio", null);
+          oModelAut.setProperty("/RegisterSet/Zfunzdel", null);
+          oModelAut.setProperty("/RegisterSet/Zdescriz", null);
+          return;
         }
+
+        var sPath = oModel.createKey("/UfficioContSet", {
+          Ztipodisp2: self.setBlank(oAutorizzazione.Ztipodisp2),
+          Gjahr: self.setBlank(oAutorizzazione.Gjahr),
+          Ztipodisp3: self.setBlank(oAutorizzazione.Ztipodisp3),
+          ZufficioCont: self.setBlank(oAutorizzazione.ZufficioCont),
+        });
+
+        self.getView().setBusy(true);
+
+        oModel.read(sPath, {
+          success: function (oData, oResponse) {
+            self.getView().setBusy(false);
+            var oMessage = JSON.parse(oResponse.headers["sap-message"]);
+
+            if (oMessage.code === "ZF_SOA/054") {
+              sap.m.MessageBox.error(oMessage.message);
+              oModelAut.setProperty(
+                "/RegisterSet/Descufficio",
+                oData.DescrEstesa
+              );
+              oModelAut.setProperty("/RegisterSet/Zfunzdel", null);
+              oModelAut.setProperty("/RegisterSet/Zdescriz", null);
+              return;
+            }
+
+            if (self.setResponseMessage(oResponse)) {
+              oModelAut.setProperty("/RegisterSet/ZufficioCont", null);
+              oModelAut.setProperty("/RegisterSet/Descufficio", null);
+              oModelAut.setProperty("/RegisterSet/Zfunzdel", null);
+              oModelAut.setProperty("/RegisterSet/Zdescriz", null);
+              return;
+            }
+
+            oModelAut.setProperty(
+              "/RegisterSet/Descufficio",
+              oData.DescrEstesa
+            );
+            oModelAut.setProperty("/RegisterSet/Zfunzdel", oData.Zfunzdel);
+            oModelAut.setProperty("/RegisterSet/Zdescriz", oData.Zdescrizbreve);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+            oModelAut.setProperty("/RegisterSet/ZufficioCont", null);
+            oModelAut.setProperty("/RegisterSet/Descufficio", null);
+            oModelAut.setProperty("/RegisterSet/Zfunzdel", null);
+            oModelAut.setProperty("/RegisterSet/Zdescriz", null);
+          },
+        });
       },
 
       setPropertyComboFromChange: function (oEvent) {
@@ -331,6 +305,12 @@ sap.ui.define(
           .setProperty("/" + prop, value);
         if (functionName && functionName !== "") {
           eval(`this.${functionName}(value)`);
+        }
+
+        if (prop === "RegisterSet/EsercizioFinanziario") {
+          var oModelEntity = self.getModel(MODEL_ENTITY);
+          oModelEntity.setProperty("/RegisterSet/Fipos", null);
+          oModelEntity.setProperty("/RegisterSet/Fistl", null);
         }
       },
 
@@ -409,7 +389,7 @@ sap.ui.define(
         self
           .getView()
           .getModel(MODEL_ENTITY)
-          .setProperty("/RegisterSet/EsercicioFinanziario", null);
+          .setProperty("/RegisterSet/EsercizioFinanziario", null);
         self
           .getView()
           .getModel(MODEL_ENTITY)
@@ -441,7 +421,7 @@ sap.ui.define(
         self
           .getView()
           .getModel(MODEL_ENTITY)
-          .setProperty("/RegisterSet/Beschr", null);
+          .setProperty("/RegisterSet/DescrEstesa", null);
         self
           .getView()
           .getModel(MODEL_ENTITY)

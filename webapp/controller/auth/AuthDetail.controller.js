@@ -63,7 +63,7 @@ sap.ui.define(
           Znoteaut: "",
           Fipos: "",
           Fistl: "", //struttura amministrazione responsabile
-          Beschr: "", //descrizione struttura amministrazione responsabile
+          DescrEstesa: "", //descrizione struttura amministrazione responsabile
           ZufficioCont: "",
           ZflagFipos: false, //posizione finanziaria non istituita
           DesTipoDisp2: "",
@@ -221,7 +221,7 @@ sap.ui.define(
         self
           .getView()
           .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-          .setProperty("/Beschr", null);
+          .setProperty("/DescrEstesa", null);
       },
 
       posizioneFinanziariaLiveChange: function (oEvent) {
@@ -235,97 +235,6 @@ sap.ui.define(
           .getView()
           .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
           .setProperty("/" + prop, oEvent.getParameters().value);
-      },
-
-      checkZUfficioCont: function (oEvent) {
-        var self = this,
-          value =
-            oEvent.getParameters().value && oEvent.getParameters().value !== ""
-              ? oEvent.getParameters().value
-              : null;
-
-        self
-          .getView()
-          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-          .setProperty("/ZufficioCont", value);
-        self
-          .getView()
-          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-          .setProperty("/Descufficio", null);
-        self
-          .getView()
-          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-          .setProperty("/Zfunzdel", null);
-        self
-          .getView()
-          .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-          .setProperty("/Zdescriz", null);
-
-        if (value) {
-          self.getView().setBusy(true);
-          self
-            .getModel()
-            .metadataLoaded()
-            .then(function () {
-              var path = self.getModel().createKey("/UfficioContSet", {
-                Ztipodisp2: self
-                  .getView()
-                  .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-                  .getProperty("/Ztipodisp2"),
-                Ztipodisp3: self
-                  .getView()
-                  .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-                  .getProperty("/Ztipodisp3"),
-                ZufficioCont: value,
-              });
-              var oDataModel = self.getModel();
-              oDataModel.read(path, {
-                success: function (data, oResponse) {
-                  var sapMessage = oResponse.headers["sap-message"]
-                    ? JSON.parse(oResponse.headers["sap-message"])
-                    : null;
-                  self.getView().setBusy(false);
-                  if (sapMessage) {
-                    self
-                      .getView()
-                      .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-                      .setProperty("/Descufficio", null);
-                    self
-                      .getView()
-                      .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-                      .setProperty("/ZufficioCont", null);
-                    MessageBox.error(sapMessage.message, {
-                      title: "Ufficio Contabile",
-                      actions: [sap.m.MessageBox.Action.OK],
-                      emphasizedAction: MessageBox.Action.OK,
-                    });
-                  } else {
-                    if (
-                      data &&
-                      data.ZvimDescrufficio &&
-                      data.ZvimDescrufficio !== ""
-                    )
-                      self
-                        .getView()
-                        .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-                        .setProperty("/Descufficio", data.ZvimDescrufficio);
-                    else
-                      self
-                        .getView()
-                        .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-                        .setProperty("/Descufficio", null);
-                  }
-                },
-                error: function (error) {
-                  self.getView().setBusy(false);
-                  self
-                    .getView()
-                    .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-                    .setProperty("/Descufficio", null);
-                },
-              });
-            });
-        }
       },
 
       strutturaAmministrativaLiveChange: function (oEvent) {
@@ -353,23 +262,20 @@ sap.ui.define(
               oDataModel.read(path, {
                 success: function (data) {
                   self.getView().setBusy(false);
-                  if (data && data.Beschr && data.Beschr !== "")
-                    self
-                      .getView()
-                      .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-                      .setProperty("/Beschr", data.Beschr);
-                  else
-                    self
-                      .getView()
-                      .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-                      .setProperty("/Beschr", null);
+                  self
+                    .getView()
+                    .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
+                    .setProperty(
+                      "/DescrEstesa",
+                      data?.DescrEstesa ? data?.DescrEstesa : null
+                    );
                 },
                 error: function (error) {
                   oView.setBusy(false);
                   self
                     .getView()
                     .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-                    .setProperty("/Beschr", null);
+                    .setProperty("/DescrEstesa", null);
                 },
               });
             });
@@ -377,7 +283,69 @@ sap.ui.define(
           self
             .getView()
             .getModel(AUTORIZZAZIONE_DETAIL_MODEL)
-            .setProperty("/Beschr", null);
+            .setProperty("/DescrEstesa", null);
+      },
+
+      onUfficioContabileChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelAutorizzazione = self.getModel(AUTORIZZAZIONE_DETAIL_MODEL);
+        var oAutorizzazione = oModelAutorizzazione?.getData();
+
+        var sCodiceUfficio = oEvent.getParameter("value");
+
+        if (!sCodiceUfficio) {
+          oModelAutorizzazione.setProperty("/ZufficioCont", null);
+          oModelAutorizzazione.setProperty("/Descufficio", null);
+          oModelAutorizzazione.setProperty("/Zfunzdel", null);
+          oModelAutorizzazione.setProperty("/Zdescriz", null);
+        }
+
+        var sPath = oModel.createKey("/UfficioContSet", {
+          Ztipodisp2: self.setBlank(oAutorizzazione.Ztipodisp2),
+          Gjahr: self.setBlank(oAutorizzazione.Gjahr),
+          Ztipodisp3: self.setBlank(oAutorizzazione.Ztipodisp3),
+          ZufficioCont: self.setBlank(oAutorizzazione.ZufficioCont),
+        });
+
+        self.getView().setBusy(true);
+
+        oModel.read(sPath, {
+          success: function (oData, oResponse) {
+            self.getView().setBusy(false);
+            var oMessage = JSON.parse(oResponse.headers["sap-message"]);
+
+            if (oMessage.code === "ZF_SOA/054") {
+              sap.m.MessageBox.error(oMessage.message);
+              oModelAutorizzazione.setProperty(
+                "/Descufficio",
+                oData.DescrEstesa
+              );
+              oModelAutorizzazione.setProperty("/Zfunzdel", null);
+              oModelAutorizzazione.setProperty("/Zdescriz", null);
+              return;
+            }
+
+            if (self.setResponseMessage(oResponse)) {
+              oModelAutorizzazione.setProperty("/ZufficioCont", null);
+              oModelAutorizzazione.setProperty("/Descufficio", null);
+              oModelAutorizzazione.setProperty("/Zfunzdel", null);
+              oModelAutorizzazione.setProperty("/Zdescriz", null);
+              return;
+            }
+
+            oModelAutorizzazione.setProperty("/Descufficio", oData.DescrEstesa);
+            oModelAutorizzazione.setProperty("/Zfunzdel", oData.Zfunzdel);
+            oModelAutorizzazione.setProperty("/Zdescriz", oData.Zdescrizbreve);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+            oModelAutorizzazione.setProperty("/ZufficioCont", null);
+            oModelAutorizzazione.setProperty("/Descufficio", null);
+            oModelAutorizzazione.setProperty("/Zfunzdel", null);
+            oModelAutorizzazione.setProperty("/Zdescriz", null);
+          },
+        });
       },
 
       setDetailModel: function (data) {
@@ -399,7 +367,7 @@ sap.ui.define(
         model.setProperty("/ZnoteautHeader", data.Znoteaut);
         model.setProperty("/ZzamministrHeader", data.Zzamministr);
         model.setProperty("/ZufficioContHeader", data.ZufficioCont);
-        model.setProperty("/DescufficioHeader", data.Descufficio);
+        model.setProperty("/DescufficioHeader", data.ZufficioCont);
 
         model.setProperty("/ZzstatoAut", data.ZzstatoAut);
         model.setProperty("/Bukrs", data.Bukrs);
@@ -411,7 +379,7 @@ sap.ui.define(
         model.setProperty("/Znoteaut", data.Znoteaut);
         model.setProperty("/Fistl", data.Fistl);
         model.setProperty("/Fipos", data.Fipos);
-        model.setProperty("/Beschr", data.Beschr);
+        model.setProperty("/DescrEstesa", data.DescrEstesa);
         model.setProperty(
           "/ZflagFipos",
           !data.ZflagFipos || data.ZflagFipos === "" ? false : true
@@ -431,7 +399,7 @@ sap.ui.define(
         model.setProperty("/Zdescriz", data.Zdescriz);
         model.setProperty("/Descufficio", data.Descufficio);
         model.setProperty("/ZstepAut", data.ZstepAut);
-        model.setProperty("/EsercicioFinanziario", null); //TODO:da capire quando ci sarà la logica se cambierà qualcosa
+        model.setProperty("/EsercizioFinanziario", data.EsercizioFinanziario);
       },
 
       onRettificaAutorizzazione: function (oEvent) {

@@ -94,6 +94,7 @@ sap.ui.define(
         oEntity.Gjahr = entity.Gjahr;
         oEntity.Zchiaveaut = entity.Zchiaveaut;
         oEntity.ZstepAut = entity.ZstepAut;
+        oEntity.EsercizioFinanziario = entity.EsercizioFinanziario;
 
         return oEntity;
       },

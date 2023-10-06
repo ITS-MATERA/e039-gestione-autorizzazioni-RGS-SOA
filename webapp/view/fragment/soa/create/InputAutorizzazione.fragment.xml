@@ -68,8 +68,9 @@
 						id="fltChiaveAutorizzazione"
 						valueHelpRequest="onValueHelpChiaveAutorizzazione"
 						showValueHelp="true"
-						valueHelpOnly="true"
 						value="{Autorizzazione>/Zchiaveaut}"
+						change="onChiaveAutorizzazioneChange"
+						maxLength="33"
 					>
 						<layoutData>
 							<l:GridData span="XL2 L2 M4 S12"/>
@@ -86,14 +87,23 @@
 							/>
 						</layoutData>
 					</Text>
-					<Input
+					<DatePicker
+						valueFormat="yyyy-MM-dd"
+						displayFormat="dd.MM.yyyy"
+						placeholder=" "
+						value="{
+							path: 'Autorizzazione>/DataStato',
+							type: 'sap.ui.model.type.Date',
+							formatOptions: {
+								pattern: 'dd.MM.yyyy'
+							}
+						}"
 						editable="false"
-						value="{Autorizzazione>/DataStatoString}"
 					>
 						<layoutData>
 							<l:GridData span="XL1 L2 M4 S12"/>
 						</layoutData>
-					</Input>
+					</DatePicker>
 				</l:Grid>
 			</FlexBox>
 			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
@@ -307,7 +317,7 @@
 						</layoutData>
 					</Text>
 					<CheckBox
-						selected="{= ${Autorizzazione>/ZflagFipos} ? true : false}"
+						selected="{Autorizzazione>/ZflagFipos}"
 						editable="false"
 					>
 						<layoutData>
@@ -329,8 +339,13 @@
 							<l:GridData span="XL2 L3 M5 S12"/>
 						</layoutData>
 					</Text>
-					<!-- TODO - Esercizio Finanziario -->
-					<Input editable="false">
+					<Input
+						editable="false"
+						value="{
+							path: 'Autorizzazione>/EsercizioFinanziario',
+							formatter: '.formatter.deleteFirstZeros'
+						}"
+					>
 						<layoutData>
 							<l:GridData span="XL1 L2 M4 S12"/>
 						</layoutData>
@@ -416,6 +431,37 @@
 					</Input>
 				</l:Grid>
 			</FlexBox>
+			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
+				<l:Grid
+					defaultSpan="XL12 L12 M12 S12"
+					hSpacing="0.5"
+				>
+					<Text
+						text="{i18n>chiaveAutZchiaveaut}"
+						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+					>
+						<layoutData>
+							<l:GridData span="XL2 L3 M5 S12"/>
+						</layoutData>
+					</Text>
+					<Input
+						valueHelpRequest="onValueHelpIdAutorizzazione"
+						showValueHelp="true"
+						value="{Autorizzazione>/Zgeber}"
+						maxLength="18"
+						editable="{= 
+							${Autorizzazione>/Zchiaveaut} !== '' &amp;&amp;
+							${Autorizzazione>/ZflagFipos} === false 
+							? true : false 
+						}"
+						change="onIdAutorizzazioneChange"
+					>
+						<layoutData>
+							<l:GridData span="XL2 L2 M4 S12"/>
+						</layoutData>
+					</Input>
+				</l:Grid>
+			</FlexBox>
 		</Panel>
 		<Panel backgroundDesign="Transparent">
 			<headerToolbar>
@@ -424,15 +470,19 @@
 				</OverflowToolbar>
 			</headerToolbar>
 			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<RadioButtonGroup columns="2">
+				<RadioButtonGroup
+					columns="2"
+					editable="{= 
+						${Autorizzazione>/Zchiaveaut}	&amp;&amp; 
+						${Autorizzazione>/Zfunzdel} === '' &amp;&amp;
+						${Autorizzazione>/ZflagFipos} === false ? true : false}"
+				>
 					<RadioButton
 						text="{i18n>documentiLiquidati}"
-						editable="{= ${Autorizzazione>/ZflagFipos} ? false : true}"
 						selected="{InputAutorizzazione>/DocumentiLiquidati}"
 					/>
 					<RadioButton
 						text="{i18n>documentiNonLiquidati}"
-						editable="{= ${Autorizzazione>/ZflagFipos} ? false : true}"
 						selected="{InputAutorizzazione>/DocumentiNonLiquidati}"
 					/>
 				</RadioButtonGroup>

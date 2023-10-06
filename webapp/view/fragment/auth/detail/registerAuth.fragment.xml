@@ -6,7 +6,7 @@
 	xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-	<Panel>
+	<Panel backgroundDesign="Transparent">
 		<l:Grid
 			defaultSpan="XL12 L12 M12 S12"
 			vSpacing="0"
@@ -41,7 +41,10 @@
 			</ComboBox>
 		</l:Grid>
 	</Panel>
-	<Panel headerText="{i18n>authDetail-detail-datiAutorizzazioneRGS}">
+	<Panel
+		headerText="{i18n>authDetail-detail-datiAutorizzazioneRGS}"
+		backgroundDesign="Transparent"
+	>
 		<l:Grid
 			defaultSpan="XL12 L12 M12 S12"
 			vSpacing="0"
@@ -206,7 +209,10 @@
 			</Input>
 		</l:Grid>
 	</Panel>
-	<Panel headerText="{i18n>authDetail-detail-imputazioneContabile}">
+	<Panel
+		headerText="{i18n>authDetail-detail-imputazioneContabile}"
+		backgroundDesign="Transparent"
+	>
 		<l:Grid
 			defaultSpan="XL12 L12 M12 S12"
 			vSpacing="0"
@@ -224,9 +230,9 @@
 			<ComboBox
 				id="detailAuthfEsercizio"
 				width="100%"
-				selectedKey="{EntityModel>/RegisterSet/EsercicioFinanziario}"
+				selectedKey="{EntityModel>/RegisterSet/EsercizioFinanziario}"
 				change="setPropertyComboFromChange"
-				app:propertyModel="RegisterSet/EsercicioFinanziario"
+				app:propertyModel="RegisterSet/EsercizioFinanziario"
 				items="{
 					path: '/EsercizioGestioneSet'
 				}"
@@ -256,7 +262,7 @@
 					spesa="X"
 					maxLength="24"
 					reale="R"
-					anno="{EntityModel>/RegisterSet/EsercicioFinanziario}"
+					anno="{EntityModel>/RegisterSet/EsercizioFinanziario}"
 					versione="D"
 					maxSuggestionWidth="60%"
 					submit="posizioneFinanziariaLiveChange"
@@ -264,6 +270,7 @@
 					width="100%"
 					app:propertyModel="RegisterSet/Fipos"
 					value="{EntityModel>/RegisterSet/Fipos}"
+					editable="{= ${EntityModel>/RegisterSet/EsercizioFinanziario} !== null ? true : false}"
 				/>
 				<layoutData>
 					<l:GridData span="XL2 L2 M6 S12"/>
@@ -289,7 +296,7 @@
 					entrata="X"
 					reale="R"
 					maxLength="16"
-					anno="{EntityModel>/RegisterSet/EsercicioFinanziario}"
+					anno="{EntityModel>/RegisterSet/EsercizioFinanziario}"
 					SEM_OBJ="Z_TEST_LIB"
 					versione="D"
 					width="100%"
@@ -298,6 +305,7 @@
 					liveChange="strutturaAmministrativaLiveChange"
 					app:propertyModel="RegisterSet/Fistl"
 					value="{EntityModel>/RegisterSet/Fistl}"
+					editable="{= ${EntityModel>/RegisterSet/EsercizioFinanziario} !== null ? true : false}"
 				/>
 				<layoutData>
 					<l:GridData span="XL2 L2 M6 S12"/>
@@ -313,7 +321,7 @@
 				</layoutData>
 			</Label>
 			<Input
-				value="{EntityModel>/RegisterSet/Beschr}"
+				value="{EntityModel>/RegisterSet/DescrEstesa}"
 				width="100%"
 				enabled="false"
 			>
@@ -334,7 +342,10 @@
 			</CheckBox>
 		</l:Grid>
 	</Panel>
-	<Panel headerText="{i18n>authDetail-detail-ufficio}">
+	<Panel
+		headerText="{i18n>authDetail-detail-ufficio}"
+		backgroundDesign="Transparent"
+	>
 		<l:Grid
 			defaultSpan="XL12 L12 M12 S12"
 			vSpacing="0"
@@ -351,7 +362,7 @@
 			</Label>
 			<Input
 				value="{EntityModel>/RegisterSet/ZufficioCont}"
-				submit="checkZUfficioCont"
+				change="onUfficioContabileChange"
 				width="100%"
 			>
 				<layoutData>
@@ -417,7 +428,10 @@
 			</Input>
 		</l:Grid>
 	</Panel>
-	<Panel headerText="{i18n>authDetail-detail-datiProtocollo}">
+	<Panel
+		headerText="{i18n>authDetail-detail-datiProtocollo}"
+		backgroundDesign="Transparent"
+	>
 		<l:Grid
 			defaultSpan="XL12 L12 M12 S12"
 			vSpacing="0"

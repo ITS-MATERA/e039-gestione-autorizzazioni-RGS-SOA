@@ -2,7 +2,6 @@
 	controllerName="rgssoa.controller.auth.AuthDetail"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:fsemantic="sap.f.semantic"
 	xmlns:core="sap.ui.core"
 	xmlns:l="sap.ui.layout"
 	xmlns:semantic="sap.m.semantic"

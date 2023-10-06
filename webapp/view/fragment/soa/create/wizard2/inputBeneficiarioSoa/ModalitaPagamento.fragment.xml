@@ -99,7 +99,6 @@
 						Lifnr="{Soa>/Lifnr}"
 						value="{Soa>/Iban}"
 						editable="{= 
-							${Soa>/Ztipopag} !== '4' &amp;&amp;
 							${Soa>/Zwels} !== '' &amp;&amp; 
 							${Soa>/Zwels} !== 'ID1' &amp;&amp; 
 							${Soa>/Zwels} !== 'ID2'  &amp;&amp; 
@@ -114,7 +113,6 @@
 						src="sap-icon://message-popup"
 						class="messagePopup"
 						visible="{= 
-							${Soa>/Ztipopag} !== '4' &amp;&amp;
 							${Soa>/Zwels} !== '' &amp;&amp; 
 							${Soa>/Zwels} !== 'ID1' &amp;&amp; 
 							${Soa>/Zwels} !== 'ID2'  &amp;&amp; 
@@ -141,7 +139,7 @@
 				</Text>
 				<Input
 					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
-					editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+					editable="{= ${Soa>/EnableEdit} ? true : false}"
 					value="{Soa>/Zalias}"
 					maxLength="17"
 					change="onAliasChange"
@@ -239,7 +237,6 @@
 					valueHelpRequest="onValueHelpCoordEstere"
 					showValueHelp="true"
 					editable="{= 
-						${Soa>/Ztipopag} !== '4' &amp;&amp; 
 						(${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10') &amp;&amp; 
 						${Soa>/EnableEdit} ? true : false}"
 					value="{Soa>/Zcoordest}"
@@ -263,7 +260,7 @@
 				</Text>
 				<Input
 					visible="{= ${Soa>/Zwels} === 'ID4'}"
-					editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+					editable="{= ${Soa>/EnableEdit} ? true : false}"
 					value="{Soa>/Zzposfinent}"
 					maxLength="24"
 					change="onPosFinanziariaEntrateChange"
@@ -286,7 +283,7 @@
 				</Text>
 				<Input
 					visible="{= ${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10'}"
-					editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+					editable="{= ${Soa>/EnableEdit} ? true : false}"
 					value="{Soa>/Zpurpose}"
 					maxLength="4"
 				>
@@ -312,7 +309,7 @@
 						path: '/FlagFruttiferoSet'
 					}"
 					selectedKey="{Soa>/Zflagfrutt}"
-					editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+					editable="{= ${Soa>/EnableEdit} ? true : false}"
 					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
 					change="onFlagFruttiferoChange"
 				>

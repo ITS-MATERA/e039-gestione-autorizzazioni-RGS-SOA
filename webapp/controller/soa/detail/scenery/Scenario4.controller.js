@@ -48,6 +48,7 @@ sap.ui.define(
           self.setSoaModel(oParameters, function () {
             self.enableFunctions();
             self.setMode(oParameters.Mode);
+            self.getSedeBeneficiario();
           });
           self.getLogModel();
           self.resetWizard("wizScenario4");

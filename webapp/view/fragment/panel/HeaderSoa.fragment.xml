@@ -271,7 +271,7 @@
 					text="{i18n>headerSonCodiceFD}"
 					class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
 				/>
-				<!-- <Text text="{Soa>/Zimpaut}" /> -->
+				<Text text="{Soa>/Zfunzdel}"/>
 				<layoutData>
 					<l:GridData span="XL3 L4 M6 S12"/>
 				</layoutData>
@@ -281,7 +281,7 @@
 					text="{i18n>headerSonDescrizioneFD}"
 					class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
 				/>
-				<!-- <Text text="{Soa>/Zzamministr}" /> -->
+				<Text text="{Soa>/Zdescriz}"/>
 				<layoutData>
 					<l:GridData span="XL3 L4 M6 S12"/>
 				</layoutData>

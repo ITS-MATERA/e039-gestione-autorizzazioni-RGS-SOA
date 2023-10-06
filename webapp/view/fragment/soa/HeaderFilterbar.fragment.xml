@@ -66,6 +66,21 @@
 				</layoutData>
 				<items>
 					<Label
+						text="{i18n>inputUfficioOrdinante}"
+						class="filterLabel"
+					/>
+					<Input
+						value="{Filter>/ZufficioCont}"
+						maxLength="16"
+					/>
+				</items>
+			</VBox>
+			<VBox>
+				<layoutData>
+					<l:GridData span="XL2 L3 M6 S12"/>
+				</layoutData>
+				<items>
+					<Label
 						text="{i18n>soaFilterZnumsopFrom}"
 						class="filterLabel"
 					/>

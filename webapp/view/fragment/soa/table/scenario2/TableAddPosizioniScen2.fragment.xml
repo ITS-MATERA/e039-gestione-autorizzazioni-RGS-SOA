@@ -166,7 +166,10 @@
 									path: 'PosizioniScen2>Zimpdaord'
 								}"
 							/>
-							<Text text="{PosizioniScen2>Zdurc}"/>
+							<Text text="{
+								path: 'PosizioniScen2>/Zdurc',
+								formatter: '.formatter.deleteFirstZeros'
+							}"/>
 							<Text text="{PosizioniScen2>ZfermAmm}"/>
 						</cells>
 					</ColumnListItem>

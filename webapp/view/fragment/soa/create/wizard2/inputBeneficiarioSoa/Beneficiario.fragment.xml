@@ -49,6 +49,8 @@
 						${Soa>/EnableEdit} ? true : false
 					}"
 					value="{Soa>/Lifnr}"
+					change="onBeneficiarioChange"
+					maxLength="10"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
@@ -296,14 +298,22 @@
 						/>
 					</layoutData>
 				</Text>
-				<Input
+				<DatePicker
+					valueFormat="yyyy-MM-dd"
+					displayFormat="dd.MM.yyyy"
 					editable="false"
-					value="{Soa>/Zdscadenza}"
+					value="{
+						path: 'Soa>/Zdscadenza',
+						type: 'sap.ui.model.type.Date',
+						formatOptions: {
+							pattern: 'dd.MM.yyyy'
+						}
+					}"
 				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
-				</Input>
+				</DatePicker>
 				<Text
 					text="{i18n>inputFermoAmministrativo}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"

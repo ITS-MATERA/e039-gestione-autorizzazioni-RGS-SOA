@@ -61,6 +61,7 @@ sap.ui.define(
           FiposFrom: "",
           FiposTo: "",
           Fistl: "",
+          ZufficioCont: "",
         });
 
         var oModelAuthoryCheckSoa = new JSONModel({
@@ -523,6 +524,11 @@ sap.ui.define(
           aFilters,
           "ZdescProsp",
           oModelFilter.getProperty("/ZdescProsp")
+        );
+        self.setFilterEQ(
+          aFilters,
+          "ZufficioCont",
+          oModelFilter.getProperty("/ZufficioCont")
         );
 
         return aFilters;

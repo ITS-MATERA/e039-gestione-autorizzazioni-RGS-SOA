@@ -37,6 +37,7 @@ sap.ui.define(
             .getRoute("soa.create.InputAutorizzazione")
             .attachPatternMatched(this._onObjectMatched, this);
         },
+
         _onObjectMatched: function (oEvent) {
           var self = this;
 
@@ -58,39 +59,16 @@ sap.ui.define(
             self.setModelAuthorityCheck(callback?.permissions);
           });
 
-          var oModelAutorizzazione = new JSONModel({
-            Gjahr: "",
-            Zchiaveaut: "",
-            Bukrs: "",
-            ZstepAut: "",
-            Zzamministr: "",
-            DataStatoString: null,
-            DataStato: null,
-            Zimpaut: "",
-            Zimpdispaut: "",
-            Ztipodisp2: "",
-            Zdesctipodisp2: "",
-            Ztipodisp3: "",
-            Zdesctipodisp3: "",
-            Znoteaut: "",
-            ZufficioCont: "",
-            ZvimDescrufficio: "",
-            Zfunzdel: "",
-            Zdescriz: "",
-            ZflagFipos: "",
-            Fipos: "",
-            Fistl: "",
-            DescrEstesa: "",
-          });
-
-          self.setModel(oModelAutorizzazione, "Autorizzazione");
+          this._setAutorizzazioneModel();
           self.setModel(oModelInputAutorizzazione, "InputAutorizzazione");
         },
+
         onNavBack: function () {
           var self = this;
 
           self.getRouter().navTo("soa.create.ChoseTypeSoa");
         },
+
         onNavForward: function () {
           var self = this;
 
@@ -98,38 +76,80 @@ sap.ui.define(
         },
 
         //#region SELECTION CHANGE
-        onSelectEsercizioGestione: function () {
-          var self = this;
 
-          var oModelAutorizzazione = new JSONModel({
+        onSelectEsercizioGestione: function () {
+          this._setAutorizzazioneModel();
+        },
+
+        onChiaveAutorizzazioneChange: function (oEvent) {
+          var self = this;
+          var oModel = self.getModel();
+
+          if (!oEvent.getParameter("value")) {
+            this._setAutorizzazioneModel();
+            return;
+          }
+
+          var sPath = oModel.createKey("/ChiaveAutorizzazioneSet", {
             Gjahr: "",
-            Zchiaveaut: "",
+            Zchiaveaut: oEvent.getParameter("value"),
             Bukrs: "",
             ZstepAut: "",
-            Zzamministr: "",
-            DataStatoString: null,
-            DataStato: null,
-            Zimpaut: "",
-            Zimpdispaut: "",
-            Ztipodisp2: "",
-            Zdesctipodisp2: "",
-            Ztipodisp3: "",
-            Zdesctipodisp3: "",
-            Znoteaut: "",
-            ZufficioCont: "",
-            ZvimDescrufficio: "",
-            Zfunzdel: "",
-            Zdescriz: "",
-            ZflagFipos: "",
-            Fipos: "",
-            Fistl: "",
-            DescrEstesa: "",
           });
-          self.setModel(oModelAutorizzazione, "Autorizzazione");
+
+          self.getView().setBusy(true);
+
+          oModel.read(sPath, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (self.setResponseMessage(oResponse)) {
+                self._setAutorizzazioneModel();
+                return;
+              }
+              self.setModelCustom("Autorizzazione", data);
+              self._setSceltaOperativa();
+            },
+          });
         },
+
+        onIdAutorizzazioneChange: function (oEvent) {
+          var self = this;
+          var oModel = self.getModel();
+          var oModelAutorizzazione = self.getModel("Autorizzazione");
+          var oAutorizzazione = oModelAutorizzazione?.getData();
+          var sZgeber = oEvent.getParameter("value");
+
+          if (!sZgeber) {
+            return;
+          }
+
+          var sPath = oModel.createKey("/IdAutorizzazioneSet", {
+            Zgeber: sZgeber,
+            EsercizioFinanziario: oAutorizzazione.EsercizioFinanziario,
+            Fipos: oAutorizzazione.Fipos,
+            Fistl: oAutorizzazione.Fistl,
+          });
+
+          self.getView().setBusy(true);
+
+          oModel.read(sPath, {
+            success: function (oData, oResponse) {
+              self.getView().setBusy(false);
+              if (self.setResponseMessage(oResponse)) {
+                oModelAutorizzazione.setProperty("/Zgeber", "");
+              }
+            },
+            error: function () {
+              self.getView().setBusy(false);
+              oModelAutorizzazione.setProperty("/Zgeber", "");
+            },
+          });
+        },
+
         //#endregion SELECTION CHANGE
 
         //#region VALUE HELPS
+
         onValueHelpChiaveAutorizzazione: function () {
           var self = this;
           var oModel = self.getModel();
@@ -167,10 +187,10 @@ sap.ui.define(
             error: function (error) {},
           });
         },
+
         onValueHelpChiaveAutorizzazioneClose: function (oEvent) {
           var self = this;
-          var oModelAutorizzazione = self.getModel("Autorizzazione");
-          var oModelInputAutorizzazione = self.getModel("InputAutorizzazione");
+          var oModel = self.getModel();
           var oSelectedItem = oEvent.getParameter("selectedItem");
 
           if (!oSelectedItem) {
@@ -178,55 +198,77 @@ sap.ui.define(
           }
           var oData = oSelectedItem.data();
 
-          oModelAutorizzazione.setProperty("/Gjahr", oData.Gjahr);
-          oModelAutorizzazione.setProperty("/Zchiaveaut", oData.Zchiaveaut);
-          oModelAutorizzazione.setProperty("/Bukrs", oData.Bukrs);
-          oModelAutorizzazione.setProperty("/ZstepAut", oData.ZstepAut);
-          oModelAutorizzazione.setProperty("/Zzamministr", oData.Zzamministr);
-          oModelAutorizzazione.setProperty(
-            "/DataStatoString",
-            oData.DataStatoString
-          );
-          oModelAutorizzazione.setProperty("/DataStato", oData.DataStato);
-          oModelAutorizzazione.setProperty("/Zimpaut", oData.Zimpaut);
-          oModelAutorizzazione.setProperty("/Zimpdispaut", oData.Zimpdispaut);
-          oModelAutorizzazione.setProperty("/Ztipodisp2", oData.Ztipodisp2);
-          oModelAutorizzazione.setProperty(
-            "/Zdesctipodisp2",
-            oData.Zdesctipodisp2
-          );
-          oModelAutorizzazione.setProperty("/Ztipodisp3", oData.Ztipodisp3);
-          oModelAutorizzazione.setProperty(
-            "/Zdesctipodisp3",
-            oData.Zdesctipodisp3
-          );
-          oModelAutorizzazione.setProperty("/Znoteaut", oData.Znoteaut);
-          oModelAutorizzazione.setProperty("/ZufficioCont", oData.ZufficioCont);
-          oModelAutorizzazione.setProperty(
-            "/ZvimDescrufficio",
-            oData.ZvimDescrufficio
-          );
-          oModelAutorizzazione.setProperty("/Zfunzdel", oData.Zfunzdel);
-          oModelAutorizzazione.setProperty("/Zdescriz", oData.Zdescriz);
-          oModelAutorizzazione.setProperty("/ZflagFipos", oData.ZflagFipos);
-          oModelAutorizzazione.setProperty("/Fipos", oData.Fipos);
-          oModelAutorizzazione.setProperty("/Fistl", oData.Fistl);
-          oModelAutorizzazione.setProperty("/DescrEstesa", oData.DescrEstesa);
+          var sPath = oModel.createKey("/ChiaveAutorizzazioneSet", {
+            Gjahr: oData.Gjahr,
+            Zchiaveaut: oData.Zchiaveaut,
+            Bukrs: oData.Bukrs,
+            ZstepAut: oData.ZstepAut,
+          });
 
-          oModelInputAutorizzazione.setProperty(
-            "/DocumentiLiquidati",
-            oData.ZflagFipos ? false : true
-          );
-          oModelInputAutorizzazione.setProperty(
-            "/DocumentiNonLiquidati",
-            oData.ZflagFipos ? true : false
-          );
+          self.getView().setBusy(true);
+
+          oModel.read(sPath, {
+            success: function (data) {
+              self.getView().setBusy(false);
+              self.setModelCustom("Autorizzazione", data);
+              self._setSceltaOperativa();
+            },
+          });
 
           self.unloadFragment();
         },
+
+        onValueHelpIdAutorizzazione: function () {
+          var self = this;
+          var oModel = self.getModel();
+          var oAutorizzazione = self.getModel("Autorizzazione").getData();
+          var oDialog = self.loadFragment(
+            "rgssoa.view.fragment.valueHelp.IdAutorizzazione"
+          );
+
+          var aFilters = [];
+
+          self.setFilterEQ(
+            aFilters,
+            "EsercizioFinanziario",
+            oAutorizzazione.EsercizioFinanziario
+          );
+          self.setFilterEQ(aFilters, "Fipos", oAutorizzazione.Fipos);
+          self.setFilterEQ(aFilters, "Fistl", oAutorizzazione.Fistl);
+
+          self.getView().setBusy(true);
+          oModel.read("/IdAutorizzazioneSet", {
+            filters: aFilters,
+            success: function (data) {
+              self.getView().setBusy(false);
+              self.setModelSelectDialog(
+                "IdAutorizzazione",
+                data,
+                "sdIdAutorizzazione",
+                oDialog
+              );
+            },
+            error: function () {
+              self.getView().setBusy(false);
+            },
+          });
+        },
+
+        onValueHelpIdAutorizzazioneClose: function (oEvent) {
+          var self = this;
+          var oModelAutorizzazione = self.getModel("Autorizzazione");
+          var oSelectedItem = oEvent.getParameter("selectedItem");
+
+          oModelAutorizzazione.setProperty(
+            "/Zgeber",
+            self.setBlank(oSelectedItem?.getTitle())
+          );
+        },
+
         //#endregion VALUE HELPS
 
         //#region PRIVATE METHODS
+
         _checkAuthOnAutorizzazione: function () {
           var self = this;
           var oModel = self.getModel();
@@ -251,6 +293,9 @@ sap.ui.define(
             Zchiaveaut: oModelAutorizzazione?.getProperty("/Zchiaveaut"),
             Bukrs: oModelAutorizzazione?.getProperty("/Bukrs"),
             Gjahr: oModelAutorizzazione?.getProperty("/Gjahr"),
+            Zgeber: oModelAutorizzazione?.getProperty("/Zgeber")
+              ? oModelAutorizzazione?.getProperty("/Zgeber")
+              : "null",
           };
 
           if (
@@ -304,6 +349,57 @@ sap.ui.define(
               oView.setBusy(false);
             },
           });
+        },
+
+        _setAutorizzazioneModel: function () {
+          var self = this;
+
+          var oModelAutorizzazione = new JSONModel({
+            Gjahr: "",
+            Zchiaveaut: "",
+            Bukrs: "",
+            ZstepAut: "",
+            Zzamministr: "",
+            DataStato: null,
+            Zimpaut: "",
+            Zimpdispaut: "",
+            Ztipodisp2: "",
+            Zdesctipodisp2: "",
+            Ztipodisp3: "",
+            Zdesctipodisp3: "",
+            Znoteaut: "",
+            ZufficioCont: "",
+            ZvimDescrufficio: "",
+            Zfunzdel: "",
+            Zdescriz: "",
+            ZflagFipos: false,
+            Fipos: "",
+            Fistl: "",
+            DescrEstesa: "",
+            Zgeber: "",
+          });
+          self.setModel(oModelAutorizzazione, "Autorizzazione");
+        },
+
+        _setSceltaOperativa: function () {
+          var self = this;
+          var oModelAutorizzazione = self.getModel("Autorizzazione");
+          var oModelInputAutorizzazione = self.getModel("InputAutorizzazione");
+
+          if (oModelAutorizzazione.getProperty("/Zfunzdel")) {
+            oModelInputAutorizzazione.setProperty("/DocumentiLiquidati", false);
+            oModelInputAutorizzazione.setProperty(
+              "/DocumentiNonLiquidati",
+              true
+            );
+            return;
+          }
+
+          oModelInputAutorizzazione.setProperty("/DocumentiLiquidati", true);
+          oModelInputAutorizzazione.setProperty(
+            "/DocumentiNonLiquidati",
+            false
+          );
         },
 
         //#endregion PRIVATE METHODS

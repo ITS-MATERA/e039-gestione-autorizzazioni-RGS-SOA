@@ -4,21 +4,23 @@
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
 	<SelectDialog
-		id="sdNProspLiquidazione"
-		noDataText="{i18n>noNProspLiquidazione}"
-		title="{i18n>labelNProspLiquidazione}"
+		id="sdCig"
+		noDataText="{i18n>noCig}"
+		title="{i18n>labelCig}"
 		search="onValueHelpChange"
-		confirm="onValueHelpNProspLiquidazioneClose"
-		cancel="onValueHelpNProspLiquidazioneClose"
-		app:FilterValueHelp="Znumliq"
+		confirm="onValueHelpCigClose"
+		cancel="onValueHelpCigClose"
+		app:input="iptCig"
+		app:FilterValueHelp="Cig"
 		items="{
-			path: 'NProspLiquidazione>/'
+			path: 'Cig>/'
 		}"
 	>
 		<StandardListItem
 			iconDensityAware="false"
 			iconInset="false"
-			title="{NProspLiquidazione>Znumliq}"
+			title="{Cpv>Cig}"
+			description="{Cpv>Belnr}"
 		/>
 	</SelectDialog>
 </c:FragmentDefinition>

@@ -129,7 +129,10 @@
 								<Text text="{NewProspettoLiquidazione>ZzragSoc}"/>
 								<Text text="{NewProspettoLiquidazione>Zdescwels}"/>
 								<Text text="{NewProspettoLiquidazione>Iban}"/>
-								<Text text="{NewProspettoLiquidazione>Zdurc}"/>
+								<Text text="{
+									path: 'NewProspettoLiquidazione>Zdurc',
+									formatter: '.formatter.deleteFirstZeros'
+								}"/>
 								<Text text="{NewProspettoLiquidazione>ZfermAmm}"/>
 								<Text text="{
 									path: 'NewProspettoLiquidazione>Zimpliq',
