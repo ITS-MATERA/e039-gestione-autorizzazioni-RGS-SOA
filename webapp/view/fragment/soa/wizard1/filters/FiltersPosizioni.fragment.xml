@@ -8,19 +8,19 @@
 		visible="{StepScenario>/wizard1Step1}"
 	>
 		<c:Fragment
-			fragmentName="rgssoa.view.fragment.panel.filter.Ritenuta"
+			fragmentName="rgssoa.view.fragment.soa.wizard1.filters.Ritenuta"
 			type="XML"
 		/>
 		<c:Fragment
-			fragmentName="rgssoa.view.fragment.panel.filter.Beneficiario"
+			fragmentName="rgssoa.view.fragment.soa.wizard1.filters.Beneficiario"
 			type="XML"
 		/>
 		<c:Fragment
-			fragmentName="rgssoa.view.fragment.panel.filter.ProspettiLiquidazione"
+			fragmentName="rgssoa.view.fragment.soa.wizard1.filters.ProspettiLiquidazione"
 			type="XML"
 		/>
 		<c:Fragment
-			fragmentName="rgssoa.view.fragment.panel.filter.DocumentiCosto"
+			fragmentName="rgssoa.view.fragment.soa.wizard1.filters.DocumentiCosto"
 			type="XML"
 		/>
 	</Panel>

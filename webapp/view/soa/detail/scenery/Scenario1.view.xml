@@ -18,7 +18,7 @@
 				class="noPadding"
 			>
 				<c:Fragment
-					fragmentName="rgssoa.view.fragment.panel.HeaderSoa"
+					fragmentName="rgssoa.view.fragment.soa.HeaderSoa"
 					type="XML"
 				/>
 			</f:DynamicPageHeader>

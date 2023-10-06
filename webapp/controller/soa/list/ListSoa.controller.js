@@ -256,7 +256,7 @@ sap.ui.define(
         var self = this;
         var oModel = new oModel();
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.Ritenuta"
+          "rgssoa.view.fragment.soa.value-help.Ritenuta"
         );
 
         oModel.read("/" + "RitenutaSet", {
@@ -294,7 +294,7 @@ sap.ui.define(
         var oModel = self.getModel();
         var oModelFilter = self.getModel("Filter");
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.EnteBeneficiario"
+          "rgssoa.view.fragment.soa.value-help.EnteBeneficiario"
         );
 
         if (oModelFilter.getProperty("/Witht")) {

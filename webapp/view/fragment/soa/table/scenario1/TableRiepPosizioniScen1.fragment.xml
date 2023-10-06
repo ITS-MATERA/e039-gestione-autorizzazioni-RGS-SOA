@@ -122,7 +122,7 @@
 				</items>
 			</Table>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.panel.CalculatorNoEditable"
+				fragmentName="rgssoa.view.fragment.soa.table.CalculatorNoEditable"
 				type="XML"
 			/>
 		</content>

@@ -12,7 +12,7 @@
 						visible="{= ${Utility>/DetailFromFunction} === false ? true : false}"
 					>
 						<c:Fragment
-							fragmentName="rgssoa.view.fragment.panel.IconTabBarSoa"
+							fragmentName="rgssoa.view.fragment.soa.IconTabBarSoa"
 							type="XML"
 						/>
 					</Panel>
@@ -26,7 +26,7 @@
 							? true : false}"
 					>
 						<c:Fragment
-							fragmentName="rgssoa.view.fragment.panel.DatiFirmatario"
+							fragmentName="rgssoa.view.fragment.soa.function.DatiFirmatario"
 							type="XML"
 						/>
 					</Panel>
@@ -56,7 +56,7 @@
 						>
 							<WizardStep title="{i18n>titleWizard1DocContabili}">
 								<c:Fragment
-									fragmentName="rgssoa.view.fragment.panel.FiltersPosizioni"
+									fragmentName="rgssoa.view.fragment.soa.wizard1.filters.FiltersPosizioni"
 									type="XML"
 								/>
 								<c:Fragment
@@ -74,7 +74,7 @@
 							</WizardStep>
 							<WizardStep title="{i18n>titleWizard2}">
 								<c:Fragment
-									fragmentName="rgssoa.view.fragment.soa.create.wizard2.BeneficiarioSoa"
+									fragmentName="rgssoa.view.fragment.soa.wizard2.BeneficiarioSoa"
 									type="XML"
 								/>
 							</WizardStep>
@@ -86,14 +86,14 @@
 							</WizardStep>
 							<WizardStep title="{i18n>titleWizard4}">
 								<c:Fragment
-									fragmentName="rgssoa.view.fragment.soa.create.wizard4.DatiSoa"
+									fragmentName="rgssoa.view.fragment.soa.wizard4.DatiSoa"
 									type="XML"
 								/>
 							</WizardStep>
 						</Wizard>
 					</Panel>
 					<c:Fragment
-						fragmentName="rgssoa.view.fragment.panel.Workflow"
+						fragmentName="rgssoa.view.fragment.soa.Workflow"
 						type="XML"
 					/>
 				</content>

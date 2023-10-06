@@ -34,19 +34,19 @@
 				</Input>
 			</l:Grid>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.create.wizard3.table.CodiceGestionale"
+				fragmentName="rgssoa.view.fragment.soa.wizard3.panel.CodiceGestionale"
 				type="XML"
 			/>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.create.wizard3.table.Cpv"
+				fragmentName="rgssoa.view.fragment.soa.wizard3.panel.Cpv"
 				type="XML"
 			/>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.create.wizard3.table.Cig"
+				fragmentName="rgssoa.view.fragment.soa.wizard3.panel.Cig"
 				type="XML"
 			/>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.create.wizard3.table.Cup"
+				fragmentName="rgssoa.view.fragment.soa.wizard3.panel.Cup"
 				type="XML"
 			/>
 		</content>

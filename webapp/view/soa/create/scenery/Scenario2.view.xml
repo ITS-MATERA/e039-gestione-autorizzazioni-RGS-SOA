@@ -18,7 +18,7 @@
 				class="noPadding"
 			>
 				<c:Fragment
-					fragmentName="rgssoa.view.fragment.panel.HeaderSoa"
+					fragmentName="rgssoa.view.fragment.soa.HeaderSoa"
 					type="XML"
 				/>
 			</f:DynamicPageHeader>
@@ -34,7 +34,7 @@
 							>
 								<WizardStep title="{i18n>titleWizard1DocContabili}">
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.panel.FiltersPosizioni"
+										fragmentName="rgssoa.view.fragment.soa.wizard1.filters.FiltersPosizioni"
 										type="XML"
 									/>
 									<c:Fragment
@@ -48,7 +48,7 @@
 								</WizardStep>
 								<WizardStep title="{i18n>titleWizard2}">
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.create.wizard2.BeneficiarioSoa"
+										fragmentName="rgssoa.view.fragment.soa.wizard2.BeneficiarioSoa"
 										type="XML"
 									/>
 								</WizardStep>
@@ -60,7 +60,7 @@
 								</WizardStep>
 								<WizardStep title="{i18n>titleWizard4}">
 									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.create.wizard4.DatiSoa"
+										fragmentName="rgssoa.view.fragment.soa.wizard4.DatiSoa"
 										type="XML"
 									/>
 								</WizardStep>

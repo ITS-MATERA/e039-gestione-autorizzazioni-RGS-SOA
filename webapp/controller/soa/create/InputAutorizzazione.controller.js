@@ -154,7 +154,7 @@ sap.ui.define(
           var self = this;
           var oModel = self.getModel();
           var oDialog = self.loadFragment(
-            "rgssoa.view.fragment.valueHelp.ChiaveAutorizzazione"
+            "rgssoa.view.fragment.soa.value-help.ChiaveAutorizzazione"
           );
 
           var aFilters = [];
@@ -223,7 +223,7 @@ sap.ui.define(
           var oModel = self.getModel();
           var oAutorizzazione = self.getModel("Autorizzazione").getData();
           var oDialog = self.loadFragment(
-            "rgssoa.view.fragment.valueHelp.IdAutorizzazione"
+            "rgssoa.view.fragment.soa.value-help.IdAutorizzazione"
           );
 
           var aFilters = [];

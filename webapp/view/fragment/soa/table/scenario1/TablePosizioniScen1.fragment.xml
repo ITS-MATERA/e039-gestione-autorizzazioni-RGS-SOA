@@ -183,7 +183,7 @@
 				</items>
 			</Table>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.panel.Calculator"
+				fragmentName="rgssoa.view.fragment.soa.table.Calculator"
 				type="XML"
 			/>
 		</content>

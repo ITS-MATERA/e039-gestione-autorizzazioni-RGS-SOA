@@ -8,15 +8,15 @@
 		visible="{StepScenario>/wizard1Step1}"
 	>
 		<c:Fragment
-			fragmentName="rgssoa.view.fragment.panel.newProspettoLiquidazione.Beneficiario"
+			fragmentName="rgssoa.view.fragment.soa.wizard1.scenario4.Beneficiario"
 			type="XML"
 		/>
 		<c:Fragment
-			fragmentName="rgssoa.view.fragment.panel.newProspettoLiquidazione.ImputazioneContabile"
+			fragmentName="rgssoa.view.fragment.soa.wizard1.scenario4.ImputazioneContabile"
 			type="XML"
 		/>
 		<c:Fragment
-			fragmentName="rgssoa.view.fragment.panel.newProspettoLiquidazione.ImportoLiquidazione"
+			fragmentName="rgssoa.view.fragment.soa.wizard1.scenario4.ImportoLiquidazione"
 			type="XML"
 		/>
 	</Panel>

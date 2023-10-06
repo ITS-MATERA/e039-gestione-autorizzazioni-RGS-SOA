@@ -48,7 +48,7 @@ sap.ui.define(
         var oDataModel = self.getModel();
         self.unloadFragment();
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.filtersDocumentiProspetti.Beneficiario"
+          "rgssoa.view.fragment.soa.value-help.filters.Beneficiario"
         );
 
         oDataModel.read("/" + "RicercaBeneficiarioSet", {
@@ -141,7 +141,7 @@ sap.ui.define(
         var self = this;
         var oDataModel = self.getModel();
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.filtersDocumentiProspetti.UfficioContabile"
+          "rgssoa.view.fragment.soa.value-help.filters.UfficioContabile"
         );
 
         oDataModel.read("/" + "RicercaUfficioContabileSet", {
@@ -172,7 +172,7 @@ sap.ui.define(
         var self = this;
         var oDataModel = self.getModel();
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.filtersDocumentiProspetti.UfficioPagatore"
+          "rgssoa.view.fragment.soa.value-help.filters.UfficioPagatore"
         );
 
         self
@@ -209,7 +209,7 @@ sap.ui.define(
         var oDataModel = self.getModel();
         var oModelFilter = self.getModel("FilterDocumenti");
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.filtersDocumentiProspetti.NRegDocumento"
+          "rgssoa.view.fragment.soa.value-help.filters.NRegDocumento"
         );
 
         var oSelectDialog = sap.ui.getCore().byId("sdNRegDocumento");
@@ -258,7 +258,7 @@ sap.ui.define(
         var oDataModel = self.getModel();
         var oModelFilter = self.getModel("FilterDocumenti");
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.filtersDocumentiProspetti.NDocBeneficiario"
+          "rgssoa.view.fragment.soa.value-help.filters.NDocBeneficiario"
         );
         var aFilters = [];
         var aGjahr = oModelFilter.getProperty("/AnnoDocBeneficiario");
@@ -308,7 +308,7 @@ sap.ui.define(
         var self = this;
         var oDataModel = self.getModel();
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.filtersDocumentiProspetti.DescProspLiquidazione"
+          "rgssoa.view.fragment.soa.value-help.filters.DescProspLiquidazione"
         );
 
         oDataModel.read("/" + "RicercaDescProspLiqSet", {
@@ -339,7 +339,7 @@ sap.ui.define(
         var self = this;
         var oDataModel = self.getModel();
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.filtersDocumentiProspetti.UfficioLiquidatore"
+          "rgssoa.view.fragment.soa.value-help.filters.UfficioLiquidatore"
         );
 
         oDataModel.read("/" + "RicercaUffLiquidatoreSet", {
@@ -377,7 +377,7 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.BeneficiarioScen4"
+          "rgssoa.view.fragment.soa.value-help.BeneficiarioScen4"
         );
 
         self;
@@ -427,7 +427,7 @@ sap.ui.define(
         //Load Models
         var oModel = self.getModel();
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.CentroCosto"
+          "rgssoa.view.fragment.soa.value-help.CentroCosto"
         );
 
         oModel.read("/" + "CentroCostoSet", {
@@ -468,7 +468,7 @@ sap.ui.define(
         var oModel = self.getModel();
         var oModelSoa = self.getModel("Soa");
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.ContoCoGe"
+          "rgssoa.view.fragment.soa.value-help.ContoCoGe"
         );
 
         var aFilters = [];
@@ -1105,7 +1105,7 @@ sap.ui.define(
         var sLifnr = self.setBlank(oModelSoa.getProperty("/Lifnr"));
 
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.ModalitaPagamento"
+          "rgssoa.view.fragment.soa.value-help.ModalitaPagamento"
         );
         var aFitlers = [];
 
@@ -1173,7 +1173,7 @@ sap.ui.define(
         var sLifnr = self.setBlank(oModelSoa?.getProperty("/Lifnr"));
 
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.CoordinateEstere"
+          "rgssoa.view.fragment.soa.value-help.CoordinateEstere"
         );
         var aFilters = [];
 
@@ -1220,7 +1220,7 @@ sap.ui.define(
         var oModelSoa = self.getModel("Soa");
 
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.CodiceFiscaleQuietanzante"
+          "rgssoa.view.fragment.soa.value-help.CodiceFiscaleQuietanzante"
         );
 
         var oSelectDialog = sap.ui
@@ -1307,7 +1307,7 @@ sap.ui.define(
         var oModelSoa = self.getModel("Soa");
 
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.CodiceFiscaleEsteroQuietanzante"
+          "rgssoa.view.fragment.soa.value-help.CodiceFiscaleEsteroQuietanzante"
         );
 
         var oSelectDialog = sap.ui.getCore().byId("sdCFEsteroQuietanzante");
@@ -2329,7 +2329,7 @@ sap.ui.define(
         var oSourceData = oEvent.getSource().data();
         var dialogName = oSourceData.dialogName;
         var oDialog = self.loadFragment(
-          "rgssoa.view.fragment.valueHelp.CodiceGestionale"
+          "rgssoa.view.fragment.soa.value-help.CodiceGestionale"
         );
 
         oDataModel.read("/" + "CodiceGestionaleClassificazioneSet", {
@@ -2374,7 +2374,9 @@ sap.ui.define(
 
         var oSourceData = oEvent.getSource().data();
         var dialogName = oSourceData.dialogName;
-        var oDialog = self.loadFragment("rgssoa.view.fragment.valueHelp.Cpv");
+        var oDialog = self.loadFragment(
+          "rgssoa.view.fragment.soa.value-help.Cpv"
+        );
 
         oDataModel.read("/" + "CPVClassificazioneSet", {
           success: function (data, oResponse) {
@@ -2811,7 +2813,9 @@ sap.ui.define(
 
       onLog: function () {
         var self = this;
-        var oDialog = self.loadFragment("rgssoa.view.fragment.pop-up.TableLog");
+        var oDialog = self.loadFragment(
+          "rgssoa.view.fragment.soa.table.TableLog"
+        );
 
         oDialog.open();
       },
@@ -4623,7 +4627,7 @@ sap.ui.define(
 
           if (oModelSoa.getProperty("/IbanPrevalorizzato")) {
             var oDialogMotivazione = self.loadFragment(
-              "rgssoa.view.fragment.pop-up.Motivazione"
+              "rgssoa.view.fragment.soa.wizard2.Motivazione"
             );
             oDialogMotivazione.open();
           }

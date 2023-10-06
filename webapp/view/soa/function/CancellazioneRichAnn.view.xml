@@ -15,11 +15,11 @@
 				pinnable="false"
 			>
 				<c:Fragment
-					fragmentName="rgssoa.view.fragment.panel.HeaderSoa"
+					fragmentName="rgssoa.view.fragment.soa.HeaderSoa"
 					type="XML"
 				/>
 				<c:Fragment
-					fragmentName="rgssoa.view.fragment.panel.IconTabBarSoa"
+					fragmentName="rgssoa.view.fragment.soa.IconTabBarSoa"
 					type="XML"
 				/>
 			</f:DynamicPageHeader>

@@ -1,0 +1,39 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+>
+	<Panel
+		class="sapUiNoContentPadding"
+		backgroundDesign="Transparent"
+		visible="{StepScenario>/wizard2}"
+	>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.soa.wizard2.panel.Beneficiario"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.soa.wizard2.panel.ModalitaPagamento"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.soa.wizard2.panel.DatiVaglia"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.soa.wizard2.panel.Inps"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.soa.wizard2.panel.BancaAccredito"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.soa.wizard2.panel.Intermediario1"
+			type="XML"
+		/>
+		<c:Fragment
+			fragmentName="rgssoa.view.fragment.soa.wizard2.panel.SedeBeneficiario"
+			type="XML"
+		/>
+	</Panel>
+</c:FragmentDefinition>

@@ -7,7 +7,7 @@
 		class="sapUiNoContentPadding"
 	>
 		<c:Fragment
-			fragmentName="rgssoa.view.fragment.panel.DatiFirmatario"
+			fragmentName="rgssoa.view.fragment.soa.function.DatiFirmatario"
 			type="XML"
 		/>
 		<c:Fragment
@@ -20,7 +20,7 @@
 			visible="{= ${Utility>/SelectedItem/Zchiavesop} ? true : false}"
 		>
 			<c:Fragment
-				fragmentName="rgssoa.view.fragment.panel.Workflow"
+				fragmentName="rgssoa.view.fragment.soa.Workflow"
 				type="XML"
 			/>
 		</Panel>
