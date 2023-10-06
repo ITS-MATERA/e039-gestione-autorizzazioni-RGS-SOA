@@ -80,7 +80,7 @@
 							</WizardStep>
 							<WizardStep title="{i18n>titleWizard3}">
 								<c:Fragment
-									fragmentName="rgssoa.view.fragment.soa.create.wizard3.Classificazione"
+									fragmentName="rgssoa.view.fragment.soa.wizard3.Classificazione"
 									type="XML"
 								/>
 							</WizardStep>

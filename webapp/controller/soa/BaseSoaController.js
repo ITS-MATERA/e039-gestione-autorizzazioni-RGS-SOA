@@ -3680,6 +3680,7 @@ sap.ui.define(
           self.doCancellaRichAnn();
         }
       },
+
       onValorizzaDataProt: function () {
         var self = this;
         var oModelUtility = self.getModel("Utility");
@@ -3973,6 +3974,7 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var aModelListSoa = self.getModel("ListSoa").getData();
+        var oDatiFirma = self.getModel("DatiFirmatario")?.getData();
         var oBundle = this.getOwnerComponent()
           .getModel("i18n")
           .getResourceBundle();
@@ -3988,7 +3990,43 @@ sap.ui.define(
         MessageBox.warning(sMessage, {
           actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
           title: "Cancellazione Richiesta di annullamento",
-          onClose: function (oAction) {},
+          onClose: function (oAction) {
+            if (oAction === "OK") {
+              var aSospesi = [];
+
+              aModelListSoa.map((oSoa) => {
+                var oSospeso = {
+                  Bukrs: oSoa.Bukrs,
+                  Gjahr: oSoa.Gjahr,
+                  Zchiavesop: oSoa.Zchiavesop,
+                  Zstep: oSoa.Zstep,
+                  Ztipososp: oSoa.Ztipososp,
+                };
+
+                aSospesi.push(oSospeso);
+              });
+
+              var oFunzionalitaDeep = {
+                Funzionalita: "CANCELLAZIONE_RICH_ANN",
+                ZuffcontFirm: self.setBlank(oDatiFirma.ZuffcontFirm),
+                Zcodord: self.setBlank(oDatiFirma.Zcodord),
+                ZdirigenteAmm: self.setBlank(oDatiFirma.ZdirigenteAmm),
+                Zcdr: self.setBlank(oDatiFirma.Fistl),
+                Sospeso: aSospesi,
+                Messaggio: [],
+              };
+
+              oModel.create("/FunzionalitaDeepSet", oFunzionalitaDeep, {
+                success: function (result) {
+                  self._printMessage(
+                    result,
+                    "Cancellazione Richiesta di annullamento"
+                  );
+                },
+                error: function () {},
+              });
+            }
+          },
         });
       },
 

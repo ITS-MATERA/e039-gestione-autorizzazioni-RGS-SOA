@@ -887,7 +887,7 @@ sap.ui.define(
         }
 
         aSelectedItems.map((oSelectedItem) => {
-          if (oSelectedItem.ZcodStatosop !== "00") {
+          if (oSelectedItem.ZcodStatosop !== "10") {
             bEnabled = false;
             return;
           }
