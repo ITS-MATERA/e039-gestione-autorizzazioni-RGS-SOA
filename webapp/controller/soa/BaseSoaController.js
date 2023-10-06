@@ -1428,7 +1428,6 @@ sap.ui.define(
             if (self.setResponseMessage(oResponse)) {
               oModelSoa.setProperty("/Iban", "");
             }
-            console.log(oModelSoa.getData().data);
             self._setBanksSeqnr();
           },
           error: function () {
@@ -2936,7 +2935,6 @@ sap.ui.define(
         var self = this;
         var oModelSoa = self.getModel("Soa");
 
-        console.log(oData);
         oModelSoa.setProperty("/Ztipopag", oData.Ztipopag);
         oModelSoa.setProperty("/Bukrs", oData.Bukrs);
         oModelSoa.setProperty("/Zchiavesop", oData.Zchiavesop);
@@ -4523,11 +4521,10 @@ sap.ui.define(
         var aDataQuietaVaglia = obj?.data?.QuietVaglia?.results;
         var oData = obj?.data;
 
-        if (oData.MessageType !== "S" || aDataQuietaVaglia.length !== 0) {
+        if (oData.MessageType !== "S" || aDataQuietaVaglia.length === 0) {
           return;
         }
 
-        //TODO - Inserire i nuovi campi della sezione quaglia
         this._setDatiQuagliaVaglia(aDataQuietaVaglia, true);
       },
 
@@ -4570,8 +4567,36 @@ sap.ui.define(
             oModelSoa.setProperty("/Zregioi", oData.Zregioi);
             oModelSoa.setProperty("/Zpstlzi", oData.Zpstlzi);
             oModelSoa.setProperty("/Zland1i", oData.Zland1i);
-          } else if (oData.TipVis === "D" || oData.TipVis === "Q") {
-            if (oModelSoa.getProperty("/Zstcd1")) {
+          } else if (oData.TipVis === "D") {
+            //Se D = Destinatario
+            oModelSoa.setProperty("/ZpersNomeVaglia", oData.ZQNome);
+            oModelSoa.setProperty("/ZpersCognomeVaglia", oData.ZQCognome);
+            oModelSoa.setProperty("/Zstcd13", oData.Stcd3);
+            oModelSoa.setProperty("/Zqindiriz", oData.ZQIndiriz);
+            oModelSoa.setProperty("/Zqcitta", oData.ZQCitta);
+            oModelSoa.setProperty("/Zqcap", oData.ZQCAP);
+            oModelSoa.setProperty("/Zqprovincia", oData.ZQProvincia);
+            oModelSoa.setProperty("/Land1Quietanzante", oData.Land1);
+            oModelSoa.setProperty("/ZzRagSocQuietanzante", oData.Zzrag_soc);
+          } else if (oData.TipVis === "Q") {
+            //Se Q = Quietanzante
+            //Se non sono valorizzati sia il CF del primo quietanzante e sia
+            //il CF del destinatario vuol dire che quello inserito è il primo
+            //quietanzante
+            if (
+              !oModelSoa.getProperty("/Zstcd1") &&
+              !oModelSoa.getProperty("/Zstcd13")
+            ) {
+              oModelSoa.setProperty("/ZpersNomeQuiet1", oData.ZQNome);
+              oModelSoa.setProperty("/ZpersCognomeQuiet1", oData.ZQCognome);
+              oModelSoa.setProperty("/Zstcd1", oData.Stcd1);
+              oModelSoa.setProperty("/Zqindiriz", oData.ZQIndiriz);
+              oModelSoa.setProperty("/Zqcitta", oData.ZQCitta);
+              oModelSoa.setProperty("/Zqcap", oData.ZQCAP);
+              oModelSoa.setProperty("/Zqprovincia", oData.ZQProvincia);
+              oModelSoa.setProperty("/Land1Quietanzante", oData.Zzrag_soc);
+              oModelSoa.setProperty("/ZzRagSocQuietanzante", oData.Land1);
+            } else {
               oModelSoa.setProperty("/ZpersCognomeQuiet2", oData.ZQCognome);
               oModelSoa.setProperty("/ZpersNomeQuiet2", oData.ZQNome);
               oModelSoa.setProperty("/Zstcd12", oData.Stcd2);
@@ -4579,22 +4604,8 @@ sap.ui.define(
               oModelSoa.setProperty("/Zqcitta12", oData.ZQCitta);
               oModelSoa.setProperty("/Zqcap12", oData.ZQCAP);
               oModelSoa.setProperty("/Zqprovincia12", oData.ZQProvincia);
+              oModelSoa.setProperty("/Land1Quietanzante2", oData.Land1);
             }
-
-            if (oData.Zwels === "ID1") {
-              oModelSoa.setProperty("/ZpersNomeQuiet1", oData.ZQNome);
-              oModelSoa.setProperty("/ZpersCognomeQuiet1", oData.ZQCognome);
-              oModelSoa.setProperty("/Zstcd1", oData.Stcd1);
-            } else if (oData.Zwels === "ID2") {
-              oModelSoa.setProperty("/ZpersNomeVaglia", oData.ZQNome);
-              oModelSoa.setProperty("/ZpersCognomeVaglia", oData.ZQCognome);
-              oModelSoa.setProperty("/Zstcd13", oData.Stcd3);
-            }
-
-            oModelSoa.setProperty("/Zqindiriz", oData.ZQIndiriz);
-            oModelSoa.setProperty("/Zqcitta", oData.ZQCitta);
-            oModelSoa.setProperty("/Zqcap", oData.ZQCAP);
-            oModelSoa.setProperty("/Zqprovincia", oData.ZQProvincia);
           }
         });
       },
