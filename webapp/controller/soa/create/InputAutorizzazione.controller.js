@@ -150,74 +150,6 @@ sap.ui.define(
 
         //#region VALUE HELPS
 
-        onValueHelpChiaveAutorizzazione: function () {
-          var self = this;
-          var oModel = self.getModel();
-          var oDialog = self.loadFragment(
-            "rgssoa.view.fragment.soa.value-help.ChiaveAutorizzazione"
-          );
-
-          var aFilters = [];
-
-          var oModelInputAutorizzazione = self.getModel("InputAutorizzazione");
-
-          self.setFilterEQ(
-            aFilters,
-            "Gjahr",
-            oModelInputAutorizzazione.getProperty("/Gjahr")
-          );
-
-          oModel.read("/" + "ChiaveAutorizzazioneSet", {
-            urlParameters: {
-              isDocumentCost:
-                oModelInputAutorizzazione.getProperty("/SoaType") === "1"
-                  ? ""
-                  : "X",
-            },
-            filters: aFilters,
-            success: function (data, oResponse) {
-              self.setResponseMessage(oResponse);
-              self.setModelSelectDialog(
-                "ChiaveAutorizzazione",
-                data,
-                "sdChiaveAutorizzazione",
-                oDialog
-              );
-            },
-            error: function (error) {},
-          });
-        },
-
-        onValueHelpChiaveAutorizzazioneClose: function (oEvent) {
-          var self = this;
-          var oModel = self.getModel();
-          var oSelectedItem = oEvent.getParameter("selectedItem");
-
-          if (!oSelectedItem) {
-            return;
-          }
-          var oData = oSelectedItem.data();
-
-          var sPath = oModel.createKey("/ChiaveAutorizzazioneSet", {
-            Gjahr: oData.Gjahr,
-            Zchiaveaut: oData.Zchiaveaut,
-            Bukrs: oData.Bukrs,
-            ZstepAut: oData.ZstepAut,
-          });
-
-          self.getView().setBusy(true);
-
-          oModel.read(sPath, {
-            success: function (data) {
-              self.getView().setBusy(false);
-              self.setModelCustom("Autorizzazione", data);
-              self._setSceltaOperativa();
-            },
-          });
-
-          self.unloadFragment();
-        },
-
         onValueHelpIdAutorizzazione: function () {
           var self = this;
           var oModel = self.getModel();
@@ -400,6 +332,35 @@ sap.ui.define(
             "/DocumentiNonLiquidati",
             false
           );
+        },
+
+        functionReturnZchiaveaut: function (oData) {
+          var self = this;
+
+          var oModel = self.getModel();
+          var oModelAutorizzazione = self.getModel("Autorizzazione");
+
+          oModelAutorizzazione.setProperty("/Gjahr", oData.Gjahr);
+          oModelAutorizzazione.setProperty("/Zchiaveaut", oData.Zchiaveaut);
+          oModelAutorizzazione.setProperty("/Bukrs", oData.Bukrs);
+          oModelAutorizzazione.setProperty("/ZstepAut", oData.ZstepAut);
+
+          var sPath = oModel.createKey("/ChiaveAutorizzazioneSet", {
+            Gjahr: oData.Gjahr,
+            Zchiaveaut: oData.Zchiaveaut,
+            Bukrs: oData.Bukrs,
+            ZstepAut: oData.ZstepAut,
+          });
+
+          self.getView().setBusy(true);
+
+          oModel.read(sPath, {
+            success: function (data) {
+              self.getView().setBusy(false);
+              self.setModelCustom("Autorizzazione", data);
+              self._setSceltaOperativa();
+            },
+          });
         },
 
         //#endregion PRIVATE METHODS

@@ -4,6 +4,7 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:zcontrolPosFin="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfinlink.controls"
 	xmlns:zcontrollinkSar="custlinksar.custlinksar.controls"
+	xmlns:zchiaveautlibrary="custZchiaveaut.zchiaveautlibrary.controls"
 >
 	<Panel
 		backgroundDesign="Transparent"
@@ -23,7 +24,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<ComboBox
@@ -39,7 +40,7 @@
 							text="{Gjahr}"
 						/>
 						<layoutData>
-							<l:GridData span="XL1 L2 M3 S12"/>
+							<l:GridData span="XL1 L2 M3 S12" />
 						</layoutData>
 					</ComboBox>
 				</l:Grid>
@@ -48,7 +49,7 @@
 		<Panel backgroundDesign="Transparent">
 			<headerToolbar>
 				<OverflowToolbar>
-					<Title text="{i18n>chiaveAutDatiAutorizzazione}"/>
+					<Title text="{i18n>chiaveAutDatiAutorizzazione}" />
 				</OverflowToolbar>
 			</headerToolbar>
 			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
@@ -61,21 +62,23 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
-					<Input
-						id="fltChiaveAutorizzazione"
-						valueHelpRequest="onValueHelpChiaveAutorizzazione"
-						showValueHelp="true"
-						value="{Autorizzazione>/Zchiaveaut}"
-						change="onChiaveAutorizzazioneChange"
-						maxLength="33"
-					>
+					<FlexBox class="flexBoxWitdh">
+						<zchiaveautlibrary:InputZchiaveaut
+							value="{Autorizzazione>/Zchiaveaut}"
+							onlyRegistered="true"
+							agrName="{AuthorityCheckSoa>/AgrName}"
+							fikrs="{AuthorityCheckSoa>/Fikrs}"
+							prctr="{AuthorityCheckSoa>/Prctr}"
+							semanticObject="ZS4_SOA_SRV"
+							change="onChiaveAutorizzazioneChange"
+						/>
 						<layoutData>
-							<l:GridData span="XL2 L2 M4 S12"/>
+							<l:GridData span="XL2 L2 M4 S12" />
 						</layoutData>
-					</Input>
+					</FlexBox>
 					<Text
 						text="{i18n>chiaveAutDataStato}"
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
@@ -101,7 +104,7 @@
 						editable="false"
 					>
 						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12"/>
+							<l:GridData span="XL1 L2 M4 S12" />
 						</layoutData>
 					</DatePicker>
 				</l:Grid>
@@ -116,7 +119,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<Input
@@ -127,7 +130,7 @@
 						}"
 					>
 						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12"/>
+							<l:GridData span="XL1 L2 M4 S12" />
 						</layoutData>
 					</Input>
 					<Text
@@ -149,7 +152,7 @@
 						}"
 					>
 						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12"/>
+							<l:GridData span="XL1 L2 M4 S12" />
 						</layoutData>
 					</Input>
 				</l:Grid>
@@ -164,7 +167,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<Input
@@ -172,7 +175,7 @@
 						value="{Autorizzazione>/Zdesctipodisp2}"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L2 M5 S12"/>
+							<l:GridData span="XL2 L2 M5 S12" />
 						</layoutData>
 					</Input>
 					<Text
@@ -191,7 +194,7 @@
 						value="{Autorizzazione>/Zdesctipodisp3}"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L2 M5 S12"/>
+							<l:GridData span="XL2 L2 M5 S12" />
 						</layoutData>
 					</Input>
 				</l:Grid>
@@ -206,7 +209,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<Input
@@ -214,7 +217,7 @@
 						value="{Autorizzazione>/Znoteaut}"
 					>
 						<layoutData>
-							<l:GridData span="XL8 L9 M12 S12"/>
+							<l:GridData span="XL8 L9 M12 S12" />
 						</layoutData>
 					</Input>
 				</l:Grid>
@@ -229,7 +232,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<Input
@@ -237,7 +240,7 @@
 						value="{Autorizzazione>/ZufficioCont}"
 					>
 						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12"/>
+							<l:GridData span="XL1 L2 M4 S12" />
 						</layoutData>
 					</Input>
 					<Text
@@ -256,7 +259,7 @@
 						value="{Autorizzazione>/ZvimDescrufficio}"
 					>
 						<layoutData>
-							<l:GridData span="XL4 L4 M12 S12"/>
+							<l:GridData span="XL4 L4 M12 S12" />
 						</layoutData>
 					</Input>
 				</l:Grid>
@@ -271,7 +274,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<Input
@@ -279,7 +282,7 @@
 						value="{Autorizzazione>/Zfunzdel}"
 					>
 						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12"/>
+							<l:GridData span="XL1 L2 M4 S12" />
 						</layoutData>
 					</Input>
 					<Text
@@ -298,7 +301,7 @@
 						value="{Autorizzazione>/Zdescriz}"
 					>
 						<layoutData>
-							<l:GridData span="XL4 L4 M12 S12"/>
+							<l:GridData span="XL4 L4 M12 S12" />
 						</layoutData>
 					</Input>
 				</l:Grid>
@@ -313,7 +316,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<CheckBox
@@ -321,7 +324,7 @@
 						editable="false"
 					>
 						<layoutData>
-							<l:GridData span="XL1 L1 M1 S1"/>
+							<l:GridData span="XL1 L1 M1 S1" />
 						</layoutData>
 					</CheckBox>
 				</l:Grid>
@@ -336,7 +339,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<Input
@@ -347,7 +350,7 @@
 						}"
 					>
 						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12"/>
+							<l:GridData span="XL1 L2 M4 S12" />
 						</layoutData>
 					</Input>
 					<Text
@@ -376,7 +379,7 @@
 							semanticObject="ESAMINAMODIFICA"
 						/>
 						<layoutData>
-							<l:GridData span="XL2 L4 M4 S12"/>
+							<l:GridData span="XL2 L4 M4 S12" />
 						</layoutData>
 					</VBox>
 					<Text
@@ -384,7 +387,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<VBox>
@@ -403,7 +406,7 @@
 							text="{Autorizzazione>/Fistl}"
 						/>
 						<layoutData>
-							<l:GridData span="XL2 L4 M4 S12"/>
+							<l:GridData span="XL2 L4 M4 S12" />
 						</layoutData>
 					</VBox>
 				</l:Grid>
@@ -418,7 +421,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<Input
@@ -426,7 +429,7 @@
 						value="{Autorizzazione>/DescrEstesa}"
 					>
 						<layoutData>
-							<l:GridData span="XL9 L9 M12 S12"/>
+							<l:GridData span="XL9 L9 M12 S12" />
 						</layoutData>
 					</Input>
 				</l:Grid>
@@ -441,7 +444,7 @@
 						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12"/>
+							<l:GridData span="XL2 L3 M5 S12" />
 						</layoutData>
 					</Text>
 					<Input
@@ -457,7 +460,7 @@
 						change="onIdAutorizzazioneChange"
 					>
 						<layoutData>
-							<l:GridData span="XL2 L2 M4 S12"/>
+							<l:GridData span="XL2 L2 M4 S12" />
 						</layoutData>
 					</Input>
 				</l:Grid>
@@ -466,7 +469,7 @@
 		<Panel backgroundDesign="Transparent">
 			<headerToolbar>
 				<OverflowToolbar>
-					<Title text="{i18n>chiaveAutSceltaOperativa}"/>
+					<Title text="{i18n>chiaveAutSceltaOperativa}" />
 				</OverflowToolbar>
 			</headerToolbar>
 			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">

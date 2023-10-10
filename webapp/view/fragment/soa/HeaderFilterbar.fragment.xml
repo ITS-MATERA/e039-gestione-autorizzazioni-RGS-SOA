@@ -5,6 +5,7 @@
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
 	xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
+	xmlns:zchiaveautlibrary="custZchiaveaut.zchiaveautlibrary.controls"
 >
 	<VBox>
 		<l:Grid
@@ -15,7 +16,7 @@
 		>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -38,31 +39,31 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
 						text="{i18n>soaFilterZzamministr}"
 						class="filterLabel"
 					/>
-					<Input value="{Filter>/Zzamministr}"/>
+					<Input value="{Filter>/Zzamministr}" />
 				</items>
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
 						text="{i18n>inputCapitolo}"
 						class="filterLabel"
 					/>
-					<Input value="{Filter>/Zcapitolo}"/>
+					<Input value="{Filter>/Zcapitolo}" />
 				</items>
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -77,31 +78,31 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
 						text="{i18n>soaFilterZnumsopFrom}"
 						class="filterLabel"
 					/>
-					<Input value="{Filter>/ZnumsopFrom}"/>
+					<Input value="{Filter>/ZnumsopFrom}" />
 				</items>
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
 						text="{i18n>soaFilterZnumsopTo}"
 						class="filterLabel"
 					/>
-					<Input value="{Filter>/ZnumsopTo}"/>
+					<Input value="{Filter>/ZnumsopTo}" />
 				</items>
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -124,7 +125,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -132,12 +133,21 @@
 						class="filterLabel"
 						required="true"
 					/>
-					<Input value="{Filter>/Zchiaveaut}"/>
+					<zchiaveautlibrary:InputZchiaveaut
+						id="iptZchiaveaut"
+						value="{Filter>/Zchiaveaut}"
+						agrName="{AuthorityCheckSoa>/AgrName}"
+						fikrs="{AuthorityCheckSoa>/Fikrs}"
+						prctr="{AuthorityCheckSoa>/Prctr}"
+						semanticObject="ZS4_SOA_SRV"
+						onlyRegistered="false"
+						change="onChiaveAutorizzazioneChange"
+					/>
 				</items>
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -161,7 +171,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -184,7 +194,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -207,7 +217,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -230,7 +240,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -253,7 +263,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -277,7 +287,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -299,7 +309,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -321,7 +331,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -343,31 +353,31 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
 						text="{i18n>soaFilterZnumprot}"
 						class="filterLabel"
 					/>
-					<Input value="{Filter>/Znumprot}"/>
+					<Input value="{Filter>/Znumprot}" />
 				</items>
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
 						text="{i18n>filterBeneficiario}"
 						class="filterLabel"
 					/>
-					<Input value="{Filter>/Lifnr}"/>
+					<Input value="{Filter>/Lifnr}" />
 				</items>
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -385,7 +395,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -428,7 +438,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -450,7 +460,7 @@
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL3 L4 M6 S12"/>
+					<l:GridData span="XL3 L4 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
@@ -484,31 +494,31 @@
 						text="{i18n>filterZnumliqFrom}"
 						class="filterLabel"
 					/>
-					<Input value="{Filter>/ZnumliqFrom}"/>
+					<Input value="{Filter>/ZnumliqFrom}" />
 				</items>
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL2 L3 M6 S12"/>
+					<l:GridData span="XL2 L3 M6 S12" />
 				</layoutData>
 				<items>
 					<Label
 						text="{i18n>filterZnumliqTo}"
 						class="filterLabel"
 					/>
-					<Input value="{Filter>/ZnumliqTo}"/>
+					<Input value="{Filter>/ZnumliqTo}" />
 				</items>
 			</VBox>
 			<VBox>
 				<layoutData>
-					<l:GridData span="XL4 L6 M8 S12"/>
+					<l:GridData span="XL4 L6 M8 S12" />
 				</layoutData>
 				<items>
 					<Label
 						text="{i18n>filterZdescProsp}"
 						class="filterLabel"
 					/>
-					<Input value="{Filter>/ZdescProsp}"/>
+					<Input value="{Filter>/ZdescProsp}" />
 				</items>
 			</VBox>
 			<Button

@@ -374,7 +374,6 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var oModelFilter = self.getModel("Filter");
-
         var aFilters = [];
 
         self.setFilterEQ(
@@ -949,6 +948,8 @@ sap.ui.define(
 
         return false;
       },
+
+      functionReturnZchiaveaut: function (oData) {},
 
       //#endregion GESTIONE FUNZIONALITA'
     });
