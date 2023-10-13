@@ -81,7 +81,7 @@
 					press="onNavBack"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L2 M6 S12"/>
+						<l:GridData span="XL2 L2 M6 S12" />
 					</layoutData>
 				</Button>
 				<Button
@@ -132,7 +132,7 @@
 					press="onFirmaAuth"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L2 M6 S12"/>
+						<l:GridData span="XL2 L12 M6 S12" />
 					</layoutData>
 				</Button>
 				<Button
@@ -147,7 +147,7 @@
 					press="onRevocaFirmaAuth"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L2 M6 S12"/>
+						<l:GridData span="XL2 L2 M6 S12" />
 					</layoutData>
 				</Button>
 			</l:Grid>
