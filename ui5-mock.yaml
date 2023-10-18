@@ -17,6 +17,12 @@ server:
           - path: /sap
             url: http://l2vs2slass01.mef.gov.it:8000
             client: "100"
+          - path: /sap
+            url: http://l2vs2slass01.mef.gov.it:8000
+            client: "100"
+          - path: /sap/opu/odata/sap/ZSS4_COSP_CONTRATTO_SRV/
+            url: http://l2vs2slass01.mef.gov.it:8000
+            client: "100"
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
@@ -41,4 +47,12 @@ server:
           - urlPath: /sap/opu/odata/sap/ZS4_SOA_SRV/
             metadataXmlPath: ./webapp/localService/metadata.xml
             mockdataRootPath: ./webapp/localService/mockdata
+            generateMockData: true
+          - urlPath: /sap/opu/odata/sap/ZSS4_CO_GEST_ANAGRAFICHE_SRV/
+            metadataXmlPath: ./webapp/localService/ZSS4_CO_GEST_ANAGRAFICHE_SRV/metadata.xml
+            mockdataRootPath: ./webapp/localService/ZSS4_CO_GEST_ANAGRAFICHE_SRV/mockdata
+            generateMockData: true
+          - urlPath: /sap/opu/odata/sap/ZSS4_COSP_CONTRATTO_SRV/
+            metadataXmlPath: ./webapp/localService/ZSS4_COSP_CONTRATTO_SRV/metadata.xml
+            mockdataRootPath: ./webapp/localService/ZSS4_COSP_CONTRATTO_SRV/mockdata
             generateMockData: true

@@ -7,7 +7,7 @@
 	<Panel backgroundDesign="Transparent">
 		<headerToolbar>
 			<OverflowToolbar>
-				<Title text="{i18n>titleModalitaPagamento}"/>
+				<Title text="{i18n>titleModalitaPagamento}" />
 			</OverflowToolbar>
 		</headerToolbar>
 		<content>
@@ -20,7 +20,7 @@
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Text>
 				<Input
@@ -31,7 +31,7 @@
 					editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -50,7 +50,7 @@
 					editable="false"
 				>
 					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
+						<l:GridData span="XL1 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -80,7 +80,7 @@
 						/>
 					</items>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</FlexBox>
 				<Text
@@ -88,7 +88,7 @@
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Text>
 				<FlexBox class="flexBoxWitdh">
@@ -122,7 +122,7 @@
 						}"
 					/> -->
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</FlexBox>
 				<Text
@@ -137,24 +137,30 @@
 						/>
 					</layoutData>
 				</Text>
-				<Input
-					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
-					editable="{= ${Soa>/EnableEdit} ? true : false}"
-					value="{Soa>/Zalias}"
-					maxLength="17"
-					change="onAliasChange"
-				>
+				<FlexBox class="flexBoxWitdh">
+					<items>
+						<zcontrolmccross:MatchcodeCross
+							id="iptAlias"
+							viewId="{Utility>/ViewId}"
+							whichMC="AliasRGS"
+							value="{Soa>/Zalias}"
+							visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+							editable="{= ${Soa>/EnableEdit} ? true : false}"
+							change="onAliasChange"
+							maxLength="17"
+						/>
+					</items>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
-				</Input>
+				</FlexBox>
 				<Text
 					text="{i18n>inputTipoConto}"
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Text>
 				<Input
@@ -164,7 +170,7 @@
 					maxLength="10"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -173,7 +179,7 @@
 					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Text>
 				<Input
@@ -182,7 +188,7 @@
 					value="{Soa>/RegioConto}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -203,7 +209,7 @@
 					value="{Soa>/ZaccText}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -222,7 +228,7 @@
 					value="{Soa>/Swift}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -230,7 +236,7 @@
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Text>
 				<Input
@@ -243,7 +249,7 @@
 					change="onCoordinateEstereChange"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -266,7 +272,7 @@
 					change="onPosFinanziariaEntrateChange"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -288,7 +294,7 @@
 					maxLength="4"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -318,7 +324,7 @@
 						text="{DescFlagFruttifero}"
 					/>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</ComboBox>
 				<Text
@@ -327,7 +333,7 @@
 					visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Text>
 				<Input
@@ -336,7 +342,7 @@
 					value="{Soa>/Zcausben}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 			</l:Grid>

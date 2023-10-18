@@ -196,7 +196,11 @@
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>
 				</Text>
-				<Input value="{FilterDocumenti>/Cup}">
+				<Input 
+					showValueHelp="true"
+					value="{FilterDocumenti>/Cup}"
+					valueHelpRequest="onValueHelpCupFilter"
+				>
 					<layoutData>
 						<l:GridData span="XL2 L3 M5 S12"/>
 					</layoutData>

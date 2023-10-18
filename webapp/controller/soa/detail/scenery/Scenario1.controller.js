@@ -4,8 +4,17 @@ sap.ui.define(
     "../../../../model/formatter",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
+    "sap/ui/model/FilterOperator",
+    "sap/apf/utils/Filter",
   ],
-  function (BaseSoaController, formatter, JSONModel, MessageBox) {
+  function (
+    BaseSoaController,
+    formatter,
+    JSONModel,
+    MessageBox,
+    FilterOperator,
+    Filter
+  ) {
     "use strict";
 
     return BaseSoaController.extend(

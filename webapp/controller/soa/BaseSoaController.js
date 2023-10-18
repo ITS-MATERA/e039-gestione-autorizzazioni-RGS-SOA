@@ -302,6 +302,50 @@ sap.ui.define(
         this.unloadFragment();
       },
 
+      onValueHelpCupFilter: function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelCup = self.getModel("ZSS4_COSP_CONTRATTO_SRV");
+        var oSourceData = oEvent.getSource().data();
+        var oDialog = self.loadFragment(
+          "rgssoa.view.fragment.soa.value-help.filters.Cup"
+        );
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Matchcode", "CODICE_CUP");
+
+        oModelCup.read("/MatchCodeContrattoSet", {
+          filters: aFilters,
+          success: function (data) {
+            var aCup = [];
+            var aData = data.results;
+            aData.map((oData) =>
+              aCup.push({
+                Zzcup: oData.CodiceCup,
+              })
+            );
+            var oModelJson = new JSONModel();
+            oModelJson.setData(aCup);
+            var oSelectDialog = sap.ui.getCore().byId("sdCupFilter");
+            oSelectDialog?.setModel(oModelJson, "Cup");
+            oDialog.open();
+          },
+          error: function () {},
+        });
+      },
+
+      onValueHelpCupFilterClose: function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelFilter = self.getModel("FilterDocumenti");
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+        var sZzcup = self.setBlank(oSelectedItem?.getTitle());
+
+        oModelFilter.setProperty("/Cup", sZzcup);
+
+        this.unloadFragment();
+      },
+
       /** -------------SCENARIO 3------------ */
 
       onValueHelpDescProspLiquidazione: function () {
@@ -1638,6 +1682,43 @@ sap.ui.define(
         }
       },
 
+      onBeneficiarioWizard2Change: function (oEvent) {
+        var self = this;
+        var oModelSoa = self.getModel("Soa");
+        var oModel = self.getModel();
+        var sPath = self.getModel().createKey("/BeneficiarioSOASet", {
+          Beneficiario: oEvent.getParameter("value"),
+          CodEnte: "",
+          EnteBen: "",
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sPath, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            oModelSoa.setProperty("/NameFirst", data.Nome);
+            oModelSoa.setProperty("/NameLast", data.Cognome);
+            oModelSoa.setProperty("/ZzragSoc", data.RagSoc);
+            oModelSoa.setProperty("/TaxnumCf", data.CodFisc);
+            oModelSoa.setProperty("/Taxnumxl", data.CodFiscEst);
+            oModelSoa.setProperty("/TaxnumPiva", data.PIva);
+            oModelSoa.setProperty("/Zsede", data?.Sede);
+            oModelSoa.setProperty("/Zdenominazione", data?.DescrSede);
+            oModelSoa.setProperty("/ZzDescebe", data?.EnteBen);
+            oModelSoa.setProperty("/Zdurc", data?.Zdurc);
+            oModelSoa.setProperty("/ZfermAmm", data?.ZfermAmm);
+            oModelSoa.setProperty("/Zdstatodes", data?.Zdstatodes);
+            oModelSoa.setProperty("/Zdscadenza", data?.Zdscadenza);
+            self._setSpecieSoaDesc("1");
+
+            self.getModalitaPagamentoList();
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
       //Cambio IBAN
       onOkMotivazione: function () {
         var self = this;
@@ -2321,27 +2402,86 @@ sap.ui.define(
       },
 
       //#region VALUE HELP
+      // onValueHelpCos: function (oEvent) {
+      //   var self = this;
+      //   //Load Models
+      //   var oDataModel = self.getModel();
+
+      //   var oSourceData = oEvent.getSource().data();
+      //   var dialogName = oSourceData.dialogName;
+      //   var oDialog = self.loadFragment(
+      //     "rgssoa.view.fragment.soa.value-help.CodiceGestionale"
+      //   );
+
+      //   oDataModel.read("/" + "CodiceGestionaleClassificazioneSet", {
+      //     success: function (data, oResponse) {
+      //       var oModelJson = new JSONModel();
+      //       oModelJson.setData(data.results);
+      //       var oSelectDialog = sap.ui.getCore().byId(dialogName);
+      //       oSelectDialog?.setModel(oModelJson, "Cos");
+      //       oSelectDialog?.data("index", oSourceData.index);
+      //       oDialog.open();
+      //     },
+      //     error: function (error) {},
+      //   });
+      // },
+
       onValueHelpCos: function (oEvent) {
         var self = this;
-        //Load Models
-        var oDataModel = self.getModel();
-
+        var oModel = self.getModel();
+        var oModelGestAnag = self.getModel("ZSS4_CO_GEST_ANAGRAFICHE_SRV");
+        var oModelSoa = self.getModel("Soa").getData();
+        var aFilters = [];
         var oSourceData = oEvent.getSource().data();
         var dialogName = oSourceData.dialogName;
         var oDialog = self.loadFragment(
           "rgssoa.view.fragment.soa.value-help.CodiceGestionale"
         );
 
-        oDataModel.read("/" + "CodiceGestionaleClassificazioneSet", {
-          success: function (data, oResponse) {
+        var dCurrentDate = new Date();
+        var sCurrentDate =
+          dCurrentDate.getFullYear().toString() +
+          (dCurrentDate.getMonth() + 1).toString() +
+          dCurrentDate.getDate().toString();
+
+        self.setFilterEQ(aFilters, "ANNO", oModelSoa?.Gjahr);
+        self.setFilterEQ(aFilters, "FASE", "GEST");
+        aFilters.push(new Filter("DATBIS", FilterOperator.GE, sCurrentDate));
+        aFilters.push(new Filter("DATAB", FilterOperator.LE, sCurrentDate));
+        self.setFilterEQ(aFilters, "MC", "X");
+        self.setFilterEQ(aFilters, "REALE", "R");
+
+        oModel.read("/UserParamSet('FIK')", {
+          success: function (data) {
+            self.setFilterEQ(aFilters, "FIKRS", data.ParameterValue);
+          },
+          error: function () {},
+        });
+
+        self.getView().setBusy(true);
+        oModelGestAnag.read("/ZES_COD_GEST_SET", {
+          filters: aFilters,
+          success: function (data) {
+            self.getView().setBusy(false);
+            var aCos = [];
+            var aData = data.results;
+            aData.map((oData) =>
+              aCos.push({
+                Zcos: oData.CODICE_GESTIONALE,
+                ZcosDesc: oData.DESCRIZIONE,
+              })
+            );
+
             var oModelJson = new JSONModel();
-            oModelJson.setData(data.results);
+            oModelJson.setData(aCos);
             var oSelectDialog = sap.ui.getCore().byId(dialogName);
             oSelectDialog?.setModel(oModelJson, "Cos");
             oSelectDialog?.data("index", oSourceData.index);
             oDialog.open();
           },
-          error: function (error) {},
+          error: function () {
+            self.getView().setBusy(false);
+          },
         });
       },
 
@@ -2409,6 +2549,75 @@ sap.ui.define(
         aListClassificazione[sIndex].Zcpv = oSelectedItem.getTitle();
         aListClassificazione[sIndex].ZcpvDesc = oSelectedItem.getDescription();
         oModelClassificazione.setProperty("/Cpv", aListClassificazione);
+
+        this.unloadFragment();
+      },
+
+      onValueHelpCup: function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelCup = self.getModel("ZSS4_COSP_CONTRATTO_SRV");
+        var oSourceData = oEvent.getSource().data();
+        var dialogName = oSourceData.dialogName;
+        var oDialog = self.loadFragment(
+          "rgssoa.view.fragment.soa.value-help.Cup"
+        );
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Matchcode", "CODICE_CUP");
+
+        oModelCup.read("/MatchCodeContrattoSet", {
+          filters: aFilters,
+          success: function (data) {
+            var aCup = [];
+            var aData = data.results;
+            aData.map((oData) =>
+              aCup.push({
+                Zzcup: oData.CodiceCup,
+                Belnr: oData.Descrizione,
+              })
+            );
+            var oModelJson = new JSONModel();
+            oModelJson.setData(aCup);
+            var oSelectDialog = sap.ui.getCore().byId(dialogName);
+            oSelectDialog?.setModel(oModelJson, "Cup");
+            oSelectDialog?.data("index", oSourceData.index);
+            oDialog.open();
+          },
+          error: function () {},
+        });
+
+        // oDataModel.read("/" + "CPVClassificazioneSet", {
+        //   success: function (data, oResponse) {
+        //     var oModelJson = new JSONModel();
+        //     oModelJson.setData(data.results);
+        //     var oSelectDialog = sap.ui.getCore().byId(dialogName);
+        //     oSelectDialog?.setModel(oModelJson, "Cpv");
+        //     oSelectDialog?.data("index", oSourceData.index);
+        //     oDialog.open();
+        //   },
+        //   error: function (error) {},
+        // });
+      },
+
+      onValueHelpCupClose: function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cup");
+
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        if (!oSelectedItem) {
+          this.unloadFragment();
+          return;
+        }
+
+        aListClassificazione[sIndex].Zzcup = oSelectedItem.getTitle();
+        aListClassificazione[sIndex].Belnr = oSelectedItem.getDescription();
+        oModelClassificazione.setProperty("/Cup", aListClassificazione);
 
         this.unloadFragment();
       },
@@ -4657,6 +4866,51 @@ sap.ui.define(
       functionReturnValueMC: function (obj) {
         var self = this;
         var oModelSoa = self.getModel("Soa");
+        var oModel = self.getModel();
+
+        if (obj?.Lifnr) {
+          var sPath = self.getModel().createKey("/BeneficiarioSOASet", {
+            Beneficiario: obj?.Lifnr,
+            CodEnte: "",
+            EnteBen: "",
+          });
+
+          self.getView().setBusy(true);
+          oModel.read(sPath, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              oModelSoa.setProperty("/NameFirst", data.Nome);
+              oModelSoa.setProperty("/NameLast", data.Cognome);
+              oModelSoa.setProperty("/ZzragSoc", data.RagSoc);
+              oModelSoa.setProperty("/TaxnumCf", data.CodFisc);
+              oModelSoa.setProperty("/Taxnumxl", data.CodFiscEst);
+              oModelSoa.setProperty("/TaxnumPiva", data.PIva);
+              oModelSoa.setProperty("/Zsede", data?.Sede);
+              oModelSoa.setProperty("/Zdenominazione", data?.DescrSede);
+              oModelSoa.setProperty("/ZzDescebe", data?.EnteBen);
+              oModelSoa.setProperty("/Zdurc", data?.Zdurc);
+              oModelSoa.setProperty("/ZfermAmm", data?.ZfermAmm);
+              oModelSoa.setProperty("/Zdstatodes", data?.Zdstatodes);
+              oModelSoa.setProperty("/Zdscadenza", data?.Zdscadenza);
+              self._setSpecieSoaDesc("1");
+              self.getModalitaPagamentoList();
+            },
+            error: function () {
+              self.getView().setBusy(false);
+            },
+          });
+
+          return;
+        }
+
+        if (obj?.Zalias && obj?.Iban) {
+          oModelSoa.setProperty("/Zalias", obj.Zalias);
+          oModelSoa.setProperty("/ZaccText", obj.ZaccText);
+          oModelSoa.setProperty("/AccTypeId", obj.AccTypeId);
+          oModelSoa.setProperty("/RegioConto", obj.Zregio);
+          oModelSoa.setProperty("/Iban", obj.Iban);
+          return;
+        }
 
         if (obj?.Iban) {
           if (!self._checkIbanCoordEstere("Iban")) {
@@ -4671,11 +4925,13 @@ sap.ui.define(
           }
 
           self._setBanksSeqnr();
+          return;
         }
 
         if (obj?.ZCausaleval) {
           oModelSoa.setProperty("/ZCausaleval", obj?.ZCausaleval);
           oModelSoa.setProperty("/ZDesccauval", obj?.ZDesccauval);
+          return;
         }
 
         if (obj?.Zcodtrib) {
@@ -4688,6 +4944,7 @@ sap.ui.define(
             "/Zperiodrifda",
             obj.Zperiodrifda ? obj.Zperiodrifda : null
           );
+          return;
         }
       },
     });

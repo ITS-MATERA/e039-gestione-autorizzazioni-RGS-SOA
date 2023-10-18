@@ -4,12 +4,13 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:zcontrolanagrafica="acn.zlibanagrafica.controls"
 	xmlns:zcontrolmodpag="acn.zlibmodpag.controls"
+	xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
 	<Panel backgroundDesign="Transparent">
 		<headerToolbar>
 			<OverflowToolbar>
-				<Title text="{i18n>titleBeneficiario}"/>
-				<ToolbarSpacer/>
+				<Title text="{i18n>titleBeneficiario}" />
+				<ToolbarSpacer />
 				<zcontrolanagrafica:AnagraficaPopup
 					viewId="{Utility>/ViewId}"
 					enabled="{= 
@@ -40,22 +41,28 @@
 					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Text>
-				<Input
-					editable="{= 
-						${Soa>/Ztipopag} === '2' &amp;&amp; 
-						${Soa>/EnableEdit} ? true : false
-					}"
-					value="{Soa>/Lifnr}"
-					change="onBeneficiarioChange"
-					maxLength="10"
-				>
+				<FlexBox class="flexBoxWitdh">
+					<items>
+						<zcontrolmccross:MatchcodeCross
+							id="iptBeneficiario"
+							viewId="{Utility>/ViewId}"
+							whichMC="Beneficiario"
+							value="{Soa>/Lifnr}"
+							editable="{= 
+								${Soa>/Ztipopag} === '2' &amp;&amp; 
+								${Soa>/EnableEdit} ? true : false
+							}"
+							change="onBeneficiarioWizard2Change"
+							maxLength="10"
+						/>
+					</items>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
-				</Input>
+				</FlexBox>
 				<RadioButtonGroup
 					columns="2"
 					editable="false"
@@ -91,7 +98,7 @@
 					value="{Soa>/TaxnumCf}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -110,7 +117,7 @@
 					value="{Soa>/Taxnumxl}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -129,7 +136,7 @@
 					value="{Soa>/NameFirst}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -148,7 +155,7 @@
 					value="{Soa>/NameLast}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -167,7 +174,7 @@
 					value="{Soa>/ZzragSoc}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -186,7 +193,7 @@
 					value="{Soa>/TaxnumPiva}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -205,7 +212,7 @@
 					value="{Soa>/Zsede}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -224,7 +231,7 @@
 					value="{Soa>/Zdenominazione}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -243,7 +250,7 @@
 					value="{Soa>/ZzDescebe}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -265,7 +272,7 @@
 					}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -284,7 +291,7 @@
 					value="{Soa>/Zdstatodes}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 				<Text
@@ -311,7 +318,7 @@
 					}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</DatePicker>
 				<Text
@@ -330,7 +337,7 @@
 					value="{Soa>/ZfermAmm}"
 				>
 					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
+						<l:GridData span="XL2 L3 M5 S12" />
 					</layoutData>
 				</Input>
 			</l:Grid>

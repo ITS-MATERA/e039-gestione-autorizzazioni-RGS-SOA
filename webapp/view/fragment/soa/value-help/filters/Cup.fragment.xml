@@ -1,0 +1,24 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+	<SelectDialog
+		id="sdCupFilter"
+		noDataText="{i18n>noCup}"
+		title="{i18n>labelCup}"
+		search="onValueHelpChange"
+		confirm="onValueHelpCupFilterClose"
+		cancel="onValueHelpCupFilterClose"
+		app:FilterValueHelp="Zzcup"
+		items="{
+			path: 'Cup>/'
+		}"
+	>
+		<StandardListItem
+			iconDensityAware="false"
+			iconInset="false"
+			title="{Cup>Zzcup}"
+		/>
+	</SelectDialog>
+</c:FragmentDefinition>
