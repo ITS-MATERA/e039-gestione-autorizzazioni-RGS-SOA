@@ -1,6 +1,8 @@
 <c:FragmentDefinition
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
+	xmlns:zcontrolPosFin="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfinlink.controls"
+	xmlns:zcontrollinkSar="custlinksar.custlinksar.controls"
 >
 	<Panel
 		backgroundDesign="Transparent"
@@ -180,8 +182,33 @@
 								<Text text="{SOASet>ZzragSoc}"/>
 								<Text text="{SOASet>Text40}"/>
 								<Text text="{SOASet>ZzDescebe}"/>
-								<Text text="{SOASet>Fipos}"/>
-								<Text text="{SOASet>Fistl}"/>
+								<zcontrollinkSar:LinkSar
+									id="linkSarBilancio"
+									anno="{SOASet>Gjahr}"
+									eos="E"
+									fikrs="{SOASet>Bukrs}"
+									fase="GEST"
+									SEM_OBJ=""
+									reale="R"
+									versione="D"
+									bilancio=""
+									fictr="{SOASet>Fistl}"
+									datbis="99991231"
+									text="{SOASet>Fistl}"
+								/>
+								<zcontrolPosFin:LinkPosizioneFinanziaria
+									id="linkPosFinSpesa"
+									anno="{SOASet>Gjahr}"
+									eos="S"
+									fikrs="{SOASet>Bukrs}"
+									fase="GEST"
+									reale="R"
+									versione="D"
+									fipex="{SOASet>Fipos}"
+									datbis="99991231"
+									text="{SOASet>Fipos}"
+									semanticObject="ESAMINAMODIFICA"
+								/>
 								<Text text="{
 									path: 'SOASet>Zimptot',
 									formatter: '.formatter.convertFormattedNumber'
