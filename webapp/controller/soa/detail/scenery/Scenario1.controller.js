@@ -5,7 +5,6 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
     "sap/ui/model/FilterOperator",
-    "sap/apf/utils/Filter",
   ],
   function (
     BaseSoaController,

@@ -254,7 +254,7 @@ sap.ui.define(
 
       onValueHelpRitenuta: function () {
         var self = this;
-        var oModel = new oModel();
+        var oModel = self.getModel()
         var oDialog = self.loadFragment(
           "rgssoa.view.fragment.soa.value-help.Ritenuta"
         );
@@ -327,7 +327,7 @@ sap.ui.define(
         });
       },
 
-      onValueHelpEnteBeneficiarioClose: function () {
+      onValueHelpEnteBeneficiarioClose: function (oEvent) {
         var self = this;
         //Load Models
         var oModelFilter = self.getModel("Filter");

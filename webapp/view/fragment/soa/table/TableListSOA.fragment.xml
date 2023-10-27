@@ -182,6 +182,19 @@
 								<Text text="{SOASet>ZzragSoc}"/>
 								<Text text="{SOASet>Text40}"/>
 								<Text text="{SOASet>ZzDescebe}"/>
+								<zcontrolPosFin:LinkPosizioneFinanziaria
+									id="linkPosFinSpesa"
+									anno="{SOASet>Gjahr}"
+									eos="S"
+									fikrs="{SOASet>Bukrs}"
+									fase="GEST"
+									reale="R"
+									versione="D"
+									fipex="{SOASet>Fipos}"
+									datbis="99991231"
+									text="{SOASet>Fipos}"
+									semanticObject="ESAMINAMODIFICA"
+								/>
 								<zcontrollinkSar:LinkSar
 									id="linkSarBilancio"
 									anno="{SOASet>Gjahr}"
@@ -195,19 +208,6 @@
 									fictr="{SOASet>Fistl}"
 									datbis="99991231"
 									text="{SOASet>Fistl}"
-								/>
-								<zcontrolPosFin:LinkPosizioneFinanziaria
-									id="linkPosFinSpesa"
-									anno="{SOASet>Gjahr}"
-									eos="S"
-									fikrs="{SOASet>Bukrs}"
-									fase="GEST"
-									reale="R"
-									versione="D"
-									fipex="{SOASet>Fipos}"
-									datbis="99991231"
-									text="{SOASet>Fipos}"
-									semanticObject="ESAMINAMODIFICA"
 								/>
 								<Text text="{
 									path: 'SOASet>Zimptot',

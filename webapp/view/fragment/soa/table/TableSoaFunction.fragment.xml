@@ -1,6 +1,8 @@
 <c:FragmentDefinition
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
+	xmlns:zcontrolPosFin="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfinlink.controls"
+	xmlns:zcontrollinkSar="custlinksar.custlinksar.controls"
 >
 	<Panel backgroundDesign="Transparent">
 		<ScrollContainer
@@ -185,8 +187,33 @@
 								text="{ListSoa>ZzDescebe}"
 								visible="false"
 							/>
-							<Text text="{ListSoa>Fipos}"/>
-							<Text text="{ListSoa>Fistl}"/>
+								<zcontrolPosFin:LinkPosizioneFinanziaria
+									id="linkPosFinSpesaFunz"
+									anno="{ListSoa>Gjahr}"
+									eos="S"
+									fikrs="{ListSoa>Bukrs}"
+									fase="GEST"
+									reale="R"
+									versione="D"
+									fipex="{ListSoa>Fipos}"
+									datbis="99991231"
+									text="{ListSoa>Fipos}"
+									semanticObject="ESAMINAMODIFICA"
+								/>
+								<zcontrollinkSar:LinkSar
+									id="linkSarBilancioFunz"
+									anno="{ListSoa>Gjahr}"
+									eos="E"
+									fikrs="{ListSoa>Bukrs}"
+									fase="GEST"
+									SEM_OBJ=""
+									reale="R"
+									versione="D"
+									bilancio=""
+									fictr="{ListSoa>Fistl}"
+									datbis="99991231"
+									text="{ListSoa>Fistl}"
+								/>
 							<Text text="{
 								path: 'ListSoa>Zimptot',
 								formatter: '.formatter.convertFormattedNumber'

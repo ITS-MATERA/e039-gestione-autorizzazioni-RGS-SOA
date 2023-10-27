@@ -387,7 +387,6 @@
 					<Input
 						valueHelpRequest="onValueHelpRitenuta"
 						showValueHelp="true"
-						valueHelpOnly="true"
 						app:key="{Filter>/Witht}"
 						value="{Filter>/DescRitenuta}"
 					/>
@@ -405,7 +404,6 @@
 					<Input
 						valueHelpRequest="onValueHelpEnteBeneficiario"
 						showValueHelp="true"
-						valueHelpOnly="true"
 						app:key="{Filter>/ZzCebenra}"
 						value="{Filter>/DescEnte}"
 					/>
