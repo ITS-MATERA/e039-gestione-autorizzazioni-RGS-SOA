@@ -81,7 +81,7 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step2) {
-            if (self.checkPosizioniScen2()) {
+            if (self.checkDispAutorizzazione()) {
               oModelStepScenario.setProperty("/wizard1Step2", false);
               oModelStepScenario.setProperty("/wizard1Step3", true);
             }
@@ -221,7 +221,7 @@ sap.ui.define(
         //#region PRIVATE METHODS
 
         _onObjectMatched: function (oEvent) {
-          var self = this;
+          var self = this
 
           self.resetWizard("wizScenario2");
           self.setSoaRegModel("2");
@@ -229,50 +229,10 @@ sap.ui.define(
           self.setClassificazioneRegModel();
           self.setUtilityRegModel();
           self.setStepScenarioRegModel();
-
-          //Load Models
-          var oModel = self.getModel();
-
-          var oModelFilter = new JSONModel({
-            CodRitenuta: "",
-            DescRitenuta: "",
-            CodEnte: "",
-            DescEnte: "",
-            QuoteEsigibili: true,
-            DataEsigibilitaFrom: "",
-            DataEsigibilitaTo: "",
-            TipoBeneficiario: "",
-            Lifnr: "",
-            UfficioContabile: "",
-            UfficioPagatore: "",
-            AnnoRegDocumento: [],
-            NumRegDocFrom: "",
-            NumRegDocTo: "",
-            AnnoDocBeneficiario: [],
-            NDocBen: [],
-            Cig: "",
-            Cup: "",
-            ScadenzaDocFrom: null,
-            ScadenzaDocTo: null,
-          });
-
-          oModel.read("/" + "PrevalUfficioContabileSet", {
-            success: function (data) {
-              oModelFilter.setProperty(
-                "/UfficioContabile",
-                self.setBlank(data?.results[0]?.Fkber)
-              );
-              oModelFilter.setProperty(
-                "/UfficioPagatore",
-                self.setBlank(data?.results[0]?.Fkber)
-              );
-            },
-            error: function (error) {},
-          });
-
-          self.setModel(oModelFilter, "FilterDocumenti");
+          self.createModelFilters()
           self.getLogModel();
         },
+
         _getQuoteDocumentiList: function () {
           var self = this;
           var oView = self.getView();
@@ -285,14 +245,14 @@ sap.ui.define(
           var oPanelCalculator = oView.byId("pnlCalculatorList");
 
           var aListRiepilogo = oModelSoa.getProperty("/data");
-          var aFilters = self.setFiltersScenario2();
+          var aFilters = self.setFiltersWizard1();
 
           oView.setBusy(true);
 
           oDataModel.read("/" + "QuoteDocumentiScen2Set", {
             filters: aFilters,
             success: function (data, oResponse) {
-              if (!self.setResponseMessage(oResponse)) {
+              if (!self.hasResponseError(oResponse)) {
                 oModelStepScenario.setProperty("/wizard1Step1", false);
                 oModelStepScenario.setProperty("/wizard1Step2", true);
                 oModelStepScenario.setProperty("/visibleBtnForward", true);
@@ -322,6 +282,34 @@ sap.ui.define(
           });
         },
 
+        _createModelFiltersWizard1: async function () {
+          var self = this;
+          var sUfficio = await self.getUfficio()
+          var oModelFilterDocumenti = new JSONModel({
+            CodRitenuta: "",
+            DescRitenuta: "",
+            CodEnte: "",
+            DescEnte: "",
+            QuoteEsigibili: true,
+            DataEsigibilitaFrom: "",
+            DataEsigibilitaTo: "",
+            TipoBeneficiario: "",
+            Lifnr: "",
+            UfficioContabile: sUfficio,
+            UfficioPagatore: sUfficio,
+            AnnoRegDocumento: [],
+            NumRegDocFrom: "",
+            NumRegDocTo: "",
+            AnnoDocBeneficiario: [],
+            NDocBen: [],
+            Cig: "",
+            Cup: "",
+            ScadenzaDocFrom: null,
+            ScadenzaDocTo: null,
+          });
+
+          self.setModel(oModelFilterDocumenti, "FilterDocumenti");
+        }
         //#endregion
 
         //#endregion

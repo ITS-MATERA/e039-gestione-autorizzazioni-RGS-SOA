@@ -1,148 +1,162 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
 >
-	<Panel
-		class="onlyTopPadding"
-		visible="{StepScenario>/wizard1Step2}"
-		backgroundDesign="Transparent"
-	>
-		<headerToolbar>
-			<OverflowToolbar>
-				<Title text="{i18n>titleRiepilogoNewProspettoLiquidazione}"/>
-				<ToolbarSpacer/>
-				<Button
-					id="btnExport"
-					icon="sap-icon://excel-attachment"
-					text="{i18n>btnExport}"
-					type="Emphasized"
-					press="onExport"
-				/>
-			</OverflowToolbar>
-		</headerToolbar>
-		<ScrollContainer>
-			<content>
-				<Table
-					id="tblRiepNewProspettoLiquidazione"
-					items="{
+    <Panel
+        class="onlyTopPadding"
+        visible="{StepScenario>/wizard1Step2}"
+        backgroundDesign="Transparent"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleRiepilogoNewProspettoLiquidazione}" />
+                <ToolbarSpacer />
+                <Button
+                    id="btnExport"
+                    icon="sap-icon://excel-attachment"
+                    text="{i18n>btnExport}"
+                    type="Emphasized"
+                    press="onExport"
+                />
+            </OverflowToolbar>
+        </headerToolbar>
+        <ScrollContainer>
+            <content>
+                <Table
+                    id="tblRiepNewProspettoLiquidazione"
+                    items="{
 						path: 'NewProspettoLiquidazione>/'
 					}"
-					fixedLayout="false"
-					width="120%"
-					growing="true"
-				>
-					<columns>
-						<Column
-							minScreenWidth="Desktop"
-							demandPopin="true"
-						>
-							<header>
-								<Text text="{i18n>labelTipoDocumento}"/>
-							</header>
-						</Column>
-						<Column
-							minScreenWidth="Desktop"
-							demandPopin="true"
-						>
-							<header>
-								<Text text="{i18n>labelDataDocumento}"/>
-							</header>
-						</Column>
-						<Column
-							minScreenWidth="Desktop"
-							demandPopin="true"
-						>
-							<header>
-								<Text text="{i18n>labelDataCompetenza}"/>
-							</header>
-						</Column>
-						<Column
-							minScreenWidth="Desktop"
-							demandPopin="true"
-						>
-							<header>
-								<Text text="{i18n>labelDenomBenLiquidazione}"/>
-							</header>
-						</Column>
-						<Column
-							minScreenWidth="Desktop"
-							demandPopin="true"
-						>
-							<header>
-								<Text text="{i18n>titleModalitaPagamento}"/>
-							</header>
-						</Column>
-						<Column
-							minScreenWidth="Desktop"
-							demandPopin="true"
-						>
-							<header>
-								<Text text="{i18n>labelIban}"/>
-							</header>
-						</Column>
-						<Column
-							minScreenWidth="Desktop"
-							demandPopin="true"
-						>
-							<header>
-								<Text text="{i18n>labelDurc}"/>
-							</header>
-						</Column>
-						<Column
-							minScreenWidth="Desktop"
-							demandPopin="true"
-						>
-							<header>
-								<Text text="{i18n>labelFermoAmministrativo}"/>
-							</header>
-						</Column>
-						<Column
-							minScreenWidth="Desktop"
-							demandPopin="true"
-						>
-							<header>
-								<Text text="{i18n>labelImportoLiquidazione}"/>
-							</header>
-						</Column>
-					</columns>
-					<items>
-						<ColumnListItem
-							vAlign="Middle"
-							class="bgNotEditable"
-						>
-							<cells>
-								<Text text="{NewProspettoLiquidazione>TpDoc}"/>
-								<Text text="{
+                    fixedLayout="false"
+                    width="120%"
+                    growing="true"
+                >
+                    <columns>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelTipoDocumento}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelDataDocumento}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelDataCompetenza}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelDenomBenLiquidazione}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>titleModalitaPagamento}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelIban}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelDurc}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelFermoAmministrativo}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelImportoLiquidazione}" />
+                            </header>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem
+                            vAlign="Middle"
+                            class="bgNotEditable"
+                        >
+                            <cells>
+                                <Text text="{NewProspettoLiquidazione>TpDoc}" />
+                                <Text
+                                    text="{
 									path: 'NewProspettoLiquidazione>DataDoc',
 									type: 'sap.ui.model.type.Date',
 									formatOptions: {
 										pattern: 'dd.MM.yyyy'
 									}
-								}"/>
-								<Text text="{
+								}"
+                                />
+                                <Text
+                                    text="{
 									path: 'NewProspettoLiquidazione>DataComp',
 									type: 'sap.ui.model.type.Date',
 									formatOptions: {
 										pattern: 'dd.MM.yyyy'
 									}
-								}"/>
-								<Text text="{NewProspettoLiquidazione>ZzragSoc}"/>
-								<Text text="{NewProspettoLiquidazione>Zdescwels}"/>
-								<Text text="{NewProspettoLiquidazione>Iban}"/>
-								<Text text="{
+								}"
+                                />
+                                <Text
+                                    text="{NewProspettoLiquidazione>ZzragSoc}"
+                                />
+                                <Text
+                                    text="{NewProspettoLiquidazione>Zdescwels}"
+                                />
+                                <Text text="{NewProspettoLiquidazione>Iban}" />
+                                <Text
+                                    text="{
 									path: 'NewProspettoLiquidazione>Zdurc',
 									formatter: '.formatter.deleteFirstZeros'
-								}"/>
-								<Text text="{NewProspettoLiquidazione>ZfermAmm}"/>
-								<Text text="{
+								}"
+                                />
+                                <Text
+                                    text="{NewProspettoLiquidazione>ZfermAmm}"
+                                />
+                                <Text
+                                    text="{
 									path: 'NewProspettoLiquidazione>Zimpliq',
-									formatter: '.formatter.convertFormattedNumber'
-								}"/>
-							</cells>
-						</ColumnListItem>
-					</items>
-				</Table>
-			</content>
-		</ScrollContainer>
-	</Panel>
+									formatter: '.formatter.convertImport'
+								}"
+                                />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </content>
+        </ScrollContainer>
+    </Panel>
 </c:FragmentDefinition>

@@ -1,495 +1,519 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:l="sap.ui.layout"
-	xmlns:zcontrolPosFin="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfinlink.controls"
-	xmlns:zcontrollinkSar="custlinksar.custlinksar.controls"
-	xmlns:zchiaveautlibrary="custZchiaveaut.zchiaveautlibrary.controls"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:zcontrolPosFin="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfinlink.controls"
+    xmlns:zcontrollinkSar="custlinksar.custlinksar.controls"
+    xmlns:zchiaveautlibrary="custZchiaveaut.zchiaveautlibrary.controls"
 >
-	<Panel
-		backgroundDesign="Transparent"
-		class="sapUiNoContentPadding"
-	>
-		<Panel
-			backgroundDesign="Transparent"
-			class="removePanelPaddingBottom"
-		>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutEsercizioGestione}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<ComboBox
-						id="fltEsercizioGestione"
-						selectionChange="onSelectEsercizioGestione"
-						items="{
+    <Panel
+        backgroundDesign="Transparent"
+        class="sapUiNoContentPadding"
+    >
+        <Panel
+            backgroundDesign="Transparent"
+            class="removePanelPaddingBottom"
+        >
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>chiaveAutEsercizioGestione}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <ComboBox
+                        id="fltEsercizioGestione"
+                        selectionChange="onSelectEsercizioGestione"
+                        items="{
 							path: '/EsercizioGestioneSet'
 						}"
-						selectedKey="{InputAutorizzazione>/Gjahr}"
-					>
-						<c:Item
-							key="{Gjahr}"
-							text="{Gjahr}"
-						/>
-						<layoutData>
-							<l:GridData span="XL1 L2 M3 S12" />
-						</layoutData>
-					</ComboBox>
-				</l:Grid>
-			</FlexBox>
-		</Panel>
-		<Panel backgroundDesign="Transparent">
-			<headerToolbar>
-				<OverflowToolbar>
-					<Title text="{i18n>chiaveAutDatiAutorizzazione}" />
-				</OverflowToolbar>
-			</headerToolbar>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutZchiaveaut}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<FlexBox class="flexBoxWitdh">
-						<zchiaveautlibrary:InputZchiaveaut
-							value="{Autorizzazione>/Zchiaveaut}"
-							onlyRegistered="true"
-							agrName="{AuthorityCheckSoa>/AgrName}"
-							fikrs="{AuthorityCheckSoa>/Fikrs}"
-							prctr="{AuthorityCheckSoa>/Prctr}"
-							semanticObject="ZS4_SOA_SRV"
-							change="onChiaveAutorizzazioneChange"
-						/>
-						<layoutData>
-							<l:GridData span="XL2 L2 M4 S12" />
-						</layoutData>
-					</FlexBox>
-					<Text
-						text="{i18n>chiaveAutDataStato}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData
-								span="XL2 L3 M5 S12"
-								indent="XL1"
-							/>
-						</layoutData>
-					</Text>
-					<DatePicker
-						valueFormat="yyyy-MM-dd"
-						displayFormat="dd.MM.yyyy"
-						placeholder=" "
-						value="{
+                        selectedKey="{InputAutorizzazione>/Gjahr}"
+                    >
+                        <c:Item
+                            key="{Gjahr}"
+                            text="{Gjahr}"
+                        />
+                        <layoutData>
+                            <l:GridData span="XL1 L2 M3 S12" />
+                        </layoutData>
+                    </ComboBox>
+                </l:Grid>
+            </FlexBox>
+        </Panel>
+        <Panel backgroundDesign="Transparent">
+            <headerToolbar>
+                <OverflowToolbar>
+                    <Title text="{i18n>chiaveAutDatiAutorizzazione}" />
+                </OverflowToolbar>
+            </headerToolbar>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>chiaveAutZchiaveaut}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <FlexBox class="flexBoxWitdh">
+                        <zchiaveautlibrary:InputZchiaveaut
+                            value="{Autorizzazione>/Zchiaveaut}"
+                            onlyRegistered="true"
+                            agrName="{AuthorityCheckSoa>/AgrName}"
+                            fikrs="{AuthorityCheckSoa>/Fikrs}"
+                            prctr="{AuthorityCheckSoa>/Prctr}"
+                            semanticObject="ZS4_SOA_SRV"
+                            change="onChiaveAutorizzazioneChange"
+                        />
+                        <layoutData>
+                            <l:GridData span="XL2 L2 M4 S12" />
+                        </layoutData>
+                    </FlexBox>
+                    <Text
+                        text="{i18n>chiaveAutDataStato}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData
+                                span="XL2 L3 M5 S12"
+                                indent="XL1"
+                            />
+                        </layoutData>
+                    </Text>
+                    <DatePicker
+                        valueFormat="yyyy-MM-dd"
+                        displayFormat="dd.MM.yyyy"
+                        placeholder=" "
+                        value="{
 							path: 'Autorizzazione>/DataStato',
 							type: 'sap.ui.model.type.Date',
 							formatOptions: {
 								pattern: 'dd.MM.yyyy'
 							}
 						}"
-						editable="false"
-					>
-						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12" />
-						</layoutData>
-					</DatePicker>
-				</l:Grid>
-			</FlexBox>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutZimpaut}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{
+                        editable="false"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL1 L2 M4 S12" />
+                        </layoutData>
+                    </DatePicker>
+                </l:Grid>
+            </FlexBox>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>chiaveAutZimpaut}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{
 							path: 'Autorizzazione>/Zimpaut',
-							formatter: '.formatter.convertFormattedNumber'
+							formatter: '.formatter.convertImport'
 						}"
-					>
-						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12" />
-						</layoutData>
-					</Input>
-					<Text
-						text="{i18n>chiaveAutZimpdispaut}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData
-								span="XL2 L3 M5 S12"
-								indent="XL2"
-							/>
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{
+                    >
+                        <layoutData>
+                            <l:GridData span="XL1 L2 M4 S12" />
+                        </layoutData>
+                    </Input>
+                    <Text
+                        text="{i18n>chiaveAutZimpdispaut}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData
+                                span="XL2 L3 M5 S12"
+                                indent="XL2"
+                            />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{
 							path: 'Autorizzazione>/Zimpdispaut',
-							formatter: '.formatter.convertFormattedNumber'
+							formatter: '.formatter.convertImport'
 						}"
-					>
-						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12" />
-						</layoutData>
-					</Input>
-				</l:Grid>
-			</FlexBox>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutZdesctipodisp2}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{Autorizzazione>/Zdesctipodisp2}"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L2 M5 S12" />
-						</layoutData>
-					</Input>
-					<Text
-						text="{i18n>chiaveAutZdesctipodisp3}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData
-								span="XL2 L3 M5 S12"
-								indent="XL1"
-							/>
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{Autorizzazione>/Zdesctipodisp3}"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L2 M5 S12" />
-						</layoutData>
-					</Input>
-				</l:Grid>
-			</FlexBox>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutZnoteaut}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{Autorizzazione>/Znoteaut}"
-					>
-						<layoutData>
-							<l:GridData span="XL8 L9 M12 S12" />
-						</layoutData>
-					</Input>
-				</l:Grid>
-			</FlexBox>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutZufficioCont}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{Autorizzazione>/ZufficioCont}"
-					>
-						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12" />
-						</layoutData>
-					</Input>
-					<Text
-						text="{i18n>inputDescrizione}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData
-								span="XL2 L3 M5 S12"
-								indent="XL2"
-							/>
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{Autorizzazione>/ZvimDescrufficio}"
-					>
-						<layoutData>
-							<l:GridData span="XL4 L4 M12 S12" />
-						</layoutData>
-					</Input>
-				</l:Grid>
-			</FlexBox>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutZfunzdel}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{Autorizzazione>/Zfunzdel}"
-					>
-						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12" />
-						</layoutData>
-					</Input>
-					<Text
-						text="{i18n>inputDescrizione}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData
-								span="XL2 L3 M5 S12"
-								indent="XL2"
-							/>
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{Autorizzazione>/Zdescriz}"
-					>
-						<layoutData>
-							<l:GridData span="XL4 L4 M12 S12" />
-						</layoutData>
-					</Input>
-				</l:Grid>
-			</FlexBox>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutZflagFipos}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<CheckBox
-						selected="{Autorizzazione>/ZflagFipos}"
-						editable="false"
-					>
-						<layoutData>
-							<l:GridData span="XL1 L1 M1 S1" />
-						</layoutData>
-					</CheckBox>
-				</l:Grid>
-			</FlexBox>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutEsercizioFinanziario}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{
+                    >
+                        <layoutData>
+                            <l:GridData span="XL1 L2 M4 S12" />
+                        </layoutData>
+                    </Input>
+                </l:Grid>
+            </FlexBox>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>chiaveAutZdesctipodisp2}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{Autorizzazione>/Zdesctipodisp2}"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L2 M5 S12" />
+                        </layoutData>
+                    </Input>
+                    <Text
+                        text="{i18n>chiaveAutZdesctipodisp3}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData
+                                span="XL2 L3 M5 S12"
+                                indent="XL1"
+                            />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{Autorizzazione>/Zdesctipodisp3}"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L2 M5 S12" />
+                        </layoutData>
+                    </Input>
+                </l:Grid>
+            </FlexBox>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>chiaveAutZnoteaut}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{Autorizzazione>/Znoteaut}"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL8 L9 M12 S12" />
+                        </layoutData>
+                    </Input>
+                </l:Grid>
+            </FlexBox>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>chiaveAutZufficioCont}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{Autorizzazione>/ZufficioCont}"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL1 L2 M4 S12" />
+                        </layoutData>
+                    </Input>
+                    <Text
+                        text="{i18n>inputDescrizione}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData
+                                span="XL2 L3 M5 S12"
+                                indent="XL2"
+                            />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{Autorizzazione>/ZvimDescrufficio}"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL4 L4 M12 S12" />
+                        </layoutData>
+                    </Input>
+                </l:Grid>
+            </FlexBox>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>chiaveAutZfunzdel}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{Autorizzazione>/Zfunzdel}"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL1 L2 M4 S12" />
+                        </layoutData>
+                    </Input>
+                    <Text
+                        text="{i18n>inputDescrizione}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData
+                                span="XL2 L3 M5 S12"
+                                indent="XL2"
+                            />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{Autorizzazione>/Zdescriz}"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL4 L4 M12 S12" />
+                        </layoutData>
+                    </Input>
+                </l:Grid>
+            </FlexBox>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>chiaveAutZflagFipos}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <CheckBox
+                        selected="{Autorizzazione>/ZflagFipos}"
+                        editable="false"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL1 L1 M1 S1" />
+                        </layoutData>
+                    </CheckBox>
+                </l:Grid>
+            </FlexBox>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>chiaveAutEsercizioFinanziario}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{
 							path: 'Autorizzazione>/EsercizioFinanziario',
 							formatter: '.formatter.deleteFirstZeros'
 						}"
-					>
-						<layoutData>
-							<l:GridData span="XL1 L2 M4 S12" />
-						</layoutData>
-					</Input>
-					<Text
-						text="{i18n>chiaveAutFipos}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData
-								span="XL2 L3 M5 S12"
-								indent="XL1"
-							/>
-						</layoutData>
-					</Text>
-					<VBox>
-						<zcontrolPosFin:LinkPosizioneFinanziaria
-							id="linkPosFinSpesa"
-							anno="{Autorizzazione>/Gjahr}"
-							eos="S"
-							fikrs="S001"
-							fase="GEST"
-							reale="R"
-							versione="D"
-							fipex="{Autorizzazione>/Fipos}"
-							datbis="99991231"
-							text="{Autorizzazione>/Fipos}"
-							semanticObject="ESAMINAMODIFICA"
-						/>
-						<layoutData>
-							<l:GridData span="XL2 L4 M4 S12" />
-						</layoutData>
-					</VBox>
-					<Text
-						text="{i18n>chiaveAutFistl}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<VBox>
-						<zcontrollinkSar:LinkSar
-							id="linkSarBilancio"
-							anno="{Autorizzazione>/Gjahr}"
-							eos="E"
-							fikrs="S001"
-							fase="GEST"
-							SEM_OBJ=""
-							reale="R"
-							versione="D"
-							bilancio=""
-							fictr="{Autorizzazione>/Fistl}"
-							datbis="99991231"
-							text="{Autorizzazione>/Fistl}"
-						/>
-						<layoutData>
-							<l:GridData span="XL2 L4 M4 S12" />
-						</layoutData>
-					</VBox>
-				</l:Grid>
-			</FlexBox>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutDescrEstesa}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<Input
-						editable="false"
-						value="{Autorizzazione>/DescrEstesa}"
-					>
-						<layoutData>
-							<l:GridData span="XL9 L9 M12 S12" />
-						</layoutData>
-					</Input>
-				</l:Grid>
-			</FlexBox>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					hSpacing="0.5"
-				>
-					<Text
-						text="{i18n>chiaveAutZchiaveaut}"
-						class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L3 M5 S12" />
-						</layoutData>
-					</Text>
-					<Input
-						valueHelpRequest="onValueHelpIdAutorizzazione"
-						showValueHelp="true"
-						value="{Autorizzazione>/Zgeber}"
-						maxLength="18"
-						editable="{= 
+                    >
+                        <layoutData>
+                            <l:GridData span="XL1 L2 M4 S12" />
+                        </layoutData>
+                    </Input>
+                    <Text
+                        text="{i18n>chiaveAutFipos}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData
+                                span="XL2 L3 M5 S12"
+                                indent="XL1"
+                            />
+                        </layoutData>
+                    </Text>
+                    <VBox>
+                        <zcontrolPosFin:LinkPosizioneFinanziaria
+                            id="linkPosFinSpesa"
+                            anno="{Autorizzazione>/Gjahr}"
+                            eos="S"
+                            fikrs="S001"
+                            fase="GEST"
+                            reale="R"
+                            versione="D"
+                            fipex="{Autorizzazione>/Fipos}"
+                            datbis="99991231"
+                            text="{Autorizzazione>/Fipos}"
+                            semanticObject="ESAMINAMODIFICA"
+                        />
+                        <layoutData>
+                            <l:GridData span="XL2 L4 M4 S12" />
+                        </layoutData>
+                    </VBox>
+                    <Text
+                        text="{i18n>chiaveAutFistl}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <VBox>
+                        <zcontrollinkSar:LinkSar
+                            id="linkSarBilancio"
+                            anno="{Autorizzazione>/Gjahr}"
+                            eos="E"
+                            fikrs="S001"
+                            fase="GEST"
+                            SEM_OBJ=""
+                            reale="R"
+                            versione="D"
+                            bilancio=""
+                            fictr="{Autorizzazione>/Fistl}"
+                            datbis="99991231"
+                            text="{Autorizzazione>/Fistl}"
+                        />
+                        <layoutData>
+                            <l:GridData span="XL2 L4 M4 S12" />
+                        </layoutData>
+                    </VBox>
+                </l:Grid>
+            </FlexBox>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>chiaveAutDescrEstesa}"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        editable="false"
+                        value="{Autorizzazione>/DescrEstesa}"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL9 L9 M12 S12" />
+                        </layoutData>
+                    </Input>
+                </l:Grid>
+            </FlexBox>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    hSpacing="0.5"
+                >
+                    <Text
+                        text="{i18n>labelIdAutorizzazione}:"
+                        class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L3 M5 S12" />
+                        </layoutData>
+                    </Text>
+                    <Input
+                        valueHelpRequest="onValueHelpIdAutorizzazione"
+                        showValueHelp="true"
+                        value="{Autorizzazione>/Zgeber}"
+                        maxLength="18"
+                        editable="{= 
 							${Autorizzazione>/Zchiaveaut} !== '' &amp;&amp;
 							${Autorizzazione>/ZflagFipos} === false 
 							? true : false 
 						}"
-						change="onIdAutorizzazioneChange"
-					>
-						<layoutData>
-							<l:GridData span="XL2 L2 M4 S12" />
-						</layoutData>
-					</Input>
-				</l:Grid>
-			</FlexBox>
-		</Panel>
-		<Panel backgroundDesign="Transparent">
-			<headerToolbar>
-				<OverflowToolbar>
-					<Title text="{i18n>chiaveAutSceltaOperativa}" />
-				</OverflowToolbar>
-			</headerToolbar>
-			<FlexBox class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<RadioButtonGroup
-					columns="2"
-					editable="{= 
+                        change="onIdAutorizzazioneChange"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL2 L2 M4 S12" />
+                        </layoutData>
+                    </Input>
+                </l:Grid>
+            </FlexBox>
+        </Panel>
+        <Panel backgroundDesign="Transparent">
+            <headerToolbar>
+                <OverflowToolbar>
+                    <Title text="{i18n>chiaveAutSceltaOperativa}" />
+                </OverflowToolbar>
+            </headerToolbar>
+            <FlexBox
+                class="flexBoxWitdh sapUiTinyMarginTop sapUiTinyMarginBottom"
+            >
+                <RadioButtonGroup
+                    columns="2"
+                    editable="{= 
 						${Autorizzazione>/Zchiaveaut}	&amp;&amp; 
 						${Autorizzazione>/Zfunzdel} === '' &amp;&amp;
 						${Autorizzazione>/ZflagFipos} === false ? true : false}"
-				>
-					<RadioButton
-						text="{i18n>documentiLiquidati}"
-						selected="{InputAutorizzazione>/DocumentiLiquidati}"
-					/>
-					<RadioButton
-						text="{i18n>documentiNonLiquidati}"
-						selected="{InputAutorizzazione>/DocumentiNonLiquidati}"
-					/>
-				</RadioButtonGroup>
-			</FlexBox>
-		</Panel>
-	</Panel>
+                >
+                    <RadioButton
+                        text="{i18n>documentiLiquidati}"
+                        selected="{InputAutorizzazione>/DocumentiLiquidati}"
+                    />
+                    <RadioButton
+                        text="{i18n>documentiNonLiquidati}"
+                        selected="{InputAutorizzazione>/DocumentiNonLiquidati}"
+                    />
+                </RadioButtonGroup>
+            </FlexBox>
+        </Panel>
+    </Panel>
 </c:FragmentDefinition>

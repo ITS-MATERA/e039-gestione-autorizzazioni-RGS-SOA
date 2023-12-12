@@ -1,180 +1,194 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
 >
-	<Panel
-		class="onlyTopPadding"
-		visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/AddPositions} ? true : false}"
-		backgroundDesign="Transparent"
-	>
-		<headerToolbar>
-			<OverflowToolbar>
-				<Title text="{i18n>listDocumentiCosto}"/>
-			</OverflowToolbar>
-		</headerToolbar>
-		<content>
-			<Table
-				id="tblAddPosizioniScen2"
-				mode="MultiSelect"
-				items="{
+    <Panel
+        class="onlyTopPadding"
+        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/AddPositions} ? true : false}"
+        backgroundDesign="Transparent"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>listDocumentiCosto}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <Table
+                id="tblAddPosizioniScen2"
+                mode="MultiSelect"
+                items="{
 					path: 'PosizioniScen2>/'
 				}"
-				selectionChange="onAddSelectedItem"
-				fixedLayout="false"
-				growing="true"
-			>
-				<columns>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelAnnoRegDocumento}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelAbbrNRegDocumento}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelAbbrTipoDocumento}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelDataDocBeneficiario}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelDenomBeneficiario}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-						visible="{= ${Soa>/ZzCebenra} ? false : true}"
-					>
-						<header>
-							<Text text="{i18n>labelImpQuotaDocumento}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelImpLiquidabile}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-						visible="{= ${Soa>/ZzCebenra} ? true : false}"
-					>
-						<header>
-							<Text text="{i18n>labelResiduoVersabile}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-						visible="{= ${Soa>/ZzCebenra} ? true : false}"
-					>
-						<header>
-							<Text text="{i18n>labelResiduoEsigibile}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelImpDaOrdinare}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-						visible="{= ${Soa>/ZzCebenra} ? false : true}"
-					>
-						<header>
-							<Text text="{i18n>labelDurc}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-						visible="{= ${Soa>/ZzCebenra} ? false : true}"
-					>
-						<header>
-							<Text text="{i18n>labelFermoAmministrativo}"/>
-						</header>
-					</Column>
-				</columns>
-				<items>
-					<ColumnListItem vAlign="Middle">
-						<cells>
-							<ObjectIdentifier text="{
+                selectionChange="onAddSelectedItem"
+                fixedLayout="false"
+                growing="true"
+            >
+                <columns>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelAnnoRegDocumento}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelAbbrNRegDocumento}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelAbbrTipoDocumento}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelDataDocBeneficiario}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelDenomBeneficiario}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                    >
+                        <header>
+                            <Text text="{i18n>labelImpQuotaDocumento}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelImpLiquidabile}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        visible="{= ${Soa>/ZzCebenra} ? true : false}"
+                    >
+                        <header>
+                            <Text text="{i18n>labelResiduoVersabile}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        visible="{= ${Soa>/ZzCebenra} ? true : false}"
+                    >
+                        <header>
+                            <Text text="{i18n>labelResiduoEsigibile}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelImpDaOrdinare}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                    >
+                        <header>
+                            <Text text="{i18n>labelDurc}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                    >
+                        <header>
+                            <Text text="{i18n>labelFermoAmministrativo}" />
+                        </header>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <ObjectIdentifier
+                                text="{
 								path: 'PosizioniScen2>Gjahr'
-							}"/>
-							<ObjectIdentifier text="{PosizioniScen2>Belnr}"/>
-							<Text text="{PosizioniScen2>Blart}"/>
-							<Text text="{
+							}"
+                            />
+                            <ObjectIdentifier text="{PosizioniScen2>Belnr}" />
+                            <Text text="{PosizioniScen2>Blart}" />
+                            <Text
+                                text="{
 								path: 'PosizioniScen2>Bldat',
 								type: 'sap.ui.model.type.Date',
 								formatOptions: {
 									pattern: 'dd.MM.yyyy'
 								}
-							}"/>
-							<Text text="{PosizioniScen2>ZzragSoc}"/>
-							<Text text="{
+							}"
+                            />
+                            <Text text="{PosizioniScen2>ZzragSoc}" />
+                            <Text
+                                text="{
 								path: 'PosizioniScen2>Wrbtr',
-								formatter: '.formatter.convertFormattedNumber'
-							}"/>
-							<Text text="{
+								formatter: '.formatter.convertImport'
+							}"
+                            />
+                            <Text
+                                text="{
 								path: 'PosizioniScen2>Zimpliq',
-								formatter: '.formatter.convertFormattedNumber'
-							}"/>
-							<Text text="{
+								formatter: '.formatter.convertImport'
+							}"
+                            />
+                            <Text
+                                text="{
 								path: 'PosizioniScen2>Zresvers',
-								formatter: '.formatter.convertFormattedNumber'
-							}"/>
-							<Text text="{
+								formatter: '.formatter.convertImport'
+							}"
+                            />
+                            <Text
+                                text="{
 								path: 'PosizioniScen2>Zresesig',
-								formatter: '.formatter.convertFormattedNumber'
-							}"/>
-							<Input
-								id="iptAddImpDaOrd"
-								change="onAddImpDaOrdinareChange"
-								type="Number"
-								value="{
+								formatter: '.formatter.convertImport'
+							}"
+                            />
+                            <Input
+                                id="iptAddImpDaOrd"
+                                change="onAddImpDaOrdinareChange"
+                                type="Number"
+                                value="{
 									path: 'PosizioniScen2>Zimpdaord'
 								}"
-							/>
-							<Text text="{
+                            />
+                            <Text
+                                text="{
 								path: 'PosizioniScen2>/Zdurc',
 								formatter: '.formatter.deleteFirstZeros'
-							}"/>
-							<Text text="{PosizioniScen2>ZfermAmm}"/>
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
-		</content>
-	</Panel>
+							}"
+                            />
+                            <Text text="{PosizioniScen2>ZfermAmm}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Panel>
 </c:FragmentDefinition>

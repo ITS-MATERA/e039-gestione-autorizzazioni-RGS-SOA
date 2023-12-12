@@ -102,7 +102,7 @@ sap.ui.define(
           oModel.read(sPath, {
             success: function (data, oResponse) {
               self.getView().setBusy(false);
-              if (self.setResponseMessage(oResponse)) {
+              if (self.hasResponseError(oResponse)) {
                 self._setAutorizzazioneModel();
                 return;
               }
@@ -135,7 +135,7 @@ sap.ui.define(
           oModel.read(sPath, {
             success: function (oData, oResponse) {
               self.getView().setBusy(false);
-              if (self.setResponseMessage(oResponse)) {
+              if (self.hasResponseError(oResponse)) {
                 oModelAutorizzazione.setProperty("/Zgeber", "");
               }
             },
@@ -173,7 +173,7 @@ sap.ui.define(
             filters: aFilters,
             success: function (data) {
               self.getView().setBusy(false);
-              self.setModelSelectDialog(
+              self.setModelDialog(
                 "IdAutorizzazione",
                 data,
                 "sdIdAutorizzazione",
@@ -252,7 +252,7 @@ sap.ui.define(
             },
             success: function (data, oResponse) {
               oView.setBusy(false);
-              if (self.setResponseMessage(oResponse)) {
+              if (self.hasResponseError(oResponse)) {
                 return;
               }
 

@@ -15,7 +15,7 @@ sap.ui.define([], function () {
       return parseFloat(sValue).toFixed(2);
     },
 
-    convertFormattedNumber: function (sValue) {
+    convertImport: function (sValue) {
       if (!sValue) {
         return "";
       }

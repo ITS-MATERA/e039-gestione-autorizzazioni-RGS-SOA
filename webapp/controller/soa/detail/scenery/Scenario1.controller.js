@@ -117,7 +117,7 @@ sap.ui.define(
               this._addNewPositions();
             }
           } else if (bWizard1Step3) {
-            if (self.checkPosizioniScenario1()) {
+            if (self.checkDispAutorizzazione()) {
               oModelStepScenario.setProperty("/wizard1Step3", false);
               oModelStepScenario.setProperty("/wizard2", true);
               oWizard.nextStep();
@@ -160,7 +160,7 @@ sap.ui.define(
             case "Dettaglio": {
               self.resetWizard("wizScenario1");
               self.setStepScenarioModel();
-              self.setSoaModel(oParameters, function () {});
+              self.setSoaModel(oParameters, function () { });
               break;
             }
             case "Workflow": {
@@ -265,7 +265,7 @@ sap.ui.define(
                           oPositionSoa.Bukrs === oSelectedItem.Bukrs &&
                           oPositionSoa.Gjahr === oSelectedItem.Gjahr &&
                           oPositionSoa.Zchiavesop ===
-                            oSelectedItem.Zchiavesop &&
+                          oSelectedItem.Zchiavesop &&
                           oPositionSoa.Zpossop === oSelectedItem.Zpossop &&
                           oPositionSoa.ZstepSop === oSelectedItem.ZstepSop
                         );
@@ -275,11 +275,11 @@ sap.ui.define(
                         return (
                           oPositionSoa.Bukrs === oSelectedItem.Bukrs &&
                           oPositionSoa.Zposizione ===
-                            oSelectedItem.Zposizione &&
+                          oSelectedItem.Zposizione &&
                           oPositionSoa.Znumliq === oSelectedItem.Znumliq &&
                           oPositionSoa.Zversione === oSelectedItem.Zversione &&
                           oPositionSoa.ZversioneOrig ===
-                            oSelectedItem.ZversioneOrig
+                          oSelectedItem.ZversioneOrig
                         );
                       });
                     }
@@ -432,7 +432,7 @@ sap.ui.define(
           var oModelSoa = self.getModel("Soa");
           var oModelUtility = self.getModel("Utility");
           //Load Component
-          var oTableDocumenti = oView.byId("tblQuoteDocumentiScen1");
+          var oTableDocumenti = oView.byId("tblPosizioniScen1");
 
           var aPositionSoa = oModelSoa.getProperty("/data");
           var aAddSelectedPositions = [];
@@ -446,14 +446,14 @@ sap.ui.define(
             "/AddSelectedPositions"
           );
 
-          var aFilters = this.setFiltersScenario1();
+          var aFilters = this.setFiltersWizard1();
 
           oView.setBusy(true);
 
           oDataModel.read("/" + "QuoteDocumentiSet", {
             filters: aFilters,
             success: function (data, oResponse) {
-              if (!self.setResponseMessage(oResponse)) {
+              if (!self.hasResponseError(oResponse)) {
                 oModelStepScenario.setProperty("/wizard1Step1", false);
                 oModelStepScenario.setProperty("/wizard1Step2", true);
                 oModelStepScenario.setProperty("/visibleBtnForward", true);

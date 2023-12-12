@@ -1,89 +1,91 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
 >
-	<Panel
-		class="onlyTopPadding"
-		visible="{StepScenario>/wizard1Step3}"
-		backgroundDesign="Transparent"
-	>
-		<headerToolbar>
-			<OverflowToolbar>
-				<Title text="{i18n>titleRiepilogoListProspettoLiquidazione}"/>
-			</OverflowToolbar>
-		</headerToolbar>
-		<content>
-			<Table
-				items="{
+    <Panel
+        class="onlyTopPadding"
+        visible="{StepScenario>/wizard1Step3}"
+        backgroundDesign="Transparent"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleRiepilogoListProspettoLiquidazione}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <Table
+                items="{
 					path: 'Soa>/data'
 				}"
-				fixedLayout="false"
-				growing="true"
-			>
-				<columns>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelProspetto}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelRigaProspetto}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelDescProspLiquidazione}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelAbbrNRegDocumento}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Desktop"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelImpDaOrdinare}"/>
-						</header>
-					</Column>
-				</columns>
-				<items>
-					<ColumnListItem
-						vAlign="Middle"
-						class="bgNotEditable"
-					>
-						<cells>
-							<Text text="{Soa>Znumliq}"/>
-							<Text text="{Soa>Zposizione}"/>
-							<Text text="{Soa>ZdescProsp}"/>
-							<Text text="{Soa>Belnr}"/>
-							<Text text="{
+                fixedLayout="false"
+                growing="true"
+            >
+                <columns>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelProspetto}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelRigaProspetto}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelDescProspLiquidazione}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelAbbrNRegDocumento}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelImpDaOrdinare}" />
+                        </header>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem
+                        vAlign="Middle"
+                        class="bgNotEditable"
+                    >
+                        <cells>
+                            <Text text="{Soa>Znumliq}" />
+                            <Text text="{Soa>Zposizione}" />
+                            <Text text="{Soa>ZdescProsp}" />
+                            <Text text="{Soa>Belnr}" />
+                            <Text
+                                text="{
 								path: 'Soa>Zimpdaord',
-								formatter: '.formatter.convertFormattedNumber'
-							}"/>
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
-			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.table.CalculatorNoEditable"
-				type="XML"
-			/>
-		</content>
-	</Panel>
+								formatter: '.formatter.convertImport'
+							}"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.table.CalculatorNoEditable"
+                type="XML"
+            />
+        </content>
+    </Panel>
 </c:FragmentDefinition>

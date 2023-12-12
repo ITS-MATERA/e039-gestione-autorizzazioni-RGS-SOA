@@ -194,7 +194,7 @@ sap.ui.define(
         var self = this,
           value =
             oEvent.getSource().getSelectedKey() &&
-            oEvent.getSource().getSelectedKey() !== ""
+              oEvent.getSource().getSelectedKey() !== ""
               ? oEvent.getSource().getSelectedKey()
               : null,
           prop = oEvent.getSource().data("propertyModel"),
@@ -326,7 +326,7 @@ sap.ui.define(
               return;
             }
 
-            if (self.setResponseMessage(oResponse)) {
+            if (self.hasResponseError(oResponse)) {
               oModelAutorizzazione.setProperty("/ZufficioCont", null);
               oModelAutorizzazione.setProperty("/Descufficio", null);
               oModelAutorizzazione.setProperty("/Zfunzdel", null);
@@ -576,7 +576,7 @@ sap.ui.define(
                   } else {
                     MessageBox.error(callback.message, {
                       actions: [MessageBox.Action.CLOSE],
-                      onClose: function (sAction) {},
+                      onClose: function (sAction) { },
                     });
                   }
                 });
@@ -606,7 +606,7 @@ sap.ui.define(
             } else {
               MessageBox.error(callback.message, {
                 actions: [MessageBox.Action.CLOSE],
-                onClose: function (sAction) {},
+                onClose: function (sAction) { },
               });
             }
           }
@@ -643,7 +643,7 @@ sap.ui.define(
                   } else {
                     MessageBox.error(callback.message, {
                       actions: [MessageBox.Action.CLOSE],
-                      onClose: function (sAction) {},
+                      onClose: function (sAction) { },
                     });
                   }
                 }

@@ -232,17 +232,7 @@ sap.ui.define(
           self.setClassificazioneRegModel();
           self.setUtilityRegModel();
           self.setStepScenarioRegModel();
-
-          var oModelFilterDocumenti = new JSONModel({
-            Gjahr: "",
-            Lifnr: "",
-            Zuffliq: [],
-            ZnumliqFrom: "",
-            ZnumliqTo: "",
-            ZdescProsp: "",
-          });
-
-          self.setModel(oModelFilterDocumenti, "FilterDocumenti");
+          self.createModelFilters()
           self.getLogModel();
         },
 
@@ -258,14 +248,14 @@ sap.ui.define(
           var oPanelCalculator = oView.byId("pnlCalculatorList");
 
           var aListRiepilogo = oModelSoa.getProperty("/data");
-          var aFilters = self.setFiltersScenario3();
+          var aFilters = self.setFiltersWizard1();
 
           oView.setBusy(true);
 
           oDataModel.read("/" + "ProspettoLiquidazioneSet", {
             filters: aFilters,
             success: function (data, oResponse) {
-              if (!self.setResponseMessage(oResponse)) {
+              if (!self.hasResponseError(oResponse)) {
                 oModelStepScenario.setProperty("/wizard1Step1", false);
                 oModelStepScenario.setProperty("/wizard1Step2", true);
                 oModelStepScenario.setProperty("/visibleBtnForward", true);

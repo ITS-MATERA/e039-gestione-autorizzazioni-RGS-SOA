@@ -1,0 +1,24 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <SelectDialog
+        id="sdCigFilter"
+        noDataText="{i18n>noData}"
+        title="{i18n>labelCig}"
+        search="onValueHelpChange"
+        confirm="onValueHelpCigFilterClose"
+        cancel="onValueHelpCigFilterClose"
+        app:FilterValueHelp="ZcodiCig"
+        items="{
+          path: 'Cig>/'
+		    }"
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{Cig>ZcodiCig}"
+        />
+    </SelectDialog>
+</c:FragmentDefinition>

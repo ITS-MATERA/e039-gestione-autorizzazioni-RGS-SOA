@@ -75,7 +75,7 @@ sap.ui.define(
             case "Dettaglio": {
               self.resetWizard("wizScenario4");
               self.setStepScenarioModel();
-              self.setSoaModel(oParameters, function () {});
+              self.setSoaModel(oParameters, function () { });
               break;
             }
             case "Workflow": {
@@ -269,7 +269,7 @@ sap.ui.define(
           oModel.read("/RegProspettoLiquidazioneSet", {
             filters: aFilters,
             success: function (data, oResponse) {
-              if (!self.setResponseMessage(oResponse)) {
+              if (!self.hasResponseError(oResponse)) {
                 self.setModelCustom("NewProspettoLiquidazione", data?.results);
                 oModelStepScenario.setProperty("/wizard1Step1", false);
                 oModelStepScenario.setProperty("/wizard1Step2", true);
@@ -328,7 +328,7 @@ sap.ui.define(
                 // if(oNewPosizione.)
               }
             },
-            error: function () {},
+            error: function () { },
           });
         },
 

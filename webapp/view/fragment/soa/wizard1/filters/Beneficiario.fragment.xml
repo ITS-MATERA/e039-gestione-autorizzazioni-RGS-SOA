@@ -1,187 +1,191 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:l="sap.ui.layout"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
-	<Panel backgroundDesign="Transparent">
-		<headerToolbar>
-			<OverflowToolbar>
-				<Title text="{i18n>searchBeneficiario}"/>
-			</OverflowToolbar>
-		</headerToolbar>
-		<content>
-			<l:Grid
-				defaultSpan="XL12 L12 M12 S12"
-				hSpacing="0.5"
-			>
-				<Text
-					text="{i18n>soaFilterTipoBen}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<ComboBox
-					width="100%"
-					items="{
-						path: '/TipologiaBeneficiarioSet'
-					}"
-					selectedKey="{FilterDocumenti>/TipoBeneficiario}"
-					editable="{= 	${FilterDocumenti>/CodRitenuta} ||
-						${FilterDocumenti>/CodEnte} ||
-						${FilterDocumenti>/QuoteEsigibili} === false ||
-						${FilterDocumenti>/DataEsigibilitaFrom} ||
-						${FilterDocumenti>/DataEsigibilitaTo} ||
-						${Utility>/Function} === 'Rettifica' 
-						? false : true
-					}"
-				>
-					<c:Item
-						key="{CodTipoBen}"
-						text="{DescTipoBen}"
-					/>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</ComboBox>
-				<Text
-					text="{i18n>filterBeneficiario}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					valueHelpRequest="onValueHelpBeneficiario"
-					showValueHelp="true"
-					value="{FilterDocumenti>/Lifnr}"
-					editable="{= 	(${FilterDocumenti>/CodRitenuta} ||
-							${FilterDocumenti>/CodEnte} ||
-							${FilterDocumenti>/QuoteEsigibili} === false ||
-							${FilterDocumenti>/DataEsigibilitaFrom} ||
-							${FilterDocumenti>/DataEsigibilitaTo}) ||
-						${Utility>/Function} === 'Rettifica' 
-						? false : true
-					}"
-					change="onBeneficiarioChange"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</Input>
-			</l:Grid>
-		</content>
-		<content>
-			<l:Grid
-				defaultSpan="XL12 L12 M12 S12"
-				hSpacing="0.5"
-			>
-				<Text
-					text="{i18n>soaFilterName}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					value="{Soa>/NameFirst}"
-					editable="false"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</Input>
-				<Text
-					text="{i18n>soaFilterSurname}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					value="{Soa>/NameLast}"
-					editable="false"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</Input>
-				<Text
-					text="{i18n>soaFilterRagSociale}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					value="{Soa>/ZzragSoc}"
-					editable="false"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</Input>
-			</l:Grid>
-		</content>
-		<content>
-			<l:Grid
-				defaultSpan="XL12 L12 M12 S12"
-				hSpacing="0.5"
-			>
-				<Text
-					text="{i18n>soaFilterCF}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					value="{Soa>/TaxnumCf}"
-					editable="false"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</Input>
-				<Text
-					text="{i18n>soaFilterCFEstero}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					value="{Soa>/Taxnumxl}"
-					editable="false"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</Input>
-				<Text
-					text="{i18n>soaFilterPIVA}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					value="{Soa>/TaxnumPiva}"
-					editable="false"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</Input>
-			</l:Grid>
-		</content>
-	</Panel>
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>searchBeneficiario}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>soaFilterTipoBen}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
+											path: '/TipologiaBeneficiarioSet'
+										}"
+                    selectedKey="{FilterDocumenti>/TipoBeneficiario}"
+                    editable="{= (
+                                ${FilterDocumenti>/CodRitenuta} ||
+                                ${FilterDocumenti>/CodEnte} ||
+                                ${FilterDocumenti>/DataEsigibilitaFrom} ||
+                                ${FilterDocumenti>/DataEsigibilitaTo}
+                            ) ||
+                            ${Utility>/Function} === 'Rettifica' 
+                            ? false : true
+                    }"
+                >
+                    <c:Item
+                        key="{CodTipoBen}"
+                        text="{DescTipoBen}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </ComboBox>
+                <Text
+                    text="{i18n>filterBeneficiario}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <zcontrolmccross:MatchcodeCross
+                    whichMC="Beneficiario"
+                    viewId="{Utility>/ViewId}"
+                    value="{FilterDocumenti>/Lifnr}"
+                    maxLength="10"
+                    editable="{= (
+                                ${FilterDocumenti>/CodRitenuta} ||
+                                ${FilterDocumenti>/CodEnte} ||
+                                ${FilterDocumenti>/DataEsigibilitaFrom} ||
+                                ${FilterDocumenti>/DataEsigibilitaTo}
+                            ) ||
+                            ${Utility>/Function} === 'Rettifica' 
+                            ? false : true
+                    }"
+                    change="onBeneficiarioChange"
+                >
+                    <zcontrolmccross:layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
+            </l:Grid>
+        </content>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>soaFilterName}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Soa>/NameFirst}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>soaFilterSurname}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Soa>/NameLast}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>soaFilterRagSociale}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Soa>/ZzragSoc}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>soaFilterCF}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Soa>/TaxnumCf}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>soaFilterCFEstero}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Soa>/Taxnumxl}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>soaFilterPIVA}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Soa>/TaxnumPiva}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
 </c:FragmentDefinition>

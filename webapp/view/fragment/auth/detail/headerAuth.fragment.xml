@@ -1,217 +1,219 @@
 <core:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:l="sap.ui.layout"
-	xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
 >
-	<Panel>
-		<Title
-			text="{i18n>authDetail-detail-datiAutorizzazioneRGS}"
-			class="sapUiTinyMargin titleSize"
-		/>
-		<l:Grid
-			defaultSpan="XL12 L12 M12 S12"
-			vSpacing="0"
-		>
-			<!-- 2riga -->
-			<Label
-				design="Bold"
-				text="{i18n>detailAuth-headerEsercizioGestione}"
-				wrapping="true"
-				class="sapUiSmallMarginEnd"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL1 L1 M6 S12"
-						linebreak="true"
-					/>
-				</layoutData>
-			</Label>
-			<Label text="{AutorizzazioneDetailSet>/GjahrHeader}">
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label
-				design="Bold"
-				text="{i18n>detailAuth-headerIdAutorizzazione}"
-				wrapping="true"
-				class="sapUiSmallMarginEnd"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label text="{AutorizzazioneDetailSet>/ZchiaveautHeader}">
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label
-				design="Bold"
-				text="{i18n>detailAuth-headerImportoAutorizzato}"
-				wrapping="true"
-				class="sapUiSmallMarginEnd"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label text="{
+    <Panel>
+        <Title
+            text="{i18n>authDetail-detail-datiAutorizzazioneRGS}"
+            class="sapUiTinyMargin titleSize"
+        />
+        <l:Grid
+            defaultSpan="XL12 L12 M12 S12"
+            vSpacing="0"
+        >
+            <!-- 2riga -->
+            <Label
+                design="Bold"
+                text="{i18n>detailAuth-headerEsercizioGestione}"
+                wrapping="true"
+                class="sapUiSmallMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL1 L1 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </Label>
+            <Label text="{AutorizzazioneDetailSet>/GjahrHeader}">
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label
+                design="Bold"
+                text="{i18n>detailAuth-headerIdAutorizzazione}"
+                wrapping="true"
+                class="sapUiSmallMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label text="{AutorizzazioneDetailSet>/ZchiaveautHeader}">
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label
+                design="Bold"
+                text="{i18n>detailAuth-headerImportoAutorizzato}"
+                wrapping="true"
+                class="sapUiSmallMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label
+                text="{
 				path: 'AutorizzazioneDetailSet>/ZimpautHeader',
-				formatter: '.formatter.convertFormattedNumber'
-			}">
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label
-				design="Bold"
-				text="{i18n>detailAuth-headerAmministrazione}"
-				wrapping="true"
-				class="sapUiSmallMarginEnd"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label text="{AutorizzazioneDetailSet>/ZzamministrHeader}">
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Label>
-			<!-- 3 riga	 -->
-			<Label
-				design="Bold"
-				text="{i18n>detailAuth-headerTipologiaAutorizzazione}"
-				wrapping="true"
-				class="sapUiSmallMarginEnd"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL1 L1 M6 S12"
-						linebreak="true"
-					/>
-				</layoutData>
-			</Label>
-			<Label
-				text="{AutorizzazioneDetailSet>/DesTipoDisp2Header}"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label
-				design="Bold"
-				text="{i18n>detailAuth-headerTipologiaDisposizione}"
-				wrapping="true"
-				class="sapUiSmallMarginEnd"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label
-				text="{AutorizzazioneDetailSet>/DesTipoDisp3Header}"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label
-				design="Bold"
-				text="{i18n>detailAuth-headerUfficioOrdinante}"
-				wrapping="true"
-				class="sapUiSmallMarginEnd"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label
-				text="{AutorizzazioneDetailSet>/DescufficioHeader}"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label
-				design="Bold"
-				text="{i18n>detailAuth-headerPosFinanziaria}"
-				wrapping="true"
-				class="sapUiSmallMarginEnd"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label text="{AutorizzazioneDetailSet>/FiposHeader}">
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label
-				design="Bold"
-				text="{i18n>detailAuth-headerStruttammResp}"
-				wrapping="true"
-				class="sapUiSmallMarginEnd"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Label text="{AutorizzazioneDetailSet>/FistlHeader}">
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Label>
-			<!-- 4 riga -->
-			<Label
-				design="Bold"
-				text="{i18n>detailAuth-headerNote}"
-				wrapping="true"
-				class="sapUiSmallMarginEnd"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL1 L1 M6 S12"
-						linebreak="true"
-					/>
-				</layoutData>
-			</Label>
-			<TextArea
-				cols="100"
-				rows="5"
-				maxLength="1000"
-				editable="false"
-				enabled="false"
-				value="{AutorizzazioneDetailSet>/ZnoteautHeader}"
-			>
-				<layoutData>
-					<l:GridData span="XL10 L10 M12 S12"/>
-				</layoutData>
-			</TextArea>
-			<Button
-				id="btnRettificaAutorizzazione"
-				class="button"
-				enabled="{AuthButtonSet>/btnRettificaAutorizzazioneEnabled}"
-				tooltip="{i18n>authDetailButtonRettificaAutorizzazione}"
-				text="{i18n>authDetailButtonRettificaAutorizzazione}"
-				icon="sap-icon://edit"
-				type="Emphasized"
-				press="onRettificaAutorizzazione"
-				visible="{= ${Utility>/EnableEdit} === true ? false : true}"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL2 L2 M6 S12"
-						indent="XL10 L10 M6"
-						linebreak="true"
-					/>
-				</layoutData>
-			</Button>
-		</l:Grid>
-	</Panel>
+				formatter: '.formatter.convertImport'
+			}"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label
+                design="Bold"
+                text="{i18n>detailAuth-headerAmministrazione}"
+                wrapping="true"
+                class="sapUiSmallMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label text="{AutorizzazioneDetailSet>/ZzamministrHeader}">
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Label>
+            <!-- 3 riga	 -->
+            <Label
+                design="Bold"
+                text="{i18n>detailAuth-headerTipologiaAutorizzazione}"
+                wrapping="true"
+                class="sapUiSmallMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL1 L1 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </Label>
+            <Label
+                text="{AutorizzazioneDetailSet>/DesTipoDisp2Header}"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label
+                design="Bold"
+                text="{i18n>detailAuth-headerTipologiaDisposizione}"
+                wrapping="true"
+                class="sapUiSmallMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label
+                text="{AutorizzazioneDetailSet>/DesTipoDisp3Header}"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label
+                design="Bold"
+                text="{i18n>detailAuth-headerUfficioOrdinante}"
+                wrapping="true"
+                class="sapUiSmallMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label
+                text="{AutorizzazioneDetailSet>/DescufficioHeader}"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label
+                design="Bold"
+                text="{i18n>detailAuth-headerPosFinanziaria}"
+                wrapping="true"
+                class="sapUiSmallMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label text="{AutorizzazioneDetailSet>/FiposHeader}">
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label
+                design="Bold"
+                text="{i18n>detailAuth-headerStruttammResp}"
+                wrapping="true"
+                class="sapUiSmallMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Label text="{AutorizzazioneDetailSet>/FistlHeader}">
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Label>
+            <!-- 4 riga -->
+            <Label
+                design="Bold"
+                text="{i18n>detailAuth-headerNote}"
+                wrapping="true"
+                class="sapUiSmallMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL1 L1 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </Label>
+            <TextArea
+                cols="100"
+                rows="5"
+                maxLength="1000"
+                editable="false"
+                enabled="false"
+                value="{AutorizzazioneDetailSet>/ZnoteautHeader}"
+            >
+                <layoutData>
+                    <l:GridData span="XL10 L10 M12 S12" />
+                </layoutData>
+            </TextArea>
+            <Button
+                id="btnRettificaAutorizzazione"
+                class="button"
+                enabled="{AuthButtonSet>/btnRettificaAutorizzazioneEnabled}"
+                tooltip="{i18n>authDetailButtonRettificaAutorizzazione}"
+                text="{i18n>authDetailButtonRettificaAutorizzazione}"
+                icon="sap-icon://edit"
+                type="Emphasized"
+                press="onRettificaAutorizzazione"
+                visible="{= ${Utility>/EnableEdit} === true ? false : true}"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL2 L2 M6 S12"
+                        indent="XL10 L10 M6"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </Button>
+        </l:Grid>
+    </Panel>
 </core:FragmentDefinition>

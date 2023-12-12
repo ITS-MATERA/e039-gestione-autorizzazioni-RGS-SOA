@@ -54,7 +54,7 @@ sap.ui.define(
       _onObjectMatched: function (oEvent) {
         var self = this;
 
-        self.getAuthorityCheck(function (callback) {});
+        self.getAuthorityCheck(function (callback) { });
         self.getTipoAutorizzazioneModel();
       },
 
@@ -265,7 +265,7 @@ sap.ui.define(
               return;
             }
 
-            if (self.setResponseMessage(oResponse)) {
+            if (self.hasResponseError(oResponse)) {
               oModelAut.setProperty("/RegisterSet/ZufficioCont", null);
               oModelAut.setProperty("/RegisterSet/Descufficio", null);
               oModelAut.setProperty("/RegisterSet/Zfunzdel", null);
@@ -294,7 +294,7 @@ sap.ui.define(
         var self = this,
           value =
             oEvent.getSource().getSelectedKey() &&
-            oEvent.getSource().getSelectedKey() !== ""
+              oEvent.getSource().getSelectedKey() !== ""
               ? oEvent.getSource().getSelectedKey()
               : null,
           prop = oEvent.getSource().data("propertyModel"),

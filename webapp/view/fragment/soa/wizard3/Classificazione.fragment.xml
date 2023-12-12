@@ -1,54 +1,54 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:l="sap.ui.layout"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
 >
-	<Panel
-		class="sapUiNoContentPadding"
-		backgroundDesign="Transparent"
-		visible="{StepScenario>/wizard3}"
-	>
-		<content>
-			<l:Grid
-				defaultSpan="XL12 L12 M12 S12"
-				hSpacing="0.5"
-			>
-				<Text
-					text="{i18n>inputImpDaAssociare}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					editable="false"
-					value="{
+    <Panel
+        class="sapUiNoContentPadding"
+        backgroundDesign="Transparent"
+        visible="{StepScenario>/wizard3}"
+    >
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>inputImpDaAssociare}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{
 						path: 'Soa>/Zimptot',
-						formatter: '.formatter.convertFormattedNumber'
+						formatter: '.formatter.convertImport'
 					}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Input>
-			</l:Grid>
-			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.wizard3.panel.CodiceGestionale"
-				type="XML"
-			/>
-			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.wizard3.panel.Cpv"
-				type="XML"
-			/>
-			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.wizard3.panel.Cig"
-				type="XML"
-			/>
-			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.wizard3.panel.Cup"
-				type="XML"
-			/>
-		</content>
-	</Panel>
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.wizard3.panel.CodiceGestionale"
+                type="XML"
+            />
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.wizard3.panel.Cpv"
+                type="XML"
+            />
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.wizard3.panel.Cig"
+                type="XML"
+            />
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.wizard3.panel.Cup"
+                type="XML"
+            />
+        </content>
+    </Panel>
 </c:FragmentDefinition>

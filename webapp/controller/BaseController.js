@@ -82,7 +82,7 @@ sap.ui.define(
         );
       },
 
-      setResponseMessage: function (oResponse) {
+      hasResponseError: function (oResponse) {
         var bError = false;
         if (oResponse?.headers["sap-message"]) {
           var oMessage = this._getMessage(oResponse);
@@ -119,7 +119,7 @@ sap.ui.define(
         oView.setModel(oModelJson, sNameModel);
       },
 
-      setModelSelectDialog: function (sNameModel, aData, sNameDialog, oDialog) {
+      setModelDialog: function (sNameModel, aData, sNameDialog, oDialog) {
         var oModelJson = new JSONModel();
         oModelJson.setData(aData.results);
         var oSelectDialog = sap.ui.getCore().byId(sNameDialog);
@@ -150,6 +150,28 @@ sap.ui.define(
           if (isNaN(oEvent.key)) {
             oEvent.preventDefault();
           }
+        });
+      },
+
+      getUfficio: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var sKey = oModel.createKey("/UserParamSet", {
+          ParameterName: "/PRA/PN_DN_FUNC_AREA",
+        });
+        self.getView().setBusy(true);
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (self.hasResponseError(oResponse)) return;
+              resolve(data.ParameterValue);
+            },
+            error: function (e) {
+              self.getView().setBusy(false);
+              reject(e);
+            },
+          });
         });
       },
 

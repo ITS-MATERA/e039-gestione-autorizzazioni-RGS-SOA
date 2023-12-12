@@ -113,7 +113,7 @@ sap.ui.define(
           var bGoToRiepilogo = oModelUtility.getProperty("/DeletePositions");
 
           if (bWizard1Step2) {
-            if (bGoToRiepilogo && self.checkPosizioniScen2()) {
+            if (bGoToRiepilogo && self.checkDispAutorizzazione()) {
               var aSoaPositions = oModelSoa.getProperty("/data");
               var fTotal = 0.0;
               aSoaPositions.map((oPosition) => {
@@ -166,7 +166,7 @@ sap.ui.define(
             case "Dettaglio": {
               self.resetWizard("wizScenario3");
               self.setStepScenarioModel();
-              self.setSoaModel(oParameters, function () {});
+              self.setSoaModel(oParameters, function () { });
               break;
             }
             case "Workflow": {
@@ -299,7 +299,7 @@ sap.ui.define(
                           oPositionSoa.Bukrs === oSelectedItem.Bukrs &&
                           oPositionSoa.Gjahr === oSelectedItem.Gjahr &&
                           oPositionSoa.Zchiavesop ===
-                            oSelectedItem.Zchiavesop &&
+                          oSelectedItem.Zchiavesop &&
                           oPositionSoa.Zpossop === oSelectedItem.Zpossop &&
                           oPositionSoa.ZstepSop === oSelectedItem.ZstepSop
                         );
@@ -309,11 +309,11 @@ sap.ui.define(
                         return (
                           oPositionSoa.Bukrs === oSelectedItem.Bukrs &&
                           oPositionSoa.Zposizione ===
-                            oSelectedItem.Zposizione &&
+                          oSelectedItem.Zposizione &&
                           oPositionSoa.Znumliq === oSelectedItem.Znumliq &&
                           oPositionSoa.Zversione === oSelectedItem.Zversione &&
                           oPositionSoa.ZversioneOrig ===
-                            oSelectedItem.ZversioneOrig
+                          oSelectedItem.ZversioneOrig
                         );
                       });
                     }
@@ -443,14 +443,14 @@ sap.ui.define(
             "/AddSelectedPositions"
           );
 
-          var aFilters = self.setFiltersScenario3();
+          var aFilters = self.setFiltersWizard1();
 
           oView.setBusy(true);
 
           oDataModel.read("/" + "ProspettoLiquidazioneSet", {
             filters: aFilters,
             success: function (data, oResponse) {
-              if (!self.setResponseMessage(oResponse)) {
+              if (!self.hasResponseError(oResponse)) {
                 oModelStepScenario.setProperty("/wizard1Step1", false);
                 oModelStepScenario.setProperty("/wizard1Step2", true);
                 oModelStepScenario.setProperty("/visibleBtnForward", true);

@@ -1,145 +1,151 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:l="sap.ui.layout"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-	<Panel
-		class="sapUiNoContentPadding"
-		backgroundDesign="Transparent"
-	>
-		<headerToolbar>
-			<OverflowToolbar>
-				<Title text="{i18n>titleCos}"/>
-			</OverflowToolbar>
-		</headerToolbar>
-		<content>
-			<Table
-				id="tblCos"
-				mode="{= ${Soa>/EnableEdit} ? 'MultiSelect' : 'None'}"
-				fixedLayout="false"
-				contextualWidth="Auto"
-				growing="true"
-				items="{
+    <Panel
+        class="sapUiNoContentPadding"
+        backgroundDesign="Transparent"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleCos}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <Table
+                id="tblCos"
+                mode="{= ${Soa>/EnableEdit} ? 'MultiSelect' : 'None'}"
+                fixedLayout="false"
+                contextualWidth="Auto"
+                growing="true"
+                items="{
 					path: 'Classificazione>/Cos'
 				}"
-			>
-				<headerToolbar>
-					<OverflowToolbar class="multiHeaders">
-						<ToolbarSpacer/>
-						<Button
-							class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
-							icon="sap-icon://add"
-							text="{i18n>btnAdd}"
-							type="Emphasized"
-							press="onAddRow"
-							app:etichetta="Cos"
-							enabled="{Soa>/EnableEdit}"
-						>
-							<layoutData>
-								<OverflowToolbarLayoutData priority="NeverOverflow"/>
-							</layoutData>
-						</Button>
-						<Button
-							class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
-							icon="sap-icon://less"
-							text="{i18n>btnCancel}"
-							type="Emphasized"
-							press="onCancelRow"
-							app:etichetta="Cos"
-							app:table="tblCos"
-							enabled="{Soa>/EnableEdit}"
-						>
-							<layoutData>
-								<OverflowToolbarLayoutData priority="NeverOverflow"/>
-							</layoutData>
-						</Button>
-					</OverflowToolbar>
-				</headerToolbar>
-				<columns>
-					<Column
-						minScreenWidth="Tablet"
-						demandPopin="true"
-						width="35%"
-					>
-						<header>
-							<Text text="{i18n>labelCos}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Tablet"
-						demandPopin="true"
-					>
-						<header>
-							<Text text="{i18n>labelDescCos}"/>
-						</header>
-					</Column>
-					<Column
-						minScreenWidth="Tablet"
-						demandPopin="true"
-						width="32%"
-					>
-						<header>
-							<Text text="{i18n>labelImpDaAssociare}"/>
-						</header>
-					</Column>
-				</columns>
-				<items>
-					<ColumnListItem vAlign="Middle">
-						<cells>
-							<Input
-								id="iptCos"
-								valueHelpRequest="onValueHelpCos"
-								showValueHelp="true"
-								valueHelpOnly="true"
-								app:dialogName="sdCos"
-								app:fragmentName="CodiceGestionale"
-								app:index="{Classificazione>Index}"
-								width="65%"
-								value="{Classificazione>Zcos}"
-								editable="{Soa>/EnableEdit}"
-							/>
-							<Input
-								editable="false"
-								value="{Classificazione>ZcosDesc}"
-							/>
-							<Input
-								id="iptImpDaAssociare"
-								width="30%"
-								type="Number"
-								value="{Classificazione>ZimptotClass}"
-								app:index="{Classificazione>Index}"
-								app:etichetta="Cos"
-								change="onImpDaAssociareChange"
-								editable="{Soa>/EnableEdit}"
-							/>
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
-			<Panel backgroundDesign="Transparent">
-				<l:Grid
-					defaultSpan="XL12 L12 M12 S12"
-					class="calculator"
-				>
-					<Text text="{i18n>labelImpTotCos}">
-						<layoutData>
-							<l:GridData
-								span="XL3 L4 M5 S12"
-								indent="XL5 L4 M3"
-							/>
-						</layoutData>
-					</Text>
-					<Text text="{
+            >
+                <headerToolbar>
+                    <OverflowToolbar class="multiHeaders">
+                        <ToolbarSpacer />
+                        <Button
+                            class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
+                            icon="sap-icon://add"
+                            text="{i18n>btnAdd}"
+                            type="Emphasized"
+                            press="onAddRow"
+                            app:etichetta="Cos"
+                            enabled="{Soa>/EnableEdit}"
+                        >
+                            <layoutData>
+                                <OverflowToolbarLayoutData
+                                    priority="NeverOverflow"
+                                />
+                            </layoutData>
+                        </Button>
+                        <Button
+                            class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
+                            icon="sap-icon://less"
+                            text="{i18n>btnCancel}"
+                            type="Emphasized"
+                            press="onCancelRow"
+                            app:etichetta="Cos"
+                            app:table="tblCos"
+                            enabled="{Soa>/EnableEdit}"
+                        >
+                            <layoutData>
+                                <OverflowToolbarLayoutData
+                                    priority="NeverOverflow"
+                                />
+                            </layoutData>
+                        </Button>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                        width="35%"
+                    >
+                        <header>
+                            <Text text="{i18n>labelCos}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelDescCos}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                        width="32%"
+                    >
+                        <header>
+                            <Text text="{i18n>labelImpDaAssociare}" />
+                        </header>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <Input
+                                id="iptCos"
+                                valueHelpRequest="onValueHelpCos"
+                                showValueHelp="true"
+                                valueHelpOnly="true"
+                                app:dialogName="sdCos"
+                                app:fragmentName="CodiceGestionale"
+                                app:index="{Classificazione>Index}"
+                                width="65%"
+                                value="{Classificazione>Zcos}"
+                                editable="{Soa>/EnableEdit}"
+                            />
+                            <Input
+                                editable="false"
+                                value="{Classificazione>ZcosDesc}"
+                            />
+                            <Input
+                                id="iptImpDaAssociare"
+                                width="30%"
+                                type="Number"
+                                value="{Classificazione>ZimptotClass}"
+                                app:index="{Classificazione>Index}"
+                                app:etichetta="Cos"
+                                change="onImpDaAssociareChange"
+                                editable="{Soa>/EnableEdit}"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            <Panel backgroundDesign="Transparent">
+                <l:Grid
+                    defaultSpan="XL12 L12 M12 S12"
+                    class="calculator"
+                >
+                    <Text text="{i18n>labelImpTotCos}">
+                        <layoutData>
+                            <l:GridData
+                                span="XL3 L4 M5 S12"
+                                indent="XL5 L4 M3"
+                            />
+                        </layoutData>
+                    </Text>
+                    <Text
+                        text="{
 						path: 'Classificazione>/ImpTotAssociareCos',
-						formatter: '.formatter.convertFormattedNumber'
-					}">
-						<layoutData>
-							<l:GridData span="XL1 L1 M1 S12"/>
-						</layoutData>
-					</Text>
-				</l:Grid>
-			</Panel>
-		</content>
-	</Panel>
+						formatter: '.formatter.convertImport'
+					}"
+                    >
+                        <layoutData>
+                            <l:GridData span="XL1 L1 M1 S12" />
+                        </layoutData>
+                    </Text>
+                </l:Grid>
+            </Panel>
+        </content>
+    </Panel>
 </c:FragmentDefinition>

@@ -81,7 +81,7 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step2) {
-            if (self.checkPosizioniScenario1()) {
+            if (self.checkDispAutorizzazione()) {
               oModelStepScenario.setProperty("/wizard1Step2", false);
               oModelStepScenario.setProperty("/wizard1Step3", true);
             }
@@ -111,17 +111,44 @@ sap.ui.define(
           }
         },
 
-        //#region WIZARD 1
-
         onStart: function () {
-          this._getQuoteDocumentiList();
+          var self = this;
+          var oModel = self.getModel();
+          var oModelStepScenario = self.getModel("StepScenario");
+          var aFilters = self.setFiltersWizard1();
+          var oPanelCalculator = self.getView().byId("pnlCalculatorList");
+
+          self.getView().setBusy(true);
+
+          oModel.read("/QuoteDocumentiSet", {
+            filters: aFilters,
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (!self.hasResponseError(oResponse)) {
+                oModelStepScenario.setProperty("/wizard1Step1", false);
+                oModelStepScenario.setProperty("/wizard1Step2", true);
+                oModelStepScenario.setProperty("/visibleBtnForward", true);
+                oModelStepScenario.setProperty("/visibleBtnStart", false);
+              }
+
+              var aData = data?.results;
+              aData?.map((oPosition, iIndex) => {
+                oPosition.Index = iIndex + 1;
+              });
+              self.setModel(new JSONModel(aData), "PosizioniScen1");
+              oPanelCalculator.setVisible(aData.length !== 0);
+            },
+            error: function () {
+              self.getView().setBusy(false);
+            },
+          });
         },
 
         onSelectedItem: function (oEvent) {
           var self = this;
           var bSelected = oEvent.getParameter("selected");
           //Load Model
-          var oModelDocumenti = self.getModel("QuoteDocumenti");
+          var oModelDocumenti = self.getModel("PosizioniScen1");
           var oModelSoa = self.getModel("Soa");
           //Load Component
           var oButtonCalculate = self.getView().byId("btnCalculate");
@@ -158,27 +185,12 @@ sap.ui.define(
           oModelSoa.setProperty("/Zimptot", "0.00");
         },
 
-        onCalculate: function () {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var aListRiepilogo = oModelSoa.getProperty("/data");
-          var fTotal = 0;
-
-          aListRiepilogo.map((oSelectedItem) => {
-            fTotal += parseFloat(oSelectedItem?.Zimpdaord);
-          });
-
-          oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
-        },
-
-        //#region SELECTION CHANGE
-
         onImpDaOrdinareChange: function (oEvent) {
           var self = this;
           //Load Component
-          var oTableDocumenti = self.getView().byId("tblQuoteDocumentiScen1");
+          var oTableDocumenti = self.getView().byId("tblPosizioniScen1");
           //Load Models
-          var oTableModelDocumenti = oTableDocumenti.getModel("QuoteDocumenti");
+          var oTableModelDocumenti = oTableDocumenti.getModel("PosizioniScen1");
           var oModelSoa = self.getModel("Soa");
 
           var sValue = oEvent.getParameter("value");
@@ -195,14 +207,8 @@ sap.ui.define(
           }
         },
 
-        //#endregion
-
-        //#region PRIVATE METHODS
-
         _onObjectMatched: function (oEvent) {
           var self = this;
-          //Load Models
-          var oModel = self.getModel();
 
           self.resetWizard("wizScenario1");
           self.setSoaRegModel("1");
@@ -210,112 +216,10 @@ sap.ui.define(
           self.setClassificazioneRegModel();
           self.setUtilityRegModel();
           self.setStepScenarioRegModel();
-
-          var oModelFilterDocumenti = new JSONModel({
-            CodRitenuta: "",
-            DescRitenuta: "",
-            CodEnte: "",
-            DescEnte: "",
-            QuoteEsigibili: true,
-            DataEsigibilitaFrom: "",
-            DataEsigibilitaTo: "",
-            TipoBeneficiario: "",
-            Lifnr: "",
-            Gjahr: "",
-            Lifnr: "",
-            Zuffliq: [],
-            ZnumliqFrom: "",
-            ZnumliqTo: "",
-            ZdescProsp: "",
-            UfficioContabile: "",
-            UfficioPagatore: "",
-            AnnoRegDocumento: [],
-            NumRegDocFrom: "",
-            NumRegDocTo: "",
-            AnnoDocBeneficiario: [],
-            NDocBen: [],
-            Cig: "",
-            Cup: "",
-            ScadenzaDocFrom: null,
-            ScadenzaDocTo: null,
-          });
-
-          oModel.read("/" + "PrevalUfficioContabileSet", {
-            success: function (data) {
-              oModelFilterDocumenti.setProperty(
-                "/UfficioContabile",
-                data?.results[0]?.Fkber
-              );
-              oModelFilterDocumenti.setProperty(
-                "/UfficioPagatore",
-                data?.results[0]?.Fkber
-              );
-            },
-            error: function (error) {},
-          });
-
-          self.setModel(oModelFilterDocumenti, "FilterDocumenti");
+          self.createModelFilters()
           self.getLogModel();
         },
 
-        _getQuoteDocumentiList: function () {
-          var self = this;
-          var oView = self.getView();
-          //Load Model
-          var oDataModel = self.getModel();
-          var oModelStepScenario = self.getModel("StepScenario");
-          var oModelSoa = self.getModel("Soa");
-          //Load Component
-          var oTableDocumenti = oView.byId("tblQuoteDocumentiScen1");
-          var oPanelCalculator = oView.byId("pnlCalculatorList");
-
-          var aListRiepilogo = oModelSoa.getProperty("/data");
-          var aFilters = this.setFiltersScenario1();
-
-          oView.setBusy(true);
-
-          oDataModel.read("/" + "QuoteDocumentiSet", {
-            filters: aFilters,
-            success: function (data, oResponse) {
-              if (!self.setResponseMessage(oResponse)) {
-                oModelStepScenario.setProperty("/wizard1Step1", false);
-                oModelStepScenario.setProperty("/wizard1Step2", true);
-                oModelStepScenario.setProperty("/visibleBtnForward", true);
-                oModelStepScenario.setProperty("/visibleBtnStart", false);
-              }
-              self.setModelCustom("QuoteDocumenti", data.results);
-
-              oPanelCalculator.setVisible(data.results.length !== 0);
-
-              if (data.results !== 0) {
-                data.results.map((oItem, iIndex) => {
-                  //Vengono selezionati i record quando viene caricata l'entità
-                  aListRiepilogo.map((oSelectedItem) => {
-                    if (
-                      oItem.Bukrs === oSelectedItem.Bukrs &&
-                      oItem.Znumliq === oSelectedItem.Znumliq &&
-                      oItem.Zposizione === oSelectedItem.Zposizione &&
-                      oItem.Zversione === oSelectedItem.Zversione &&
-                      oItem.ZversioneOrig === oSelectedItem.ZversioneOrig
-                    ) {
-                      oTableDocumenti.setSelectedItem(
-                        oTableDocumenti.getItems()[iIndex]
-                      );
-                    }
-                  });
-                });
-              }
-              oView.setBusy(false);
-            },
-            error: function (error) {
-              oView.setBusy(false);
-            },
-          });
-        },
-
-        //#endregion PRIVATE METHODS
-
-        //#endregion
       }
     );
   }

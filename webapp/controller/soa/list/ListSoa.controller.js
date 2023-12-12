@@ -135,10 +135,10 @@ sap.ui.define(
 
         oModel.read("/TipoDisp3Set", {
           success: function (data, oResponse) {
-            self.setResponseMessage(oResponse);
+            self.hasResponseError(oResponse);
             self.setModelCustom("TipoDisp3Set", data.results);
           },
-          error: function (error) {},
+          error: function (error) { },
         });
       },
 
@@ -261,10 +261,10 @@ sap.ui.define(
 
         oModel.read("/" + "RitenutaSet", {
           success: function (data, oResponse) {
-            self.setResponseMessage(oResponse);
-            self.setModelSelectDialog("Ritenuta", data, "sdRitenuta", oDialog);
+            self.hasResponseError(oResponse);
+            self.setModelDialog("Ritenuta", data, "sdRitenuta", oDialog);
           },
-          error: function (error) {},
+          error: function (error) { },
         });
       },
 
@@ -315,15 +315,15 @@ sap.ui.define(
         oModel.read("/" + "EnteBeneficiarioSet", {
           filters: aFilters,
           success: function (data, oResponse) {
-            self.setResponseMessage(oResponse);
-            self.setModelSelectDialog(
+            self.hasResponseError(oResponse);
+            self.setModelDialog(
               "EnteBeneficiario",
               data,
               "sdEnteBeneficiario",
               oDialog
             );
           },
-          error: function (error) {},
+          error: function (error) { },
         });
       },
 
@@ -385,10 +385,10 @@ sap.ui.define(
         oModel.read("/TipoDisp3Set", {
           filters: aFilters,
           success: function (data, oResponse) {
-            self.setResponseMessage(oResponse);
+            self.hasResponseError(oResponse);
             self.setModelCustom("TipoDisp3Set", data.results);
           },
-          error: function (error) {},
+          error: function (error) { },
         });
       },
       //#endregion
@@ -414,7 +414,7 @@ sap.ui.define(
           urlParameters: urlParameters,
           filters: aFilters,
           success: function (data, oResponse) {
-            oListSoa.setVisible(!self.setResponseMessage(oResponse));
+            oListSoa.setVisible(!self.hasResponseError(oResponse));
             self.setModelCustom(SOA_ENTITY_MODEL, data.results);
             oView.setBusy(false);
             var oModelSoaSettings = self.getModel("SoaSettings");
@@ -949,7 +949,7 @@ sap.ui.define(
         return false;
       },
 
-      functionReturnZchiaveaut: function (oData) {},
+      functionReturnZchiaveaut: function (oData) { },
 
       //#endregion GESTIONE FUNZIONALITA'
     });
