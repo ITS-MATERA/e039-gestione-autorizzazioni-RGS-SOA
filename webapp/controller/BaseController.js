@@ -6,6 +6,7 @@ sap.ui.define(
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel",
+    "sap/m/MessageBox",
   ],
   function (
     Controller,
@@ -13,7 +14,8 @@ sap.ui.define(
     mobileLibrary,
     Filter,
     FilterOperator,
-    JSONModel
+    JSONModel,
+    MessageBox
   ) {
     "use strict";
 
@@ -414,6 +416,20 @@ sap.ui.define(
       },
 
       //#endregion
+
+      managementLogFI: function (aMessage) {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+
+        if (aMessage.length === 1) {
+          MessageBox.error(aMessage[0]?.Message);
+          return;
+        }
+
+        oModelUtility.setProperty("/isLogVisible");
+        self.setModel(new JSONModel(aMessage), "Log");
+        MessageBox.error("Operazione non eseguita correttamente");
+      },
     });
   }
 );

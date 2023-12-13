@@ -1,0 +1,25 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <SelectDialog
+        id="sdQuietEstero2"
+        noDataText="{i18n>noData}"
+        title="{i18n>labelCFE}"
+        search="onValueHelpChange"
+        confirm="onValueHelpQuietEstero2Close"
+        cancel="onValueHelpQuietEstero2Close"
+        app:FilterValueHelp="Zstcd15"
+        items="{
+          path: 'QuietEstero2>/'
+        }"
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{QuietEstero2>Zstcd15}"
+            app:NumquietInitial="{QuietEstero2>NumquietInitial}"
+        />
+    </SelectDialog>
+</c:FragmentDefinition>

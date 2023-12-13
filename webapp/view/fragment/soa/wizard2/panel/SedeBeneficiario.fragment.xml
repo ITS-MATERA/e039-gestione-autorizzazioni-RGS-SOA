@@ -1,117 +1,113 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:l="sap.ui.layout"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-	<Panel backgroundDesign="Transparent">
-		<headerToolbar>
-			<OverflowToolbar>
-				<Title text="{i18n>titleSedeBeneficiario}"/>
-			</OverflowToolbar>
-		</headerToolbar>
-		<content>
-			<l:Grid
-				defaultSpan="XL12 L12 M12 S12"
-				hSpacing="0.5"
-			>
-				<Text
-					text="{i18n>inputIndirizzo}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<ComboBox
-					width="100%"
-					items="{
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleSedeBeneficiario}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>inputIndirizzo}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
 						path: 'SedeBeneficiario>/'
 					}"
-					selectedKey="{Soa>/Zidsede}"
-					selectionChange="onSedeBeneficiarioChange"
-					editable="{Soa>/EnableEdit}"
-				>
-					<c:Item
-						key="{SedeBeneficiario>Zidsede}"
-						text="{SedeBeneficiario>Stras}"
-						app:Ort01="{SedeBeneficiario>Ort01}"
-						app:Regio="{SedeBeneficiario>Regio}"
-						app:Land1="{SedeBeneficiario>Land1}"
-						app:Pstlz="{SedeBeneficiario>Pstlz}"
-					/>
-					<layoutData>
-						<l:GridData span="XL3 L3 M5 S12"/>
-					</layoutData>
-				</ComboBox>
-				<Text
-					text="{i18n>inputCitta}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData
-							span="XL1 L3 M5 S12"
-							linebreak="true"
-						/>
-					</layoutData>
-				</Text>
-				<Input
-					editable="false"
-					value="{Soa>/Ort01}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Input>
-				<Text
-					text="{i18n>inputProvincia}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					editable="false"
-					value="{Soa>/Regio}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Input>
-				<Text
-					text="{i18n>inputCap}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					editable="false"
-					value="{Soa>/Pstlz}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Input>
-				<Text
-					text="{i18n>inputNazione}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL1 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<Input
-					editable="false"
-					value="{Soa>/Land1}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Input>
-			</l:Grid>
-		</content>
-	</Panel>
+                    selectedKey="{Soa>/Zidsede}"
+                    selectionChange="onSedeBeneficiarioChange"
+                    editable="{Soa>/EnableEdit}"
+                >
+                    <c:Item
+                        key="{SedeBeneficiario>Zidsede}"
+                        text="{SedeBeneficiario>Stras}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL3 L3 M5 S12" />
+                    </layoutData>
+                </ComboBox>
+                <Text
+                    text="{i18n>inputCitta}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL1 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Soa>/Ort01}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>inputProvincia}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Soa>/RegioSede}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>inputCap}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Soa>/Pstlz}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>inputNazione}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Soa>/Land1Sede}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
 </c:FragmentDefinition>

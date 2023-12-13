@@ -92,7 +92,6 @@ sap.ui.define(
             if (self.checkPosizioniScen4()) {
               self.setPosizioneScen4();
               self.getSedeBeneficiario();
-              self.setDataInps();
             }
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
@@ -198,7 +197,7 @@ sap.ui.define(
           self.setSoaRegModel("4");
           self.setDataAutorizzazione(oEvent.getParameter("arguments"));
           self.setClassificazioneRegModel();
-          self.setUtilityRegModel();
+          self.setUtilityRegModel("rgssoa.view.soa.create.scenery.Scenario4");
 
           var oModelStepScenario = new JSONModel({
             wizard1Step1: true,

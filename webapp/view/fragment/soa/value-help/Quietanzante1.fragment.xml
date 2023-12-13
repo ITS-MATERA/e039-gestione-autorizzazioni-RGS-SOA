@@ -1,0 +1,26 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <SelectDialog
+        id="sdQuietanzante1"
+        noDataText="{i18n>noData}"
+        title="{i18n>labelCF}"
+        search="onValueHelpChange"
+        confirm="onValueHelpQuietanzante1Close"
+        cancel="onValueHelpQuietanzante1Close"
+        app:FilterValueHelp="Zstcd1"
+        items="{
+          path: 'Quietanzante1>/'
+        }"
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{Quietanzante1>Zstcd1}"
+            app:Znumquiet="{Quietanzante1>Znumquiet}"
+            app:NumquietInitial="{Quietanzante1>NumquietInitial}"
+        />
+    </SelectDialog>
+</c:FragmentDefinition>

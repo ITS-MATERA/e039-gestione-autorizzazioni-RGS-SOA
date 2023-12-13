@@ -70,10 +70,11 @@ sap.ui.define(
           }
         },
 
-        onNavForward: function () {
+        onNavForward: async function () {
           var self = this;
           var oWizard = self.getView().byId("wizScenario1");
           var oModelStepScenario = self.getModel("StepScenario");
+          var oModelUtility = self.getModel("Utility")
 
           var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
           var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
@@ -88,17 +89,16 @@ sap.ui.define(
           } else if (bWizard1Step3) {
             oModelStepScenario.setProperty("/wizard1Step3", false);
             oModelStepScenario.setProperty("/wizard2", true);
-            self.setDataBenficiario();
-            self.setModalitaPagamento();
-            self.setDataQuietanzante();
-            self.setDataQuietanzante2();
-            self.getSedeBeneficiario();
-            self.setDataInps();
+            self.createModelSedeBeneficiario()
+            self.setSedeBeneficiario();
+            self.setModalitaPagamentoQuote();
+            self.createModelModPagamento()
+            self.setIbanQuote()
+            oModelUtility.setProperty("/isVersanteEditable", await self.checkLifnrInTvarvc());
             oWizard.nextStep();
           } else if (bWizard2) {
-            oModelStepScenario.setProperty("/wizard2", false);
-            oModelStepScenario.setProperty("/wizard3", true);
-            oWizard.nextStep();
+            self.checkWizard2(oWizard);
+            self.getCig();
           } else if (bWizard3) {
             if (self.checkClassificazione()) {
               oModelStepScenario.setProperty("/wizard3", false);
@@ -214,7 +214,7 @@ sap.ui.define(
           self.setSoaRegModel("1");
           self.setDataAutorizzazione(oEvent.getParameter("arguments"));
           self.setClassificazioneRegModel();
-          self.setUtilityRegModel();
+          self.setUtilityRegModel("rgssoa.view.soa.create.scenery.Scenario1");
           self.setStepScenarioRegModel();
           self.createModelFilters()
           self.getLogModel();

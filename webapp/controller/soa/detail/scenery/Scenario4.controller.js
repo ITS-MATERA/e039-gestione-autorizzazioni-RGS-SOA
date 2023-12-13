@@ -163,7 +163,6 @@ sap.ui.define(
           if (bWizard1Step1) {
             if (self.checkPosizioniScen4()) {
               self.setPosizioneScen4();
-              self.setDataInps();
             }
           } else if (bWizard1Step2) {
             if (!bRettifica) {
@@ -213,8 +212,6 @@ sap.ui.define(
           var oModelUtility = self.getModel("Utility");
 
           self.getModalitaPagamentoList();
-          self.setDurc();
-          self.setFermoAmministrativo();
           self.setInpsEditable();
           self.resetWizard("wizScenario4");
 

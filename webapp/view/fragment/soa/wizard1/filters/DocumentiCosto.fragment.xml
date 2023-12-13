@@ -178,7 +178,7 @@
                     maxLength="20"
                     showValueHelp="true"
                     valueHelpRequest="onValueHelpCigFilter"
-                    editable="{= ${Sop>/ZspecieSop} === '2' ? false : true}"
+                    editable="{= ${Soa>/ZspecieSop} === '2' ? false : true}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />
@@ -196,7 +196,7 @@
                     showValueHelp="true"
                     value="{FilterDocumenti>/Cup}"
                     valueHelpRequest="onValueHelpCupFilter"
-                    editable="{= ${Sop>/ZspecieSop} === '2' ? false : true}"
+                    editable="{= ${Soa>/ZspecieSop} === '2' ? false : true}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -227,7 +227,7 @@
 							pattern: 'dd.MM.yyyy'
 						}
 					}"
-                    editable="{= ${Sop>/ZspecieSop} === '2' ? false : true}"
+                    editable="{= ${Soa>/ZspecieSop} === '2' ? false : true}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -251,7 +251,7 @@
 							pattern: 'dd.MM.yyyy'
 						}
 					}"
-                    editable="{= ${Sop>/ZspecieSop} === '2' ? false : true}"
+                    editable="{= ${Soa>/ZspecieSop} === '2' ? false : true}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
