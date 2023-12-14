@@ -90,8 +90,16 @@ sap.ui.define(
 
           if (bWizard1Step1) {
             if (self.checkPosizioniScen4()) {
+              oModelStepScenario.setProperty("/wizard1Step1", false);
+              oModelStepScenario.setProperty("/wizard1Step2", true);
+              oModelStepScenario.setProperty("/visibleBtnForward", false);
+              oModelStepScenario.setProperty(
+                "/visibleBtnInserisciProspLiquidazione",
+                true
+              );
               self.setPosizioneScen4();
-              self.getSedeBeneficiario();
+              self.createModelSedeBeneficiario()
+              self.setSedeBeneficiario();
             }
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
@@ -130,7 +138,6 @@ sap.ui.define(
           });
         },
 
-        //#region WIZARD 1
         onInserisciProspettoLiquidazione: function () {
           var self = this;
           var oWizard = self.getView().byId("wizScenario4");
@@ -170,11 +177,6 @@ sap.ui.define(
           oWizard.nextStep();
         },
 
-        //#region VALUE HELP
-
-        //#endregion
-
-        //#region SELECTION CHANGE
         onImpLiquidazioneChange: function (oEvent) {
           var self = this;
           //Load Models
@@ -187,9 +189,7 @@ sap.ui.define(
             oModelSoa.setProperty("/Zimptot", "0.00");
           }
         },
-        //#endregion
 
-        //#region PRIVATE METHODS
         _onObjectMatched: function (oEvent) {
           var self = this;
 
@@ -272,9 +272,73 @@ sap.ui.define(
           return aCols;
         },
 
-        //#endregion
+        _setDataBeneficiario: function (sLifnr) {
+          var self = this;
+          var oModelSoa = self.getModel("Soa");
+          var oModel = self.getModel();
 
-        //#endregion
+          var sPath = self.getModel().createKey("/BeneficiarioSOASet", {
+            Beneficiario: sLifnr,
+          });
+
+          if (!sLifnr) {
+            oModelSoa.setProperty("/Lifnr", "");
+            oModelSoa.setProperty("/NameFirst", "");
+            oModelSoa.setProperty("/NameLast", "");
+            oModelSoa.setProperty("/ZzragSoc", "");
+            oModelSoa.setProperty("/TaxnumCf", "");
+            oModelSoa.setProperty("/Taxnumxl", "");
+            oModelSoa.setProperty("/TaxnumPiva", "");
+            oModelSoa.setProperty("/Zsede", "");
+            oModelSoa.setProperty("/Zdenominazione", "");
+            oModelSoa.setProperty("/ZzDescebe", "");
+            oModelSoa.setProperty("/Zdurc", "");
+            oModelSoa.setProperty("/ZfermAmm", "");
+            oModelSoa.setProperty("/Zdstatodes", "");
+            oModelSoa.setProperty("/Zdscadenza", "");
+            oModelSoa.setProperty("/Type", "");
+          }
+
+
+          self.getView().setBusy(true);
+          oModel.read(sPath, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (self.hasResponseError(oResponse)) {
+                oModelSoa.setProperty("/Lifnr", "");
+                oModelSoa.setProperty("/ZspecieSop", "");
+                oModelSoa.setProperty("/DescZspecieSop", "");
+              }
+              oModelSoa.setProperty("/Lifnr", data.Beneficiario);
+              oModelSoa.setProperty("/NameFirst", data.Nome);
+              oModelSoa.setProperty("/NameLast", data.Cognome);
+              oModelSoa.setProperty("/ZzragSoc", data.RagSoc);
+              oModelSoa.setProperty("/TaxnumCf", data.CodFisc);
+              oModelSoa.setProperty("/Taxnumxl", data.CodFiscEst);
+              oModelSoa.setProperty("/TaxnumPiva", data.PIva);
+              oModelSoa.setProperty("/Zsede", data?.Sede);
+              oModelSoa.setProperty("/Zdenominazione", data?.DescrSede);
+              oModelSoa.setProperty("/ZzDescebe", data?.EnteBen);
+              oModelSoa.setProperty("/Zdurc", data?.Zdurc);
+              oModelSoa.setProperty("/ZfermAmm", data?.ZfermAmm);
+              oModelSoa.setProperty("/Zdstatodes", data?.Zdstatodes);
+              oModelSoa.setProperty("/Zdscadenza", data?.Zdscadenza);
+              oModelSoa.setProperty("/BuType", data?.Type);
+              self._setSpecieSoaDesc("1");
+
+              self.createModelModPagamento()
+            },
+            error: function () {
+              self.getView().setBusy(false);
+            },
+          });
+        },
+
+        onBeneficiarioChange: function (oEvent) {
+          var self = this;
+          this._setDataBeneficiario(oEvent.getParameter("value"))
+          self.createModelModPagamento()
+        },
       }
     );
   }

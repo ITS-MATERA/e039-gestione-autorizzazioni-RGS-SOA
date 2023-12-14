@@ -3,8 +3,9 @@ sap.ui.define(
     "../../BaseSoaController",
     "sap/ui/model/json/JSONModel",
     "../../../../model/formatter",
+    "sap/m/MessageBox"
   ],
-  function (BaseSoaController, JSONModel, formatter) {
+  function (BaseSoaController, JSONModel, formatter, MessageBox) {
     "use strict";
 
     return BaseSoaController.extend(
@@ -78,10 +79,7 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step2) {
-            if (this._checkProspettoLiquidazione()) {
-              oModelStepScenario.setProperty("/wizard1Step2", false);
-              oModelStepScenario.setProperty("/wizard1Step3", true);
-            }
+            self.checkWizard1();
           } else if (bWizard1Step3) {
             oModelStepScenario.setProperty("/wizard1Step3", false);
             oModelStepScenario.setProperty("/wizard2", true);
@@ -100,128 +98,67 @@ sap.ui.define(
               oModelStepScenario.setProperty("/wizard4", true);
               oModelStepScenario.setProperty("/visibleBtnForward", false);
               oModelStepScenario.setProperty("/visibleBtnSave", true);
+              self.setLocPagamento();
               oWizard.nextStep();
             }
           }
-        },
-
-        //#region WIZARD 1
-        onStart: function () {
-          this._checkBeneficiario();
         },
 
         onSelectedItem: function (oEvent) {
           var self = this;
           var bSelected = oEvent.getParameter("selected");
           //Load Model
-          var oModelDocumenti = self.getModel("ProspettoLiquidazione");
+          var oTable = self.getView().byId("tblPosizioniScen3")
+          var oModelPosizioni = self.getModel("PosizioniScen3");
           var oModelSoa = self.getModel("Soa");
           //Load Component
-          var oTableDocumenti = self.getView().byId("tblProspettoLiquidazione");
           var oButtonCalculate = self.getView().byId("btnCalculate");
 
-          var aListRiepilogo = oModelSoa.getProperty("/data");
-          var aTableItems = oTableDocumenti.getItems();
-          var aSelectedItems = oTableDocumenti.getSelectedItems();
+          var aSelectedItems = oModelSoa.getProperty("/data");
+          var aListItems = oEvent.getParameter("listItems");
 
-          if (bSelected) {
-            aSelectedItems.map((oSelectedItem) => {
-              //Prendo i record selezionati
-              var oItem = oModelDocumenti.getObject(
-                oSelectedItem.getBindingContextPath()
-              );
+          aListItems.map(async function (oListItem) {
+            var oSelectedItem = oModelPosizioni.getObject(oListItem.getBindingContextPath());
 
-              var bExist = false;
-              //Controllo se esiste già in lista, l'includes non funziona non so perchè
-              aListRiepilogo.map((oRecord) => {
-                if (
-                  oRecord.Bukrs === oItem.Bukrs &&
-                  oRecord.Znumliq === oItem.Znumliq &&
-                  oRecord.Zposizione === oItem.Zposizione &&
-                  oRecord.Zversione === oItem.Zversione &&
-                  oRecord.ZversioneOrig === oItem.ZversioneOrig
-                ) {
-                  bExist = true;
-                }
-              });
-              //Se non esiste lo aggiungo alla lista di riepilogo
-              !bExist && aListRiepilogo.push(oItem);
-            });
-          } else {
-            var aNotSelectedItems = [];
-
-            //Inserisco in un array temporaneo i record della pagina corrente della tabella
-            //che non sono selezionati
-            aTableItems.map((oTableItem) => {
-              !aSelectedItems.includes(oTableItem) &&
-                aNotSelectedItems.push(oTableItem);
-            });
-
-            //Controllo l'esistenza dei record non selezionati nell'array dei record selezionati
-            //Se ci sono record che corrispondono vengono eliminati
-            aNotSelectedItems.map((oNotSelectedItem) => {
-              //L'input dell'Importo da Ordinare dei record non selezionati viene rimesso
-              //a editabile
-              var oItem = oModelDocumenti.getObject(
-                oNotSelectedItem.getBindingContextPath()
-              );
-              aListRiepilogo = aListRiepilogo.filter((oSelectedItem) => {
-                return !(
-                  oSelectedItem.Bukrs === oItem.Bukrs &&
-                  oSelectedItem.Znumliq === oItem.Znumliq &&
-                  oSelectedItem.Zposizione === oItem.Zposizione &&
-                  oSelectedItem.Zversione === oItem.Zversione &&
-                  oSelectedItem.ZversioneOrig === oItem.ZversioneOrig
+            if (bSelected) {
+              aSelectedItems.push(oSelectedItem);
+            } else {
+              var iIndex = aSelectedItems.findIndex((obj) => {
+                return (
+                  obj.Bukrs === oSelectedItem.Bukrs &&
+                  obj.Zposizione === oSelectedItem.Zposizione &&
+                  obj.Znumliq === oSelectedItem.Znumliq &&
+                  obj.Zversione === oSelectedItem.Zversione &&
+                  obj.ZversioneOrig === oSelectedItem.ZversioneOrig
                 );
               });
-            });
-          }
 
-          oButtonCalculate.setVisible(aListRiepilogo.length !== 0);
-          oModelSoa.setProperty("/Zimptot", "0.00");
-          oModelSoa.setProperty("/data", aListRiepilogo);
-        },
-
-        onCalculate: function () {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var aListRiepilogo = oModelSoa.getProperty("/data");
-          var fTotal = 0;
-
-          aListRiepilogo.map((oSelectedItem) => {
-            fTotal += parseFloat(oSelectedItem?.Zimpdaord);
+              if (iIndex > -1) {
+                aSelectedItems.splice(iIndex, 1);
+              }
+            }
+            oModelSoa.setProperty("/data", aSelectedItems);
+            oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+            oModelSoa.setProperty("/Zimptot", "0.00");
           });
-
-          oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
         },
 
-        //#region SELECTION CHANGE
         onImpDaOrdinareChange: function (oEvent) {
           var self = this;
-          //Load Component
-          var oTableDocumenti = self.getView().byId("tblProspettoLiquidazione");
-          //Load Models
-          var oTableModelDocumenti = oTableDocumenti.getModel(
-            "ProspettoLiquidazione"
-          );
+          var oTable = self.getView().byId("tblPosizioniScen3");
+          var oTableModel = oTable.getModel("PosizioniScen3");
           var oModelSoa = self.getModel("Soa");
 
           var sValue = oEvent.getParameter("value");
           oModelSoa.setProperty("/Zimptot", "0.00");
 
           if (sValue) {
-            oTableModelDocumenti.getObject(
-              oEvent.getSource().getParent().getBindingContextPath()
-            ).Zimpdaord = parseFloat(sValue).toFixed(2);
+            oTableModel.getObject(oEvent.getSource().getParent().getBindingContextPath()).Zimpdaord = parseFloat(sValue).toFixed(2);
           } else {
-            oTableModelDocumenti.getObject(
-              oEvent.getSource().getParent().getBindingContextPath()
-            ).Zimpdaord = "0.00";
+            oTableModel.getObject(oEvent.getSource().getParent().getBindingContextPath()).Zimpdaord = "0.00";
           }
         },
-        //#endregion
 
-        //#region PRIVATE METHODS
         _onObjectMatched: function (oEvent) {
           var self = this;
 
@@ -232,137 +169,79 @@ sap.ui.define(
           self.setUtilityRegModel("rgssoa.view.soa.create.scenery.Scenario3");
           self.setStepScenarioRegModel();
           self.createModelFilters()
-          self.getLogModel();
         },
 
-        _getProspettiLiquidazioneList: function () {
+        onStart: function () {
+          this.checkExistDocumentForUser()
+        },
+
+        _getPosizioniScen3: function () {
           var self = this;
-          var oView = self.getView();
-          //Load Model
-          var oDataModel = self.getModel();
+          var oModel = self.getModel();
           var oModelStepScenario = self.getModel("StepScenario");
-          var oModelSoa = self.getModel("Soa");
-          //Load Component
-          var oTableDocumenti = oView.byId("tblProspettoLiquidazione");
-          var oPanelCalculator = oView.byId("pnlCalculatorList");
-
-          var aListRiepilogo = oModelSoa.getProperty("/data");
           var aFilters = self.setFiltersWizard1();
+          var oPanelCalculator = self.getView().byId("pnlCalculatorList");
 
-          oView.setBusy(true);
+          self.getView().setBusy(true);
 
-          oDataModel.read("/" + "ProspettoLiquidazioneSet", {
+          oModel.read("/QuoteDocumentiSet", {
             filters: aFilters,
             success: function (data, oResponse) {
+              self.getView().setBusy(false);
               if (!self.hasResponseError(oResponse)) {
                 oModelStepScenario.setProperty("/wizard1Step1", false);
                 oModelStepScenario.setProperty("/wizard1Step2", true);
                 oModelStepScenario.setProperty("/visibleBtnForward", true);
                 oModelStepScenario.setProperty("/visibleBtnStart", false);
               }
-              self.setModelCustom("ProspettoLiquidazione", data.results);
 
-              oPanelCalculator.setVisible(data.results.length !== 0);
-
-              if (data.results !== 0) {
-                data.results.map((oItem, iIndex) => {
-                  //Vengono selezionati i record quando viene caricata l'entità
-                  aListRiepilogo.map((oSelectedItem) => {
-                    if (
-                      oItem.Bukrs === oSelectedItem.Bukrs &&
-                      oItem.Znumliq === oSelectedItem.Znumliq &&
-                      oItem.Zposizione === oSelectedItem.Zposizione &&
-                      oItem.Zversione === oSelectedItem.Zversione &&
-                      oItem.ZversioneOrig === oSelectedItem.ZversioneOrig
-                    ) {
-                      oTableDocumenti.setSelectedItem(
-                        oTableDocumenti.getItems()[iIndex]
-                      );
-                    }
-                  });
-                });
-              }
-              oView.setBusy(false);
+              var aData = data?.results;
+              aData?.map((oPosition, iIndex) => {
+                oPosition.Index = iIndex + 1;
+              });
+              self.setModel(new JSONModel(aData), "PosizioniScen3");
+              oPanelCalculator.setVisible(aData.length !== 0);
             },
-            error: function (error) {
-              oView.setBusy(false);
+            error: function () {
+              self.getView().setBusy(false);
             },
           });
         },
 
-        _checkProspettoLiquidazione: function () {
+        checkExistDocumentForUser: function () {
           var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var oBundle = self.getResourceBundle();
+          var oModel = self.getModel()
+          var oSoa = self.getModel("Soa").getData()
 
-          var fImpTot = parseFloat(oModelSoa.getProperty("/Zimptot"));
-          var fImpDispAutorizzazione = parseFloat(
-            oModelSoa.getProperty("/Zimpdispaut")
-          );
-
-          if (fImpTot > fImpDispAutorizzazione) {
-            sap.m.MessageBox.error(
-              oBundle.getText("msgImpTotGreaterImpDispAut")
-            );
-            return false;
-          }
-
-          if (
-            oModelSoa.getProperty("/data").length === 0 ||
-            oModelSoa.getProperty("/Zimptot") === "0.00"
-          ) {
-            sap.m.MessageBox.error(
-              oBundle.getText("msgNoProspettoLiquidazione")
-            );
-            return false;
-          }
-
-          return true;
+          self.getView().setBusy(true)
+          oModel.callFunction("/CheckExisitingDocument", {
+            urlParameters: {
+              Lifnr: oSoa.Lifnr
+            },
+            success: function (data) {
+              self.getView().setBusy(false)
+              if (data.results.length > 0) {
+                MessageBox.warning(
+                  "Per il Beneficiario selezionato esistono Documenti di costo. Verificare se è necessario procedere con la registrazione di un SOP da documenti di costo",
+                  {
+                    actions: [MessageBox.Action.OK, MessageBox.Action.CLOSE],
+                    onClose: function (oAction) {
+                      if (oAction === 'OK') {
+                        self._getPosizioniScen3()
+                        return
+                      }
+                    },
+                  }
+                )
+              }
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
         },
 
-        _checkBeneficiario: function () {
-          var self = this;
-          //Load Models
-          var oModel = self.getModel();
-          var oModelSoa = self.getModel("Soa");
-          var oView = self.getView();
 
-          if (oModelSoa.getProperty("/Lifnr")) {
-            var sPath = self.getModel().createKey("CheckBeneficiarioScen3Set", {
-              Lifnr: oModelSoa.getProperty("/Lifnr"),
-            });
-            var oBundle = self.getResourceBundle();
-
-            oView.setBusy(true);
-
-            oModel.read("/" + sPath, {
-              success: function (data, oResponse) {
-                if (oResponse?.headers["sap-message"]) {
-                  sap.m.MessageBox.warning(
-                    oBundle.getText("msgExistQuoteDocumenti"),
-                    {
-                      onClose: function (oAction) {
-                        self._getProspettiLiquidazioneList();
-                      },
-                    }
-                  );
-                } else {
-                  self._getProspettiLiquidazioneList();
-                }
-                oView.setBusy(false);
-              },
-              error: function () {
-                oView.setBusy(false);
-              },
-            });
-          } else {
-            self._getProspettiLiquidazioneList();
-          }
-        },
-
-        //#endregion
-
-        //#endregion
       }
     );
   }

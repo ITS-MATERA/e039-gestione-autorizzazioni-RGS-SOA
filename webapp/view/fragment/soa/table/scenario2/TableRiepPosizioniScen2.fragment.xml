@@ -58,6 +58,14 @@
                         demandPopin="true"
                     >
                         <header>
+                            <Text text="{i18n>labelNDocBeneficiario}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
                             <Text text="{i18n>labelDenomBeneficiario}" />
                         </header>
                     </Column>
@@ -94,7 +102,7 @@
                         class="bgNotEditable"
                     >
                         <cells>
-                            <ObjectIdentifier text="{Soa>Gjahr}" />
+                            <ObjectIdentifier text="{Soa>AnnoRegDoc}" />
                             <ObjectIdentifier text="{Soa>Belnr}" />
                             <Text text="{Soa>Blart}" />
                             <Text
@@ -106,7 +114,8 @@
 								}
 							}"
                             />
-                            <Text text="{Soa>ZzragSoc}" />
+                            <Text text="{Soa>Xblnr}" />
+                            <Text text="{Soa>ZbenaltName}" />
                             <Text
                                 text="{
 								path: 'Soa>Zimpdaord',

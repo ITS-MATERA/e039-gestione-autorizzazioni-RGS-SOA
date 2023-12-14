@@ -1,26 +1,25 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-	<SelectDialog
-		id="sdCig"
-		noDataText="{i18n>noCig}"
-		title="{i18n>labelCig}"
-		search="onValueHelpChange"
-		confirm="onValueHelpCigClose"
-		cancel="onValueHelpCigClose"
-		app:input="iptCig"
-		app:FilterValueHelp="Cig"
-		items="{
+    <SelectDialog
+        id="sdCig"
+        noDataText="{i18n>noCig}"
+        title="{i18n>labelCig}"
+        search="onValueHelpChange"
+        confirm="onValueHelpCigClassificazioneClose"
+        cancel="onValueHelpCigClassificazioneClose"
+        app:input="iptCig"
+        app:FilterValueHelp="Cig"
+        items="{
 			path: 'Cig>/'
 		}"
-	>
-		<StandardListItem
-			iconDensityAware="false"
-			iconInset="false"
-			title="{Cpv>Cig}"
-			description="{Cpv>Belnr}"
-		/>
-	</SelectDialog>
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{Cig>ZcodiCig}"
+        />
+    </SelectDialog>
 </c:FragmentDefinition>

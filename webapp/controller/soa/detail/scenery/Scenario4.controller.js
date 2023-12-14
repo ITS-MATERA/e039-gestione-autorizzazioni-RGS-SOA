@@ -211,7 +211,6 @@ sap.ui.define(
           var oModelStepScenario = self.getModel("StepScenario");
           var oModelUtility = self.getModel("Utility");
 
-          self.getModalitaPagamentoList();
           self.setInpsEditable();
           self.resetWizard("wizScenario4");
 

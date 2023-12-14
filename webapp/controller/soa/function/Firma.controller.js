@@ -78,6 +78,7 @@ sap.ui.define(
           DetailFromFunction: true,
           VisibleBtnStart: false,
           RemoveFunctionButtons: true,
+          isLogVisible: false
         });
         self.setModel(oModelUtility, "Utility");
 

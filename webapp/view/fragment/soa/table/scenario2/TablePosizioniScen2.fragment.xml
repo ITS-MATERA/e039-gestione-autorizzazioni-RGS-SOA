@@ -14,10 +14,10 @@
         </headerToolbar>
         <content>
             <Table
-                id="tblQuoteDocumentiScen2"
+                id="tblPosizioniScen2"
                 mode="MultiSelect"
                 items="{
-					path: 'QuoteDocumentiScen2>/'
+					path: 'PosizioniScen2>/'
 				}"
                 selectionChange="onSelectedItem"
                 fixedLayout="false"
@@ -54,6 +54,14 @@
                     >
                         <header>
                             <Text text="{i18n>labelDataDocBeneficiario}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelNDocBeneficiario}" />
                         </header>
                     </Column>
                     <Column
@@ -131,44 +139,43 @@
                         <cells>
                             <ObjectIdentifier
                                 text="{
-								path: 'QuoteDocumentiScen2>Gjahr'
+								path: 'PosizioniScen2>AnnoRegDoc'
 							}"
                             />
-                            <ObjectIdentifier
-                                text="{QuoteDocumentiScen2>Belnr}"
-                            />
-                            <Text text="{QuoteDocumentiScen2>Blart}" />
+                            <ObjectIdentifier text="{PosizioniScen2>Belnr}" />
+                            <Text text="{PosizioniScen2>Blart}" />
                             <Text
                                 text="{
-								path: 'QuoteDocumentiScen2>Bldat',
+								path: 'PosizioniScen2>Bldat',
 								type: 'sap.ui.model.type.Date',
 								formatOptions: {
 									pattern: 'dd.MM.yyyy'
 								}
 							}"
                             />
-                            <Text text="{QuoteDocumentiScen2>ZzragSoc}" />
+                            <Text text="{PosizioniScen2>Xblnr}" />
+                            <Text text="{PosizioniScen2>ZbenaltName}" />
                             <Text
                                 text="{
-								path: 'QuoteDocumentiScen2>Wrbtr',
+								path: 'PosizioniScen2>Wrbtr',
 								formatter: '.formatter.convertImport'
 							}"
                             />
                             <Text
                                 text="{
-								path: 'QuoteDocumentiScen2>Zimpliq',
+								path: 'PosizioniScen2>Zimpres',
 								formatter: '.formatter.convertImport'
 							}"
                             />
                             <Text
                                 text="{
-								path: 'QuoteDocumentiScen2>Zresvers',
+								path: 'PosizioniScen2>Zresvers',
 								formatter: '.formatter.convertImport'
 							}"
                             />
                             <Text
                                 text="{
-								path: 'QuoteDocumentiScen2>Zresesig',
+								path: 'PosizioniScen2>Zresesig',
 								formatter: '.formatter.convertImport'
 							}"
                             />
@@ -177,16 +184,16 @@
                                 change="onImpDaOrdinareChange"
                                 type="Number"
                                 value="{
-									path: 'QuoteDocumentiScen2>Zimpdaord'
+									path: 'PosizioniScen2>Zimpdaord'
 								}"
                             />
                             <Text
                                 text="{
-								path: 'QuoteDocumentiScen2>/Zdurc',
+								path: 'PosizioniScen2>Zdurc',
 								formatter: '.formatter.deleteFirstZeros'
 							}"
                             />
-                            <Text text="{QuoteDocumentiScen2>ZfermAmm}" />
+                            <Text text="{PosizioniScen2>ZfermAmm}" />
                         </cells>
                     </ColumnListItem>
                 </items>

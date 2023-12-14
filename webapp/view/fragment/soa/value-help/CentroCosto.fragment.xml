@@ -1,22 +1,23 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-<SelectDialog
-		id="sdCentroCosto"
-    noDataText="{i18n>noCentroCosto}"
-		title="{i18n>titleCentroCosto}"
-		search="onValueHelpChange"
-		confirm="onValueHelpCentroCostoClose"
-		cancel="onValueHelpCentroCostoClose"
-		app:FilterValueHelp="Kostl"
-		items="{path: 'CentroCosto>/'}">		
-		<StandardListItem
-      iconDensityAware="false"
-      iconInset="false"
-      title="{CentroCosto>Kostl}"
-      app:Description="{CentroCosto>Descrizione}"
-    />
-	</SelectDialog>
+    <SelectDialog
+        id="sdCentroCosto"
+        noDataText="{i18n>noCentroCosto}"
+        title="{i18n>titleCentroCosto}"
+        search="onValueHelpChange"
+        confirm="onValueHelpCentroCostoClose"
+        cancel="onValueHelpCentroCostoClose"
+        app:FilterValueHelp="Kostl"
+        items="{path: 'CentroCosto>/'}"
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{CentroCosto>Fieldname1}"
+            description="{CentroCosto>Fieldname2}"
+        />
+    </SelectDialog>
 </c:FragmentDefinition>

@@ -1,129 +1,131 @@
 <mvc:View
-	controllerName="rgssoa.controller.soa.create.scenery.Scenario3"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	displayBlock="true"
-	height="100%"
-	busyIndicatorDelay="0"
-	xmlns:f="sap.f"
+    controllerName="rgssoa.controller.soa.create.scenery.Scenario3"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    displayBlock="true"
+    height="100%"
+    busyIndicatorDelay="0"
+    xmlns:f="sap.f"
 >
-	<f:DynamicPage
-		showFooter="true"
-		class="sapUiNoContentPadding"
-	>
-		<f:header>
-			<f:DynamicPageHeader
-				pinnable="false"
-				class="noPadding"
-			>
-				<c:Fragment
-					fragmentName="rgssoa.view.fragment.soa.HeaderSoa"
-					type="XML"
-				/>
-			</f:DynamicPageHeader>
-		</f:header>
-		<f:content>
-			<NavContainer>
-				<pages>
-					<Page showHeader="false">
-						<content>
-							<Wizard
-								id="wizScenario3"
-								showNextButton="false"
-								class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
-							>
-								<WizardStep title="{i18n>titleWizard1ProspLiquidazione}">
-									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.wizard1.filters.FiltersPosizioni"
-										type="XML"
-									/>
-									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.table.scenario3.TablePosizioniScen3"
-										type="XML"
-									/>
-									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.table.scenario3.TableRiepPosizioniScen3"
-										type="XML"
-									/>
-								</WizardStep>
-								<WizardStep title="{i18n>titleWizard2}">
-									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.wizard2.BeneficiarioSoa"
-										type="XML"
-									/>
-								</WizardStep>
-								<WizardStep title="{i18n>titleWizard3}">
-									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.wizard3.Classificazione"
-										type="XML"
-									/>
-								</WizardStep>
-								<WizardStep title="{i18n>titleWizard4}">
-									<c:Fragment
-										fragmentName="rgssoa.view.fragment.soa.wizard4.DatiSoa"
-										type="XML"
-									/>
-								</WizardStep>
-							</Wizard>
-						</content>
-					</Page>
-				</pages>
-			</NavContainer>
-		</f:content>
-		<f:footer>
-			<OverflowToolbar>
-				<Button
-					type="Emphasized"
-					text="{i18n>btnBack}"
-					press="onNavBack"
-				>
-					<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow"/>
-					</layoutData>
-				</Button>
-				<Button
-					type="Emphasized"
-					text="{i18n>btnForward}"
-					press="onNavForward"
-					visible="{StepScenario>/visibleBtnForward}"
-				>
-					<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow"/>
-					</layoutData>
-				</Button>
-				<Button
-					type="Emphasized"
-					text="{i18n>btnLog}"
-					press="onLog"
-					visible="{= ${Log>/Messaggio}.length !== 0 ? true : false}"
-				>
-					<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow"/>
-					</layoutData>
-				</Button>
-				<ToolbarSpacer/>
-				<Button
-					type="Emphasized"
-					text="{i18n>btnStart}"
-					press="onStart"
-					visible="{StepScenario>/visibleBtnStart}"
-				>
-					<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow"/>
-					</layoutData>
-				</Button>
-				<Button
-					type="Emphasized"
-					text="{i18n>btnSaveSoa}"
-					press="onSave"
-					visible="{StepScenario>/visibleBtnSave}"
-				>
-					<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow"/>
-					</layoutData>
-				</Button>
-			</OverflowToolbar>
-		</f:footer>
-	</f:DynamicPage>
+    <f:DynamicPage
+        showFooter="true"
+        class="sapUiNoContentPadding"
+    >
+        <f:header>
+            <f:DynamicPageHeader
+                pinnable="false"
+                class="noPadding"
+            >
+                <c:Fragment
+                    fragmentName="rgssoa.view.fragment.soa.HeaderSoa"
+                    type="XML"
+                />
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <NavContainer>
+                <pages>
+                    <Page showHeader="false">
+                        <content>
+                            <Wizard
+                                id="wizScenario3"
+                                showNextButton="false"
+                                class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+                            >
+                                <WizardStep
+                                    title="{i18n>titleWizard1ProspLiquidazione}"
+                                >
+                                    <c:Fragment
+                                        fragmentName="rgssoa.view.fragment.soa.wizard1.filters.FiltersPosizioni"
+                                        type="XML"
+                                    />
+                                    <c:Fragment
+                                        fragmentName="rgssoa.view.fragment.soa.table.scenario3.TablePosizioniScen3"
+                                        type="XML"
+                                    />
+                                    <c:Fragment
+                                        fragmentName="rgssoa.view.fragment.soa.table.scenario3.TableRiepPosizioniScen3"
+                                        type="XML"
+                                    />
+                                </WizardStep>
+                                <WizardStep title="{i18n>titleWizard2}">
+                                    <c:Fragment
+                                        fragmentName="rgssoa.view.fragment.soa.wizard2.BeneficiarioSoa"
+                                        type="XML"
+                                    />
+                                </WizardStep>
+                                <WizardStep title="{i18n>titleWizard3}">
+                                    <c:Fragment
+                                        fragmentName="rgssoa.view.fragment.soa.wizard3.Classificazione"
+                                        type="XML"
+                                    />
+                                </WizardStep>
+                                <WizardStep title="{i18n>titleWizard4}">
+                                    <c:Fragment
+                                        fragmentName="rgssoa.view.fragment.soa.wizard4.DatiSoa"
+                                        type="XML"
+                                    />
+                                </WizardStep>
+                            </Wizard>
+                        </content>
+                    </Page>
+                </pages>
+            </NavContainer>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnBack}"
+                    press="onNavBack"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnForward}"
+                    press="onNavForward"
+                    visible="{StepScenario>/visibleBtnForward}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnLog}"
+                    press="onLog"
+                    visible="{Utility>/isLogVisible}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <ToolbarSpacer />
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnStart}"
+                    press="onStart"
+                    visible="{StepScenario>/visibleBtnStart}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnSaveSoa}"
+                    press="onSave"
+                    visible="{StepScenario>/visibleBtnSave}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
 </mvc:View>

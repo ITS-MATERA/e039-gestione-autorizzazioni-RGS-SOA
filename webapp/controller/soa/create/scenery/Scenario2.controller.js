@@ -82,10 +82,7 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step2) {
-            if (self.checkDispAutorizzazione()) {
-              oModelStepScenario.setProperty("/wizard1Step2", false);
-              oModelStepScenario.setProperty("/wizard1Step3", true);
-            }
+            self.checkWizard1();
           } else if (bWizard1Step3) {
             oModelStepScenario.setProperty("/wizard1Step3", false);
             oModelStepScenario.setProperty("/wizard2", true);
@@ -106,100 +103,89 @@ sap.ui.define(
               oModelStepScenario.setProperty("/visibleBtnForward", false);
               oModelStepScenario.setProperty("/visibleBtnSave", true);
               self.setCausalePagamento();
+              self.setLocPagamento();
               oWizard.nextStep();
             }
           }
         },
 
-        //#region WIZARD 1
-
         onStart: function () {
-          this._getQuoteDocumentiList();
+          var self = this
+          var oModel = self.getModel();
+          var oModelStepScenario = self.getModel("StepScenario");
+          var aFilters = self.setFiltersWizard1();
+          var oPanelCalculator = self.getView().byId("pnlCalculatorList");
+
+          self.getView().setBusy(true);
+
+          oModel.read("/QuoteDocumentiSet", {
+            filters: aFilters,
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (!self.hasResponseError(oResponse)) {
+                oModelStepScenario.setProperty("/wizard1Step1", false);
+                oModelStepScenario.setProperty("/wizard1Step2", true);
+                oModelStepScenario.setProperty("/visibleBtnForward", true);
+                oModelStepScenario.setProperty("/visibleBtnStart", false);
+              }
+
+
+              var aData = data?.results;
+              aData?.map((oPosition, iIndex) => {
+                oPosition.Index = iIndex + 1;
+              });
+              self.setModel(new JSONModel(aData), "PosizioniScen2");
+              oPanelCalculator.setVisible(aData.length !== 0);
+
+            },
+            error: function () {
+              self.getView().setBusy(false);
+            },
+          });
         },
 
         onSelectedItem: function (oEvent) {
           var self = this;
           var bSelected = oEvent.getParameter("selected");
           //Load Model
-          var oModelDocumenti = self.getModel("QuoteDocumentiScen2");
+          var oTable = self.getView().byId("tblPosizioniScen2")
+          var oModelPosizioni = self.getModel("PosizioniScen2");
           var oModelSoa = self.getModel("Soa");
           //Load Component
-          var oTableDocumenti = self.getView().byId("tblQuoteDocumentiScen2");
           var oButtonCalculate = self.getView().byId("btnCalculate");
 
-          var aListRiepilogo = oModelSoa.getProperty("/data");
-          var aTableItems = oTableDocumenti.getItems();
-          var aSelectedItems = oTableDocumenti.getSelectedItems();
+          var aSelectedItems = oModelSoa.getProperty("/data");
+          var aListItems = oEvent.getParameter("listItems");
 
-          if (bSelected) {
-            aSelectedItems.map((oSelectedItem) => {
-              //Prendo i record selezionati
-              var oItem = oModelDocumenti.getObject(
-                oSelectedItem.getBindingContextPath()
-              );
+          aListItems.map(async function (oListItem) {
+            var oSelectedItem = oModelPosizioni.getObject(oListItem.getBindingContextPath());
 
-              var bExist = false;
-              //Controllo se esiste già in lista, l'includes non funziona non so perchè
-              aListRiepilogo.map((oRecord) => {
-                if (oRecord.Docid === oItem.Docid) {
-                  bExist = true;
-                }
+            if (bSelected) {
+              aSelectedItems.push(oSelectedItem);
+            } else {
+              var iIndex = aSelectedItems.findIndex((obj) => {
+                return (
+                  obj.Docid === oSelectedItem.Docid
+                );
               });
-              //Se non esiste lo aggiungo alla lista di riepilogo
-              !bExist && aListRiepilogo.push(oItem);
-            });
-          } else {
-            var aNotSelectedItems = [];
 
-            //Inserisco in un array temporaneo i record della pagina corrente della tabella
-            //che non sono selezionati
-            aTableItems.map((oTableItem) => {
-              !aSelectedItems.includes(oTableItem) &&
-                aNotSelectedItems.push(oTableItem);
-            });
+              if (iIndex > -1) {
+                aSelectedItems.splice(iIndex, 1);
+              }
+            }
 
-            //Controllo l'esistenza dei record non selezionati nell'array dei record selezionati
-            //Se ci sono record che corrispondono vengono eliminati
-            aNotSelectedItems.map((oNotSelectedItem) => {
-              //L'input dell'Importo da Ordinare dei record non selezionati viene rimesso
-              //a editabile
-              var oItem = oModelDocumenti.getObject(
-                oNotSelectedItem.getBindingContextPath()
-              );
-              aListRiepilogo = aListRiepilogo.filter((oSelectedItem) => {
-                return !(oSelectedItem.Docid === oItem.Docid);
-              });
-            });
-          }
-
-          oButtonCalculate.setVisible(aListRiepilogo.length !== 0);
-          oModelSoa.setProperty("/Zimptot", "0.00");
-          oModelSoa.setProperty("/data", aListRiepilogo);
-        },
-
-        onCalculate: function () {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var aListRiepilogo = oModelSoa.getProperty("/data");
-          var fTotal = 0;
-
-          aListRiepilogo.map((oSelectedItem) => {
-            fTotal += parseFloat(oSelectedItem?.Zimpdaord);
+            oModelSoa.setProperty("/data", aSelectedItems);
+            oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+            oModelSoa.setProperty("/Zimptot", "0.00");
           });
-
-          oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
         },
-
-        //#region SELECTION CHANGE
 
         onImpDaOrdinareChange: function (oEvent) {
           var self = this;
           //Load Component
-          var oTableDocumenti = self.getView().byId("tblQuoteDocumentiScen2");
+          var oTableDocumenti = self.getView().byId("tblPosizioniScen2");
           //Load Models
-          var oTableModelDocumenti = oTableDocumenti.getModel(
-            "QuoteDocumentiScen2"
-          );
+          var oTableModelDocumenti = oTableDocumenti.getModel("PosizioniScen2");
           var oModelSoa = self.getModel("Soa");
 
           var sValue = oEvent.getParameter("value");
@@ -216,10 +202,6 @@ sap.ui.define(
           }
         },
 
-        //#endregion
-
-        //#region PRIVATE METHODS
-
         _onObjectMatched: function (oEvent) {
           var self = this
 
@@ -230,91 +212,7 @@ sap.ui.define(
           self.setUtilityRegModel("rgssoa.view.soa.create.scenery.Scenario2");
           self.setStepScenarioRegModel();
           self.createModelFilters()
-          self.getLogModel();
         },
-
-        _getQuoteDocumentiList: function () {
-          var self = this;
-          var oView = self.getView();
-          //Load Model
-          var oDataModel = self.getModel();
-          var oModelStepScenario = self.getModel("StepScenario");
-          var oModelSoa = self.getModel("Soa");
-          //Load Component
-          var oTableDocumenti = oView.byId("tblQuoteDocumentiScen2");
-          var oPanelCalculator = oView.byId("pnlCalculatorList");
-
-          var aListRiepilogo = oModelSoa.getProperty("/data");
-          var aFilters = self.setFiltersWizard1();
-
-          oView.setBusy(true);
-
-          oDataModel.read("/" + "QuoteDocumentiScen2Set", {
-            filters: aFilters,
-            success: function (data, oResponse) {
-              if (!self.hasResponseError(oResponse)) {
-                oModelStepScenario.setProperty("/wizard1Step1", false);
-                oModelStepScenario.setProperty("/wizard1Step2", true);
-                oModelStepScenario.setProperty("/visibleBtnForward", true);
-                oModelStepScenario.setProperty("/visibleBtnStart", false);
-              }
-              self.setModelCustom("QuoteDocumentiScen2", data.results);
-
-              oPanelCalculator.setVisible(data.results.length !== 0);
-
-              if (data.results !== 0) {
-                data.results.map((oItem, iIndex) => {
-                  //Vengono selezionati i record quando viene caricata l'entità
-                  aListRiepilogo.map((oSelectedItem) => {
-                    if (oItem.Docid === oSelectedItem.Docid) {
-                      oTableDocumenti.setSelectedItem(
-                        oTableDocumenti.getItems()[iIndex]
-                      );
-                    }
-                  });
-                });
-              }
-              oView.setBusy(false);
-            },
-            error: function (error) {
-              oView.setBusy(false);
-            },
-          });
-        },
-
-        _createModelFiltersWizard1: async function () {
-          var self = this;
-          var sUfficio = await self.getUfficio()
-          var oModelFilterDocumenti = new JSONModel({
-            CodRitenuta: "",
-            DescRitenuta: "",
-            CodEnte: "",
-            DescEnte: "",
-            QuoteEsigibili: true,
-            DataEsigibilitaFrom: "",
-            DataEsigibilitaTo: "",
-            TipoBeneficiario: "",
-            Lifnr: "",
-            UfficioContabile: sUfficio,
-            UfficioPagatore: sUfficio,
-            AnnoRegDocumento: [],
-            NumRegDocFrom: "",
-            NumRegDocTo: "",
-            AnnoDocBeneficiario: [],
-            NDocBen: [],
-            Cig: "",
-            Cup: "",
-            ScadenzaDocFrom: null,
-            ScadenzaDocTo: null,
-          });
-
-          self.setModel(oModelFilterDocumenti, "FilterDocumenti");
-        }
-        //#endregion
-
-        //#endregion
-
-        //#endregion
       }
     );
   }

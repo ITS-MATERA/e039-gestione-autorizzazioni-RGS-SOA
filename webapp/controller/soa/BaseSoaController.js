@@ -289,6 +289,40 @@ sap.ui.define(
         this.unloadFragment();
       },
 
+      onValueHelpCentroCosto: async function () {
+        var self = this;
+        var oSoa = self.getModel("Soa").getData();
+        var oModelCentroCosto = self.getModel("ZSS4_SEARCH_HELP_SRV")
+        var oDialog = self.loadFragment("rgssoa.view.fragment.soa.value-help.CentroCosto");
+        var aFilters = []
+
+        self.setFilterEQ(aFilters, "Shlpname", 'ZHX_KOST');
+        self.setFilterEQ(aFilters, "FilterValue", "Kokrs|" + oSoa.Bukrs);
+
+        self.getView().setBusy(true)
+        oModelCentroCosto.read("/ZES_RetFieldValueSet", {
+          filters: aFilters,
+          success: function (data) {
+            self.getView().setBusy(false)
+            self.setModelDialog("CentroCosto", data, "sdCentroCosto", oDialog);
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+      },
+
+      onValueHelpCentroCostoClose: function (oEvent) {
+        var self = this;
+        var oModelSoa = self.getModel("Soa");
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+
+        oModelSoa.setProperty("/Kostl", self.setBlank(oSelectedItem?.getTitle()));
+        oModelSoa.setProperty("/DescKostl", self.setBlank(oSelectedItem?.getDescription()));
+
+        this.unloadFragment();
+      },
+
       /**--------------------------SCENARIO 4-------------------------------- */
 
 
@@ -390,6 +424,64 @@ sap.ui.define(
           return;
         }
 
+      },
+
+      onCentroCostoChange: async function (oEvent) {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelSoa = self.getModel("Soa")
+        var oSoa = oModelSoa.getData()
+
+        var sKey = oModel.createKey("/CentroCostoSet", {
+          Bukrs: oSoa.Bukrs,
+          Kostl: oSoa.Kostl
+        })
+
+        self.getView().setBusy(true)
+
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false)
+            oModelSoa.setProperty("/DescKostl", data.Descrizione)
+            if (self.hasResponseError(oResponse)) {
+              oModelSoa.setProperty("/Kostl", "")
+              oModelSoa.setProperty("/DescKostl", "")
+            }
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+      },
+
+      onContoCoGeChange: async function (oEvent) {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelSoa = self.getModel("Soa")
+        var oSoa = oModelSoa.getData()
+
+        var sKey = oModel.createKey("/ContoCogeSet", {
+          Bukrs: oSoa.Bukrs,
+          Gjahr: oSoa.Gjahr,
+          Fipos: oSoa.Fipos,
+          Saknr: oSoa.Hkont
+        })
+
+        self.getView().setBusy(true)
+
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false)
+            oModelSoa.setProperty("/DescHkont", data.Descrizione)
+            if (self.hasResponseError(oResponse)) {
+              oModelSoa.setProperty("/Hkont", "")
+              oModelSoa.setProperty("/DescHkont", "")
+            }
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
       },
 
       //#endregion
@@ -679,7 +771,8 @@ sap.ui.define(
           isVersanteEditable: false,
           isZcoordEsterPrevalorizzato: false,
           isQuiet1Prevalorizzato: false,
-          ViewId: sView
+          ViewId: sView,
+          isLogVisible: false
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -723,8 +816,84 @@ sap.ui.define(
         });
       },
 
-      getModalitaPagamentoList: function () {
 
+      checkWizard1: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelStepScenario = self.getModel("StepScenario");
+        var oSoa = self.getModel("Soa").getData();
+        var aPosizioni = oSoa.data;
+        var aPosizioniFormatted = [];
+        if (oSoa.Zimptot <= 0) {
+          MessageBox.error("L'importo non può essere minore o uguale a 0");
+          return;
+        }
+
+        if (!self.checkDispAutorizzazione()) {
+          return
+        }
+
+        aPosizioni.map((oPosition, index) => {
+          oPosition.Index = index + 1
+          aPosizioniFormatted.push({
+            HeaderIndex: "1",
+            Index: oPosition.Index.toString(),
+            Zimpdaord: oPosition.Zimpdaord,
+            Zimppag: oPosition.Zimppag,
+            Zimpres: oPosition.Zimpres,
+            Zimpliq: oPosition.Zimpliq
+          });
+        });
+
+        var oParamenters = {
+          HeaderIndex: "1",
+          Ztipopag: oSoa.Ztipopag,
+          ZspecieSop: oSoa.ZspecieSop,
+          CheckImportPositionSet: aPosizioniFormatted,
+          CheckImportMessageSet: [],
+        };
+
+        self.getView().setBusy(true);
+        oModel.create("/DeepCheckImportHeaderSet", oParamenters, {
+          success: function (data) {
+            var aMessage = data?.CheckImportMessageSet?.results;
+            if (aMessage.length > 0) {
+              self.managementLogDeep(aMessage);
+              self.getView().setBusy(false);
+              return;
+            }
+
+            oModelStepScenario.setProperty("/wizard1Step2", false);
+            oModelStepScenario.setProperty("/wizard1Step3", true);
+            self.getView().setBusy(false);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      checkDispAutorizzazione: function () {
+        //TODO - Rimuovi return
+        return true
+        var self = this;
+        var oSoa = self.getModel("Soa").getData();
+        var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+
+        var fImpTot = parseFloat(oSoa.Zimptot);
+        var fImpDispAutorizzazione = parseFloat(oSoa.Zimpdispaut);
+
+        if (fImpTot > fImpDispAutorizzazione) {
+          sap.m.MessageBox.error(oBundle.getText("msgImpTotGreaterImpDispAut"));
+          return false;
+        }
+
+        if (oSoa.data.length === 0 || oModelSoa.Zimptot === "0.00") {
+          sap.m.MessageBox.error(oBundle.getText("msgNoDocuments"));
+          return false;
+        }
+
+        return true;
       },
 
       //#endregion PRIVATE METHODS
@@ -2139,7 +2308,7 @@ sap.ui.define(
         aListClassificazione.push({
           Zchiavesop: "",
           Bukrs: "",
-          Zetichetta: "",
+          Zetichetta: oData?.etichetta,
           Zposizione: "",
           ZstepSop: "",
           Zzcig: "",
@@ -2197,117 +2366,6 @@ sap.ui.define(
 
         //Resetto l'importo totale da associare
         this._setImpTotAssociare(oSourceData?.etichetta);
-      },
-
-      getCig: function () {
-        var self = this;
-        var oModel = self.getModel();
-        var oSoa = self.getModel("Soa").getData();
-        var oModelClassificazione = self.getModel("Classificazione");
-        var aCos = [];
-        var aPosition = oSoa.data;
-        var aFilters = [];
-
-        aPosition.map((oPosition) => {
-          self.setFilterEQ(aFilters, "Belnr", oPosition.Belnr);
-        });
-
-        self.getView().setBusy(true);
-        oModel.read("/CigMcSet", {
-          filters: aFilters,
-          success: function (data) {
-            self.getView().setBusy(false);
-
-            var aData = data.results;
-            aData.map((oData, index) => {
-              aCos.push({
-                Zchiavesop: "",
-                Bukrs: "",
-                Zetichetta: "CIG",
-                Zposizione: "",
-                ZstepSop: "",
-                Zzcig: oData.ZcodiCig,
-                Zzcup: "",
-                Zcpv: "",
-                ZcpvDesc: "",
-                Zcos: "",
-                ZcosDesc: "",
-                Belnr: oData.Belnr,
-                ZimptotClass: "0.00",
-                Zflagcanc: "",
-                ZstatoClass: "",
-                Index: index,
-              });
-            });
-
-            oModelClassificazione.setProperty("/Cig", aCos);
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
-      },
-
-      onCosChange: function (oEvent) {
-        var self = this;
-        var oModel = self.getModel();
-        var oModelClassificazione = self.getModel("Classificazione");
-        var oSoa = self.getModel("Soa").getData();
-        var aListClassificazione = oModelClassificazione.getProperty("/Cos");
-
-        var oSource = oEvent.getSource();
-        var sIndex = oSource.data().index;
-
-        var sKey = oModel.createKey("/CosSet", {
-          Gjahr: oSoa.Gjahr,
-          Zcos: aListClassificazione[sIndex].Zcos,
-        });
-
-        self.getView().setBusy(true);
-        oModel.read(sKey, {
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            aListClassificazione[sIndex].ZcosDesc = data.ZcosDesc;
-            oModelClassificazione.setProperty("/Cos", aListClassificazione);
-            self.hasResponseError(oResponse);
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
-      },
-
-      onCpvChange: function (oEvent) {
-        var self = this;
-        var oModel = self.getModel();
-        var oModelClassificazione = self.getModel("Classificazione");
-        var aListClassificazione = oModelClassificazione.getProperty("/Cpv");
-
-        var oSource = oEvent.getSource();
-        var sIndex = oSource.data().index;
-
-        if (!aListClassificazione[sIndex].Zcpv) {
-          aListClassificazione[sIndex].ZcpvDesc = "";
-          oModelClassificazione.setProperty("/Cpv", aListClassificazione);
-          return;
-        }
-
-        var sKey = oModel.createKey("/CpvSet", {
-          Zcpv: aListClassificazione[sIndex].Zcpv,
-        });
-
-        self.getView().setBusy(true);
-        oModel.read(sKey, {
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            aListClassificazione[sIndex].ZcpvDesc = data.ZcpvDesc;
-            oModelClassificazione.setProperty("/Cpv", aListClassificazione);
-            self.hasResponseError(oResponse);
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
       },
 
       //#region VALUE HELP
@@ -2461,6 +2519,52 @@ sap.ui.define(
 
         this.unloadFragment();
       },
+
+      onValueHelpCigClassificazione: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oDialog = self.loadFragment("rgssoa.view.fragment.soa.value-help.Cig");
+        var oSourceData = oEvent.getSource().data();
+
+        self.getView().setBusy(true);
+
+        oModel.read("/CigMcSet", {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            self.hasResponseError(oResponse);
+
+            var oModelJson = new JSONModel();
+            oModelJson.setData(data?.results);
+            var oSelectDialog = sap.ui.getCore().byId("sdCig");
+            oSelectDialog?.setModel(oModelJson, "Cig");
+            oSelectDialog?.data("index", oSourceData.index);
+            oDialog.open();
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      onValueHelpCigClassificazioneClose: async function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cig");
+
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        if (!oSelectedItem) {
+          this.unloadFragment();
+          return;
+        }
+
+        aListClassificazione[sIndex].Zzcig = oSelectedItem.getTitle();
+        aListClassificazione[sIndex].Belnr = await this._getCigDescription(oSelectedItem.getTitle());
+        oModelClassificazione.setProperty("/Cig", aListClassificazione);
+      },
       //#endregion
 
       //#region SELECTION CHANGE
@@ -2491,6 +2595,68 @@ sap.ui.define(
         this._setImpTotAssociare(oSourceData?.etichetta);
       },
 
+      onCosChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelClassificazione = self.getModel("Classificazione");
+        var oSoa = self.getModel("Soa").getData();
+        var aListClassificazione = oModelClassificazione.getProperty("/Cos");
+
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        var sKey = oModel.createKey("/CosSet", {
+          Gjahr: oSoa.Gjahr,
+          Zcos: aListClassificazione[sIndex].Zcos,
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            aListClassificazione[sIndex].ZcosDesc = data.ZcosDesc;
+            oModelClassificazione.setProperty("/Cos", aListClassificazione);
+            self.hasResponseError(oResponse);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      onCpvChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cpv");
+
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        if (!aListClassificazione[sIndex].Zcpv) {
+          aListClassificazione[sIndex].ZcpvDesc = "";
+          oModelClassificazione.setProperty("/Cpv", aListClassificazione);
+          return;
+        }
+
+        var sKey = oModel.createKey("/CpvSet", {
+          Zcpv: aListClassificazione[sIndex].Zcpv,
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            aListClassificazione[sIndex].ZcpvDesc = data.ZcpvDesc;
+            oModelClassificazione.setProperty("/Cpv", aListClassificazione);
+            self.hasResponseError(oResponse);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
       //#region PRIVATE METHODS
       _setImpTotAssociare: function (sEtichetta) {
         var self = this;
@@ -2511,11 +2677,78 @@ sap.ui.define(
           parseFloat(iTotalImpDaAssociare).toFixed(2)
         );
       },
-      //#endregion
 
-      //#endregion
+      getCig: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oSoa = self.getModel("Soa").getData();
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aCos = [];
+        var aPosition = oSoa.data;
+        var aFilters = [];
 
-      //#region PRIVATE METHODS
+        aPosition.map((oPosition) => {
+          self.setFilterEQ(aFilters, "Belnr", oPosition.Belnr);
+        });
+
+        self.getView().setBusy(true);
+        oModel.read("/CigMcSet", {
+          filters: aFilters,
+          success: function (data) {
+            self.getView().setBusy(false);
+
+            var aData = data.results;
+            aData.map((oData, index) => {
+              aCos.push({
+                Zchiavesop: "",
+                Bukrs: "",
+                Zetichetta: "CIG",
+                Zposizione: "",
+                ZstepSop: "",
+                Zzcig: oData.ZcodiCig,
+                Zzcup: "",
+                Zcpv: "",
+                ZcpvDesc: "",
+                Zcos: "",
+                ZcosDesc: "",
+                Belnr: oData.Belnr,
+                ZimptotClass: "0.00",
+                Zflagcanc: "",
+                ZstatoClass: "",
+                Index: index,
+              });
+            });
+
+            oModelClassificazione.setProperty("/Cig", aCos);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      _getCigDescription: async function (sCig) {
+        var self = this;
+        var oModel = self.getModel();
+        var sKey = oModel.createKey("/CigMcSet", {
+          ZcodiCig: sCig,
+        });
+        self.getView().setBusy(true);
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (self.hasResponseError(oResponse)) return;
+              resolve(data.Belnr);
+            },
+            error: function (e) {
+              self.getView().setBusy(false);
+              reject(e);
+            },
+          });
+        });
+      },
+
       checkClassificazione: function () {
         var self = this;
         var oModelSoa = self.getModel("Soa");
@@ -2655,66 +2888,107 @@ sap.ui.define(
 
       //#endregion
 
+      //#endregion
+
       //#region WIZARD 4
       onSave: function () {
         var self = this;
         var oModel = self.getModel();
         var oModelSoa = self.getModel("Soa");
-        var oView = self.getView();
-
-        var aSoaPosizione = oModelSoa.getProperty("/data");
-        var aSoaClassificazione = oModelSoa.getProperty("/Classificazione");
+        var oView = self.getView()
+        var oModelUtility = self.getModel("Utility")
+        var oSoa = oModelSoa.getData()
+        var aPosition = oSoa.data
+        var aClassificazione = oSoa.Classificazione
 
         var aPosizioniDeep = [];
         var aClassificazioneDeep = [];
 
-        aSoaPosizione.map((oPosizione) => {
-          var oPosizioneDeep = {
-            Zchiavesop: self.setBlank(oPosizione?.Zchiavesop),
-            Bukrs: self.setBlank(oPosizione?.Bukrs),
-            Gjahr: self.setBlank(oPosizione?.Gjahr),
-            Zpossop: self.setBlank(oPosizione?.Zpossop),
-            ZstepSop: self.setBlank(oPosizione?.ZstepSop),
-            Znumliq: oPosizione.Znumliq,
-            Zposizione: oPosizione.Zposizione,
-            ZdescProsp: oPosizione.DescProspLiquidazione,
-            Belnr: oPosizione.Belnr,
-            GjahrDc: oModelSoa.getProperty("/Gjahr"),
-            Xblnr: oPosizione.Xblnr,
-            Blart: oPosizione.Blart,
-            Bldat: oPosizione.Bldat,
-            Zbenalt: oModelSoa.getProperty("/Lifnr"),
-            ZbenaltName: oPosizione.ZbenaltName,
-            Wrbtr: oModelSoa.getProperty("/Zimptot"),
-            Zimpliq: oPosizione.Zimpliq,
-            Zimppag: oPosizione.Zimppag,
-            Zimpdaord: oPosizione.Zimpdaord,
-          };
+        switch (oSoa.Ztipopag) {
+          case "1": {
+            aPosition.map((oPosition) => {
+              aPosizioniDeep.push({
+                Znumliq: oPosition.Znumliq,
+                Zposizione: oPosition.Zposizione,
+                Belnr: oPosition.Belnr,
+                GjahrDc: oPosition.AnnoRegDoc,
+                Xblnr: oPosition.Xblnr,
+                Blart: oPosition.Blart,
+                Bldat: oPosition.Bldat,
+                Zbenalt: oPosition.Zbenalt,
+                ZbenaltName: oPosition.ZbenaltName,
+                Wrbtr: oPosition.Zimptot,
+                Zimppag: oPosition.Zimppag,
+                Zimpdaord: oPosition.Zimpdaord,
+                Zimptot: oPosition.Zimptot
+              })
+            })
+            break;
+          }
+          case "2": {
+            aPosition.map((oPosition) => {
+              aPosizioniDeep.push({
+                Zimpres: oPosition.Zimpres,
+                Belnr: oPosition.Belnr,
+                GjahrDc: oPosition.AnnoRegDoc,
+                Xblnr: oPosition.Xblnr,
+                Blart: oPosition.Blart,
+                Bldat: oPosition.Bldat,
+                Zbenalt: oPosition.Zbenalt,
+                ZbenaltName: oPosition.ZbenaltName,
+                Wrbtr: oPosition.Wrbtr,
+                Zimpdaord: oPosition.Zimpdaord,
+                Zdurc: oPosition.Zdurc,
+                ZfermAmm: oPosition.ZfermAmm
+              })
+            })
+            break;
+          }
+          case "3": {
+            aPosition.map((oPosition) => {
+              aPosizioniDeep.push({
+                Znumliq: oPosition.Znumliq,
+                Zposizione: oPosition.Zposizione,
+                Belnr: oPosition.Belnr,
+                GjahrDc: oPosition.AnnoRegDoc,
+                Blart: oPosition.Blart,
+                Bldat: oPosition.Bldat,
+                ZbenaltName: oPosition.ZbenaltName,
+                Wrbtr: oPosition.Zimptot,
+                Zimpdaord: oPosition.Zimpdaord,
+              })
+            })
+            break;
+          }
+          case "4": {
+            aPosition.map((oPosition) => {
+              aPosizioniDeep.push({
+                Wrbtr: oPosition.Zimptot,
+                ZbenaltName: oPosition.ZbenaltName,
+                Zimpliq: oPosition.Zimptot,
+                Zimpdaord: oPosition.Zimptot,
+                Zdurc: oPosition.Zdurc,
+                ZfermAmm: oPosition.ZfermAmm,
+                Zimppag: oPosition.Zimptot
+              })
+            })
+          }
+        }
 
-          aPosizioniDeep.push(oPosizioneDeep);
-        });
 
-        aSoaClassificazione.map((oClassificazione) => {
-          var oClassificazioneDeep = {
-            Zchiavesop: oClassificazione.Zchiavesop,
-            Bukrs: oClassificazione.Bukrs,
+        aClassificazione.map((oClassificazione) => {
+          aClassificazioneDeep.push({
             Zetichetta: oClassificazione.Zetichetta,
-            Zposizione: oClassificazione.Zposizione,
-            ZstepSop: oClassificazione.ZstepSop,
             Zzcig: oClassificazione.Zzcig,
             Zzcup: oClassificazione.Zzcup,
             Zcpv: oClassificazione.Zcpv,
-            ZcpvDesc: oClassificazione.ZcpvDesc,
+            ZcpvDesc: oClassificazione.ZcpvDesc.slice(0, 40),
             Zcos: oClassificazione.Zcos,
-            ZcosDesc: oClassificazione.ZcosDesc,
-            Belnr: oClassificazione.Belnr,
+            ZcosDesc: oClassificazione.ZcosDesc.slice(0, 30),
+            Belnr: oClassificazione.Belnr.slice(0, 10),
             ZimptotClass: oClassificazione.ZimptotClass,
-            Zflagcanc: oClassificazione.Zflagcanc,
-            ZstatoClass: oClassificazione.ZstatoClass,
-          };
-
-          aClassificazioneDeep.push(oClassificazioneDeep);
-        });
+          })
+        })
 
         var oSoaDeep = {
           Bukrs: oModelSoa.getProperty("/Bukrs"),
@@ -2735,7 +3009,7 @@ sap.ui.define(
           Zchiavesop: oModelSoa.getProperty("/Zchiavesop"),
           Zcodinps: oModelSoa.getProperty("/Zcodinps"),
           Zcodprov: oModelSoa.getProperty("/Zcodprov"),
-          ZcodStatoSoa: oModelSoa.getProperty("/ZcodStatoSoa"),
+          ZcodStatosop: oModelSoa.getProperty("/ZcodStatoSoa"),
           Zcodtrib: oModelSoa.getProperty("/Zcodtrib"),
           Zcodvers: oModelSoa.getProperty("/Zcodvers"),
           Zcoordest: oModelSoa.getProperty("/Zcoordest"),
@@ -2762,7 +3036,6 @@ sap.ui.define(
           ZstatTest: oModelSoa.getProperty("/ZstatTest"),
           Zstcd1: oModelSoa.getProperty("/Zstcd1"),
           Zstcd12: oModelSoa.getProperty("/Zstcd12"),
-          Zstcd13: oModelSoa.getProperty("/Zstcd13"),
           Zstep: oModelSoa.getProperty("/Zstep"),
           Ztipofirma: oModelSoa.getProperty("/Ztipofirma"),
           Ztipopag: oModelSoa.getProperty("/Ztipopag"),
@@ -2802,29 +3075,48 @@ sap.ui.define(
           Messaggio: [],
         };
 
+
         oView.setBusy(true);
 
         oModel.create("/SoaDeepSet", oSoaDeep, {
-          success: function (result) {
-            oView.setBusy(false);
-            var aMessaggio = result?.Messaggio.results;
+          success: function (data) {
+            self.getView().setBusy(false)
+            var aMessage = data?.Messaggio?.results;
+            var aMessageFormatted = []
+            if (aMessage.length > 0) {
+              if (aMessage.length === 1) {
+                if (aMessage[0]?.Body?.Msgty === 'E') {
+                  MessageBox.error(aMessage[0]?.Body?.Message);
+                }
+                else if (aMessage[0]?.Body?.Msgty === 'S') {
+                  MessageBox.success(aMessage[0]?.Body?.Message, {
+                    actions: [MessageBox.Action.CLOSE],
+                    onClose: function () {
+                      self.getRouter().navTo("soa.list.ListSoa", {
+                        Reload: true,
+                      });
+                    },
+                  });
 
-            if (aMessaggio.length !== 0) {
-              self._setLogModel(aMessaggio);
-              sap.m.MessageBox.error("Operazione non eseguita correttamente");
+                }
+                return;
+              }
+
+              aMessage.map((oMessage) => {
+                aMessageFormatted.push({
+                  Msgid: oMessage?.Body?.Msgid,
+                  Msgty: oMessage?.Body?.Msgty,
+                  Msgno: oMessage?.Body?.Msgno,
+                  Message: oMessage?.Body?.Message,
+                });
+              });
+
+              oModelUtility.setProperty("/isLogVisible");
+              self.setModel(new JSONModel(aMessageFormatted), "Log");
+              MessageBox.error("Operazione non eseguita correttamente");
               return;
             }
-            sap.m.MessageBox.success(
-              "SOA n. " + result.Zchiavesop + " registrato correttamente",
-              {
-                actions: [MessageBox.Action.CLOSE],
-                onClose: function () {
-                  self.getRouter().navTo("soa.list.ListSoa", {
-                    Reload: true,
-                  });
-                },
-              }
-            );
+
           },
           error: function () {
             oView.setBusy(false);
@@ -2854,8 +3146,28 @@ sap.ui.define(
         oModelSoa.setProperty("/Zcausale", sZcausale);
       },
 
-      //#endregion
+      setLocPagamento: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSoa = self.getModel("Soa");
+        var oSoa = oModelSoa.getData();
 
+        var sKey = oModel.createKey("/LocPagamentoSet", {
+          Regio: oSoa.RegioSede,
+          Zlocpag: "",
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data) {
+            oModelSoa.setProperty("/Zlocpag", data.Zlocpag);
+            self.getView().setBusy(false);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
       //#endregion
 
       //#region -------------------GESTIONE LOG------------------------------- /
@@ -2890,17 +3202,17 @@ sap.ui.define(
         var aCols = [
           {
             label: oBundle.getText("labelMessageType"),
-            property: "Type",
+            property: "Msgty",
             type: EDM_TYPE.String,
           },
           {
             label: oBundle.getText("labelMessageId"),
-            property: "Id",
+            property: "Msgid",
             type: EDM_TYPE.String,
           },
           {
             label: oBundle.getText("labelMessageNumber"),
-            property: "Number",
+            property: "Msgno",
             type: EDM_TYPE.String,
           },
           {
@@ -3428,6 +3740,7 @@ sap.ui.define(
           DetailFromFunction: bDetailFromFunction,
           RemoveFunctionButtons: bRemoveFunctionButtons,
           IbanPrevalorizzato: false,
+          isLogVisible: false
         });
         self.setModel(oModelUtility, "Utility");
       },
@@ -4279,81 +4592,55 @@ sap.ui.define(
         return aFilters;
       },
 
-      checkDispAutorizzazione: function () {
-        //TODO - Rimuovi return
-        return true
-        var self = this;
-        var oSoa = self.getModel("Soa").getData();
-        var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-
-        var fImpTot = parseFloat(oSoa.Zimptot);
-        var fImpDispAutorizzazione = parseFloat(oSoa.Zimpdispaut);
-
-        if (fImpTot > fImpDispAutorizzazione) {
-          sap.m.MessageBox.error(oBundle.getText("msgImpTotGreaterImpDispAut"));
-          return false;
-        }
-
-        if (oSoa.data.length === 0 || oModelSoa.Zimptot === "0.00") {
-          sap.m.MessageBox.error(oBundle.getText("msgNoDocuments"));
-          return false;
-        }
-
-        return true;
-      },
-
       checkPosizioniScen4: function () {
         var self = this;
         var oModelSoa = self.getModel("Soa");
         var oBundle = self.getResourceBundle();
 
-        if (!oModelSoa.getProperty("/Kostl")) {
-          sap.m.MessageBox.error(oBundle.getText("msgKostlRequired"));
-          return false;
-        }
+        // TODO - Non commentare
+        // if (!oModelSoa.getProperty("/Kostl")) {
+        //   sap.m.MessageBox.error(oBundle.getText("msgKostlRequired"));
+        //   return false;
+        // }
 
-        if (!oModelSoa.getProperty("/Hkont")) {
-          sap.m.MessageBox.error(oBundle.getText("msgHkontRequired"));
-          return false;
-        }
+        // if (!oModelSoa.getProperty("/Hkont")) {
+        //   sap.m.MessageBox.error(oBundle.getText("msgHkontRequired"));
+        //   return false;
+        // }
 
         return true;
       },
 
       setPosizioneScen4: function () {
         var self = this;
-        //Load Models
-        var oModel = self.getModel();
-        var oModelSoa = self.getModel("Soa");
-        var oModelStepScenario = self.getModel("StepScenario");
+        var oModel = self.getModel()
+        var oModelSoa = self.getModel("Soa")
+        var oSoa = oModelSoa.getData()
 
-        var aFilters = [];
+        var oPosition = oSoa.data[0]
 
-        self.setFilterEQ(aFilters, "Lifnr", oModelSoa?.getProperty("/Lifnr"));
-        self.setFilterEQ(aFilters, "Zwels", oModelSoa?.getProperty("/Zwels"));
-        self.setFilterEQ(
-          aFilters,
-          "Zimpliq",
-          oModelSoa?.getProperty("/Zimptot")
-        );
-        self.setFilterEQ(aFilters, "Iban", oModelSoa?.getProperty("/Iban"));
+        var sKey = oModel.createKey("/RegProspettoLiquidazioneSet", {
+          Lifnr: oSoa.Lifnr,
+          Zwels: oSoa.Zwels,
+          Zdescwels: oSoa.Zdescwels,
+          Iban: oSoa.Iban,
+          Zimptot: oSoa.Zimptot
+        })
 
-        oModel.read("/RegProspettoLiquidazioneSet", {
-          filters: aFilters,
-          success: function (data, oResponse) {
-            if (!self.hasResponseError(oResponse)) {
-              self.setModelCustom("NewProspettoLiquidazione", data?.results);
-              oModelStepScenario.setProperty("/wizard1Step1", false);
-              oModelStepScenario.setProperty("/wizard1Step2", true);
-              oModelStepScenario.setProperty("/visibleBtnForward", false);
-              oModelStepScenario.setProperty(
-                "/visibleBtnInserisciProspLiquidazione",
-                true
-              );
-            }
+        self.getView().setBusy(true)
+        oModel.read(sKey, {
+          success: function (data) {
+            var aData = []
+            data.Znumliq = oPosition?.Znumliq
+            data.Zposizione = oPosition?.Zposizione
+            aData.push(data)
+            oModelSoa.setProperty("/data", aData)
+            self.getView().setBusy(false)
           },
-          error: function () { },
-        });
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
       },
 
       //#endregion-----------------GESTIONE FILTRI-----------------------------/
@@ -4641,8 +4928,6 @@ sap.ui.define(
             oModelSoa.setProperty("/Zdscadenza", data?.Zdscadenza);
             oModelSoa.setProperty("/BuType", data?.Type);
             self._setSpecieSoaDesc("1");
-
-            self.getModalitaPagamentoList();
           },
           error: function () {
             self.getView().setBusy(false);

@@ -60,6 +60,14 @@
                         demandPopin="true"
                     >
                         <header>
+                            <Text text="{i18n>labelNDocBeneficiario}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
                             <Text text="{i18n>labelDenomBeneficiario}" />
                         </header>
                     </Column>
@@ -112,6 +120,7 @@
 								}
 							}"
                             />
+                            <Text text="{Sop>Xblnr}" />
                             <Text text="{Soa>ZbenaltName}" />
                             <Text
                                 text="{

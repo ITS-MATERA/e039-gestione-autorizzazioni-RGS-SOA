@@ -101,7 +101,7 @@
                                 app:index="{Classificazione>Index}"
                                 width="65%"
                                 value="{Classificazione>Zcpv}"
-                                change="onCosChange"
+                                change="onCpvChange"
                                 editable="{Soa>/EnableEdit}"
                             />
                             <Input

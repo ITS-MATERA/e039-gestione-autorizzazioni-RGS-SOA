@@ -1,60 +1,60 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
 >
-	<Dialog
-		id="dlgLog"
-		title="Log"
-	>
-		<content>
-			<Panel>
-				<Table
-					id="tblLog"
-					items="{
-						path: 'Log>/Messaggio'
+    <Dialog
+        id="dlgLog"
+        title="Log"
+    >
+        <content>
+            <Panel>
+                <Table
+                    id="tblLog"
+                    items="{
+						path: 'Log>/'
 					}"
-					growing="true"
-				>
-					<headerToolbar>
-						<OverflowToolbar>
-							<ToolbarSpacer/>
-							<Button
-								text="{i18n>btnExport}"
-								type="Emphasized"
-								press="onExportLog"
-							/>
-							<Button
-								text="{i18n>btnFilter}"
-								type="Emphasized"
-								press="onFilterLog"
-							/>
-						</OverflowToolbar>
-					</headerToolbar>
-					<columns>
-						<Column width="10%">
-							<Text text="{i18n>labelMessageType}"/>
-						</Column>
-						<Column>
-							<Text text="{i18n>labelMessageText}"/>
-						</Column>
-					</columns>
-					<items>
-						<ColumnListItem vAlign="Middle">
-							<cells>
-								<Text text="{Log>Type}"/>
-								<Text text="{Log>Message}"/>
-							</cells>
-						</ColumnListItem>
-					</items>
-				</Table>
-			</Panel>
-		</content>
-		<endButton>
-			<Button
-				type="Emphasized"
-				text="{i18n>btnClose}"
-				press="onCloseLog"
-			/>
-		</endButton>
-	</Dialog>
+                    growing="true"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <ToolbarSpacer />
+                            <Button
+                                text="{i18n>btnExport}"
+                                type="Emphasized"
+                                press="onExportLog"
+                            />
+                            <Button
+                                text="{i18n>btnFilter}"
+                                type="Emphasized"
+                                press="onFilterLog"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column width="10%">
+                            <Text text="{i18n>labelMessageType}" />
+                        </Column>
+                        <Column>
+                            <Text text="{i18n>labelMessageText}" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem vAlign="Middle">
+                            <cells>
+                                <Text text="{Log>Msgty}" />
+                                <Text text="{Log>Message}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </Panel>
+        </content>
+        <endButton>
+            <Button
+                type="Emphasized"
+                text="{i18n>btnClose}"
+                press="onCloseLog"
+            />
+        </endButton>
+    </Dialog>
 </c:FragmentDefinition>

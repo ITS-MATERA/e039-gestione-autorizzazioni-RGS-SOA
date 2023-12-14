@@ -1,74 +1,74 @@
 <mvc:View
-	controllerName="rgssoa.controller.soa.function.InvioFirma"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:f="sap.f"
+    controllerName="rgssoa.controller.soa.function.InvioFirma"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:f="sap.f"
 >
-	<f:DynamicPage
-		showFooter="true"
-		class="sapUiNoContentPadding"
-	>
-		<f:header>
-			<f:DynamicPageHeader
-				class="noPadding"
-				pinnable="false"
-			>
-				<c:Fragment
-					fragmentName="rgssoa.view.fragment.soa.IconTabBarSoa"
-					type="XML"
-				/>
-			</f:DynamicPageHeader>
-		</f:header>
-		<f:content>
-			<c:Fragment
-				fragmentName="rgssoa.view.fragment.soa.function.InvioFirma"
-				type="XML"
-			/>
-		</f:content>
-		<f:footer>
-			<OverflowToolbar>
-				<Button
-					type="Emphasized"
-					text="{i18n>btnBack}"
-					press="onNavBack"
-				>
-					<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow"/>
-					</layoutData>
-				</Button>
-				<Button
-					type="Emphasized"
-					text="{i18n>btnStart}"
-					press="onStart"
-					visible="{Utility>/VisibleBtnStart}"
-				>
-					<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow"/>
-					</layoutData>
-				</Button>
-				<Button
-					type="Emphasized"
-					text="{i18n>btnLog}"
-					press="onLog"
-					visible="{= ${Log>/Messaggio}.length !== 0 ? true : false}"
-				>
-					<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow"/>
-					</layoutData>
-				</Button>
-				<ToolbarSpacer/>
-				<Button
-					type="Emphasized"
-					text="{i18n>btnInvioFirma}"
-					press="onInviaFirma"
-					visible="{= ${Utility>/VisibleBtnStart} === false ? true : false}"
-				>
-					<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow"/>
-					</layoutData>
-				</Button>
-			</OverflowToolbar>
-		</f:footer>
-	</f:DynamicPage>
+    <f:DynamicPage
+        showFooter="true"
+        class="sapUiNoContentPadding"
+    >
+        <f:header>
+            <f:DynamicPageHeader
+                class="noPadding"
+                pinnable="false"
+            >
+                <c:Fragment
+                    fragmentName="rgssoa.view.fragment.soa.IconTabBarSoa"
+                    type="XML"
+                />
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.function.InvioFirma"
+                type="XML"
+            />
+        </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnBack}"
+                    press="onNavBack"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnStart}"
+                    press="onStart"
+                    visible="{Utility>/VisibleBtnStart}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnLog}"
+                    press="onLog"
+                    visible="{Utility>/isLogVisible}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <ToolbarSpacer />
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnInvioFirma}"
+                    press="onInviaFirma"
+                    visible="{= ${Utility>/VisibleBtnStart} === false ? true : false}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
 </mvc:View>

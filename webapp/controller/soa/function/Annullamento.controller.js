@@ -70,6 +70,7 @@ sap.ui.define(
             EnableCancellazioneRichAnn: false,
             VisibleBtnStart: false,
             RemoveFunctionButtons: true,
+            isLogVisible: false
           });
           self.setModel(oModelUtility, "Utility");
 

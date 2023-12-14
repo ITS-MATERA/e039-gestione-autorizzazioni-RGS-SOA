@@ -430,6 +430,30 @@ sap.ui.define(
         self.setModel(new JSONModel(aMessage), "Log");
         MessageBox.error("Operazione non eseguita correttamente");
       },
+
+      managementLogDeep: function (aMessage) {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var aMessageFormatted = [];
+
+        if (aMessage.length === 1) {
+          MessageBox.error(aMessage[0]?.Body?.Message);
+          return;
+        }
+
+        aMessage.map((oMessage) => {
+          aMessageFormatted.push({
+            Msgid: oMessage?.Body?.Msgid,
+            Msgty: oMessage?.Body?.Msgty,
+            Msgno: oMessage?.Body?.Msgno,
+            Message: oMessage?.Body?.Message,
+          });
+        });
+
+        oModelUtility.setProperty("/isLogVisible");
+        self.setModel(new JSONModel(aMessageFormatted), "Log");
+        MessageBox.error("Operazione non eseguita correttamente");
+      },
     });
   }
 );

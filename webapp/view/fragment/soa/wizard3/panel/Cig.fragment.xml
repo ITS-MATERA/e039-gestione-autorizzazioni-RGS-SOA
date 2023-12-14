@@ -35,7 +35,7 @@
                             type="Emphasized"
                             press="onAddRow"
                             app:etichetta="Cig"
-                            enabled="false"
+                            enabled="{Soa>/EnableEdit}"
                         >
                             <layoutData>
                                 <OverflowToolbarLayoutData
@@ -52,7 +52,7 @@
                             press="onCancelRow"
                             app:etichetta="Cig"
                             app:table="tblCig"
-                            enabled="false"
+                            enabled="{Soa>/EnableEdit}"
                         >
                             <layoutData>
                                 <OverflowToolbarLayoutData
@@ -95,7 +95,7 @@
                         <cells>
                             <Input
                                 id="iptCig"
-                                valueHelpRequest="onValueHelpCig"
+                                valueHelpRequest="onValueHelpCigClassificazione"
                                 showValueHelp="true"
                                 valueHelpOnly="true"
                                 app:dialogName="sdCig"

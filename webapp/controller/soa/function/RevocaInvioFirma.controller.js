@@ -82,6 +82,7 @@ sap.ui.define(
             Ztipososp: oSelectedItem.Ztipososp,
             DetailFromFunction: true,
             Mode: "Dettaglio",
+            isLogVisible: false
           };
 
           switch (oSelectedItem?.Ztipopag) {

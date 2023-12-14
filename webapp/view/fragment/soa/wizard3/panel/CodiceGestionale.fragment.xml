@@ -95,13 +95,14 @@
                                 id="iptCos"
                                 valueHelpRequest="onValueHelpCos"
                                 showValueHelp="true"
-                                valueHelpOnly="true"
                                 app:dialogName="sdCos"
                                 app:fragmentName="CodiceGestionale"
                                 app:index="{Classificazione>Index}"
                                 width="65%"
                                 value="{Classificazione>Zcos}"
                                 editable="{Soa>/EnableEdit}"
+                                change="onCosChange"
+                                maxLength="3"
                             />
                             <Input
                                 editable="false"

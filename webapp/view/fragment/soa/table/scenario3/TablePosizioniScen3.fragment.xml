@@ -14,10 +14,10 @@
         </headerToolbar>
         <content>
             <Table
-                id="tblProspettoLiquidazione"
+                id="tblPosizioniScen3"
                 mode="MultiSelect"
                 items="{
-					path: 'ProspettoLiquidazione>/'
+					path: 'PosizioniScen3>/'
 				}"
                 selectionChange="onSelectedItem"
                 fixedLayout="false"
@@ -84,23 +84,21 @@
                 <items>
                     <ColumnListItem vAlign="Middle">
                         <cells>
+                            <Text text="{
+								path: 'PosizioniScen3>Znumliq'
+							}" />
+                            <Text text="{PosizioniScen3>Zposizione}" />
+                            <Text text="{PosizioniScen3>ZdescProsp}" />
+                            <Text text="{PosizioniScen3>Belnr}" />
                             <Text
                                 text="{
-								path: 'ProspettoLiquidazione>Znumliq'
-							}"
-                            />
-                            <Text text="{ProspettoLiquidazione>Zposizione}" />
-                            <Text text="{ProspettoLiquidazione>ZdescProsp}" />
-                            <Text text="{ProspettoLiquidazione>Belnr}" />
-                            <Text
-                                text="{
-								path: 'ProspettoLiquidazione>Zimpliq',
+								path: 'PosizioniScen3>Zimpliq',
 								formatter: '.formatter.convertImport'
 							}"
                             />
                             <Text
                                 text="{
-								path: 'ProspettoLiquidazione>Zimppag',
+								path: 'PosizioniScen3>Zimppag',
 								formatter: '.formatter.convertImport'
 							}"
                             />
@@ -109,7 +107,7 @@
                                 change="onImpDaOrdinareChange"
                                 type="Number"
                                 value="{
-									path: 'ProspettoLiquidazione>Zimpdaord'
+									path: 'PosizioniScen3>Zimpdaord'
 								}"
                             />
                         </cells>

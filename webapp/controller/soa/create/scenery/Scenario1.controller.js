@@ -82,10 +82,7 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step2) {
-            if (self.checkDispAutorizzazione()) {
-              oModelStepScenario.setProperty("/wizard1Step2", false);
-              oModelStepScenario.setProperty("/wizard1Step3", true);
-            }
+            self.checkWizard1();
           } else if (bWizard1Step3) {
             oModelStepScenario.setProperty("/wizard1Step3", false);
             oModelStepScenario.setProperty("/wizard2", true);
@@ -106,6 +103,7 @@ sap.ui.define(
               oModelStepScenario.setProperty("/visibleBtnForward", false);
               oModelStepScenario.setProperty("/visibleBtnSave", true);
               self.setCausalePagamento();
+              self.setLocPagamento();
               oWizard.nextStep();
             }
           }
@@ -217,7 +215,6 @@ sap.ui.define(
           self.setUtilityRegModel("rgssoa.view.soa.create.scenery.Scenario1");
           self.setStepScenarioRegModel();
           self.createModelFilters()
-          self.getLogModel();
         },
 
       }
