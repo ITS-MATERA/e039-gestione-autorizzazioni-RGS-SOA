@@ -47,21 +47,27 @@ sap.ui.define(
           var bWizard2 = oModelStepScenario.getProperty("/wizard2");
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
           var bWizard4 = oModelStepScenario.getProperty("/wizard4");
+          var sTable = oModelUtility.getProperty("/Table")
 
           var bRettifica =
             oModelUtility.getProperty("/Function") === "Rettifica";
-          var bBackToFilters = oModelUtility.getProperty("/AddPositions");
 
           if (bWizard1Step1) {
             self.getRouter().navTo("soa.list.ListSoa", { Reload: false });
           } else if (bWizard1Step2) {
-            if (bBackToFilters) {
-              oModelStepScenario.setProperty("/wizard1Step1", true);
-              oModelStepScenario.setProperty("/wizard1Step2", false);
-              oModelStepScenario.setProperty("/visibleBtnForward", false);
-              oModelStepScenario.setProperty("/visibleBtnStart", true);
-            } else {
-              self.getRouter().navTo("soa.list.ListSoa", { Reload: false });
+            switch (sTable) {
+              case "Edit": {
+                self.setModel(new JSONModel({}), "Soa")
+                self.getRouter().navTo("soa.list.ListSoa", { Reload: false });
+                break;
+              }
+              case "Add": {
+                oModelStepScenario.setProperty("/wizard1Step2", false);
+                oModelStepScenario.setProperty("/wizard1Step1", true);
+                oModelStepScenario.setProperty("/visibleBtnForward", false);
+                oModelStepScenario.setProperty("/visibleBtnStart", true);
+                break;
+              }
             }
           } else if (bWizard1Step3) {
             if (bRettifica) {
@@ -94,27 +100,23 @@ sap.ui.define(
           var oWizard = self.getView().byId("wizScenario1");
           var oModelStepScenario = self.getModel("StepScenario");
           var oModelUtility = self.getModel("Utility");
-          var oModelSoa = self.getModel("Soa");
+          var sTable = oModelUtility.getProperty("/Table")
 
           var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
           var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
           var bWizard2 = oModelStepScenario.getProperty("/wizard2");
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
-          var bGoToRiepilogo = oModelUtility.getProperty("/DeletePositions");
 
           if (bWizard1Step2) {
-            if (bGoToRiepilogo) {
-              var aSoaPositions = oModelSoa.getProperty("/data");
-              var fTotal = 0.0;
-              aSoaPositions.map((oPosition) => {
-                fTotal += parseFloat(oPosition?.Zimpdaord);
-              });
-              oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
-
-              oModelStepScenario.setProperty("/wizard1Step2", false);
-              oModelStepScenario.setProperty("/wizard1Step3", true);
-            } else {
-              this._addNewPositions();
+            switch (sTable) {
+              case "Edit": {
+                self.checkWizard1();
+                break;
+              }
+              case "Add": {
+                self.checkWizard1Add()
+                break;
+              }
             }
           } else if (bWizard1Step3) {
             if (self.checkDispAutorizzazione()) {
@@ -122,10 +124,12 @@ sap.ui.define(
               oModelStepScenario.setProperty("/wizard2", true);
               oWizard.nextStep();
             }
+            self.createModelSedeBeneficiario()
+            self.createModelModPagamento()
+            self.setSedeBeneficiario();
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
             oModelStepScenario.setProperty("/wizard3", true);
-
             oWizard.nextStep();
           } else if (bWizard3) {
             if (self.checkClassificazione()) {
@@ -186,31 +190,120 @@ sap.ui.define(
           this._setPropertiesForEdit();
         },
 
-        //#region WIZARD 1
+        onImpDaOrdinareChangeEdit: function (oEvent) {
+          var self = this;
+          var oTableDocumenti = self.getView().byId("tblEditPosizioniScen1");
+          var oTableModelDocumenti = oTableDocumenti.getModel("Soa");
+          var oModelSoa = self.getModel("Soa")
+
+          var sValue = oEvent.getParameter("value");
+
+          if (sValue) {
+            oTableModelDocumenti.getObject(
+              oEvent.getSource().getParent().getBindingContextPath()
+            ).Zimpdaord = parseFloat(sValue).toFixed(2);
+          } else {
+            oTableModelDocumenti.getObject(
+              oEvent.getSource().getParent().getBindingContextPath()
+            ).Zimpdaord = "0.00";
+          }
+
+          var fZimptot = 0.00;
+          oTableModelDocumenti.getData().data.map((oPosizione) => {
+            fZimptot += parseFloat(oPosizione.Zimpdaord)
+          })
+
+          oModelSoa.setProperty("/Zimptot", fZimptot.toFixed(2))
+        },
+
+        _onObjectMatched: function (oEvent) {
+          var self = this;
+          var oParameters = oEvent.getParameter("arguments");
+          var bDetailFromFunction =
+            oParameters.DetailFromFunction === "true" ? true : false;
+          var bRemoveFunctionButtons = bDetailFromFunction;
+
+          //Load Models
+          self.setStepScenarioModel();
+          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons, "soa.detail.scenery.Scenario1");
+          self.setFiltersPosizioniModel();
+          self.setSoaModel(oParameters, function () {
+            self.enableFunctions();
+            self.setMode(oParameters.Mode);
+            self.setSedeBeneficiario();
+          });
+          self.resetWizard("wizScenario1");
+        },
 
         onStart: function () {
-          this._getQuoteDocumentiList();
+          var self = this;
+          var oModel = self.getModel();
+          var oModelStepScenario = self.getModel("StepScenario");
+          var aFilters = self.setFiltersWizard1();
+          var oPanelCalculator = self.getView().byId("pnlCalculatorList");
+          var oModelUtility = self.getModel("Utility")
+          var aPositionsSoa = self.getModel("Soa").getProperty("/data")
+
+          self.getView().setBusy(true);
+
+          oModel.read("/QuoteDocumentiSet", {
+            filters: aFilters,
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (!self.hasResponseError(oResponse)) {
+                oModelStepScenario.setProperty("/wizard1Step1", false);
+                oModelStepScenario.setProperty("/wizard1Step2", true);
+                oModelStepScenario.setProperty("/visibleBtnForward", true);
+                oModelStepScenario.setProperty("/visibleBtnStart", false);
+                oModelUtility.setProperty("/Table", "Add")
+              }
+
+              var aPosizioni = data?.results;
+              aPosizioni?.map((oPosition, iIndex) => {
+                oPosition.Index = iIndex + 1;
+              });
+
+              //Rimuovo le posizioni già aggiunte al SOA
+              if (aPosizioni.length !== 0) {
+                aPositionsSoa.map((oPosizione) => {
+                  var iIndex = aPosizioni.findIndex((obj) => {
+                    return (
+                      obj.Bukrs === oPosizione.Bukrs &&
+                      obj.Znumliq === oPosizione.Znumliq &&
+                      obj.Zposizione === oPosizione.Zposizione &&
+                      obj.Zversione === oPosizione.Zversione &&
+                      obj.ZversioneOrig === oPosizione.ZversioneOrig
+                    );
+                  });
+
+                  if (iIndex > -1) {
+                    aPosizioni.splice(iIndex, 1);
+                  }
+                });
+              }
+              self.setModel(new JSONModel(aPosizioni), "PosizioniScen1");
+              oPanelCalculator.setVisible(aPosizioni.length !== 0);
+            },
+            error: function () {
+              self.getView().setBusy(false);
+            },
+          });
         },
 
         onSelectedItem: function (oEvent) {
           var self = this;
           var bSelected = oEvent.getParameter("selected");
           //Load Model
+          var oModelPosizioni = self.getModel("PosizioniScen1");
           var oModelUtility = self.getModel("Utility");
-          var oTablePosizioniSoa = self
-            .getView()
-            .byId("tblEditQuoteDocumentiScen1");
-          var oModelTablePosizioniSoa = oTablePosizioniSoa.getModel("Soa");
+          //Load Component
+          var oButtonCalculate = self.getView().byId("btnCalculate");
 
-          var aSelectedItems = oModelUtility.getProperty(
-            "/DeleteSelectedPositions"
-          );
+          var aSelectedItems = oModelUtility.getProperty("/SelectedPositions");
           var aListItems = oEvent.getParameter("listItems");
 
-          aListItems.map((oListItem) => {
-            var oSelectedItem = oModelTablePosizioniSoa.getObject(
-              oListItem.getBindingContextPath()
-            );
+          aListItems.map(async function (oListItem) {
+            var oSelectedItem = oModelPosizioni.getObject(oListItem.getBindingContextPath());
 
             if (bSelected) {
               aSelectedItems.push(oSelectedItem);
@@ -218,146 +311,37 @@ sap.ui.define(
               var iIndex = aSelectedItems.findIndex((obj) => {
                 return (
                   obj.Bukrs === oSelectedItem.Bukrs &&
-                  obj.Gjahr === oSelectedItem.Gjahr &&
-                  obj.Zchiavesop === oSelectedItem.Zchiavesop &&
-                  obj.Zpossop === oSelectedItem.Zpossop &&
-                  obj.ZstepSop === oSelectedItem.ZstepSop
+                  obj.Zposizione === oSelectedItem.Zposizione &&
+                  obj.Znumliq === oSelectedItem.Znumliq &&
+                  obj.Zversione === oSelectedItem.Zversione &&
+                  obj.ZversioneOrig === oSelectedItem.ZversioneOrig
                 );
               });
 
               if (iIndex > -1) {
                 aSelectedItems.splice(iIndex, 1);
               }
+
             }
+            oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
+            oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+            oModelUtility.setProperty("/AddZimptot", "0.00");
           });
-
-          oModelUtility.setProperty(
-            "/EnableBtnDeleteSoa",
-            aSelectedItems.length > 0
-          );
-          oModelUtility.setProperty("/DeleteSelectedPositions", aSelectedItems);
         },
 
-        onDeletePositionSoa: function () {
+        onSelectedItemEdit: function (oEvent) {
           var self = this;
-          var oTable = self.getView().byId("tblEditQuoteDocumentiScen1");
-
-          MessageBox.warning(
-            "Procedere con la cancellazione delle righe selezionate?",
-            {
-              actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-              title: "Rettifica SOA - Cancellazione Righe",
-              onClose: function (oAction) {
-                if (oAction === "OK") {
-                  var oModelUtility = self.getModel("Utility");
-                  var oModelSoa = self.getModel("Soa");
-
-                  var aSelectedItems = oModelUtility.getProperty(
-                    "/DeleteSelectedPositions"
-                  );
-                  var aPositionSoa = oModelSoa.getProperty("/data");
-
-                  aSelectedItems.map((oSelectedItem) => {
-                    var iIndex;
-                    if (oSelectedItem?.Zchiavesop) {
-                      iIndex = aPositionSoa.findIndex((oPositionSoa) => {
-                        return (
-                          oPositionSoa.Bukrs === oSelectedItem.Bukrs &&
-                          oPositionSoa.Gjahr === oSelectedItem.Gjahr &&
-                          oPositionSoa.Zchiavesop ===
-                          oSelectedItem.Zchiavesop &&
-                          oPositionSoa.Zpossop === oSelectedItem.Zpossop &&
-                          oPositionSoa.ZstepSop === oSelectedItem.ZstepSop
-                        );
-                      });
-                    } else {
-                      iIndex = aPositionSoa.findIndex((oPositionSoa) => {
-                        return (
-                          oPositionSoa.Bukrs === oSelectedItem.Bukrs &&
-                          oPositionSoa.Zposizione ===
-                          oSelectedItem.Zposizione &&
-                          oPositionSoa.Znumliq === oSelectedItem.Znumliq &&
-                          oPositionSoa.Zversione === oSelectedItem.Zversione &&
-                          oPositionSoa.ZversioneOrig ===
-                          oSelectedItem.ZversioneOrig
-                        );
-                      });
-                    }
-
-                    if (iIndex > -1) {
-                      aPositionSoa.splice(iIndex, 1);
-                    }
-                  });
-
-                  oModelSoa.setProperty("/data", aPositionSoa);
-
-                  var fTotal = 0;
-                  aPositionSoa.map((oPosition) => {
-                    fTotal += parseFloat(oPosition?.Zimpdaord);
-                  });
-
-                  oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
-                  oModelUtility.setProperty("/EnableBtnDeleteSoa", false);
-                  oModelUtility.setProperty("/DeleteSelectedPositions", []);
-                  oModelUtility.setProperty("/AddSelectedPositions", []);
-
-                  oTable.removeSelections();
-                }
-              },
-            }
-          );
-        },
-
-        onAddPositionSoa: function () {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var oModelUtility = self.getModel("Utility");
-          var oModelStepScenario = self.getModel("StepScenario");
-          var oModelFilterDocumenti = self.getModel("FilterDocumenti");
-
-          oModelUtility.setProperty("/AddPositions", true);
-          oModelUtility.setProperty("/DeletePositions", false);
-
-          oModelStepScenario.setProperty("/wizard1Step1", true);
-          oModelStepScenario.setProperty("/wizard1Step2", false);
-          oModelStepScenario.setProperty("/wizard1Step3", false);
-          oModelStepScenario.setProperty("/visibleBtnStart", true);
-          oModelStepScenario.setProperty("/visibleBtnForward", false);
-
-          oModelFilterDocumenti.setProperty(
-            "/Lifnr",
-            oModelSoa.getProperty("/Lifnr")
-          );
-          oModelFilterDocumenti.setProperty(
-            "/TipoBeneficiario",
-            oModelSoa.getProperty("/BuType")
-          );
-          oModelFilterDocumenti.setProperty(
-            "/CodRitenuta",
-            oModelSoa.getProperty("/Witht")
-          );
-          oModelFilterDocumenti.setProperty(
-            "/CodEnte",
-            oModelSoa.getProperty("/ZzCebenra")
-          );
-        },
-
-        onAddSelectedItem: function (oEvent) {
-          var self = this;
+          var oModelUtility = self.getModel("Utility")
           var bSelected = oEvent.getParameter("selected");
-          //Load Model
-          var oModelDocumenti = self.getModel("QuoteDocumenti");
-          var oModelUtility = self.getModel("Utility");
 
-          var aSelectedItems = oModelUtility.getProperty(
-            "/AddSelectedPositions"
-          );
+          var oTable = self.getView().byId("tblEditPosizioniScen1");
+          var oModelTable = oTable.getModel("Soa");
+
+          var aSelectedItems = oModelUtility.getProperty("/SelectedPositions");
           var aListItems = oEvent.getParameter("listItems");
 
           aListItems.map((oListItem) => {
-            var oSelectedItem = oModelDocumenti.getObject(
-              oListItem.getBindingContextPath()
-            );
+            var oSelectedItem = oModelTable.getObject(oListItem.getBindingContextPath());
 
             if (bSelected) {
               aSelectedItems.push(oSelectedItem);
@@ -376,200 +360,104 @@ sap.ui.define(
                 aSelectedItems.splice(iIndex, 1);
               }
             }
+            oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
           });
         },
 
-        onImpDaOrdinareChange: function (oEvent) {
+        onDeletePosition: function () {
           var self = this;
-          //Load Component
-          var oTableDocumenti = self
-            .getView()
-            .byId("tblEditQuoteDocumentiScen1");
-          //Load Models
-          var oTableModelDocumenti = oTableDocumenti.getModel("Soa");
+          var oTable = self.getView().byId("tblEditPosizioniScen1");
 
-          var sValue = oEvent.getParameter("value");
+          MessageBox.warning(
+            "Procedere con la cancellazione delle righe selezionate?",
+            {
+              actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+              title: "Rettifica SOA - Cancellazione Righe",
+              onClose: function (oAction) {
+                if (oAction === "OK") {
+                  var oModelUtility = self.getModel("Utility");
+                  var oModelSoa = self.getModel("Soa");
 
-          if (sValue) {
-            oTableModelDocumenti.getObject(
-              oEvent.getSource().getParent().getBindingContextPath()
-            ).Zimpdaord = parseFloat(sValue).toFixed(2);
-          } else {
-            oTableModelDocumenti.getObject(
-              oEvent.getSource().getParent().getBindingContextPath()
-            ).Zimpdaord = "0.00";
-          }
-        },
+                  var aDeletedPositions = oModelUtility.getProperty("/DeletedPositions")
+                  var aSelectedItems = oModelUtility.getProperty(
+                    "/SelectedPositions"
+                  );
+                  var aPositions = oModelSoa.getProperty("/data");
 
-        onAddImpDaOrdinareChange: function (oEvent) {
-          var self = this;
-          //Load Component
-          var oTableDocumenti = self.getView().byId("pnlAddQuoteDocumenti");
-          //Load Models
-          var oTableModelDocumenti = oTableDocumenti.getModel("QuoteDocumenti");
-
-          var sValue = oEvent.getParameter("value");
-
-          if (sValue) {
-            oTableModelDocumenti.getObject(
-              oEvent.getSource().getParent().getBindingContextPath()
-            ).Zimpdaord = parseFloat(sValue).toFixed(2);
-          } else {
-            oTableModelDocumenti.getObject(
-              oEvent.getSource().getParent().getBindingContextPath()
-            ).Zimpdaord = "0.00";
-          }
-        },
-
-        //#region WIZARD 1 - PRIVATE METHODS
-
-        _getQuoteDocumentiList: function () {
-          var self = this;
-          var oView = self.getView();
-          //Load Model
-          var oDataModel = self.getModel();
-          var oModelStepScenario = self.getModel("StepScenario");
-          var oModelSoa = self.getModel("Soa");
-          var oModelUtility = self.getModel("Utility");
-          //Load Component
-          var oTableDocumenti = oView.byId("tblPosizioniScen1");
-
-          var aPositionSoa = oModelSoa.getProperty("/data");
-          var aAddSelectedPositions = [];
-          aPositionSoa.map((oPosition) => {
-            if (!oPosition?.Zchiavesop) {
-              aAddSelectedPositions.push(oPosition);
-            }
-          });
-
-          var aSelectedItems = oModelUtility.getProperty(
-            "/AddSelectedPositions"
-          );
-
-          var aFilters = this.setFiltersWizard1();
-
-          oView.setBusy(true);
-
-          oDataModel.read("/" + "QuoteDocumentiSet", {
-            filters: aFilters,
-            success: function (data, oResponse) {
-              if (!self.hasResponseError(oResponse)) {
-                oModelStepScenario.setProperty("/wizard1Step1", false);
-                oModelStepScenario.setProperty("/wizard1Step2", true);
-                oModelStepScenario.setProperty("/visibleBtnForward", true);
-                oModelStepScenario.setProperty("/visibleBtnStart", false);
-              }
-
-              var aQuoteDocumenti = data.results;
-
-              if (aQuoteDocumenti.length !== 0) {
-                aAddSelectedPositions.map((oQuotaDocumento) => {
-                  var iIndex = aQuoteDocumenti.findIndex((obj) => {
-                    return (
-                      obj.Bukrs === oQuotaDocumento.Bukrs &&
-                      obj.Zposizione === oQuotaDocumento.Zposizione &&
-                      obj.Znumliq === oQuotaDocumento.Znumliq &&
-                      obj.Zversione === oQuotaDocumento.Zversione &&
-                      obj.ZversioneOrig === oQuotaDocumento.ZversioneOrig
-                    );
-                  });
-
-                  if (iIndex > -1) {
-                    aQuoteDocumenti.splice(iIndex, 1);
-                  }
-                });
-              }
-
-              self.setModelCustom("QuoteDocumenti", aQuoteDocumenti);
-
-              if (aQuoteDocumenti.length !== 0) {
-                aQuoteDocumenti.map((oItem, iIndex) => {
-                  //Vengono selezionati i record quando viene caricata l'entità
                   aSelectedItems.map((oSelectedItem) => {
-                    if (
-                      oItem.Bukrs === oSelectedItem.Bukrs &&
-                      oItem.Znumliq === oSelectedItem.Znumliq &&
-                      oItem.Zposizione === oSelectedItem.Zposizione &&
-                      oItem.Zversione === oSelectedItem.Zversione &&
-                      oItem.ZversioneOrig === oSelectedItem.ZversioneOrig
-                    ) {
-                      oTableDocumenti.setSelectedItem(
-                        oTableDocumenti.getItems()[iIndex]
+                    if (oSelectedItem.Zchiavesop) {
+                      oSelectedItem.Tiporiga = 'D'
+                      aDeletedPositions.push(oSelectedItem)
+                    }
+                    var iIndex = aPositions.findIndex((oPosition) => {
+                      return (
+                        oPosition.Bukrs === oSelectedItem.Bukrs &&
+                        oPosition.Zposizione === oSelectedItem.Zposizione &&
+                        oPosition.Znumliq === oSelectedItem.Znumliq &&
+                        oPosition.Zversione === oSelectedItem.Zversione &&
+                        oPosition.ZversioneOrig === oSelectedItem.ZversioneOrig
                       );
+                    });
+
+
+                    if (iIndex > -1) {
+                      aPositions.splice(iIndex, 1);
                     }
                   });
-                });
-              }
 
-              oView.setBusy(false);
-            },
-            error: function (error) {
-              oView.setBusy(false);
-            },
-          });
+                  oModelSoa.setProperty("/data", aPositions);
+                  oModelUtility.setProperty("/DeletedPositions", aDeletedPositions)
+                  oModelUtility.setProperty("/SelectedPositions", [])
+
+                  var fTotal = 0;
+                  aPositions.map((oPosition) => {
+                    fTotal += parseFloat(oPosition?.Zimpdaord);
+                  });
+
+                  oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
+                  oTable.removeSelections();
+                }
+              },
+            }
+          );
         },
 
-        _addNewPositions: function () {
+        onAddPosition: function () {
           var self = this;
           var oModelUtility = self.getModel("Utility");
-          var oModelSoa = self.getModel("Soa");
+          var oModelStepScenario = self.getModel("StepScenario");
+          var oSoa = self.getModel("Soa").getData()
+          var oModelFilters = self.getModel("FilterDocumenti")
 
-          var oTable = self.getView().byId("tblEditQuoteDocumentiScen1");
+          oModelFilters.setProperty("/Lifnr", oSoa.Lifnr)
+          oModelFilters.setProperty("/TipoBeneficiario", oSoa.BuType)
+          oModelFilters.setProperty("/CodRitenuta", oSoa.Witht)
+          oModelFilters.setProperty("/CodEnte", oSoa.ZzCebenra)
 
-          var aAddSelectedPositions = oModelUtility.getProperty(
-            "/AddSelectedPositions"
-          );
-          var aSoaPositions = oModelSoa.getProperty("/data");
+          oModelStepScenario.setProperty("/wizard1Step1", true);
+          oModelStepScenario.setProperty("/wizard1Step2", false);
+          oModelStepScenario.setProperty("/wizard1Step3", false);
+          oModelStepScenario.setProperty("/visibleBtnStart", true);
+          oModelStepScenario.setProperty("/visibleBtnForward", false);
 
-          aAddSelectedPositions.map((oPosition) => {
-            oPosition.Zchiavesop = "";
-            oPosition.Bukrs = "";
-            oPosition.Gjahr = "";
-            (oPosition.Zposso = ""),
-              (oPosition.ZstepSop = ""),
-              aSoaPositions.push(oPosition);
-          });
-
-          oModelSoa.setProperty("/data", aSoaPositions);
-
-          var fTotal = 0;
-          aSoaPositions.map((oPosition) => {
-            fTotal += parseFloat(oPosition?.Zimpdaord);
-          });
-
-          oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
-          oModelUtility.setProperty("/AddPositions", false);
-          oModelUtility.setProperty("/DeletePositions", true);
-          oModelUtility.setProperty("/DeleteSelectedPositions", []);
-          oModelUtility.setProperty("/AddSelectedPositions", []);
-
-          oTable.removeSelections();
+          oModelUtility.setProperty("/SelectedPositions", [])
+          oModelUtility.setProperty("/AddZimptot", "0.00")
         },
 
-        //#endregion WIZARD 1 - PRIVATE METHODS
-
-        //#endregion WIZARD 1
-
-        //#region PRIVATE METHODS
-
-        _onObjectMatched: function (oEvent) {
+        onImpDaOrdinareChangeAdd: function (oEvent) {
           var self = this;
-          var oParameters = oEvent.getParameter("arguments");
-          var bDetailFromFunction =
-            oParameters.DetailFromFunction === "true" ? true : false;
-          var bRemoveFunctionButtons = bDetailFromFunction;
+          var oTable = self.getView().byId("tblPosizioniScen1");
+          var oTableModel = oTable.getModel("PosizioniScen1");
+          var oModelUtility = self.getModel("Utility");
 
-          //Load Models
-          self.setStepScenarioModel();
-          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons);
-          self.setFiltersPosizioniModel();
-          self.setSoaModel(oParameters, function () {
-            self.enableFunctions();
-            self.setMode(oParameters.Mode);
-            self.getSedeBeneficiario();
-          });
-          self.getLogModel();
-          self.resetWizard("wizScenario1");
+          var sValue = oEvent.getParameter("value");
+          oModelUtility.setProperty("/AddZimptot", "0.00");
+
+          if (sValue) {
+            oTableModel.getObject(oEvent.getSource().getParent().getBindingContextPath()).Zimpdaord = parseFloat(sValue).toFixed(2);
+          } else {
+            oTableModel.getObject(oEvent.getSource().getParent().getBindingContextPath()).Zimpdaord = "0.00";
+          }
         },
 
         _setPropertiesForEdit: function () {
@@ -599,10 +487,46 @@ sap.ui.define(
           oModelStepScenario.setProperty("/visibleBtnSave", false);
           oModelStepScenario.setProperty("/visibleBtnForward", true);
 
-          self.setInpsEditable();
+          self.createModelEditPositions()
         },
 
-        //#endregion PRIVATE METHODS
+        onCancelRow: function (oEvent) {
+          var self = this;
+          //Load Models
+          var oModelClassificazione = self.getModel("Classificazione");
+          var oModelUtility = self.getModel("Utility")
+          var aDeletedClassificazioni = oModelUtility.getProperty("/DeletedClassificazioni")
+
+          var oSourceData = oEvent?.getSource()?.data();
+          var oTableClassificazione = self.getView().byId(oSourceData?.table);
+
+          var aPathSelectedItems = oTableClassificazione.getSelectedContextPaths();
+
+          var aListClassificazione = oModelClassificazione.getProperty("/" + oSourceData?.etichetta);
+
+          //Rimuovo i record selezionati
+          aPathSelectedItems.map((sPath) => {
+            var oItem = oModelClassificazione.getObject(sPath);
+            if (oItem.Zchiavesop) {
+              oItem.Zflagcanc = 'X'
+              aDeletedClassificazioni.push(oItem)
+            }
+            aListClassificazione.splice(aListClassificazione.indexOf(oItem), 1);
+          });
+
+          //Resetto l'index
+          aListClassificazione.map((oItem, iIndex) => {
+            oItem.Index = iIndex;
+          });
+
+          //Rimuovo i record selezionati
+          oTableClassificazione.removeSelections();
+
+          oModelClassificazione.setProperty("/" + oSourceData?.etichetta, aListClassificazione);
+
+          //Resetto l'importo totale da associare
+          this._setImpTotAssociare(oSourceData?.etichetta);
+        },
       }
     );
   }

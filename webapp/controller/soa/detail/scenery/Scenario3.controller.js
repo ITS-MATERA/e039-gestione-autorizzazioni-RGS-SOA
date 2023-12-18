@@ -32,12 +32,12 @@ sap.ui.define(
 
           //Load Models
           self.setStepScenarioModel();
-          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons);
+          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons, "soa.detail.scenery.Scenario3");
           self.setFiltersPosizioniModel();
           self.setSoaModel(oParameters, function () {
             self.enableFunctions();
             self.setMode(oParameters.Mode);
-            self.getSedeBeneficiario();
+            self.setSedeBeneficiario();
           });
           self.getLogModel();
           self.resetWizard("wizScenario3");
@@ -129,6 +129,9 @@ sap.ui.define(
           } else if (bWizard1Step3) {
             oModelStepScenario.setProperty("/wizard1Step3", false);
             oModelStepScenario.setProperty("/wizard2", true);
+            self.createModelSedeBeneficiario()
+            self.createModelModPagamento()
+            self.setSedeBeneficiario();
             oWizard.nextStep();
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
@@ -196,7 +199,6 @@ sap.ui.define(
           this._getPosizioniScen3();
         },
 
-        //#region ----------------GESTIONE POSIZIONI RETTIFICA------------------
         onAddSelectedItem: function (oEvent) {
           var self = this;
           var bSelected = oEvent.getParameter("selected");
@@ -520,9 +522,6 @@ sap.ui.define(
           oTable.removeSelections();
         },
 
-        //#endregion
-
-        //#region ----------------------METHODS---------------------------------
         _setPropertiesForEdit: function () {
           var self = this;
           var oModelSoa = self.getModel("Soa");
@@ -553,9 +552,8 @@ sap.ui.define(
           oModelStepScenario.setProperty("/visibleBtnSave", false);
           oModelStepScenario.setProperty("/visibleBtnForward", true);
 
-          self.setInpsEditable();
+          self.createModelEditPositions()
         },
-        //#endregion
       }
     );
   }

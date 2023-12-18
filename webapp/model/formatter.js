@@ -67,5 +67,21 @@ sap.ui.define([], function () {
       }
       return parseInt(sValue).toString();
     },
+
+    /**
+    * @param {Date} oDate
+    * @returns {string}
+    */
+    dateToString: function (oDate) {
+      if (!oDate) {
+        return "";
+      }
+
+      var sDay = oDate.getDate();
+      var sMonths = oDate.getMonth() + 1;
+      var sYear = oDate.getFullYear();
+
+      return sDay + "." + sMonths + "." + sYear;
+    },
   };
 });

@@ -4,7 +4,7 @@
 >
     <Panel
         class="onlyTopPadding"
-        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/DeletePositions} ? true : false}"
+        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/Table} === 'Edit' ? true : false}"
         backgroundDesign="Transparent"
     >
         <headerToolbar>
@@ -90,13 +90,21 @@
                             demandPopin="true"
                         >
                             <header>
+                                <Text text="{i18n>labelNDocBeneficiario}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
                                 <Text text="{i18n>labelDenomBeneficiario}" />
                             </header>
                         </Column>
                         <Column
                             minScreenWidth="Desktop"
                             demandPopin="true"
-                            visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                            visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                         >
                             <header>
                                 <Text text="{i18n>labelImpQuotaDocumento}" />
@@ -113,7 +121,7 @@
                         <Column
                             minScreenWidth="Desktop"
                             demandPopin="true"
-                            visible="{= ${Soa>/ZzCebenra} ? true : false}"
+                            visible="{= ${Soa>/ZspecieSop} === '2' ? true : false}"
                         >
                             <header>
                                 <Text text="{i18n>labelResiduoVersabile}" />
@@ -122,7 +130,7 @@
                         <Column
                             minScreenWidth="Desktop"
                             demandPopin="true"
-                            visible="{= ${Soa>/ZzCebenra} ? true : false}"
+                            visible="{= ${Soa>/ZspecieSop} === '2' ? true : false}"
                         >
                             <header>
                                 <Text text="{i18n>labelResiduoEsigibile}" />
@@ -139,7 +147,7 @@
                         <Column
                             minScreenWidth="Desktop"
                             demandPopin="true"
-                            visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                            visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                         >
                             <header>
                                 <Text text="{i18n>labelDurc}" />
@@ -148,7 +156,7 @@
                         <Column
                             minScreenWidth="Desktop"
                             demandPopin="true"
-                            visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                            visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                         >
                             <header>
                                 <Text text="{i18n>labelFermoAmministrativo}" />
@@ -158,9 +166,11 @@
                     <items>
                         <ColumnListItem vAlign="Middle">
                             <cells>
-                                <ObjectIdentifier text="{
-									path: 'Soa>Gjahr'
-								}" />
+                                <ObjectIdentifier
+                                    text="{
+									path: 'Soa>AnnoRegDoc'
+								}"
+                                />
                                 <ObjectIdentifier text="{Soa>Belnr}" />
                                 <Text text="{Soa>Blart}" />
                                 <Text
@@ -172,7 +182,8 @@
 									}
 								}"
                                 />
-                                <Text text="{Soa>ZzragSoc}" />
+                                <Text text="{Soa>Xblnr}" />
+                                <Text text="{Soa>ZbenaltName}" />
                                 <Text
                                     text="{
 									path: 'Soa>Wrbtr',
@@ -199,7 +210,7 @@
                                 />
                                 <Input
                                     id="iptImpDaOrd"
-                                    change="onImpDaOrdinareChange"
+                                    change="onImpDaOrdinareChangeEdit"
                                     type="Number"
                                     value="{
 										path: 'Soa>Zimpdaord'

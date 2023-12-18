@@ -3,9 +3,7 @@
     xmlns:c="sap.ui.core"
 >
     <Panel
-        id="pnlAddQuoteDocumenti"
-        class="onlyTopPadding"
-        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/AddPositions} ? true : false}"
+        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/Table} === 'Add' ? true : false}"
         backgroundDesign="Transparent"
     >
         <headerToolbar>
@@ -18,11 +16,11 @@
                 id="tblPosizioniScen1"
                 mode="MultiSelect"
                 items="{
-					path: 'QuoteDocumenti>/'
-				}"
-                selectionChange="onAddSelectedItem"
-                fixedLayout="false"
+                  path: 'PosizioniScen1>/'
+                }"
+                selectionChange="onSelectedItem"
                 growing="true"
+                fixedLayout="false"
             >
                 <columns>
                     <Column
@@ -62,13 +60,21 @@
                         demandPopin="true"
                     >
                         <header>
+                            <Text text="{i18n>labelNDocBeneficiario}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
                             <Text text="{i18n>labelDenomBeneficiario}" />
                         </header>
                     </Column>
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Soa>/Lifnr} ? true : false}"
+                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelImpLiquidato}" />
@@ -77,7 +83,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Soa>/Lifnr} ? true : false}"
+                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelImpOrdinato}" />
@@ -86,7 +92,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Soa>/Lifnr} ? false : true}"
+                        visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelImpLiqNonOrdinata}" />
@@ -95,7 +101,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Soa>/Lifnr} ? false : true}"
+                        visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelResiduoVersabile}" />
@@ -104,7 +110,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Soa>/Lifnr} ? false : true}"
+                        visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelResiduoEsigibile}" />
@@ -139,64 +145,69 @@
                     <ColumnListItem vAlign="Middle">
                         <cells>
                             <ObjectIdentifier
-                                text="{QuoteDocumenti>AnnoRegDocumento}"
+                                text="{PosizioniScen1>AnnoRegDoc}"
                             />
-                            <ObjectIdentifier text="{QuoteDocumenti>Belnr}" />
-                            <Text text="{QuoteDocumenti>Blart}" />
+                            <ObjectIdentifier text="{PosizioniScen1>Belnr}" />
+                            <Text text="{PosizioniScen1>Blart}" />
                             <Text
                                 text="{
-								path: 'QuoteDocumenti>Bldat',
-								type: 'sap.ui.model.type.Date',
-								formatOptions: {
-									pattern: 'dd.MM.yyyy'
-								}
-							}"
+                                path: 'PosizioniScen1>Bldat',
+                                type: 'sap.ui.model.type.Date',
+                                formatOptions: {
+                                  pattern: 'dd.MM.yyyy'
+                                }
+                              }"
                             />
-                            <Text text="{QuoteDocumenti>ZbenaltName}" />
+                            <Text text="{PosizioniScen1>Xblnr}" />
+                            <Text text="{PosizioniScen1>ZbenaltName}" />
                             <Text
                                 text="{
-								path: 'QuoteDocumenti>Zimpliq',
-								formatter: '.formatter.convertImport'
-							}"
-                            />
-                            <Text
-                                text="{
-								path: 'QuoteDocumenti>Zimppag',
-								formatter: '.formatter.convertImport'
-							}"
+                                path: 'PosizioniScen1>Zimpliq',
+                                formatter: '.formatter.convertImport'
+                              }"
                             />
                             <Text
                                 text="{
-								path: 'QuoteDocumenti>Zimpliq',
-								formatter: '.formatter.convertImport'
-							}"
+                                path: 'PosizioniScen1>Zimppag',
+                                formatter: '.formatter.convertImport'
+                              }"
                             />
                             <Text
                                 text="{
-								path: 'QuoteDocumenti>Zresvers',
-								formatter: '.formatter.convertImport'
-							}"
+                                path: 'PosizioniScen1>Zimpliq',
+                                formatter: '.formatter.convertImport'
+                              }"
                             />
                             <Text
                                 text="{
-								path: 'QuoteDocumenti>Zresesig',
-								formatter: '.formatter.convertImport'
-							}"
+                                path: 'PosizioniScen1>Zresvers',
+                                formatter: '.formatter.convertImport'
+                              }"
+                            />
+                            <Text
+                                text="{
+                                path: 'PosizioniScen1>Zresesig',
+                                formatter: '.formatter.convertImport'
+                              }"
                             />
                             <Input
-                                id="iptAddImpDaOrd"
-                                change="onAddImpDaOrdinareChange"
+                                id="iptImpDaOrdAdd"
+                                change="onImpDaOrdinareChangeAdd"
                                 type="Number"
                                 value="{
-									path: 'QuoteDocumenti>Zimpdaord'
-								}"
+                                path: 'PosizioniScen1>Zimpdaord'
+                              }"
                             />
-                            <Text text="{QuoteDocumenti>Znumliq}" />
-                            <Text text="{QuoteDocumenti>Zposizione}" />
+                            <Text text="{PosizioniScen1>Znumliq}" />
+                            <Text text="{PosizioniScen1>Zposizione}" />
                         </cells>
                     </ColumnListItem>
                 </items>
             </Table>
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.table.CalculatorAdd"
+                type="XML"
+            />
         </content>
     </Panel>
 </c:FragmentDefinition>

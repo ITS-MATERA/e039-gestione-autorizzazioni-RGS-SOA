@@ -4,7 +4,7 @@
 >
     <Panel
         class="onlyTopPadding"
-        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/AddPositions} ? true : false}"
+        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/Table} === 'Add' ? true : false}"
         backgroundDesign="Transparent"
     >
         <headerToolbar>
@@ -14,7 +14,7 @@
         </headerToolbar>
         <content>
             <Table
-                id="tblAddPosizioniScen2"
+                id="tblPosizioniScen2"
                 mode="MultiSelect"
                 items="{
 					path: 'PosizioniScen2>/'
@@ -61,13 +61,21 @@
                         demandPopin="true"
                     >
                         <header>
+                            <Text text="{i18n>labelNDocBeneficiario}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
                             <Text text="{i18n>labelDenomBeneficiario}" />
                         </header>
                     </Column>
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                        visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelImpQuotaDocumento}" />
@@ -84,7 +92,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Soa>/ZzCebenra} ? true : false}"
+                        visible="{= ${Soa>/ZspecieSop} === '2' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelResiduoVersabile}" />
@@ -93,7 +101,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Soa>/ZzCebenra} ? true : false}"
+                        visible="{= ${Soa>/ZspecieSop} === '2' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelResiduoEsigibile}" />
@@ -110,7 +118,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                        visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelDurc}" />
@@ -119,7 +127,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                        visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelFermoAmministrativo}" />
@@ -131,7 +139,7 @@
                         <cells>
                             <ObjectIdentifier
                                 text="{
-								path: 'PosizioniScen2>Gjahr'
+								path: 'PosizioniScen2>AnnoRegDoc'
 							}"
                             />
                             <ObjectIdentifier text="{PosizioniScen2>Belnr}" />
@@ -145,7 +153,8 @@
 								}
 							}"
                             />
-                            <Text text="{PosizioniScen2>ZzragSoc}" />
+                            <Text text="{PosizioniScen2>Xblnr}" />
+                            <Text text="{PosizioniScen2>ZbenaltName}" />
                             <Text
                                 text="{
 								path: 'PosizioniScen2>Wrbtr',
@@ -172,7 +181,7 @@
                             />
                             <Input
                                 id="iptAddImpDaOrd"
-                                change="onAddImpDaOrdinareChange"
+                                change="onImpDaOrdinareChangeAdd"
                                 type="Number"
                                 value="{
 									path: 'PosizioniScen2>Zimpdaord'

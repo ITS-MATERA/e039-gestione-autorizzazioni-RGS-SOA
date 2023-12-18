@@ -120,7 +120,7 @@
 								}
 							}"
                             />
-                            <Text text="{Sop>Xblnr}" />
+                            <Text text="{Soa>Xblnr}" />
                             <Text text="{Soa>ZbenaltName}" />
                             <Text
                                 text="{

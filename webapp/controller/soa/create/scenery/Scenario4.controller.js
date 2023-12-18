@@ -80,7 +80,7 @@ sap.ui.define(
           }
         },
 
-        onNavForward: function () {
+        onNavForward: async function () {
           var self = this;
           var oWizard = self.getView().byId("wizScenario4");
           var oModelStepScenario = self.getModel("StepScenario");
@@ -89,7 +89,7 @@ sap.ui.define(
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
           if (bWizard1Step1) {
-            if (self.checkPosizioniScen4()) {
+            if (await self.checkWizard1()) {
               oModelStepScenario.setProperty("/wizard1Step1", false);
               oModelStepScenario.setProperty("/wizard1Step2", true);
               oModelStepScenario.setProperty("/visibleBtnForward", false);
@@ -102,15 +102,14 @@ sap.ui.define(
               self.setSedeBeneficiario();
             }
           } else if (bWizard2) {
-            oModelStepScenario.setProperty("/wizard2", false);
-            oModelStepScenario.setProperty("/wizard3", true);
-            oWizard.nextStep();
+            self.checkWizard2(oWizard);
           } else if (bWizard3) {
             if (self.checkClassificazione()) {
               oModelStepScenario.setProperty("/wizard3", false);
               oModelStepScenario.setProperty("/wizard4", true);
               oModelStepScenario.setProperty("/visibleBtnForward", false);
               oModelStepScenario.setProperty("/visibleBtnSave", true);
+              self.setLocPagamento();
               oWizard.nextStep();
             }
           }
@@ -220,24 +219,24 @@ sap.ui.define(
           var aCols = [
             {
               label: oBundle.getText("labelTipoDocumento"),
-              property: "TpDoc",
+              property: "Blart",
               type: EDM_TYPE.String,
             },
             {
               label: oBundle.getText("labelDataDocumento"),
-              property: "DataDoc",
+              property: "Bldat",
               type: EDM_TYPE.Date,
               format: "dd.mm.yyyy",
             },
             {
               label: oBundle.getText("labelDataCompetenza"),
-              property: "DataComp",
+              property: "Bldat",
               type: EDM_TYPE.Date,
               format: "dd.mm.yyyy",
             },
             {
               label: oBundle.getText("labelDenomBenLiquidazione"),
-              property: "ZzragSoc",
+              property: "ZbenaltName",
               type: EDM_TYPE.String,
             },
             {
@@ -262,7 +261,7 @@ sap.ui.define(
             },
             {
               label: oBundle.getText("labelImportoLiquidazione"),
-              property: "Zimpliq",
+              property: "Zimptot",
               type: EDM_TYPE.Number,
               scale: 2,
               delimiter: true,
@@ -338,6 +337,35 @@ sap.ui.define(
           var self = this;
           this._setDataBeneficiario(oEvent.getParameter("value"))
           self.createModelModPagamento()
+        },
+
+        checkWizard1: function () {
+          var self = this;
+          var oModel = self.getModel()
+          var oSoa = self.getModel("Soa").getData()
+
+          return new Promise(async function (resolve, reject) {
+            self.getView().setBusy(true);
+            await oModel.callFunction("/CheckWizard1Scen4", {
+              method: "GET",
+              urlParameters: {
+                Iban: oSoa.Iban,
+                Lifnr: oSoa.Lifnr,
+                Zwels: oSoa.Zwels,
+                Zimptot: oSoa.Zimptot,
+                Hkont: oSoa.Hkont,
+                Kostl: oSoa.Kostl
+              },
+              success: function (data) {
+                self.getView().setBusy(false);
+                resolve(self.hasMessageError(data) ? false : true);
+              },
+              error: function (error) {
+                self.getView().setBusy(false);
+                reject(error);
+              },
+            });
+          });
         },
       }
     );

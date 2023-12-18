@@ -37,16 +37,6 @@
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
                     </layoutData>
                 </Button>
-                <Button
-                    type="Emphasized"
-                    text="{i18n>btnLog}"
-                    press="onLog"
-                    visible="{Utility>/isLogVisible}"
-                >
-                    <layoutData>
-                        <OverflowToolbarLayoutData priority="NeverOverflow" />
-                    </layoutData>
-                </Button>
                 <ToolbarSpacer />
                 <Button
                     type="Emphasized"

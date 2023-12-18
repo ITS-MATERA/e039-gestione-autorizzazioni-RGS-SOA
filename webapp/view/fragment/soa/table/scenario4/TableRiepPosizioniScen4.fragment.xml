@@ -142,7 +142,7 @@
                                 <Text text="{Soa>ZfermAmm}" />
                                 <Text
                                     text="{
-									path: 'Soa>Zimpliq',
+									path: 'Soa>Zimptot',
 									formatter: '.formatter.convertImport'
 								}"
                                 />

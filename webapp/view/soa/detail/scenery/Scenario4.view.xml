@@ -77,8 +77,8 @@
                 </Button>
                 <Button
                     type="Emphasized"
-                    text="{i18n>btnSaveSoa}"
-                    press="onSave"
+                    text="{i18n>btnEdit}"
+                    press="onSaveEdit"
                     visible="{= ${StepScenario>/visibleBtnSave} &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
                 >
                     <layoutData>

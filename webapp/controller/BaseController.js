@@ -177,6 +177,19 @@ sap.ui.define(
         });
       },
 
+      hasMessageError: function (data) {
+        var aData = data.results[0];
+        var sMessage = aData?.Message;
+        var sMessageType = aData?.Msgty;
+
+        if (sMessageType === "E") {
+          MessageBox.error(sMessage);
+          return true;
+        }
+
+        return false;
+      },
+
       /** -------------------GESTIONE VALUE HELP--------------------------- */
 
       _createFilterValueHelp: function (key, operator, value, useToLower) {

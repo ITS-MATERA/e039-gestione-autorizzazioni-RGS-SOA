@@ -4,7 +4,7 @@
 >
     <Panel
         class="onlyTopPadding"
-        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/DeletePositions} ? true : false}"
+        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/Table} === 'Edit' ? true : false}"
         backgroundDesign="Transparent"
     >
         <headerToolbar>
@@ -16,7 +16,7 @@
                     icon="sap-icon://add"
                     text="{i18n>btnAdd}"
                     type="Emphasized"
-                    press="onAddPositionSoa"
+                    press="onAddPosition"
                     visible="{Soa>/EnableEdit}"
                 >
                     <layoutData>
@@ -29,9 +29,8 @@
                     icon="sap-icon://less"
                     text="{i18n>btnCancel}"
                     type="Emphasized"
-                    press="onDeletePositionSoa"
+                    press="onDeletePosition"
                     visible="{Soa>/EnableEdit}"
-                    enabled="{Utility>/EnableBtnDeleteSoa}"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -41,12 +40,12 @@
         </headerToolbar>
         <content>
             <Table
-                id="tblEditQuoteDocumentiScen1"
+                id="tblEditPosizioniScen1"
                 mode="MultiSelect"
                 items="{
 					path: 'Soa>/data'
 				}"
-                selectionChange="onSelectedItem"
+                selectionChange="onSelectedItemEdit"
                 growing="true"
                 fixedLayout="false"
             >
@@ -164,7 +163,7 @@
                 <items>
                     <ColumnListItem vAlign="Middle">
                         <cells>
-                            <ObjectIdentifier text="{Soa>AnnoRegDocumento}" />
+                            <ObjectIdentifier text="{Soa>AnnoRegDoc}" />
                             <ObjectIdentifier text="{Soa>Belnr}" />
                             <Text text="{Soa>Blart}" />
                             <Text
@@ -209,7 +208,7 @@
                             />
                             <Input
                                 id="iptImpDaOrd"
-                                change="onImpDaOrdinareChange"
+                                change="onImpDaOrdinareChangeEdit"
                                 type="Number"
                                 value="{
 									path: 'Soa>Zimpdaord'
@@ -221,6 +220,10 @@
                     </ColumnListItem>
                 </items>
             </Table>
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.table.CalculatorEdit"
+                type="XML"
+            />
         </content>
     </Panel>
 </c:FragmentDefinition>

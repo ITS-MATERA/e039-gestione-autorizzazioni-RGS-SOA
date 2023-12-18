@@ -35,6 +35,7 @@
                             type="Emphasized"
                             press="onAddRow"
                             app:etichetta="Cup"
+                            enabled="{Soa>/EnableEdit}"
                         >
                             <layoutData>
                                 <OverflowToolbarLayoutData
@@ -51,6 +52,7 @@
                             press="onCancelRow"
                             app:etichetta="Cup"
                             app:table="tblCup"
+                            enabled="{Soa>/EnableEdit}"
                         >
                             <layoutData>
                                 <OverflowToolbarLayoutData

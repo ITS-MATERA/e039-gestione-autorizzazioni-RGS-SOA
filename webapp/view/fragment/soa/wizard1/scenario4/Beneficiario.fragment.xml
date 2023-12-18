@@ -39,7 +39,7 @@
                     id="iptBeneficiarioWizard1"
                     whichMC="Beneficiario"
                     viewId="{Utility>/ViewId}"
-                    value="{Sop>/Lifnr}"
+                    value="{Soa>/Lifnr}"
                     maxLength="10"
                     change="onBeneficiarioChange"
                     editable="{Utility>/EnableEdit}"

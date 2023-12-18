@@ -43,12 +43,12 @@ sap.ui.define(
 
           //Load Models
           self.setStepScenarioModel();
-          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons);
+          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons, "soa.detail.scenery.Scenario4");
           self.setFiltersPosizioniModel();
           self.setSoaModel(oParameters, function () {
             self.enableFunctions();
             self.setMode(oParameters.Mode);
-            self.getSedeBeneficiario();
+            self.setSedeBeneficiario();
           });
           self.getLogModel();
           self.resetWizard("wizScenario4");
@@ -170,6 +170,9 @@ sap.ui.define(
               oModelStepScenario.setProperty("/wizard2", true);
               oWizard.nextStep();
             }
+            self.createModelSedeBeneficiario()
+            self.createModelModPagamento()
+            self.setSedeBeneficiario();
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
             oModelStepScenario.setProperty("/wizard3", true);
@@ -211,7 +214,6 @@ sap.ui.define(
           var oModelStepScenario = self.getModel("StepScenario");
           var oModelUtility = self.getModel("Utility");
 
-          self.setInpsEditable();
           self.resetWizard("wizScenario4");
 
           oModelUtility.setProperty("/EnableEdit", true);

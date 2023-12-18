@@ -1,0 +1,49 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+    <Panel
+        visible="true"
+        backgroundDesign="Transparent"
+    >
+        <l:Grid
+            defaultSpan="XL12 L12 M12 S12"
+            class="calculator"
+        >
+            <Text
+                text="{i18n>labelCalculator}:"
+                class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL2 L3 M4 S12"
+                        indent="XL8 L5"
+                    />
+                </layoutData>
+            </Text>
+            <Input
+                value="{
+                path: 'Soa>/Zimptot',
+                  formatter: '.formatter.convertImport'
+                }"
+                editable="false"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L2 M4 S12" />
+                </layoutData>
+            </Input>
+            <Button
+                text="{i18n>btnCalculate}"
+                icon="sap-icon://simulate"
+                width="100%"
+                press="onCalculate"
+                visible="false"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L2 M4 S12" />
+                </layoutData>
+            </Button>
+        </l:Grid>
+    </Panel>
+</c:FragmentDefinition>

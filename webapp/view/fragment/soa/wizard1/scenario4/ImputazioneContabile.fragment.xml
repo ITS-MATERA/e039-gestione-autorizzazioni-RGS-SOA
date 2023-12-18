@@ -2,6 +2,7 @@
     xmlns="sap.m"
     xmlns:c="sap.ui.core"
     xmlns:l="sap.ui.layout"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
     <Panel backgroundDesign="Transparent">
         <headerToolbar>
@@ -62,16 +63,19 @@
                         />
                     </layoutData>
                 </Text>
-                <Input
-                    valueHelpRequest="onValueHelpContoCoGe"
-                    showValueHelp="true"
+                <zcontrolmccross:MatchcodeCross
+                    whichMC="ContoCoge"
+                    viewId="{Utility>/ViewId}"
+                    Budat="{Utility>/CurrentDateFormatted}"
                     value="{Soa>/Hkont}"
+                    maxLength="10"
+                    change="onContoCoGeChange"
                     editable="{Soa>/EnableEdit}"
                 >
-                    <layoutData>
+                    <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </Input>
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
                 <Text
                     text="{i18n>inputDescrizione}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
