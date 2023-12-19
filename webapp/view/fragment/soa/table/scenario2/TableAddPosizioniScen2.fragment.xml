@@ -19,7 +19,7 @@
                 items="{
 					path: 'PosizioniScen2>/'
 				}"
-                selectionChange="onAddSelectedItem"
+                selectionChange="onSelectedItem"
                 fixedLayout="false"
                 growing="true"
             >

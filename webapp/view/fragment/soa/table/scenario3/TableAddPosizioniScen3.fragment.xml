@@ -4,7 +4,7 @@
 >
     <Panel
         class="onlyTopPadding"
-        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/AddPositions} ? true : false}"
+        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/Table} === 'Add' ? true : false}"
         backgroundDesign="Transparent"
     >
         <headerToolbar>
@@ -14,12 +14,12 @@
         </headerToolbar>
         <content>
             <Table
-                id="tblAddPosizioniScen3"
+                id="tblPosizioniScen3"
                 mode="MultiSelect"
                 items="{
 					path: 'PosizioniScen3>/'
 				}"
-                selectionChange="onAddSelectedItem"
+                selectionChange="onSelectedItem"
                 fixedLayout="false"
                 growing="true"
             >

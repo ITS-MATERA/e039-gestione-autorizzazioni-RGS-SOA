@@ -110,14 +110,12 @@ sap.ui.define(
           var self = this;
           var oWizard = self.getView().byId("wizScenario2");
           var oModelStepScenario = self.getModel("StepScenario");
-          var oModelUtility = self.getModel("Utility");
-          var oModelSoa = self.getModel("Soa");
 
           var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
           var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
           var bWizard2 = oModelStepScenario.getProperty("/wizard2");
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
-          var bGoToRiepilogo = oModelUtility.getProperty("/DeletePositions");
+          var sTable = oModelUtility.getProperty("/Table")
 
           if (bWizard1Step2) {
             switch (sTable) {
@@ -314,11 +312,7 @@ sap.ui.define(
             } else {
               var iIndex = aSelectedItems.findIndex((obj) => {
                 return (
-                  obj.Bukrs === oSelectedItem.Bukrs &&
-                  obj.Zposizione === oSelectedItem.Zposizione &&
-                  obj.Znumliq === oSelectedItem.Znumliq &&
-                  obj.Zversione === oSelectedItem.Zversione &&
-                  obj.ZversioneOrig === oSelectedItem.ZversioneOrig
+                  obj.Docid === oSelectedItem.Docid
                 );
               });
 

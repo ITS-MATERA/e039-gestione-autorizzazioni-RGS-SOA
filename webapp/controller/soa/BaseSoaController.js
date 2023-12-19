@@ -4456,14 +4456,8 @@ sap.ui.define(
               aListSoa.map((oSoa) => {
                 var oSospeso = {
                   Bukrs: oSoa.Bukrs,
-                  Gjahr: oSoa.Gjahr,
                   Zchiavesop: oSoa.Zchiavesop,
-                  Zstep: oSoa.Zstep,
                   Ztipososp: oSoa.Ztipososp,
-                  Ztipopag: oSoa.Ztipopag,
-                  Lifnr: oSoa.Lifnr,
-                  Witht: oSoa.Witht,
-                  ZzCebenra: oSoa.ZzCebenra,
                 };
 
                 aSospesi.push(oSospeso);
@@ -4515,7 +4509,6 @@ sap.ui.define(
                   Bukrs: oSoa.Bukrs,
                   Gjahr: oSoa.Gjahr,
                   Zchiavesop: oSoa.Zchiavesop,
-                  Zstep: oSoa.Zstep,
                   Ztipososp: oSoa.Ztipososp,
                   Znumprot: oSoa.Znumprot,
                   Zdataprot: oSoa.Zdataprot ? oSoa.Zdataprot : null,
@@ -4527,7 +4520,6 @@ sap.ui.define(
               var oFunzionalitaDeep = {
                 Funzionalita: "INVIO_FIRMA",
                 ZuffcontFirm: self.setBlank(oDatiFirma.ZuffcontFirm),
-                Zcodord: self.setBlank(oDatiFirma.Zcodord),
                 ZdirigenteAmm: self.setBlank(oDatiFirma.ZdirigenteAmm),
                 Zcdr: self.setBlank(oDatiFirma.Fistl),
                 Sospeso: aSospesi,
@@ -4570,7 +4562,6 @@ sap.ui.define(
                   Bukrs: oSoa.Bukrs,
                   Gjahr: oSoa.Gjahr,
                   Zchiavesop: oSoa.Zchiavesop,
-                  Zstep: oSoa.Zstep,
                   Ztipososp: oSoa.Ztipososp,
                 };
 
@@ -4645,7 +4636,6 @@ sap.ui.define(
                   Bukrs: oSoa.Bukrs,
                   Gjahr: oSoa.Gjahr,
                   Zchiavesop: oSoa.Zchiavesop,
-                  Zstep: oSoa.Zstep,
                   Ztipososp: oSoa.Ztipososp,
                 };
 
@@ -4733,7 +4723,6 @@ sap.ui.define(
               var oFunzionalitaDeep = {
                 Funzionalita: "CANCELLAZIONE_RICH_ANN",
                 ZuffcontFirm: self.setBlank(oDatiFirma.ZuffcontFirm),
-                Zcodord: self.setBlank(oDatiFirma.Zcodord),
                 ZdirigenteAmm: self.setBlank(oDatiFirma.ZdirigenteAmm),
                 Zcdr: self.setBlank(oDatiFirma.Fistl),
                 Sospeso: aSospesi,
@@ -4815,6 +4804,7 @@ sap.ui.define(
       _printMessage: function (oResult, sTitle) {
         var self = this;
         var aMessage = oResult?.Messaggio.results;
+        var oModelUtility = self.getModel("Utility")
 
         if (aMessage.length === 1) {
           var oMessage = aMessage[0];
@@ -4837,6 +4827,7 @@ sap.ui.define(
           }
         } else {
           self._setLogModel(aMessage);
+          oModelUtility.setProperty("/isLogVisible", true)
 
           if (oResult.IsSuccess) {
             MessageBox.success("Operazione eseguita correttamente", {

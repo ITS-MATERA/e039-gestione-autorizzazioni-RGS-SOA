@@ -50,7 +50,6 @@ sap.ui.define(
             self.setMode(oParameters.Mode);
             self.setSedeBeneficiario();
           });
-          self.getLogModel();
           self.resetWizard("wizScenario4");
         },
 
@@ -145,7 +144,7 @@ sap.ui.define(
           }
         },
 
-        onNavForward: function () {
+        onNavForward: async function () {
           var self = this;
           var oWizard = self.getView().byId("wizScenario4");
           var oModelStepScenario = self.getModel("StepScenario");
@@ -165,18 +164,19 @@ sap.ui.define(
               self.setPosizioneScen4();
             }
           } else if (bWizard1Step2) {
-            if (!bRettifica) {
-              oModelStepScenario.setProperty("/wizard1Step2", false);
-              oModelStepScenario.setProperty("/wizard2", true);
-              oWizard.nextStep();
+            if (await self.checkWizard1()) {
+              oModelStepScenario.setProperty("/wizard1Step1", false);
+              oModelStepScenario.setProperty("/wizard1Step2", true);
+              oModelStepScenario.setProperty("/visibleBtnForward", false);
+              oModelStepScenario.setProperty(
+                "/visibleBtnInserisciProspLiquidazione",
+                true
+              );
+              self.setPosizioneScen4();
+              self.createModelSedeBeneficiario()
             }
-            self.createModelSedeBeneficiario()
-            self.createModelModPagamento()
-            self.setSedeBeneficiario();
           } else if (bWizard2) {
-            oModelStepScenario.setProperty("/wizard2", false);
-            oModelStepScenario.setProperty("/wizard3", true);
-            oWizard.nextStep();
+            self.checkWizard2(oWizard);
           } else if (bWizard3) {
             if (self.checkClassificazione()) {
               oModelStepScenario.setProperty("/wizard3", false);
@@ -244,90 +244,6 @@ sap.ui.define(
             false
           );
           oWizard.nextStep();
-        },
-
-        setPosizioneScen4: function () {
-          var self = this;
-          //Load Models
-          var oModel = self.getModel();
-          var oModelSoa = self.getModel("Soa");
-          var oModelStepScenario = self.getModel("StepScenario");
-
-          var aFilters = [];
-
-          self.setFilterEQ(aFilters, "Lifnr", oModelSoa?.getProperty("/Lifnr"));
-          self.setFilterEQ(aFilters, "Zwels", oModelSoa?.getProperty("/Zwels"));
-          self.setFilterEQ(
-            aFilters,
-            "Zimpliq",
-            oModelSoa?.getProperty("/Zimptot")
-          );
-          self.setFilterEQ(aFilters, "Iban", oModelSoa?.getProperty("/Iban"));
-
-          oModel.read("/RegProspettoLiquidazioneSet", {
-            filters: aFilters,
-            success: function (data, oResponse) {
-              if (!self.hasResponseError(oResponse)) {
-                self.setModelCustom("NewProspettoLiquidazione", data?.results);
-                oModelStepScenario.setProperty("/wizard1Step1", false);
-                oModelStepScenario.setProperty("/wizard1Step2", true);
-                oModelStepScenario.setProperty("/visibleBtnForward", false);
-                oModelStepScenario.setProperty(
-                  "/visibleBtnInserisciProspLiquidazione",
-                  true
-                );
-
-                var oNewPosizione = data?.results[0];
-                var oOldPosizione = oModelSoa.getProperty("/data")[0];
-
-                if (
-                  oNewPosizione.Zbenalt !== oOldPosizione.Lifnr ||
-                  oNewPosizione.Iban !== oOldPosizione.Iban ||
-                  oNewPosizione.Zwels !== oOldPosizione.Zwels ||
-                  oNewPosizione.Zdurc !== oOldPosizione.Zdurc ||
-                  oNewPosizione.ZfermAmm !== oOldPosizione.ZfermAmm ||
-                  oNewPosizione.Zimpliq !== oOldPosizione.Zimpliq
-                ) {
-                  var oNewPosizione = {
-                    AnnoRegDocumento: "",
-                    Belnr: "",
-                    Blart: oNewPosizione.TpDoc,
-                    Bldat: oNewPosizione.DataDoc,
-                    Bukrs: "",
-                    Gjahr: "",
-                    Iban: oNewPosizione.Iban,
-                    Xblnr: "",
-                    Zbenalt: oNewPosizione.Lifnr,
-                    ZbenaltName: oNewPosizione.ZzragSoc,
-                    Zchiavesop: "",
-                    ZdescProsp: "",
-                    Zdescwels: oNewPosizione.Zdescwels,
-                    Zdurc: oNewPosizione.Zdurc,
-                    ZfermAmm: oNewPosizione.ZfermAmm,
-                    Zimpdaord: oNewPosizione.Zimpliq,
-                    Zimpliq: oNewPosizione.Zimpliq,
-                    Zimppag: oNewPosizione.Zimpliq,
-                    Znumliq: "0.00",
-                    Zposizione: "",
-                    Zpossop: "",
-                    ZspecieSop: "",
-                    ZstepSop: "",
-                    Ztipopag: "",
-                    Zwels: oNewPosizione.Zwels,
-                  };
-
-                  var aNewPosizione = [];
-
-                  aNewPosizione.push(oNewPosizione);
-
-                  oModelSoa.setProperty("/data", aNewPosizione);
-                }
-
-                // if(oNewPosizione.)
-              }
-            },
-            error: function () { },
-          });
         },
 
         onImpLiquidazioneChange: function (oEvent) {

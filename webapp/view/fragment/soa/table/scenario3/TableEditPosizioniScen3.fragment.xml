@@ -4,7 +4,7 @@
 >
     <Panel
         class="onlyTopPadding"
-        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/DeletePositions} ? true : false}"
+        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/Table} === 'Edit' ? true : false}"
         backgroundDesign="Transparent"
     >
         <headerToolbar>
@@ -31,7 +31,6 @@
                     type="Emphasized"
                     press="onDeletePositionSoa"
                     visible="{Soa>/EnableEdit}"
-                    enabled="{Utility>/EnableBtnDeleteSoa}"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -46,7 +45,7 @@
                 items="{
 					path: 'Soa>/data'
 				}"
-                selectionChange="onSelectedItem"
+                selectionChange="onSelectedItemEdit"
                 fixedLayout="false"
                 growing="true"
             >
