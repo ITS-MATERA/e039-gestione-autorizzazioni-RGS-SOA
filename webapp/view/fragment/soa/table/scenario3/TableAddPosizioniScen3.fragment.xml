@@ -104,7 +104,7 @@
                             />
                             <Input
                                 id="iptAddImpDaOrd"
-                                change="onAddImpDaOrdinareChange"
+                                change="onImpDaOrdinareChangeAdd"
                                 type="Number"
                                 value="{
 									path: 'PosizioniScen3>Zimpdaord'
@@ -114,6 +114,10 @@
                     </ColumnListItem>
                 </items>
             </Table>
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.table.CalculatorAdd"
+                type="XML"
+            />
         </content>
     </Panel>
 </c:FragmentDefinition>

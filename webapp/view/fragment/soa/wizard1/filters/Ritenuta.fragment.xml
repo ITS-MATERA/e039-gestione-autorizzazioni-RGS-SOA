@@ -1,179 +1,180 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:l="sap.ui.layout"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
 >
-	<Panel
-		backgroundDesign="Transparent"
-		visible="{= ${Soa>/Ztipopag} === '1' || ${Soa>/Ztipopag} === '2' ? true : false}"
-	>
-		<headerToolbar>
-			<OverflowToolbar>
-				<Title text="{i18n>searchRitenuta}"/>
-			</OverflowToolbar>
-		</headerToolbar>
-		<content>
-			<l:Grid
-				defaultSpan="XL12 L12 M12 S12"
-				hSpacing="0.5"
-			>
-				<Text
-					text="{i18n>soaFilterWitht}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<ComboBox
-					width="100%"
-					items="{
+    <Panel
+        backgroundDesign="Transparent"
+        visible="{= ${Soa>/Ztipopag} === '1' || ${Soa>/Ztipopag} === '2' ? true : false}"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>searchRitenuta}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>soaFilterWitht}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
 						path: '/RicercaRitenutaSet'
 					}"
-					selectedKey="{FilterDocumenti>/CodRitenuta}"
-					selectionChange="onRitenutaChange"
-					editable="{=
-						${FilterDocumenti>/Lifnr} ||
-						${FilterDocumenti>/TipoBeneficiario} ||
+                    selectedKey="{FiltersWizard1>/CodRitenuta}"
+                    selectionChange="onRitenutaChange"
+                    editable="{=
+						${Soa>/Lifnr} ||
+						${Soa>/BuType} ||
 						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
-				>
-					<c:Item
-						key="{CodRitenuta}"
-						text="{DescRitenuta}"
-					/>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</ComboBox>
-				<Text
-					text="{i18n>soaFilterZzCebenra}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<ComboBox
-					width="100%"
-					items="{
+                >
+                    <c:Item
+                        key="{CodRitenuta}"
+                        text="{DescRitenuta}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </ComboBox>
+                <Text
+                    text="{i18n>soaFilterZzCebenra}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
 						path: 'RicercaEnteBeneficiario>/'
 					}"
-					selectedKey="{FilterDocumenti>/CodEnte}"
-					change="onEnteBeneficiarioChange"
-					editable="{=
-						${FilterDocumenti>/Lifnr} ||
-						${FilterDocumenti>/TipoBeneficiario} ||
+                    selectedKey="{FiltersWizard1>/CodEnte}"
+                    change="onEnteBeneficiarioChange"
+                    editable="{=
+						 ${Soa>/Witht} === 'S1' ||
+                        ${Soa>/Lifnr} ||
+						${Soa>/BuType} ||
 						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
-				>
-					<c:Item
-						key="{RicercaEnteBeneficiario>CodEnte}"
-						text="{RicercaEnteBeneficiario>DescEnte}"
-					/>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</ComboBox>
-			</l:Grid>
-		</content>
-		<content>
-			<l:Grid
-				defaultSpan="XL12 L12 M12 S12"
-				hSpacing="0.5"
-			>
-				<Text
-					text="{i18n>soaFilterQuoteEsigibili}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<CheckBox
-					selected="{FilterDocumenti>/QuoteEsigibili}"
-					editable="{=
-						${FilterDocumenti>/Lifnr} ||
-						${FilterDocumenti>/TipoBeneficiario} ||
+                >
+                    <c:Item
+                        key="{RicercaEnteBeneficiario>CodEnte}"
+                        text="{RicercaEnteBeneficiario>DescEnte}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </ComboBox>
+            </l:Grid>
+        </content>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>soaFilterQuoteEsigibili}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <CheckBox
+                    selected="{FiltersWizard1>/QuoteEsigibili}"
+                    editable="{=
+						${Soa>/Lifnr} ||
+						${Soa>/BuType} ||
 						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
-					select="onQuoteEsigibiliChange"
-				>
-					<layoutData>
-						<l:GridData span="XL1 L1 M1 S1"/>
-					</layoutData>
-				</CheckBox>
-			</l:Grid>
-		</content>
-		<content>
-			<l:Grid
-				defaultSpan="XL12 L12 M12 S12"
-				hSpacing="0.5"
-			>
-				<Text
-					text="{i18n>soaFilterDataEseFrom}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<DatePicker
-					valueFormat="yyyy-MM-dd"
-					displayFormat="dd.MM.yyyy"
-					value="{
-						path: 'FilterDocumenti>/DataEsigibilitaFrom',
+                    select="onQuoteEsigibiliChange"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L1 M1 S1" />
+                    </layoutData>
+                </CheckBox>
+            </l:Grid>
+        </content>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>soaFilterDataEseFrom}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <DatePicker
+                    valueFormat="yyyy-MM-dd"
+                    displayFormat="dd.MM.yyyy"
+                    value="{
+						path: 'FiltersWizard1>/DataEsigibilitaFrom',
 						type: 'sap.ui.model.type.Date',
 						formatOptions: {
 							pattern: 'dd.MM.yyyy'
 						}
 					}"
-					editable="{=
-						${FilterDocumenti>/QuoteEsigibili} === false ||
-						${FilterDocumenti>/Lifnr} ||
-						${FilterDocumenti>/TipoBeneficiario} ||
+                    editable="{=
+						${FiltersWizard1>/QuoteEsigibili} === false ||
+						${Soa>/Lifnr} ||
+						${Soa>/BuType} ||
 						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</DatePicker>
-				<Text
-					text="{i18n>soaFilterDataEseTo}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Text>
-				<DatePicker
-					valueFormat="yyyy-MM-dd"
-					displayFormat="dd.MM.yyyy"
-					value="{
-						path: 'FilterDocumenti>/DataEsigibilitaTo',
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </DatePicker>
+                <Text
+                    text="{i18n>soaFilterDataEseTo}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <DatePicker
+                    valueFormat="yyyy-MM-dd"
+                    displayFormat="dd.MM.yyyy"
+                    value="{
+						path: 'FiltersWizard1>/DataEsigibilitaTo',
 						type: 'sap.ui.model.type.Date',
 						formatOptions: {
 							pattern: 'dd.MM.yyyy'
 						}
 					}"
-					editable="{=
-						${FilterDocumenti>/QuoteEsigibili} === false ||
-						${FilterDocumenti>/Lifnr} ||
-						${FilterDocumenti>/TipoBeneficiario} ||
+                    editable="{=
+						${FiltersWizard1>/QuoteEsigibili} === false ||
+						${Soa>/Lifnr} ||
+						${Soa>/BuType} ||
 						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</DatePicker>
-			</l:Grid>
-		</content>
-	</Panel>
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </DatePicker>
+            </l:Grid>
+        </content>
+    </Panel>
 </c:FragmentDefinition>

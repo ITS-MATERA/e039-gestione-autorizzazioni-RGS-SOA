@@ -17,7 +17,7 @@
                     text="{i18n>btnAdd}"
                     type="Emphasized"
                     press="onAddPosition"
-                    visible="{Soa>/EnableEdit}"
+                    visible="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -30,7 +30,7 @@
                     text="{i18n>btnCancel}"
                     type="Emphasized"
                     press="onDeletePosition"
-                    visible="{Soa>/EnableEdit}"
+                    visible="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />

@@ -27,7 +27,8 @@
                     valueHelpRequest="onValueHelpCentroCosto"
                     showValueHelp="true"
                     value="{Soa>/Kostl}"
-                    editable="{Soa>/EnableEdit}"
+                    editable="{Utility>/EnableEdit}"
+                    change="onCentroCostoChange"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -70,7 +71,7 @@
                     value="{Soa>/Hkont}"
                     maxLength="10"
                     change="onContoCoGeChange"
-                    editable="{Soa>/EnableEdit}"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

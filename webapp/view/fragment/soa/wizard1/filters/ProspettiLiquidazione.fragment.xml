@@ -3,6 +3,7 @@
     xmlns:c="sap.ui.core"
     xmlns:l="sap.ui.layout"
     xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
     <Panel
         backgroundDesign="Transparent"
@@ -31,14 +32,14 @@
                     items="{
 											path: '/EsercizioGestioneSet'
 										}"
-                    selectedKey="{FilterDocumenti>/Gjahr}"
+                    selectedKey="{FiltersWizard1>/Gjahr}"
                 >
                     <c:Item
                         key="{Gjahr}"
                         text="{Gjahr}"
                     />
                     <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
+                        <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </ComboBox>
                 <Text
@@ -52,34 +53,51 @@
                 <MultiInput
                     valueHelpRequest="onValueHelpUffLiquidatore"
                     showValueHelp="true"
-                    valueHelpOnly="true"
-                    value="{FilterDocumenti>/Zuffliq}"
+                    value="{FiltersWizard1>/Zuffliq}"
+                    change="onUffLiquidatoreChange"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </MultiInput>
                 <Text
+                    text="{i18n>filterUffPagatore}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Soa>/Ztipopag} === '3' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{FiltersWizard1>/UfficioPagatore}"
+                    maxLength="16"
+                    visible="{= ${Soa>/Ztipopag} === '3' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Input>
+                <Text
                     text="{i18n>filterZnumliqFrom}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
-                <FlexBox class="flexBoxWitdh">
-                    <items>
-                        <zcontrolmccross:MatchcodeCross
-                            id="iptNProspLiquidazioneFrom"
-                            viewId="{Utility>/ViewId}"
-                            whichMC="ProspettoLiquidazione"
-                            value="{FilterDocumenti>/ZnumliqFrom}"
-                        />
-                    </items>
-                    <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </FlexBox>
+                <zcontrolmccross:MatchcodeCross
+                    id="iptNProspLiquidazioneFrom"
+                    viewId="{Utility>/ViewId}"
+                    whichMC="ProspettoLiquidazione"
+                    value="{FiltersWizard1>/ZnumliqFrom}"
+                    app:property="ZnumliqFrom"
+                    liveChange="onNProspLiquidazioneChange"
+                >
+                    <zcontrolmccross:layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
             </l:Grid>
         </content>
         <content>
@@ -92,38 +110,37 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
-                <FlexBox class="flexBoxWitdh">
-                    <items>
-                        <zcontrolmccross:MatchcodeCross
-                            id="iptNProspLiquidazioneTo"
-                            viewId="{Utility>/ViewId}"
-                            whichMC="ProspettoLiquidazione"
-                            value="{FilterDocumenti>/ZnumliqTo}"
-                        />
-                    </items>
-                    <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </FlexBox>
+
+                <zcontrolmccross:MatchcodeCross
+                    id="iptNProspLiquidazioneTo"
+                    viewId="{Utility>/ViewId}"
+                    whichMC="ProspettoLiquidazione"
+                    value="{FiltersWizard1>/ZnumliqTo}"
+                    app:property="ZnumliqTo"
+                    liveChange="onNProspLiquidazioneChange"
+                >
+                    <zcontrolmccross:layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
                 <Text
                     text="{i18n>filterZdescProsp}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L12 M5 S12" />
+                        <l:GridData span="XL2 L4 M5 S12" />
                     </layoutData>
                 </Text>
                 <Input
                     valueHelpRequest="onValueHelpDescProspLiquidazione"
                     showValueHelp="true"
-                    valueHelpOnly="true"
-                    value="{FilterDocumenti>/ZdescProsp}"
+                    value="{FiltersWizard1>/ZdescProsp}"
                 >
                     <layoutData>
-                        <l:GridData span="XL4 L12 M12 S12" />
+                        <l:GridData span="XL4 L8 M12 S12" />
                     </layoutData>
                 </Input>
             </l:Grid>

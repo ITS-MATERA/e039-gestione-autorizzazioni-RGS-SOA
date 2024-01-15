@@ -31,10 +31,10 @@ sap.ui.define(
           var bRemoveFunctionButtons = bDetailFromFunction;
 
           //Load Models
-          self.setStepScenarioModel();
-          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons, "soa.detail.scenery.Scenario3");
-          self.setFiltersPosizioniModel();
-          self.setSoaModel(oParameters, function () {
+          self.createModelStepScenarioDet();
+          self.createModelUtilityDet(bDetailFromFunction, bRemoveFunctionButtons, "soa.detail.scenery.Scenario3");
+          self.createModelFiltersWizard1();
+          self.setModelSop(oParameters, function () {
             self.enableFunctions();
             self.setMode(oParameters.Mode);
             self.setSedeBeneficiario();
@@ -108,6 +108,7 @@ sap.ui.define(
           var self = this;
           var oWizard = self.getView().byId("wizScenario3");
           var oModelStepScenario = self.getModel("StepScenario");
+          var oModelUtility = self.getModel("Utility")
 
           var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
           var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
@@ -155,6 +156,7 @@ sap.ui.define(
           var oModelUtility = self.getModel("Utility");
           var oModelStepScenario = self.getModel("StepScenario");
           var oModelSoa = self.getModel("Soa");
+          var oModelUtility = self.getModel("Utility")
           var sKey = oEvent.getParameter("selectedKey");
 
           oModelUtility.setProperty("/Function", sKey);
@@ -170,8 +172,9 @@ sap.ui.define(
           switch (sKey) {
             case "Dettaglio": {
               self.resetWizard("wizScenario3");
-              self.setStepScenarioModel();
-              self.setSoaModel(oParameters, function () { });
+              self.createModelStepScenarioDet();
+              oModelUtility.setProperty("/EnableEdit", false)
+              self.setModelSop(oParameters, function () { });
               break;
             }
             case "Workflow": {
@@ -388,6 +391,8 @@ sap.ui.define(
                   );
                   var aPositions = oModelSoa.getProperty("/data");
 
+                  oTable.removeSelections();
+
                   aSelectedItems.map((oSelectedItem) => {
                     if (oSelectedItem.Zchiavesop) {
                       oSelectedItem.Tiporiga = 'D'
@@ -431,10 +436,8 @@ sap.ui.define(
           var oModelUtility = self.getModel("Utility");
           var oModelStepScenario = self.getModel("StepScenario");
           var oSoa = self.getModel("Soa").getData()
-          var oModelFilters = self.getModel("FilterDocumenti")
+          var oModelFilters = self.getModel("FiltersWizard1")
 
-          oModelFilters.setProperty("/Lifnr", oSoa.Lifnr)
-          oModelFilters.setProperty("/TipoBeneficiario", oSoa.BuType)
           oModelFilters.setProperty("/CodRitenuta", oSoa.Witht)
           oModelFilters.setProperty("/CodEnte", oSoa.ZzCebenra)
 
@@ -510,7 +513,6 @@ sap.ui.define(
           oModelUtility.setProperty("/EnableEdit", true);
           oModelUtility.setProperty("/RemoveFunctionButtons", true);
 
-          oModelSoa.setProperty("/EnableEdit", true);
           //Porto la IconTab sul tab giusto
           oModelUtility.setProperty("/Function", "Rettifica");
           oModelSoa.setProperty("/visibleBtnEdit", false);

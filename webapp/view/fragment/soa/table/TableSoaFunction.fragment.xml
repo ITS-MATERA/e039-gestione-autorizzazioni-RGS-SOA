@@ -268,6 +268,7 @@
 								}"
                                 valueState="{= ${ListSoa>Zdataprot} ? 'None' : 'Error'}"
                                 valueStateText="{i18n>vstRequireField}"
+                                maxDate="{Utility>/CurrentDate}"
                             />
                             <Text
                                 visible="{= ${Utility>/EnableFirma} || ${Utility>/EnableRevocaFirma} ? true : false }"

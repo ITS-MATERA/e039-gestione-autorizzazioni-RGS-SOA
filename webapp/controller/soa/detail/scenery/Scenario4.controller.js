@@ -42,10 +42,9 @@ sap.ui.define(
           var bRemoveFunctionButtons = bDetailFromFunction;
 
           //Load Models
-          self.setStepScenarioModel();
-          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons, "soa.detail.scenery.Scenario4");
-          self.setFiltersPosizioniModel();
-          self.setSoaModel(oParameters, function () {
+          self.createModelStepScenarioDet();
+          self.createModelUtilityDet(bDetailFromFunction, bRemoveFunctionButtons, "soa.detail.scenery.Scenario4");
+          self.setModelSop(oParameters, function () {
             self.enableFunctions();
             self.setMode(oParameters.Mode);
             self.setSedeBeneficiario();
@@ -58,6 +57,7 @@ sap.ui.define(
           var oModelUtility = self.getModel("Utility");
           var oModelStepScenario = self.getModel("StepScenario");
           var oModelSoa = self.getModel("Soa");
+          var oModelUtility = self.getModel("Utility")
           var sKey = oEvent.getParameter("selectedKey");
 
           oModelUtility.setProperty("/Function", sKey);
@@ -73,8 +73,9 @@ sap.ui.define(
           switch (sKey) {
             case "Dettaglio": {
               self.resetWizard("wizScenario4");
-              self.setStepScenarioModel();
-              self.setSoaModel(oParameters, function () { });
+              self.createModelStepScenarioDet();
+              oModelUtility.setProperty("/EnableEdit", false)
+              self.setModelSop(oParameters, function () { });
               break;
             }
             case "Workflow": {
@@ -188,7 +189,7 @@ sap.ui.define(
           }
         },
 
-        setStepScenarioModel: function () {
+        createModelStepScenarioDet: function () {
           var self = this;
           var oModelStepScenario = new JSONModel({
             wizard1Step1: false,
@@ -219,7 +220,6 @@ sap.ui.define(
           oModelUtility.setProperty("/EnableEdit", true);
           oModelUtility.setProperty("/RemoveFunctionButtons", true);
 
-          oModelSoa.setProperty("/EnableEdit", true);
           //Porto la IconTab sul tab giusto
           oModelUtility.setProperty("/Function", "Rettifica");
           oModelSoa.setProperty("/visibleBtnEdit", false);

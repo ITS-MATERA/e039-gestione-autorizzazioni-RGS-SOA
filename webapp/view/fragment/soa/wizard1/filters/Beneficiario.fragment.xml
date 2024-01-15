@@ -26,18 +26,19 @@
                 <ComboBox
                     width="100%"
                     items="{
-											path: '/TipologiaBeneficiarioSet'
-										}"
-                    selectedKey="{FilterDocumenti>/TipoBeneficiario}"
+                        path: '/TipologiaBeneficiarioSet'
+                    }"
+                    selectedKey="{Soa>/BuType}"
                     editable="{= (
-                                ${FilterDocumenti>/CodRitenuta} ||
-                                ${FilterDocumenti>/CodEnte} ||
-                                ${FilterDocumenti>/DataEsigibilitaFrom} ||
-                                ${FilterDocumenti>/DataEsigibilitaTo}
+                                ${FiltersWizard1>/CodRitenuta} ||
+                                ${FiltersWizard1>/CodEnte} ||
+                                ${FiltersWizard1>/DataEsigibilitaFrom} ||
+                                ${FiltersWizard1>/DataEsigibilitaTo}
                             ) ||
                             ${Utility>/Function} === 'Rettifica' 
                             ? false : true
                     }"
+                    change="onTipoBeneficiarioChange"
                 >
                     <c:Item
                         key="{CodTipoBen}"
@@ -58,13 +59,13 @@
                 <zcontrolmccross:MatchcodeCross
                     whichMC="Beneficiario"
                     viewId="{Utility>/ViewId}"
-                    value="{FilterDocumenti>/Lifnr}"
+                    value="{Soa>/Lifnr}"
                     maxLength="10"
                     editable="{= (
-                                ${FilterDocumenti>/CodRitenuta} ||
-                                ${FilterDocumenti>/CodEnte} ||
-                                ${FilterDocumenti>/DataEsigibilitaFrom} ||
-                                ${FilterDocumenti>/DataEsigibilitaTo}
+                                ${FiltersWizard1>/CodRitenuta} ||
+                                ${FiltersWizard1>/CodEnte} ||
+                                ${FiltersWizard1>/DataEsigibilitaFrom} ||
+                                ${FiltersWizard1>/DataEsigibilitaTo}
                             ) ||
                             ${Utility>/Function} === 'Rettifica' 
                             ? false : true
@@ -72,7 +73,7 @@
                     change="onBeneficiarioChange"
                 >
                     <zcontrolmccross:layoutData>
-                        <l:GridData span="XL2 L3 M6 S12" />
+                        <l:GridData span="XL2 L2 M6 S12" />
                     </zcontrolmccross:layoutData>
                 </zcontrolmccross:MatchcodeCross>
             </l:Grid>

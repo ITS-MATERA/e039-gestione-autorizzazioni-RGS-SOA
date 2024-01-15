@@ -1,96 +1,98 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
 >
-	<NavContainer>
-		<pages>
-			<Page showHeader="false">
-				<content>
-					<Panel
-						class="sapUiNoContentPadding"
-						backgroundDesign="Transparent"
-						visible="{= ${Utility>/DetailFromFunction} === false ? true : false}"
-					>
-						<c:Fragment
-							fragmentName="rgssoa.view.fragment.soa.IconTabBarSoa"
-							type="XML"
-						/>
-					</Panel>
-					<Panel
-						class="sapUiNoContentPadding"
-						backgroundDesign="Transparent"
-						visible="{= 
+    <NavContainer>
+        <pages>
+            <Page showHeader="false">
+                <content>
+                    <Panel
+                        class="sapUiNoContentPadding"
+                        backgroundDesign="Transparent"
+                        visible="{= ${Utility>/DetailFromFunction} === false ? true : false}"
+                    >
+                        <c:Fragment
+                            fragmentName="rgssoa.view.fragment.soa.IconTabBarSoa"
+                            type="XML"
+                        />
+                    </Panel>
+                    <Panel
+                        class="sapUiNoContentPadding"
+                        backgroundDesign="Transparent"
+                        visible="{= 
 							${Utility>/Function} === 'InvioFirma' ||
 							${Utility>/Function} === 'RegistrazioneRichAnn' ||
 							${Utility>/Function} === 'CancellazioneRichAnn'
 							? true : false}"
-					>
-						<c:Fragment
-							fragmentName="rgssoa.view.fragment.soa.function.DatiFirmatario"
-							type="XML"
-						/>
-					</Panel>
-					<Panel
-						class="sapUiNoContentPadding"
-						backgroundDesign="Transparent"
-						visible="{= 
+                    >
+                        <c:Fragment
+                            fragmentName="rgssoa.view.fragment.soa.function.DatiFirmatario"
+                            type="XML"
+                        />
+                    </Panel>
+                    <Panel
+                        class="sapUiNoContentPadding"
+                        backgroundDesign="Transparent"
+                        visible="{= 
 							${Utility>/Function} === 'Dettaglio' || 
 							${Utility>/Function} === 'Rettifica' || 
 							${Utility>/Function} === 'Workflow'  || 
 							${Utility>/Function} === 'FascicoloElettronico'
 							? false : true}"
-					>
-						<c:Fragment
-							fragmentName="rgssoa.view.fragment.soa.table.TableSoaFunction"
-							type="XML"
-						/>
-					</Panel>
-					<Panel
-						class="sapUiNoContentPadding"
-						backgroundDesign="Transparent"
-						visible="{= ${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica' ? true : false}"
-					>
-						<Wizard
-							id="wizScenario4"
-							showNextButton="false"
-							class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
-						>
-							<WizardStep title="{i18n>titleWizard1NewProspLiquidazione}">
-								<c:Fragment
-									fragmentName="rgssoa.view.fragment.soa.wizard1.scenario4.NewProspettoLiquidazione"
-									type="XML"
-								/>
-								<c:Fragment
-									fragmentName="rgssoa.view.fragment.soa.table.scenario4.TableDetailPosizioniScen4"
-									type="XML"
-								/>
-							</WizardStep>
-							<WizardStep title="{i18n>titleWizard2}">
-								<c:Fragment
-									fragmentName="rgssoa.view.fragment.soa.wizard2.BeneficiarioSoa"
-									type="XML"
-								/>
-							</WizardStep>
-							<WizardStep title="{i18n>titleWizard3}">
-								<c:Fragment
-									fragmentName="rgssoa.view.fragment.soa.wizard3.Classificazione"
-									type="XML"
-								/>
-							</WizardStep>
-							<WizardStep title="{i18n>titleWizard4}">
-								<c:Fragment
-									fragmentName="rgssoa.view.fragment.soa.wizard4.DatiSoa"
-									type="XML"
-								/>
-							</WizardStep>
-						</Wizard>
-					</Panel>
-					<c:Fragment
-						fragmentName="rgssoa.view.fragment.soa.Workflow"
-						type="XML"
-					/>
-				</content>
-			</Page>
-		</pages>
-	</NavContainer>
+                    >
+                        <c:Fragment
+                            fragmentName="rgssoa.view.fragment.soa.table.TableSoaFunction"
+                            type="XML"
+                        />
+                    </Panel>
+                    <Panel
+                        class="sapUiNoContentPadding"
+                        backgroundDesign="Transparent"
+                        visible="{= ${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica' ? true : false}"
+                    >
+                        <Wizard
+                            id="wizScenario4"
+                            showNextButton="false"
+                            class=".sapMWizardStepTitle sapMWizardStep"
+                        >
+                            <WizardStep
+                                title="{i18n>titleWizard1NewProspLiquidazione}"
+                            >
+                                <c:Fragment
+                                    fragmentName="rgssoa.view.fragment.soa.wizard1.scenario4.NewProspettoLiquidazione"
+                                    type="XML"
+                                />
+                                <c:Fragment
+                                    fragmentName="rgssoa.view.fragment.soa.table.scenario4.TableDetailPosizioniScen4"
+                                    type="XML"
+                                />
+                            </WizardStep>
+                            <WizardStep title="{i18n>titleWizard2}">
+                                <c:Fragment
+                                    fragmentName="rgssoa.view.fragment.soa.wizard2.BeneficiarioSoa"
+                                    type="XML"
+                                />
+                            </WizardStep>
+                            <WizardStep title="{i18n>titleWizard3}">
+                                <c:Fragment
+                                    fragmentName="rgssoa.view.fragment.soa.wizard3.Classificazione"
+                                    type="XML"
+                                />
+                            </WizardStep>
+                            <WizardStep title="{i18n>titleWizard4}">
+                                <c:Fragment
+                                    fragmentName="rgssoa.view.fragment.soa.wizard4.DatiSoa"
+                                    type="XML"
+                                />
+                            </WizardStep>
+                        </Wizard>
+                    </Panel>
+                    <c:Fragment
+                        fragmentName="rgssoa.view.fragment.soa.Workflow"
+                        type="XML"
+                    />
+                </content>
+            </Page>
+        </pages>
+    </NavContainer>
 </c:FragmentDefinition>

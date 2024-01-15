@@ -22,6 +22,7 @@
                     <Label
                         text="{i18n>soaFilterGjahr}"
                         class="filterLabel"
+                        required="true"
                     />
                     <ComboBox
                         width="100%"

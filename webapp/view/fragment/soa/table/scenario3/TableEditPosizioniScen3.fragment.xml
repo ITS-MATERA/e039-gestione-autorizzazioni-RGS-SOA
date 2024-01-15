@@ -16,8 +16,8 @@
                     icon="sap-icon://add"
                     text="{i18n>btnAdd}"
                     type="Emphasized"
-                    press="onAddPositionSoa"
-                    visible="{Soa>/EnableEdit}"
+                    press="onAddPosition"
+                    visible="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -29,8 +29,8 @@
                     icon="sap-icon://less"
                     text="{i18n>btnCancel}"
                     type="Emphasized"
-                    press="onDeletePositionSoa"
-                    visible="{Soa>/EnableEdit}"
+                    press="onDeletePosition"
+                    visible="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -130,7 +130,7 @@
                             />
                             <Input
                                 id="iptImpDaOrd"
-                                change="onImpDaOrdinareChange"
+                                change="onImpDaOrdinareChangeEdit"
                                 type="Number"
                                 value="{
 									path: 'Soa>Zimpdaord'
@@ -140,6 +140,10 @@
                     </ColumnListItem>
                 </items>
             </Table>
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.table.CalculatorEdit"
+                type="XML"
+            />
         </content>
     </Panel>
 </c:FragmentDefinition>

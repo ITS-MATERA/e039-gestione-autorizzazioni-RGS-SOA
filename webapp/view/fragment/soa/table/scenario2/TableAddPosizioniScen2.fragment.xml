@@ -163,7 +163,7 @@
                             />
                             <Text
                                 text="{
-								path: 'PosizioniScen2>Zimpliq',
+								path: 'PosizioniScen2>Zimpres',
 								formatter: '.formatter.convertImport'
 							}"
                             />
@@ -198,6 +198,10 @@
                     </ColumnListItem>
                 </items>
             </Table>
+            <c:Fragment
+                fragmentName="rgssoa.view.fragment.soa.table.CalculatorAdd"
+                type="XML"
+            />
         </content>
     </Panel>
 </c:FragmentDefinition>

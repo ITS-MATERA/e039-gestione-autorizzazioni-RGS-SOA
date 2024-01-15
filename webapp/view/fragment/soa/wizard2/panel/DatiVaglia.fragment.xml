@@ -34,7 +34,7 @@
                       path: '/TipoFirmaBenSOASet'
                     }"
                     selectedKey="{Soa>/Ztipofirma}"
-                    editable="{= ${Soa>/EnableEdit} ? true : false }"
+                    editable="{= ${Utility>/EnableEdit} ? true : false }"
                     visible="{= ${Soa>/Zwels} === 'ID1' ? true : false }"
                     selectionChange="onTipoFirmaChange"
                 >
@@ -94,7 +94,7 @@
                     visible="{= ${Soa>/Zwels} === 'ID1' ? true : false}"
                     editable="{=
                       ${Soa>/Zwels} === 'ID1' &amp;&amp; 
-                      ${Soa>/EnableEdit} &amp;&amp;
+                      ${Utility>/EnableEdit} &amp;&amp;
                       ${Soa>/Zstcd14} === '' &amp;&amp;
                       ${Utility>/isQuiet1Prevalorizzato} === false ? true : false
                     }"
@@ -120,7 +120,7 @@
                 <Input
                     visible="{= ${Soa>/Zwels} === 'ID1' ? true : false}"
                     editable="{= 
-                      ${Soa>/EnableEdit} &amp;&amp;
+                      ${Utility>/EnableEdit} &amp;&amp;
                       ${Soa>/Zstcd1} === '' ? true : false}"
                     value="{Soa>/Zstcd14}"
                     maxLength="16"
@@ -313,7 +313,7 @@
                       ${Soa>/Zwels} === 'ID1' &amp;&amp;
                       (${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') &amp;&amp;
                       ${Soa>/Zstcd15} === '' &amp;&amp;
-                      ${Soa>/EnableEdit}  &amp;&amp;
+                      ${Utility>/EnableEdit}  &amp;&amp;
                       ${Soa>/Ztipofirma} !== '' ? true : false
                     }"
                     visible="{=
@@ -347,7 +347,7 @@
                       ${Soa>/Zwels} === 'ID1' &amp;&amp;
                       (${Soa>/Ztipofirma} === '03' || ${Soa>/Ztipofirma} === '04') &amp;&amp;
                       ${Soa>/Zstcd12} === '' &amp;&amp;
-                      ${Soa>/EnableEdit} &amp;&amp; 
+                      ${Utility>/EnableEdit} &amp;&amp; 
                       ${Soa>/Ztipofirma} !== '' ? true : false
                     }"
                     visible="{=

@@ -199,7 +199,7 @@
 						path: 'ModalitaPagamento>/'
 					}"
                     selectedKey="{Soa>/Zwels}"
-                    editable="{= ${Soa>/Lifnr} &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+                    editable="{= ${Soa>/Lifnr} &amp;&amp; ${Utility>/EnableEdit} ? true : false}"
                     selectionChange="onModalitaPagamentoChange"
                 >
                     <c:Item
@@ -237,7 +237,7 @@
 							${Soa>/Zwels} !== 'ID3'  &amp;&amp; 
 							${Soa>/Zwels} !== 'ID4' &amp;&amp;
 							${Soa>/Lifnr} !== '' &amp;&amp;
-							${Soa>/EnableEdit} ? true : false
+							${Utility>/EnableEdit} ? true : false
 						}"
                         change="onIbanChange"
                         maxLength="34"

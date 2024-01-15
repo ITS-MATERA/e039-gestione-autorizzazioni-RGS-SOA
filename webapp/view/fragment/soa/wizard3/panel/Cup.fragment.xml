@@ -7,6 +7,7 @@
     <Panel
         class="sapUiNoContentPadding"
         backgroundDesign="Transparent"
+        visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
     >
         <headerToolbar>
             <OverflowToolbar>
@@ -16,7 +17,7 @@
         <content>
             <Table
                 id="tblCup"
-                mode="{= ${Soa>/EnableEdit} ? 'MultiSelect' : 'None'}"
+                mode="{= ${Utility>/EnableEdit} ? 'MultiSelect' : 'None'}"
                 fixedLayout="false"
                 contextualWidth="Auto"
                 growing="true"
@@ -35,7 +36,7 @@
                             type="Emphasized"
                             press="onAddRow"
                             app:etichetta="Cup"
-                            enabled="{Soa>/EnableEdit}"
+                            enabled="{Utility>/EnableEdit}"
                         >
                             <layoutData>
                                 <OverflowToolbarLayoutData
@@ -52,7 +53,7 @@
                             press="onCancelRow"
                             app:etichetta="Cup"
                             app:table="tblCup"
-                            enabled="{Soa>/EnableEdit}"
+                            enabled="{Utility>/EnableEdit}"
                         >
                             <layoutData>
                                 <OverflowToolbarLayoutData
@@ -94,16 +95,13 @@
                     <ColumnListItem vAlign="Middle">
                         <cells>
                             <Input
-                                id="iptCup"
                                 valueHelpRequest="onValueHelpCup"
                                 showValueHelp="true"
-                                valueHelpOnly="true"
-                                app:dialogName="sdCup"
-                                app:fragmentName="Cup"
                                 app:index="{Classificazione>Index}"
                                 width="65%"
                                 value="{Classificazione>Zzcup}"
-                                editable="{Soa>/EnableEdit}"
+                                editable="{Utility>/EnableEdit}"
+                                maxLength="15"
                             />
                             <Input
                                 editable="false"
@@ -117,7 +115,8 @@
                                 app:index="{Classificazione>Index}"
                                 app:etichetta="Cup"
                                 change="onImpDaAssociareChange"
-                                editable="{Soa>/EnableEdit}"
+                                editable="{Utility>/EnableEdit}"
+                                maxLength="10"
                             />
                         </cells>
                     </ColumnListItem>

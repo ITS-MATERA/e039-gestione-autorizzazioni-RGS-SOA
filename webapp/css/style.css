@@ -41,3 +41,20 @@
 .noPadding {
   padding: 0 !important;
 }
+
+.sapMITH {
+  box-shadow: none;
+  padding-left: 8px !important;
+}
+
+.sapMPanelContent {
+  overflow: hidden;
+}
+
+.sapMWizardStepTitle{
+  display: none !important;
+}
+
+.sapMWizardStep{
+  padding-bottom: 0px !important
+}

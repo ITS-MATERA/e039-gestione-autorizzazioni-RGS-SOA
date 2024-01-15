@@ -7,6 +7,7 @@
     <Panel
         class="sapUiNoContentPadding"
         backgroundDesign="Transparent"
+        visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
     >
         <headerToolbar>
             <OverflowToolbar>
@@ -16,7 +17,7 @@
         <content>
             <Table
                 id="tblCpv"
-                mode="{= ${Soa>/EnableEdit} ? 'MultiSelect' : 'None'}"
+                mode="{= ${Utility>/EnableEdit} ? 'MultiSelect' : 'None'}"
                 fixedLayout="false"
                 contextualWidth="Auto"
                 growing="true"
@@ -34,7 +35,7 @@
                             type="Emphasized"
                             press="onAddRow"
                             app:etichetta="Cpv"
-                            enabled="{Soa>/EnableEdit}"
+                            enabled="{Utility>/EnableEdit}"
                         >
                             <layoutData>
                                 <OverflowToolbarLayoutData
@@ -50,7 +51,7 @@
                             press="onCancelRow"
                             app:etichetta="Cpv"
                             app:table="tblCpv"
-                            enabled="{Soa>/EnableEdit}"
+                            enabled="{Utility>/EnableEdit}"
                         >
                             <layoutData>
                                 <OverflowToolbarLayoutData
@@ -92,17 +93,14 @@
                     <ColumnListItem vAlign="Middle">
                         <cells>
                             <Input
-                                id="iptCpv"
                                 valueHelpRequest="onValueHelpCpv"
                                 showValueHelp="true"
-                                valueHelpOnly="true"
-                                app:dialogName="sdCpv"
-                                app:fragmentName="Cpv"
                                 app:index="{Classificazione>Index}"
                                 width="65%"
                                 value="{Classificazione>Zcpv}"
+                                maxLength="40"
                                 change="onCpvChange"
-                                editable="{Soa>/EnableEdit}"
+                                editable="{Utility>/EnableEdit}"
                             />
                             <Input
                                 editable="false"
@@ -116,7 +114,8 @@
                                 app:index="{Classificazione>Index}"
                                 app:etichetta="Cpv"
                                 change="onImpDaAssociareChange"
-                                editable="{Soa>/EnableEdit}"
+                                editable="{Utility>/EnableEdit}"
+                                maxLength="40"
                             />
                         </cells>
                     </ColumnListItem>

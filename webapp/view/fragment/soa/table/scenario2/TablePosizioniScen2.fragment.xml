@@ -153,8 +153,12 @@
 								}
 							}"
                             />
-                            <Text text="{PosizioniScen2>Xblnr}" />
-                            <Text text="{PosizioniScen2>ZbenaltName}" />
+                            <Text
+                                text="{= ${Soa>/ZspecieSop} === '1' ? ${PosizioniScen2>Xblnr} : ${PosizioniScen2>Lxblnr} }"
+                            />
+                            <Text
+                                text="{= ${Soa>/ZspecieSop} === '1' ? ${PosizioniScen2>ZbenaltName} : ${PosizioniScen2>ZzragSoc} }"
+                            />
                             <Text
                                 text="{
 								path: 'PosizioniScen2>Wrbtr',

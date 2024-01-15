@@ -97,9 +97,10 @@ sap.ui.define(
                 "/visibleBtnInserisciProspLiquidazione",
                 true
               );
-              self.setPosizioneScen4();
-              self.createModelSedeBeneficiario()
+              self.createModelModPagamento();
+              self.createModelSedeBeneficiario();
               self.setSedeBeneficiario();
+              self.setPosizioneScen4()
             }
           } else if (bWizard2) {
             self.checkWizard2(oWizard);
@@ -141,30 +142,30 @@ sap.ui.define(
           var self = this;
           var oWizard = self.getView().byId("wizScenario4");
           var oModelStepScenario = self.getModel("StepScenario");
-          var oModelSoa = self.getModel("Soa");
-          var oSoa = oModelSoa.getData();
+          // var oModelSoa = self.getModel("Soa");
+          // var oSoa = oModelSoa.getData();
 
-          var oPosizione = {
-            Znumliq: "",
-            Zposizione: "",
-            ZdescProsp: "",
-            Belnr: "",
-            GjahrDc: "",
-            Xblnr: "",
-            Blart: "",
-            Bldat: null,
-            Zbenalt: "",
-            ZbenaltName: "",
-            Wrbtr: "",
-            Zimpliq: oSoa.Zimptot,
-            Zimppag: oSoa.Zimptot,
-            Zimpdaord: oSoa.Zimptot,
-          };
+          // var oPosizione = {
+          //   Znumliq: "",
+          //   Zposizione: "",
+          //   ZdescProsp: "",
+          //   Belnr: "",
+          //   GjahrDc: "",
+          //   Xblnr: "",
+          //   Blart: "",
+          //   Bldat: null,
+          //   Zbenalt: "",
+          //   ZbenaltName: "",
+          //   Wrbtr: "",
+          //   Zimpliq: oSoa.Zimptot,
+          //   Zimppag: oSoa.Zimptot,
+          //   Zimpdaord: oSoa.Zimptot,
+          // };
 
-          var aPosizioni = [];
-          aPosizioni.push(oPosizione);
+          // var aPosizioni = [];
+          // aPosizioni.push(oPosizione);
 
-          oModelSoa.setProperty("/data", aPosizioni);
+          // oModelSoa.setProperty("/data", aPosizioni);
 
           oModelStepScenario.setProperty("/wizard1Step2", false);
           oModelStepScenario.setProperty("/wizard2", true);
@@ -193,10 +194,10 @@ sap.ui.define(
           var self = this;
 
           self.resetWizard("wizScenario4");
-          self.setSoaRegModel("4");
+          self.createModelSoa("4");
           self.setDataAutorizzazione(oEvent.getParameter("arguments"));
-          self.setClassificazioneRegModel();
-          self.setUtilityRegModel("rgssoa.view.soa.create.scenery.Scenario4");
+          self.createModelClassificazione();
+          self.createModelUtilityReg("rgssoa.view.soa.create.scenery.Scenario4");
 
           var oModelStepScenario = new JSONModel({
             wizard1Step1: true,
@@ -269,74 +270,6 @@ sap.ui.define(
           ];
 
           return aCols;
-        },
-
-        _setDataBeneficiario: function (sLifnr) {
-          var self = this;
-          var oModelSoa = self.getModel("Soa");
-          var oModel = self.getModel();
-
-          var sPath = self.getModel().createKey("/BeneficiarioSOASet", {
-            Beneficiario: sLifnr,
-          });
-
-          if (!sLifnr) {
-            oModelSoa.setProperty("/Lifnr", "");
-            oModelSoa.setProperty("/NameFirst", "");
-            oModelSoa.setProperty("/NameLast", "");
-            oModelSoa.setProperty("/ZzragSoc", "");
-            oModelSoa.setProperty("/TaxnumCf", "");
-            oModelSoa.setProperty("/Taxnumxl", "");
-            oModelSoa.setProperty("/TaxnumPiva", "");
-            oModelSoa.setProperty("/Zsede", "");
-            oModelSoa.setProperty("/Zdenominazione", "");
-            oModelSoa.setProperty("/ZzDescebe", "");
-            oModelSoa.setProperty("/Zdurc", "");
-            oModelSoa.setProperty("/ZfermAmm", "");
-            oModelSoa.setProperty("/Zdstatodes", "");
-            oModelSoa.setProperty("/Zdscadenza", "");
-            oModelSoa.setProperty("/Type", "");
-          }
-
-
-          self.getView().setBusy(true);
-          oModel.read(sPath, {
-            success: function (data, oResponse) {
-              self.getView().setBusy(false);
-              if (self.hasResponseError(oResponse)) {
-                oModelSoa.setProperty("/Lifnr", "");
-                oModelSoa.setProperty("/ZspecieSop", "");
-                oModelSoa.setProperty("/DescZspecieSop", "");
-              }
-              oModelSoa.setProperty("/Lifnr", data.Beneficiario);
-              oModelSoa.setProperty("/NameFirst", data.Nome);
-              oModelSoa.setProperty("/NameLast", data.Cognome);
-              oModelSoa.setProperty("/ZzragSoc", data.RagSoc);
-              oModelSoa.setProperty("/TaxnumCf", data.CodFisc);
-              oModelSoa.setProperty("/Taxnumxl", data.CodFiscEst);
-              oModelSoa.setProperty("/TaxnumPiva", data.PIva);
-              oModelSoa.setProperty("/Zsede", data?.Sede);
-              oModelSoa.setProperty("/Zdenominazione", data?.DescrSede);
-              oModelSoa.setProperty("/ZzDescebe", data?.EnteBen);
-              oModelSoa.setProperty("/Zdurc", data?.Zdurc);
-              oModelSoa.setProperty("/ZfermAmm", data?.ZfermAmm);
-              oModelSoa.setProperty("/Zdstatodes", data?.Zdstatodes);
-              oModelSoa.setProperty("/Zdscadenza", data?.Zdscadenza);
-              oModelSoa.setProperty("/BuType", data?.Type);
-              self._setSpecieSoaDesc("1");
-
-              self.createModelModPagamento()
-            },
-            error: function () {
-              self.getView().setBusy(false);
-            },
-          });
-        },
-
-        onBeneficiarioChange: function (oEvent) {
-          var self = this;
-          this._setDataBeneficiario(oEvent.getParameter("value"))
-          self.createModelModPagamento()
         },
 
         checkWizard1: function () {

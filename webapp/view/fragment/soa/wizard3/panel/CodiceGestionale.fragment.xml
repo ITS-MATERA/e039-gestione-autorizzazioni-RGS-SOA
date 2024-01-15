@@ -16,7 +16,7 @@
         <content>
             <Table
                 id="tblCos"
-                mode="{= ${Soa>/EnableEdit} ? 'MultiSelect' : 'None'}"
+                mode="{= ${Utility>/EnableEdit} ? 'MultiSelect' : 'None'}"
                 fixedLayout="false"
                 contextualWidth="Auto"
                 growing="true"
@@ -34,7 +34,7 @@
                             type="Emphasized"
                             press="onAddRow"
                             app:etichetta="Cos"
-                            enabled="{Soa>/EnableEdit}"
+                            enabled="{Utility>/EnableEdit}"
                         >
                             <layoutData>
                                 <OverflowToolbarLayoutData
@@ -50,7 +50,7 @@
                             press="onCancelRow"
                             app:etichetta="Cos"
                             app:table="tblCos"
-                            enabled="{Soa>/EnableEdit}"
+                            enabled="{Utility>/EnableEdit}"
                         >
                             <layoutData>
                                 <OverflowToolbarLayoutData
@@ -95,18 +95,16 @@
                                 id="iptCos"
                                 valueHelpRequest="onValueHelpCos"
                                 showValueHelp="true"
-                                app:dialogName="sdCos"
-                                app:fragmentName="CodiceGestionale"
                                 app:index="{Classificazione>Index}"
                                 width="65%"
                                 value="{Classificazione>Zcos}"
-                                editable="{Soa>/EnableEdit}"
+                                editable="{Utility>/EnableEdit}"
                                 change="onCosChange"
                                 maxLength="3"
                             />
                             <Input
                                 editable="false"
-                                value="{Classificazione>ZcosDesc}"
+                                value="{Classificazione>ZcosDescFull}"
                             />
                             <Input
                                 id="iptImpDaAssociare"
@@ -116,7 +114,8 @@
                                 app:index="{Classificazione>Index}"
                                 app:etichetta="Cos"
                                 change="onImpDaAssociareChange"
-                                editable="{Soa>/EnableEdit}"
+                                editable="{Utility>/EnableEdit}"
+                                maxLength="30"
                             />
                         </cells>
                     </ColumnListItem>

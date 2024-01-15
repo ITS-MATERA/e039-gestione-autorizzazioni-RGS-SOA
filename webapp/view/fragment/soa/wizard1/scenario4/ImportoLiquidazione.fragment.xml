@@ -1,41 +1,41 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:l="sap.ui.layout"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
 >
-	<Panel backgroundDesign="Transparent">
-		<headerToolbar>
-			<OverflowToolbar>
-				<Title text="{i18n>titleImportoLiquidazione}"/>
-			</OverflowToolbar>
-		</headerToolbar>
-		<content>
-			<l:Grid
-				defaultSpan="XL12 L12 M12 S12"
-				hSpacing="0.5"
-			>
-				<Label
-					text="{i18n>inputImportoLiquidazione}"
-					class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-					required="true"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L3 M5 S12"/>
-					</layoutData>
-				</Label>
-				<Input
-					id="iptImportoLiquidazione"
-					maxLength="26"
-					value="{Soa>/Zimptot}"
-					type="Number"
-					change="onImpLiquidazioneChange"
-					editable="{Soa>/EnableEdit}"
-				>
-					<layoutData>
-						<l:GridData span="XL2 L2 M5 S12"/>
-					</layoutData>
-				</Input>
-			</l:Grid>
-		</content>
-	</Panel>
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleImportoLiquidazione}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Label
+                    text="{i18n>inputImportoLiquidazione}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    required="true"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Label>
+                <Input
+                    id="iptImportoLiquidazione"
+                    maxLength="26"
+                    value="{Soa>/Zimptot}"
+                    type="Number"
+                    change="onImpLiquidazioneChange"
+                    editable="{Utility>/EnableEdit}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
 </c:FragmentDefinition>

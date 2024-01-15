@@ -29,7 +29,7 @@
                           path: 'ModalitaPagamento>/'
                         }"
                     selectedKey="{Soa>/Zwels}"
-                    editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+                    editable="{= ${Soa>/Ztipopag} !== '4' &amp;&amp; ${Utility>/EnableEdit} ? true : false}"
                     selectionChange="onModalitaPagamentoChange"
                 >
                     <c:Item
@@ -78,7 +78,7 @@
                     editable="{= 
 								${Soa>/Banks} !== 'IT' &amp;&amp; 
 								${Soa>/Banks} !== '' &amp;&amp; 
-								${Soa>/EnableEdit} ? true : false
+								${Utility>/EnableEdit} ? true : false
 							}"
                     change="onCausaleValutariaChange"
                 >
@@ -109,7 +109,7 @@
                             ${Soa>/Zwels} !== 'ID2' &amp;&amp;
 							${Soa>/Zwels} !== 'ID3'  &amp;&amp; 
 							${Soa>/Zwels} !== 'ID4' &amp;&amp;  
-							${Soa>/EnableEdit} &amp;&amp;
+							${Utility>/EnableEdit} &amp;&amp;
                             ${Soa>/Zcoordest} === '' ? true : false
 						}"
                     maxLength="34"
@@ -133,7 +133,7 @@
 							${Soa>/Zwels} !== '' &amp;&amp; 
 							${Soa>/Zwels} !== 'ID3'  &amp;&amp; 
 							${Soa>/Zwels} !== 'ID4' &amp;&amp;  
-							${Soa>/EnableEdit} &amp;&amp;
+							${Utility>/EnableEdit} &amp;&amp;
                             ${Soa>/Zcoordest} === '' ? true : false
 						}"
                     maxLength="34"
@@ -161,7 +161,7 @@
                     whichMC="AliasRGS"
                     value="{Soa>/Zalias}"
                     visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
-                    editable="{= ${Soa>/EnableEdit} ? true : false}"
+                    editable="{= ${Utility>/EnableEdit} ? true : false}"
                     change="onAliasChange"
                     maxLength="17"
                 >
@@ -260,7 +260,7 @@
                     showValueHelp="true"
                     editable="{= 
 						(${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10') &amp;&amp; 
-						${Soa>/EnableEdit} &amp;&amp; 
+						${Utility>/EnableEdit} &amp;&amp; 
                         ${Utility>/isZcoordEsterPrevalorizzato} === false &amp;&amp;
                         ${Soa>/Iban} === ''? true : false}"
                     value="{Soa>/Zcoordest}"
@@ -285,7 +285,7 @@
                 </Text>
                 <Input
                     visible="{= ${Soa>/Zwels} === 'ID4'}"
-                    editable="{= ${Soa>/EnableEdit} ? true : false}"
+                    editable="{= ${Utility>/EnableEdit} ? true : false}"
                     value="{Soa>/Zzposfinent}"
                     maxLength="24"
                     change="onPosFinanziariaEntrateChange"
@@ -308,9 +308,26 @@
                 </Text>
                 <Input
                     visible="{= ${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10'}"
-                    editable="{= ${Soa>/EnableEdit} ? true : false}"
+                    editable="{= ${Utility>/EnableEdit} ? true : false}"
                     value="{Soa>/Zpurpose}"
                     maxLength="35"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCategoryPurpose}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Soa>/Zcatpurpose}"
+                    editable="false"
+                    maxLength="5"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -334,7 +351,7 @@
 						path: '/FlagFruttiferoSet'
 					}"
                     selectedKey="{Soa>/Zflagfrutt}"
-                    editable="{= ${Soa>/EnableEdit} ? true : false}"
+                    editable="{= ${Utility>/EnableEdit} ? true : false}"
                     visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
                     change="onFlagFruttiferoChange"
                 >

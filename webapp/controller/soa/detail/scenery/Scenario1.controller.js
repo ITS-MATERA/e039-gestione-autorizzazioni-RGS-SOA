@@ -122,15 +122,13 @@ sap.ui.define(
             if (self.checkDispAutorizzazione()) {
               oModelStepScenario.setProperty("/wizard1Step3", false);
               oModelStepScenario.setProperty("/wizard2", true);
+              self.createModelSedeBeneficiario()
+              self.createModelModPagamento()
+              self.setSedeBeneficiario();
               oWizard.nextStep();
             }
-            self.createModelSedeBeneficiario()
-            self.createModelModPagamento()
-            self.setSedeBeneficiario();
           } else if (bWizard2) {
-            oModelStepScenario.setProperty("/wizard2", false);
-            oModelStepScenario.setProperty("/wizard3", true);
-            oWizard.nextStep();
+            self.checkWizard2(oWizard);
           } else if (bWizard3) {
             if (self.checkClassificazione()) {
               oModelStepScenario.setProperty("/wizard3", false);
@@ -148,6 +146,7 @@ sap.ui.define(
           var oModelUtility = self.getModel("Utility");
           var oModelStepScenario = self.getModel("StepScenario");
           var oModelSoa = self.getModel("Soa");
+          var oModelUtility = self.getModel("Utility");
           var sKey = oEvent.getParameter("selectedKey");
 
           oModelUtility.setProperty("/Function", sKey);
@@ -163,8 +162,9 @@ sap.ui.define(
           switch (sKey) {
             case "Dettaglio": {
               self.resetWizard("wizScenario1");
-              self.setStepScenarioModel();
-              self.setSoaModel(oParameters, function () { });
+              self.createModelStepScenarioDet();
+              oModelUtility.setProperty("/EnableEdit", false)
+              self.setModelSop(oParameters, function () { });
               break;
             }
             case "Workflow": {
@@ -224,10 +224,10 @@ sap.ui.define(
           var bRemoveFunctionButtons = bDetailFromFunction;
 
           //Load Models
-          self.setStepScenarioModel();
-          self.setUtilityModel(bDetailFromFunction, bRemoveFunctionButtons, "soa.detail.scenery.Scenario1");
-          self.setFiltersPosizioniModel();
-          self.setSoaModel(oParameters, function () {
+          self.createModelStepScenarioDet();
+          self.createModelUtilityDet(bDetailFromFunction, bRemoveFunctionButtons, "soa.detail.scenery.Scenario1");
+          self.createModelFiltersWizard1();
+          self.setModelSop(oParameters, function () {
             self.enableFunctions();
             self.setMode(oParameters.Mode);
             self.setSedeBeneficiario();
@@ -384,6 +384,8 @@ sap.ui.define(
                   );
                   var aPositions = oModelSoa.getProperty("/data");
 
+                  oTable.removeSelections();
+
                   aSelectedItems.map((oSelectedItem) => {
                     if (oSelectedItem.Zchiavesop) {
                       oSelectedItem.Tiporiga = 'D'
@@ -415,7 +417,7 @@ sap.ui.define(
                   });
 
                   oModelSoa.setProperty("/Zimptot", fTotal.toFixed(2));
-                  oTable.removeSelections();
+
                 }
               },
             }
@@ -427,10 +429,8 @@ sap.ui.define(
           var oModelUtility = self.getModel("Utility");
           var oModelStepScenario = self.getModel("StepScenario");
           var oSoa = self.getModel("Soa").getData()
-          var oModelFilters = self.getModel("FilterDocumenti")
+          var oModelFilters = self.getModel("FiltersWizard1")
 
-          oModelFilters.setProperty("/Lifnr", oSoa.Lifnr)
-          oModelFilters.setProperty("/TipoBeneficiario", oSoa.BuType)
           oModelFilters.setProperty("/CodRitenuta", oSoa.Witht)
           oModelFilters.setProperty("/CodEnte", oSoa.ZzCebenra)
 
@@ -474,7 +474,6 @@ sap.ui.define(
           oModelUtility.setProperty("/EnableEdit", true);
           oModelUtility.setProperty("/RemoveFunctionButtons", true);
 
-          oModelSoa.setProperty("/EnableEdit", true);
           //Porto la IconTab sul tab giusto
           oModelUtility.setProperty("/Function", "Rettifica");
           oModelSoa.setProperty("/visibleBtnEdit", false);

@@ -30,7 +30,7 @@
 					}"
                     selectedKey="{Soa>/Zidsede}"
                     selectionChange="onSedeBeneficiarioChange"
-                    editable="{Soa>/EnableEdit}"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <c:Item
                         key="{SedeBeneficiario>Zidsede}"

@@ -74,7 +74,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                        visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelImpLiquidato}" />
@@ -83,7 +83,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                        visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelImpOrdinato}" />
@@ -92,7 +92,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
+                        visible="{= ${Soa>/ZspecieSop} === '2' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelImpLiqNonOrdinata}" />
@@ -101,7 +101,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
+                        visible="{= ${Soa>/ZspecieSop} === '2' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelResiduoVersabile}" />
@@ -110,7 +110,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
+                        visible="{= ${Soa>/ZspecieSop} === '2' ? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelResiduoEsigibile}" />

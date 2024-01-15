@@ -18,7 +18,7 @@
                 class="noPadding"
             >
                 <c:Fragment
-                    fragmentName="rgssoa.view.fragment.soa.HeaderSoa"
+                    fragmentName="rgssoa.view.fragment.soa.HeaderSoaDetail"
                     type="XML"
                 />
             </f:DynamicPageHeader>
@@ -79,7 +79,7 @@
                     type="Emphasized"
                     text="{i18n>btnEdit}"
                     press="onSaveEdit"
-                    visible="{= ${StepScenario>/visibleBtnSave} &amp;&amp; ${Soa>/EnableEdit} ? true : false}"
+                    visible="{= ${StepScenario>/visibleBtnSave} &amp;&amp; ${Utility>/EnableEdit} ? true : false}"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />

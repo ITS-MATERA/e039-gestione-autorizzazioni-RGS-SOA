@@ -3,6 +3,7 @@
     xmlns:c="sap.ui.core"
     xmlns:l="sap.ui.layout"
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
     <Panel
         backgroundDesign="Transparent"
@@ -26,7 +27,7 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
-                <Input value="{FilterDocumenti>/UfficioContabile}">
+                <Input value="{FiltersWizard1>/UfficioContabile}">
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
@@ -39,7 +40,7 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
-                <Input value="{FilterDocumenti>/UfficioPagatore}">
+                <Input value="{FiltersWizard1>/UfficioPagatore}">
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
@@ -63,7 +64,7 @@
                     items="{
 						path: '/RicercaAnnoRegDocSet'
 					}"
-                    selectedKeys="{FilterDocumenti>/AnnoRegDocumento}"
+                    selectedKeys="{FiltersWizard1>/AnnoRegDocumento}"
                 >
                     <c:Item
                         key="{Gjahr}"
@@ -84,9 +85,9 @@
                 <Input
                     valueHelpRequest="onValueHelpNRegDocumento"
                     showValueHelp="true"
-                    valueHelpOnly="true"
                     app:PropertyModel="NumRegDocFrom"
-                    value="{FilterDocumenti>/NumRegDocFrom}"
+                    value="{FiltersWizard1>/NumRegDocFrom}"
+                    maxLength="10"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -103,9 +104,9 @@
                 <Input
                     valueHelpRequest="onValueHelpNRegDocumento"
                     showValueHelp="true"
-                    valueHelpOnly="true"
                     app:PropertyModel="NumRegDocTo"
-                    value="{FilterDocumenti>/NumRegDocTo}"
+                    value="{FiltersWizard1>/NumRegDocTo}"
+                    maxLength="10"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -130,7 +131,7 @@
                     items="{
 						path: 'AnnoDocBeneficiario>/'
 					}"
-                    selectedKeys="{FilterDocumenti>/AnnoDocBeneficiario}"
+                    selectedKeys="{FiltersWizard1>/AnnoDocBeneficiario}"
                 >
                     <c:Item
                         key="{AnnoDocBeneficiario>Gjahr}"
@@ -151,13 +152,32 @@
                 <MultiInput
                     valueHelpRequest="onValueHelpNumDocBene"
                     showValueHelp="true"
-                    valueHelpOnly="true"
-                    value="{FilterDocumenti>/NDocBen}"
+                    value="{FiltersWizard1>/NDocBen}"
+                    change="onNDocBeneChange"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </MultiInput>
+                <Text
+                    text="{i18n>labelBenDocCosto}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <zcontrolmccross:MatchcodeCross
+                    id="iptBeneficiarioDocCosto"
+                    whichMC="Beneficiario"
+                    value="{FiltersWizard1>/Zbenalt}"
+                    maxLength="10"
+                    liveChange="onBeneficiarioDocCostoChange"
+                >
+                    <zcontrolmccross:layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
             </l:Grid>
         </content>
         <content>
@@ -174,7 +194,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{FilterDocumenti>/Cig}"
+                    value="{FiltersWizard1>/Cig}"
                     maxLength="20"
                     showValueHelp="true"
                     valueHelpRequest="onValueHelpCigFilter"
@@ -194,7 +214,8 @@
                 </Text>
                 <Input
                     showValueHelp="true"
-                    value="{FilterDocumenti>/Cup}"
+                    value="{FiltersWizard1>/Cup}"
+                    maxLength="15"
                     valueHelpRequest="onValueHelpCupFilter"
                     editable="{= ${Soa>/ZspecieSop} === '2' ? false : true}"
                 >
@@ -221,7 +242,7 @@
                     valueFormat="yyyy-MM-dd"
                     displayFormat="dd.MM.yyyy"
                     value="{
-						path: 'FilterDocumenti>/ScadenzaDocFrom',
+						path: 'FiltersWizard1>/ScadenzaDocFrom',
 						type: 'sap.ui.model.type.Date',
 						formatOptions: {
 							pattern: 'dd.MM.yyyy'
@@ -245,7 +266,7 @@
                     valueFormat="yyyy-MM-dd"
                     displayFormat="dd.MM.yyyy"
                     value="{
-						path: 'FilterDocumenti>/ScadenzaDocTo',
+						path: 'FiltersWizard1>/ScadenzaDocTo',
 						type: 'sap.ui.model.type.Date',
 						formatOptions: {
 							pattern: 'dd.MM.yyyy'

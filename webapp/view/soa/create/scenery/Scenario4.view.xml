@@ -31,7 +31,7 @@
                             <Wizard
                                 id="wizScenario4"
                                 showNextButton="false"
-                                class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+                                class=".sapMWizardStepTitle sapMWizardStep"
                             >
                                 <WizardStep
                                     title="{i18n>titleWizard1NewProspLiquidazione}"

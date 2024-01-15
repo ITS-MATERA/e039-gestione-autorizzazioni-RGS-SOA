@@ -14,20 +14,23 @@
                 <zcontrolanagrafica:AnagraficaPopup
                     viewId="{Utility>/ViewId}"
                     enabled="{= 
-						${Soa>/ZspecieSop} === '1' &amp;&amp; 
-						(${Soa>/Ztipopag} === '1' || ${Soa>/Ztipopag} === '2' || ${Soa>/Ztipopag} === '3')
-						&amp;&amp; 
-						${Soa>/EnableEdit} ? true : false 
-					}"
+                        ${Soa>/ZspecieSop} === '1' &amp;&amp; 
+                        ${Soa>/Ztipopag} === '2' &amp;&amp; 
+                        ${Utility>/EnableEdit} ? true : false 
+                    }"
                 />
                 <zcontrolmodpag:ModPagamentoPopup
                     viewId="{Utility>/ViewId}"
                     Lifnr="{Soa>/Lifnr}"
                     enabled="{= 
-						${Soa>/ZspecieSop} === '1' &amp;&amp; 
-						${Soa>/Ztipopag} === '2' &amp;&amp; 
-						${Soa>/EnableEdit} ? true : false
-					}"
+                        ${Soa>/ZspecieSop} === '1' &amp;&amp; 
+                        (
+                            ${Soa>/Ztipopag} === '1' || 
+                            ${Soa>/Ztipopag} === '2' || 
+                            ${Soa>/Ztipopag} === '3'
+                        ) &amp;&amp; 
+                      ${Utility>/EnableEdit} ? true : false
+                    }"
                 />
             </OverflowToolbar>
         </headerToolbar>
@@ -53,7 +56,7 @@
                             value="{Soa>/Lifnr}"
                             editable="{= 
 								${Soa>/Ztipopag} === '2' &amp;&amp; 
-								${Soa>/EnableEdit} ? true : false
+								${Utility>/EnableEdit} ? true : false
 							}"
                             change="onBeneficiarioChange"
                             maxLength="10"
@@ -256,6 +259,7 @@
                 <Text
                     text="{i18n>inputDurc}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData
@@ -270,6 +274,7 @@
 						path: 'Soa>/Zdurc',
 						formatter: '.formatter.deleteFirstZeros'
 					}"
+                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -278,6 +283,7 @@
                 <Text
                     text="{i18n>inputStatoDurc}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData
@@ -289,6 +295,7 @@
                 <Input
                     editable="false"
                     value="{Soa>/Zdstatodes}"
+                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -297,6 +304,7 @@
                 <Text
                     text="{i18n>inputScadenzaDurc}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData
@@ -316,6 +324,7 @@
 							pattern: 'dd.MM.yyyy'
 						}
 					}"
+                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -324,6 +333,7 @@
                 <Text
                     text="{i18n>inputFermoAmministrativo}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData
@@ -335,6 +345,7 @@
                 <Input
                     editable="false"
                     value="{Soa>/ZfermAmm}"
+                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

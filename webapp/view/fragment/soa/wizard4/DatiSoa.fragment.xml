@@ -22,7 +22,7 @@
                     value="{Soa>/Znumprot}"
                     maxLength="6"
                     type="Number"
-                    editable="{Soa>/EnableEdit}"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <l:GridData span="XL1 L2 M2 S12" />
@@ -49,7 +49,8 @@
 							pattern: 'dd.MM.yyyy'
 						}
 					}"
-                    editable="{Soa>/EnableEdit}"
+                    editable="{Utility>/EnableEdit}"
+                    maxDate="{Utility>/CurrentDate}"
                 >
                     <layoutData>
                         <l:GridData span="XL1 L2 M2 S12" />
@@ -85,7 +86,8 @@
                             viewId="{Utility>/ViewId}"
                             whichMC="LocalitaPagamento"
                             value="{Soa>/Zlocpag}"
-                            editable="{Soa>/EnableEdit}"
+                            editable="{Utility>/EnableEdit}"
+                            liveChange="onLocPagamentoChange"
                         />
                     </items>
                     <layoutData>
@@ -109,7 +111,7 @@
                     value="{Soa>/Zcausale}"
                     width="100%"
                     cols="100"
-                    editable="{Soa>/EnableEdit}"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <l:GridData span="XL8 L7 M8 S12" />
@@ -131,13 +133,12 @@
                     value="{Soa>/ZE2e}"
                     width="100%"
                     cols="100"
-                    editable="{Soa>/EnableEdit}"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <l:GridData span="XL8 L7 M8 S12" />
                     </layoutData>
                 </TextArea>
-                <!-- TODO - Open point -->
                 <Text
                     text="{i18n>inputDataEsigibilita}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
@@ -159,7 +160,7 @@
 							pattern: 'dd.MM.yyyy'
 						}
 					}"
-                    editable="{Soa>/EnableEdit}"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <l:GridData span="XL1 L2 M2 S12" />
@@ -184,7 +185,7 @@
                             viewId="{Utility>/ViewId}"
                             whichMC="ZonaIntervento"
                             value="{Soa>/Zzonaint}"
-                            editable="{Soa>/EnableEdit}"
+                            editable="{Utility>/EnableEdit}"
                             valueHelpOnly="true"
                         />
                     </items>

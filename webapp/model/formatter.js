@@ -83,5 +83,36 @@ sap.ui.define([], function () {
 
       return sDay + "." + sMonths + "." + sYear;
     },
+
+    /**
+ *
+ * @param {Date} oDate
+ * @returns {Date}
+ */
+    UTCRome: function (oDate) {
+      if (!oDate) {
+        return null;
+      }
+
+      if (!oDate instanceof Date) {
+        oDate = new Date(oDate);
+      }
+
+      var sDay = oDate.getDate();
+      var iDay = parseInt(sDay)
+      if (iDay < 10) {
+        sDay = "0" + sDay
+      }
+      var sMonths = oDate.getMonth() + 1;
+      var iMonth = parseInt(sMonths)
+      if (iMonth < 10) {
+        sMonths = "0" + sMonths
+      }
+      var sYear = oDate.getFullYear();
+      var sDatetime = sYear + "-" + sMonths + "-" + sDay + "T00:00:00.000+00:00"
+      oDate = new Date(sDatetime)
+
+      return oDate
+    },
   };
 });

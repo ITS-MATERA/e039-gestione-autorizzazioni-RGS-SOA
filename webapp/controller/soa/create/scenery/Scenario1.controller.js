@@ -56,6 +56,7 @@ sap.ui.define(
           } else if (bWizard2) {
             oModelStepScenario.setProperty("/wizard2", false);
             oModelStepScenario.setProperty("/wizard1Step3", true);
+            self._resetDataModalitaPagamento(true)
             oWizard.previousStep();
           } else if (bWizard3) {
             oModelStepScenario.setProperty("/wizard3", false);
@@ -208,13 +209,13 @@ sap.ui.define(
         _onObjectMatched: function (oEvent) {
           var self = this;
 
-          self.resetWizard("wizScenario1");
-          self.setSoaRegModel("1");
+          self.createModelSoa("1");
           self.setDataAutorizzazione(oEvent.getParameter("arguments"));
-          self.setClassificazioneRegModel();
-          self.setUtilityRegModel("rgssoa.view.soa.create.scenery.Scenario1");
-          self.setStepScenarioRegModel();
-          self.createModelFilters()
+          self.createModelFiltersWizard1()
+          self.createModelStepScenarioReg();
+          self.createModelClassificazione();
+          self.createModelUtilityReg("rgssoa.view.soa.create.scenery.Scenario1");
+          self.resetWizard("wizScenario1");
         },
 
       }
