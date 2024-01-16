@@ -43,6 +43,7 @@
                     </layoutData>
                 </Text>
                 <Input
+                    id="iptCFCommit"
                     editable="{= 
 						${Soa>/FlagInpsEditabile} &amp;&amp; 
 						${Utility>/EnableEdit} ? true : false
@@ -72,7 +73,7 @@
 							${Soa>/FlagInpsEditabile} &amp;&amp; 
 							${Utility>/EnableEdit} ? true : false
 						}"
-                        change="onCausaleTributoChange"
+                        liveChange="onCausaleTributoChange"
                         maxLength="4"
                     />
                     <layoutData>
@@ -93,7 +94,6 @@
                 <DatePicker
                     valueFormat="yyyy-MM-dd"
                     displayFormat="dd.MM.yyyy"
-                    editable="false"
                     value="{
 						path: 'Soa>/Zperiodrifda',
 						type: 'sap.ui.model.type.Date',
@@ -117,7 +117,6 @@
                 <DatePicker
                     valueFormat="yyyy-MM-dd"
                     displayFormat="dd.MM.yyyy"
-                    editable="false"
                     value="{
 						path: 'Soa>/Zperiodrifa',
 						type: 'sap.ui.model.type.Date',
@@ -139,7 +138,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    editable="false"
+                    id="iptCodInps"
                     value="{Soa>/Zcodinps}"
                     maxLength="17"
                 >

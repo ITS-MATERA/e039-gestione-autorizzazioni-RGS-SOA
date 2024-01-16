@@ -1467,6 +1467,13 @@ sap.ui.define(
         this.setSedeBeneficiario();
       },
 
+      onCausaleTributoChange: function (oEvent) {
+        var self = this;
+        var oModelSoa = self.getModel("Soa")
+
+        oModelSoa.setProperty("/Zcodtrib", oEvent.getParameter("value"))
+      },
+
       //Cambio IBAN
       onOkMotivazione: function () {
         var self = this;

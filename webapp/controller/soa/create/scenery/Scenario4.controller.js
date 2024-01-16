@@ -28,6 +28,9 @@ sap.ui.define(
           };
           self.setModel(new JSONModel(oModelUtility), "Utility");
 
+          self.acceptOnlyNumber("iptCodInps")
+          self.acceptOnlyNumber("iptCodiceTributo")
+          self.acceptOnlyImport("iptCFCommit")
           self.acceptOnlyImport("iptImportoLiquidazione");
 
           this.getRouter()

@@ -19,6 +19,10 @@ sap.ui.define(
           };
           self.setModel(new JSONModel(oModelUtility), "Utility");
 
+          self.acceptOnlyNumber("iptCodInps")
+          self.acceptOnlyNumber("iptCodiceTributo")
+          self.acceptOnlyImport("iptCFCommit")
+
           this.getRouter()
             .getRoute("soa.create.scenery.Scenario3")
             .attachPatternMatched(this._onObjectMatched, this);
