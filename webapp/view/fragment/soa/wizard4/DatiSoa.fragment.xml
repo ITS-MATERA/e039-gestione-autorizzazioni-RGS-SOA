@@ -88,6 +88,7 @@
                             value="{Soa>/Zlocpag}"
                             editable="{Utility>/EnableEdit}"
                             liveChange="onLocPagamentoChange"
+                            maxLength="100"
                         />
                     </items>
                     <layoutData>
