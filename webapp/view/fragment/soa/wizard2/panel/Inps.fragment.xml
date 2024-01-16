@@ -48,6 +48,7 @@
 						${Utility>/EnableEdit} ? true : false
 					}"
                     value="{Soa>/Zcfcommit}"
+                    maxLength="11"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -72,7 +73,7 @@
 							${Utility>/EnableEdit} ? true : false
 						}"
                         change="onCausaleTributoChange"
-                        maxLength="200"
+                        maxLength="4"
                     />
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -140,6 +141,7 @@
                 <Input
                     editable="false"
                     value="{Soa>/Zcodinps}"
+                    maxLength="17"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
