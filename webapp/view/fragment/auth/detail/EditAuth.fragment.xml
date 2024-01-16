@@ -1,485 +1,486 @@
 <core:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:l="sap.ui.layout"
-	xmlns:core="sap.ui.core"
-	xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
-	xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
+    xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-	<Panel>
-		<l:Grid
-			defaultSpan="XL12 L12 M12 S12"
-			vSpacing="0"
-		>
-			<Label
-				text="{i18n>detailAuthEsercizioGestione}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-				required="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Input
-				width="100%"
-				value="{AutorizzazioneDetailSet>/Gjahr}"
-				enabled="false"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-		</l:Grid>
-	</Panel>
-	<Panel
-		headerText="{i18n>authDetail-detail-datiAutorizzazioneRGS}"
-		backgroundDesign="Transparent"
-	>
-		<l:Grid
-			defaultSpan="XL12 L12 M12 S12"
-			vSpacing="0"
-		>
-			<Label
-				text="{i18n>detailAuthImportoAutorizzato}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-				required="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Input
-				value="{AutorizzazioneDetailSet>/Zimpaut}"
-				type="Number"
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-				width="100%"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-			<Label
-				text="{i18n>detailAuthTipologiaAutorizzazione}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-				required="true"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL1 L1 M6 S12"
-						linebreak="true"
-					/>
-				</layoutData>
-			</Label>
-			<ComboBox
-				width="100%"
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-				selectedKey="{AutorizzazioneDetailSet>/Ztipodisp2}"
-				change="setPropertyComboFromChange"
-				app:propertyModel="Ztipodisp2"
-				app:propertyCallFunction="_loadTipologiaDisposizione"
-				items="{
+    <Panel>
+        <l:Grid
+            defaultSpan="XL12 L12 M12 S12"
+            vSpacing="0"
+        >
+            <Label
+                text="{i18n>detailAuthEsercizioGestione}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+                required="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Input
+                width="100%"
+                value="{AutorizzazioneDetailSet>/Gjahr}"
+                enabled="false"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+        </l:Grid>
+    </Panel>
+    <Panel
+        headerText="{i18n>authDetail-detail-datiAutorizzazioneRGS}"
+        backgroundDesign="Transparent"
+    >
+        <l:Grid
+            defaultSpan="XL12 L12 M12 S12"
+            vSpacing="0"
+        >
+            <Label
+                text="{i18n>detailAuthImportoAutorizzato}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+                required="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Input
+                value="{AutorizzazioneDetailSet>/Zimpaut}"
+                type="Number"
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                width="100%"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+            <Label
+                text="{i18n>detailAuthTipologiaAutorizzazione}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+                required="true"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL1 L1 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </Label>
+            <ComboBox
+                width="100%"
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                selectedKey="{AutorizzazioneDetailSet>/Ztipodisp2}"
+                change="setPropertyComboFromChange"
+                app:propertyModel="Ztipodisp2"
+                app:propertyCallFunction="_loadTipologiaDisposizione"
+                items="{
 					path: 'TipoDisp2Set>/'
 				}"
-			>
-				<core:Item
-					key="{TipoDisp2Set>Ztipodisp2}"
-					text="{TipoDisp2Set>Zdesctipodisp2}"
-				/>
-				<layoutData>
-					<l:GridData span="XL3 L3 M6 S12"/>
-				</layoutData>
-			</ComboBox>
-			<Label
-				text="{i18n>detailAuthTipologiaDisposizione}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-				required="true"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL1 L1 M6 S12"
-						linebreak="true"
-					/>
-				</layoutData>
-			</Label>
-			<ComboBox
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-				width="100%"
-				selectedKey="{AutorizzazioneDetailSet>/Ztipodisp3}"
-				change="setPropertyComboFromChange"
-				app:propertyModel="RegisterSet/Ztipodisp3"
-				items="{
+            >
+                <core:Item
+                    key="{TipoDisp2Set>Ztipodisp2}"
+                    text="{TipoDisp2Set>Zdesctipodisp2}"
+                />
+                <layoutData>
+                    <l:GridData span="XL3 L3 M6 S12" />
+                </layoutData>
+            </ComboBox>
+            <Label
+                text="{i18n>detailAuthTipologiaDisposizione}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+                required="true"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL1 L1 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </Label>
+            <ComboBox
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                width="100%"
+                selectedKey="{AutorizzazioneDetailSet>/Ztipodisp3}"
+                change="setPropertyComboFromChange"
+                app:propertyModel="RegisterSet/Ztipodisp3"
+                items="{
 					path: 'TipoDisp3Set>/'
 				}"
-			>
-				<core:Item
-					key="{TipoDisp3Set>Ztipodisp3}"
-					text="{TipoDisp3Set>Zdesctipodisp3}"
-				/>
-				<layoutData>
-					<l:GridData span="XL3 L3 M6 S12"/>
-				</layoutData>
-			</ComboBox>
-			<Label
-				text="{i18n>detailAuthNoteAutorizzazione}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL1 L1 M6 S12"
-						linebreak="true"
-					/>
-				</layoutData>
-			</Label>
-			<TextArea
-				value="{AutorizzazioneDetailSet>/Znoteaut}"
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-				cols="100"
-				rows="5"
-				maxLength="1000"
-				width="100%"
-			>
-				<layoutData>
-					<l:GridData span="XL8 L8 M12 S12"/>
-				</layoutData>
-			</TextArea>
-			<Label
-				text="{i18n>detailAuthUfficioIGEPA}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL1 L1 M6 S12"
-						linebreak="true"
-					/>
-				</layoutData>
-			</Label>
-			<Input
-				width="100%"
-				value="{AutorizzazioneDetailSet>/ZufficioIgepa}"
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-			<Label
-				text="{i18n>detailAuthUfficioAmmRich}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Input
-				width="100%"
-				value="{AutorizzazioneDetailSet>/ZufficioRich}"
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-			<Label
-				text="{i18n>detailAuthUfficioUCBCompetente}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Input
-				width="100%"
-				value="{AutorizzazioneDetailSet>/ZufficioUcb}"
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-		</l:Grid>
-	</Panel>
-	<Panel
-		headerText="{i18n>authDetail-detail-imputazioneContabile}"
-		backgroundDesign="Transparent"
-	>
-		<l:Grid
-			defaultSpan="XL12 L12 M12 S12"
-			vSpacing="0"
-		>
-			<Label
-				text="{i18n>detailAuthEsercizioFinanziario}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-				required="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<ComboBox
-				width="100%"
-				change="setPropertyComboFromChange"
-				app:propertyModel="EsercizioFinanziario"
-				app:propertyCallFunction="_clearFiposFistl"
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-				value="{AutorizzazioneDetailSet>/EsercizioFinanziario}"
-				items="{
+            >
+                <core:Item
+                    key="{TipoDisp3Set>Ztipodisp3}"
+                    text="{TipoDisp3Set>Zdesctipodisp3}"
+                />
+                <layoutData>
+                    <l:GridData span="XL3 L3 M6 S12" />
+                </layoutData>
+            </ComboBox>
+            <Label
+                text="{i18n>detailAuthNoteAutorizzazione}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL1 L1 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </Label>
+            <TextArea
+                value="{AutorizzazioneDetailSet>/Znoteaut}"
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                cols="100"
+                rows="5"
+                maxLength="1000"
+                width="100%"
+            >
+                <layoutData>
+                    <l:GridData span="XL8 L8 M12 S12" />
+                </layoutData>
+            </TextArea>
+            <Label
+                text="{i18n>detailAuthUfficioIGEPA}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL1 L1 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </Label>
+            <Input
+                width="100%"
+                value="{AutorizzazioneDetailSet>/ZufficioIgepa}"
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+            <Label
+                text="{i18n>detailAuthUfficioAmmRich}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Input
+                width="100%"
+                value="{AutorizzazioneDetailSet>/ZufficioRich}"
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+            <Label
+                text="{i18n>detailAuthUfficioUCBCompetente}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Input
+                width="100%"
+                value="{AutorizzazioneDetailSet>/ZufficioUcb}"
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+        </l:Grid>
+    </Panel>
+    <Panel
+        headerText="{i18n>authDetail-detail-imputazioneContabile}"
+        backgroundDesign="Transparent"
+    >
+        <l:Grid
+            defaultSpan="XL12 L12 M12 S12"
+            vSpacing="0"
+        >
+            <Label
+                text="{i18n>detailAuthEsercizioFinanziario}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+                required="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <ComboBox
+                width="100%"
+                change="setPropertyComboFromChange"
+                app:propertyModel="EsercizioFinanziario"
+                app:propertyCallFunction="_clearFiposFistl"
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                value="{AutorizzazioneDetailSet>/EsercizioFinanziario}"
+                items="{
 					path: '/EsercizioGestioneSet'
 				}"
-			>
-				<core:Item
-					key="{Gjahr}"
-					text="{Gjahr}"
-				/>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</ComboBox>
-			<Label
-				text="{i18n>detailAuthPosizioneFinanziaria}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-				required="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<VBox>
-				<zcontrol:InputPosizioneFinanziaria
-					fase="GEST"
-					spesa="X"
-					maxLength="24"
-					reale="R"
-					anno="{AutorizzazioneDetailSet>/EsercizioFinanziario}"
-					versione="D"
-					maxSuggestionWidth="60%"
-					submit="posizioneFinanziariaLiveChange"
-					liveChange="posizioneFinanziariaLiveChange"
-					width="100%"
-					app:propertyModel="Fipos"
-					value="{AutorizzazioneDetailSet>/Fipos}"
-					enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-				/>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</VBox>
-			<Label
-				text="{i18n>detailAuthStrutturaAmmResp}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL1 L1 M6 S12"
-						linebreak="true"
-					/>
-				</layoutData>
-			</Label>
-			<VBox>
-				<zcontrolMatchSar:GestioneLogUser
-					eos="S"
-					fase="GEST"
-					entrata="X"
-					reale="R"
-					maxLength="16"
-					anno="{AutorizzazioneDetailSet>/EsercizioFinanziario}"
-					SEM_OBJ="Z_TEST_LIB"
-					versione="D"
-					width="100%"
-					placeholder="Scegli struttura amministrativa"
-					submit="strutturaAmministrativaLiveChange"
-					liveChange="strutturaAmministrativaLiveChange"
-					app:propertyModel="Fistl"
-					value="{AutorizzazioneDetailSet>/Fistl}"
-					enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-				/>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</VBox>
-			<Label
-				text="{i18n>detailAuthDescrizioneStrutturaAmmResp}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Input
-				value="{AutorizzazioneDetailSet>/DescrEstesa}"
-				width="100%"
-				enabled="false"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-			<CheckBox
-				text="{i18n>detailAuthPosFinNonAncoraIstituita}"
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-				selected="{AutorizzazioneDetailSet>/ZflagFipos}"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL3 L3 M6 S12"
-						linebreak="true"
-					/>
-				</layoutData>
-			</CheckBox>
-		</l:Grid>
-	</Panel>
-	<Panel
-		headerText="{i18n>authDetail-detail-ufficio}"
-		backgroundDesign="Transparent"
-	>
-		<l:Grid
-			defaultSpan="XL12 L12 M12 S12"
-			vSpacing="0"
-		>
-			<Label
-				text="{i18n>detailAuthUfficioOrdinante}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-				required="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Input
-				value="{AutorizzazioneDetailSet>/ZufficioCont}"
-				submit="onUfficioContabileChange"
-				width="100%"
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-			<Label
-				text="{i18n>detailAuthUfficioOrdinanteDescrizione}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Input
-				value="{AutorizzazioneDetailSet>/Descufficio}"
-				width="100%"
-				enabled="false"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-			<Label
-				text="{i18n>detailAuthCodiceFD}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData
-						span="XL1 L1 M6 S12"
-						linebreak="true"
-					/>
-				</layoutData>
-			</Label>
-			<Input
-				value="{AutorizzazioneDetailSet>/Zfunzdel}"
-				width="100%"
-				enabled="false"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-			<Label
-				text="{i18n>detailAuthCodiceFDDescrizione}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Input
-				value="{AutorizzazioneDetailSet>/Zdescriz}"
-				width="100%"
-				enabled="false"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-		</l:Grid>
-	</Panel>
-	<Panel
-		headerText="{i18n>authDetail-detail-datiProtocollo}"
-		backgroundDesign="Transparent"
-	>
-		<l:Grid
-			defaultSpan="XL12 L12 M12 S12"
-			vSpacing="0"
-		>
-			<Label
-				text="{i18n>detailAuthNProtocolloAmm}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<Input
-				value="{AutorizzazioneDetailSet>/Znumprot}"
-				width="100%"
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-			>
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</Input>
-			<Label
-				text="{i18n>detailAuthDataProtocolloAmm}"
-				class="sapUiSmallMarginEnd sapUiTinyMarginTop"
-				wrapping="true"
-			>
-				<layoutData>
-					<l:GridData span="XL1 L1 M6 S12"/>
-				</layoutData>
-			</Label>
-			<DatePicker
-				enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
-				change="setPropertyDatePickerFromChange"
-				valueFormat="dd/MM/yyyy"
-				displayFormat="dd.MM.yyyy"
-				value="{
+            >
+                <core:Item
+                    key="{Gjahr}"
+                    text="{Gjahr}"
+                />
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </ComboBox>
+            <Label
+                text="{i18n>detailAuthPosizioneFinanziaria}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+                required="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <VBox>
+                <zcontrol:InputPosizioneFinanziaria
+                    fase="GEST"
+                    spesa="X"
+                    maxLength="24"
+                    reale="R"
+                    anno="{AutorizzazioneDetailSet>/EsercizioFinanziario}"
+                    versione="D"
+                    maxSuggestionWidth="60%"
+                    submit="posizioneFinanziariaLiveChange"
+                    liveChange="posizioneFinanziariaLiveChange"
+                    width="100%"
+                    app:propertyModel="Fipos"
+                    value="{AutorizzazioneDetailSet>/Fipos}"
+                    enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                />
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </VBox>
+            <Label
+                text="{i18n>detailAuthStrutturaAmmResp}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL1 L1 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </Label>
+            <VBox>
+                <zcontrolMatchSar:GestioneLogUser
+                    eos="S"
+                    fase="GEST"
+                    entrata="X"
+                    reale="R"
+                    maxLength="16"
+                    anno="{AutorizzazioneDetailSet>/EsercizioFinanziario}"
+                    SEM_OBJ="Z_TEST_LIB"
+                    versione="D"
+                    width="100%"
+                    placeholder="Scegli struttura amministrativa"
+                    submit="strutturaAmministrativaLiveChange"
+                    liveChange="strutturaAmministrativaLiveChange"
+                    app:propertyModel="Fistl"
+                    value="{AutorizzazioneDetailSet>/Fistl}"
+                    enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                />
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </VBox>
+            <Label
+                text="{i18n>detailAuthDescrizioneStrutturaAmmResp}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Input
+                value="{AutorizzazioneDetailSet>/DescrEstesa}"
+                width="100%"
+                enabled="false"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+            <CheckBox
+                text="{i18n>detailAuthPosFinNonAncoraIstituita}"
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                selected="{AutorizzazioneDetailSet>/ZflagFipos}"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL3 L3 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </CheckBox>
+        </l:Grid>
+    </Panel>
+    <Panel
+        headerText="{i18n>authDetail-detail-ufficio}"
+        backgroundDesign="Transparent"
+    >
+        <l:Grid
+            defaultSpan="XL12 L12 M12 S12"
+            vSpacing="0"
+        >
+            <Label
+                text="{i18n>detailAuthUfficioOrdinante}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+                required="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Input
+                value="{AutorizzazioneDetailSet>/ZufficioCont}"
+                submit="onUfficioContabileChange"
+                width="100%"
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+            <Label
+                text="{i18n>detailAuthUfficioOrdinanteDescrizione}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Input
+                value="{AutorizzazioneDetailSet>/Descufficio}"
+                width="100%"
+                enabled="false"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+            <Label
+                text="{i18n>detailAuthCodiceFD}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData
+                        span="XL1 L1 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+            </Label>
+            <Input
+                value="{AutorizzazioneDetailSet>/Zfunzdel}"
+                width="100%"
+                enabled="false"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+            <Label
+                text="{i18n>detailAuthCodiceFDDescrizione}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Input
+                value="{AutorizzazioneDetailSet>/Zdescriz}"
+                width="100%"
+                enabled="false"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+        </l:Grid>
+    </Panel>
+    <Panel
+        headerText="{i18n>authDetail-detail-datiProtocollo}"
+        backgroundDesign="Transparent"
+    >
+        <l:Grid
+            defaultSpan="XL12 L12 M12 S12"
+            vSpacing="0"
+        >
+            <Label
+                text="{i18n>detailAuthNProtocolloAmm}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <Input
+                value="{AutorizzazioneDetailSet>/Znumprot}"
+                width="100%"
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                maxLength="7"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </Input>
+            <Label
+                text="{i18n>detailAuthDataProtocolloAmm}"
+                class="sapUiSmallMarginEnd sapUiTinyMarginTop"
+                wrapping="true"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L1 M6 S12" />
+                </layoutData>
+            </Label>
+            <DatePicker
+                enabled="{AuthButtonSet>/btnSaveRettificaAuthVisible}"
+                change="setPropertyDatePickerFromChange"
+                valueFormat="dd/MM/yyyy"
+                displayFormat="dd.MM.yyyy"
+                value="{
 					path: 'AutorizzazioneDetailSet>/Zdataprot',
 					type: 'sap.ui.model.type.Date',
 					formatOptions: {
 						pattern: 'dd.MM.yyyy'
 					}
 				}"
-				app:propertyModel="Zdataprot"
-			>
-				<!-- value="{AutorizzazioneDetailSet>/Zdataprot}" -->
-				<layoutData>
-					<l:GridData span="XL2 L2 M6 S12"/>
-				</layoutData>
-			</DatePicker>
-		</l:Grid>
-	</Panel>
+                app:propertyModel="Zdataprot"
+            >
+                <!-- value="{AutorizzazioneDetailSet>/Zdataprot}" -->
+                <layoutData>
+                    <l:GridData span="XL2 L2 M6 S12" />
+                </layoutData>
+            </DatePicker>
+        </l:Grid>
+    </Panel>
 </core:FragmentDefinition>

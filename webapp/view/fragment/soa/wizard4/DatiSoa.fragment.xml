@@ -20,7 +20,7 @@
                 </Text>
                 <Input
                     value="{Soa>/Znumprot}"
-                    maxLength="6"
+                    maxLength="7"
                     type="Number"
                     editable="{Utility>/EnableEdit}"
                 >

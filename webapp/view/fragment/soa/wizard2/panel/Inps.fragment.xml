@@ -160,7 +160,7 @@
                 <Input
                     editable="{Utility>/EnableEdit}"
                     value="{Soa>/Zcodvers}"
-                    maxLength="50"
+                    maxLength="10"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

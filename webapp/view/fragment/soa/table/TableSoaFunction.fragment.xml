@@ -254,7 +254,7 @@
                                 visible="{Utility>/EnableInvioFirma}"
                                 valueState="{= ${ListSoa>Znumprot} ? 'None' : 'Error'}"
                                 valueStateText="{i18n>vstRequireField}"
-                                maxLength="6"
+                                maxLength="7"
                                 change="onNumProtocolloChange"
                             />
                             <DatePicker
