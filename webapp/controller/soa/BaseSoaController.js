@@ -3816,7 +3816,7 @@ sap.ui.define(
           workbook: {
             columns: aCols,
           },
-          dataSource: oTableModel.getData()?.Messaggio,
+          dataSource: oTableModel.getData(),
           fileName: "Lista Log.xlsx",
         };
 

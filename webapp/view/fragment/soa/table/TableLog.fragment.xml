@@ -27,6 +27,7 @@
                                 text="{i18n>btnFilter}"
                                 type="Emphasized"
                                 press="onFilterLog"
+                                visible="false"
                             />
                         </OverflowToolbar>
                     </headerToolbar>
