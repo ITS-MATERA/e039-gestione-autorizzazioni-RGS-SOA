@@ -93,6 +93,10 @@
                     value="{FiltersWizard1>/ZnumliqFrom}"
                     app:property="ZnumliqFrom"
                     liveChange="onNProspLiquidazioneChange"
+                    whichProsp="26"
+                    Fikrs="{AuthorityCheckSoa>/Fikrs}"
+                    Prctr="{AuthorityCheckSoa>/Prctr}"
+                    AgrName="{AuthorityCheckSoa>/AgrName}"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />
@@ -121,6 +125,10 @@
                     value="{FiltersWizard1>/ZnumliqTo}"
                     app:property="ZnumliqTo"
                     liveChange="onNProspLiquidazioneChange"
+                    whichProsp="26"
+                    Fikrs="{AuthorityCheckSoa>/Fikrs}"
+                    Prctr="{AuthorityCheckSoa>/Prctr}"
+                    AgrName="{AuthorityCheckSoa>/AgrName}"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />

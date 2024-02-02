@@ -87,7 +87,7 @@
                     text="{i18n>headerSonNomeBen}"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Soa>/NameFirst}" />
+                <Text text="{Soa>/Znomebensosp}" />
                 <layoutData>
                     <l:GridData
                         span="XL2 L4 M6 S12"
@@ -100,7 +100,7 @@
                     text="{i18n>headerSonCognomeBen}"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Soa>/NameLast}" />
+                <Text text="{Soa>/Zcognomebensosp}" />
                 <layoutData>
                     <l:GridData span="XL3 L4 M6 S12" />
                 </layoutData>
@@ -110,7 +110,7 @@
                     text="{i18n>headerSonRagioneSociale}"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Soa>/ZzragSoc}" />
+                <Text text="{Soa>/Zragsocbensosp}" />
                 <layoutData>
                     <l:GridData span="XL3 L4 M6 S12" />
                 </layoutData>

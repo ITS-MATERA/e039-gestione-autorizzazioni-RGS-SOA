@@ -5,13 +5,15 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/ui/export/library",
     "sap/ui/export/Spreadsheet",
+    "sap/m/MessageBox"
   ],
   function (
     BaseSoaController,
     formatter,
     JSONModel,
     exportLibrary,
-    Spreadsheet
+    Spreadsheet,
+    MessageBox
   ) {
     "use strict";
 
@@ -93,17 +95,7 @@ sap.ui.define(
 
           if (bWizard1Step1) {
             if (await self.checkWizard1()) {
-              oModelStepScenario.setProperty("/wizard1Step1", false);
-              oModelStepScenario.setProperty("/wizard1Step2", true);
-              oModelStepScenario.setProperty("/visibleBtnForward", false);
-              oModelStepScenario.setProperty(
-                "/visibleBtnInserisciProspLiquidazione",
-                true
-              );
-              self.createModelModPagamento();
-              self.createModelSedeBeneficiario();
-              self.setSedeBeneficiario();
-              self.setPosizioneScen4()
+              self.checkExistDocumentForUser();
             }
           } else if (bWizard2) {
             self.checkWizard2(oWizard);
@@ -302,6 +294,63 @@ sap.ui.define(
               },
             });
           });
+        },
+
+        checkExistDocumentForUser: function () {
+          var self = this;
+          var oModel = self.getModel()
+          var oSoa = self.getModel("Soa").getData()
+          var oModelStepScenario = self.getModel("StepScenario")
+
+          self.getView().setBusy(true)
+          oModel.callFunction("/CheckExisitingDocument", {
+            urlParameters: {
+              Lifnr: oSoa.Lifnr
+            },
+            success: function (data) {
+              self.getView().setBusy(false)
+              if (data.results.length > 0) {
+                MessageBox.warning(
+                  "Per il Beneficiario selezionato esistono Documenti di costo. Verificare se è necessario procedere con la registrazione di un SOA da documenti di costo",
+                  {
+                    actions: [MessageBox.Action.OK, MessageBox.Action.CLOSE],
+                    onClose: function (oAction) {
+                      if (oAction === 'OK') {
+                        oModelStepScenario.setProperty("/wizard1Step1", false);
+                        oModelStepScenario.setProperty("/wizard1Step2", true);
+                        oModelStepScenario.setProperty("/visibleBtnForward", false);
+                        oModelStepScenario.setProperty(
+                          "/visibleBtnInserisciProspLiquidazione",
+                          true
+                        );
+                        self.createModelModPagamento();
+                        self.createModelSedeBeneficiario();
+                        self.setSedeBeneficiario();
+                        self.setPosizioneScen4()
+                        return
+                      }
+                    },
+                  }
+                )
+              }
+              else {
+                oModelStepScenario.setProperty("/wizard1Step1", false);
+                oModelStepScenario.setProperty("/wizard1Step2", true);
+                oModelStepScenario.setProperty("/visibleBtnForward", false);
+                oModelStepScenario.setProperty(
+                  "/visibleBtnInserisciProspLiquidazione",
+                  true
+                );
+                self.createModelModPagamento();
+                self.createModelSedeBeneficiario();
+                self.setSedeBeneficiario();
+                self.setPosizioneScen4()
+              }
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
         },
       }
     );

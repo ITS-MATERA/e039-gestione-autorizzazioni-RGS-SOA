@@ -86,9 +86,16 @@
                             viewId="{Utility>/ViewId}"
                             whichMC="LocalitaPagamento"
                             value="{Soa>/Zlocpag}"
-                            editable="{Utility>/EnableEdit}"
+                            editable="{= 
+                                ${Utility>/EnableEdit} === true &amp;&amp; 
+                                ${Soa>/Zwels} !== 'ID1' &amp;&amp; 
+                                ${Soa>/Zwels} !== 'ID2' &amp;&amp;
+                                ${Soa>/Zwels} !== 'ID5' &amp;&amp;
+                                ${Soa>/Zwels} !== 'ID6' ? true : false
+                                }"
                             liveChange="onLocPagamentoChange"
                             maxLength="100"
+                            valueHelpOnly="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
                         />
                     </items>
                     <layoutData>

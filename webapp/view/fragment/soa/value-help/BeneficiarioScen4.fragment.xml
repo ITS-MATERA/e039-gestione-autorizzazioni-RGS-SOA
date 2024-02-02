@@ -1,31 +1,31 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-	<SelectDialog
-		id="sdBeneficiarioScen4"
-		noDataText="{i18n>noBeneficiario}"
-		title="{i18n>columnNameBeneficiario}"
-		search="onValueHelpChange"
-		confirm="onValueHelpBeneficiarioScen4Close"
-		cancel="onValueHelpBeneficiarioScen4Close"
-		app:FilterValueHelp="Beneficiario"
-		items="{
+    <SelectDialog
+        id="sdBeneficiarioScen4"
+        noDataText="{i18n>noBeneficiario}"
+        title="{i18n>columnNameBeneficiario}"
+        search="onValueHelpChange"
+        confirm="onValueHelpBeneficiarioScen4Close"
+        cancel="onValueHelpBeneficiarioScen4Close"
+        app:FilterValueHelp="Beneficiario"
+        items="{
 			path: 'Beneficiario>/'
 		}"
-	>
-		<StandardListItem
-			iconDensityAware="false"
-			iconInset="false"
-			title="{Beneficiario>Beneficiario}"
-			app:BuType="{Beneficiario>Type}"
-			app:NameFirst="{Beneficiario>Nome}"
-			app:NameLast="{Beneficiario>Cognome}"
-			app:ZzragSoc="{Beneficiario>RagSoc}"
-			app:TaxnumCf="{Beneficiario>CodFisc}"
-			app:Tax="{Beneficiario>CodFiscEst}"
-			app:TaxnumPiva="{Beneficiario>PIva}"
-		/>
-	</SelectDialog>
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{Beneficiario>Beneficiario}"
+            app:BuType="{Beneficiario>Type}"
+            app:Znomebensosp="{Beneficiario>Nome}"
+            app:Zcognomebensosp="{Beneficiario>Cognome}"
+            app:Zragsocbensosp="{Beneficiario>RagSoc}"
+            app:TaxnumCf="{Beneficiario>CodFisc}"
+            app:Tax="{Beneficiario>CodFiscEst}"
+            app:TaxnumPiva="{Beneficiario>PIva}"
+        />
+    </SelectDialog>
 </c:FragmentDefinition>

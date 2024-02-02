@@ -187,7 +187,7 @@
 								}
 							}"
                             />
-                            <Text text="{ListSoa>ZzragSoc}" />
+                            <Text text="{ListSoa>Zragsocbensosp}" />
                             <Text text="{ListSoa>Text40}" />
                             <Text
                                 text="{ListSoa>ZzDescebe}"

@@ -18,6 +18,7 @@
                 <Text
                     text="{i18n>inputIndirizzo}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Soa>/Zwels} !== 'ID3' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL1 L3 M5 S12" />
@@ -31,9 +32,40 @@
                     selectedKey="{Soa>/Zidsede}"
                     selectionChange="onSedeBeneficiarioChange"
                     editable="{Utility>/EnableEdit}"
+                    visible="{= ${Soa>/Zwels} !== 'ID3' ? true : false}"
                 >
                     <c:Item
                         key="{SedeBeneficiario>Zidsede}"
+                        text="{SedeBeneficiario>Stras}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL3 L3 M5 S12" />
+                    </layoutData>
+                </ComboBox>
+                <Text
+                    text="{i18n>inputIndirizzo}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL1 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
+                      path: 'SedeBeneficiario>/'
+                    }"
+                    selectedKey="{Soa>/Zbdap}"
+                    selectionChange="onSedeBeneficiarioChange"
+                    editable="{Utility>/EnableEdit}"
+                    visible="{= ${Soa>/Zwels} === 'ID3' ? true : false}"
+                >
+                    <c:Item
+                        key="{SedeBeneficiario>Zbdap}"
                         text="{SedeBeneficiario>Stras}"
                     />
                     <layoutData>

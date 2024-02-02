@@ -27,7 +27,7 @@
                     <ComboBox
                         width="100%"
                         items="{
-							path: '/EsercizioGestioneSet'
+							path: '/GjahrMcSet'
 						}"
                         selectedKey="{Filter>/Gjahr}"
                     >
@@ -47,7 +47,11 @@
                         text="{i18n>soaFilterZzamministr}"
                         class="filterLabel"
                     />
-                    <Input value="{Filter>/Zzamministr}" />
+                    <Input
+                        value="{Filter>/Zzamministr}"
+                        valueHelpRequest="onValueHelpAmministrazione"
+                        showValueHelp="true"
+                    />
                 </items>
             </VBox>
             <VBox>
@@ -59,7 +63,11 @@
                         text="{i18n>inputCapitolo}"
                         class="filterLabel"
                     />
-                    <Input value="{Filter>/Zcapitolo}" />
+                    <Input
+                        value="{Filter>/Zcapitolo}"
+                        valueHelpRequest="onValueHelpCapitolo"
+                        showValueHelp="true"
+                    />
                 </items>
             </VBox>
             <VBox>
@@ -435,6 +443,7 @@
                         width="100%"
                         value="{Filter>/FiposFrom}"
                         liveChange="onFiposFromChange"
+                        enabled="{= ${Filter>/Gjahr} ? true : false}"
                     />
                 </items>
             </VBox>
@@ -457,6 +466,7 @@
                         width="100%"
                         value="{Filter>/FiposTo}"
                         liveChange="onFiposToChange"
+                        enabled="{= ${Filter>/Gjahr} ? true : false}"
                     />
                 </items>
             </VBox>
@@ -470,6 +480,7 @@
                         class="filterLabel"
                     />
                     <zcontrolMatchSar:GestioneLogUser
+                        id="idFilterStruttAmmResp"
                         eos="S"
                         fase="GEST"
                         entrata="X"
@@ -481,6 +492,7 @@
                         placeholder="Scegli struttura amministrativa"
                         value="{Filter>/Fistl}"
                         liveChange="onFistlChange"
+                        enabled="{= ${Filter>/Gjahr} ? true : false}"
                     />
                 </items>
             </VBox>

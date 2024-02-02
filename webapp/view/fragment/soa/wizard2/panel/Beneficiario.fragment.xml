@@ -136,7 +136,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Soa>/NameFirst}"
+                    value="{Soa>/Znomebensosp}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -155,7 +155,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Soa>/NameLast}"
+                    value="{Soa>/Zcognomebensosp}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -174,7 +174,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Soa>/ZzragSoc}"
+                    value="{Soa>/Zragsocbensosp}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

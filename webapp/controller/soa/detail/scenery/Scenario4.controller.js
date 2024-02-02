@@ -308,7 +308,7 @@ sap.ui.define(
             },
             {
               label: oBundle.getText("labelDenomBenLiquidazione"),
-              property: "ZzragSoc",
+              property: "Zragsocbensosp",
               type: EDM_TYPE.String,
             },
             {

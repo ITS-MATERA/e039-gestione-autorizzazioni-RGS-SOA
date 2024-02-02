@@ -56,10 +56,28 @@
                             class=".sapMWizardStepTitle sapMWizardStep"
                         >
                             <WizardStep title="{i18n>titleWizard1DocContabili}">
-                                <c:Fragment
-                                    fragmentName="rgssoa.view.fragment.soa.wizard1.filters.FiltersPosizioni"
-                                    type="XML"
-                                />
+                                <Panel
+                                    class="sapUiNoContentPadding"
+                                    backgroundDesign="Transparent"
+                                    visible="{StepScenario>/wizard1Step1}"
+                                >
+                                    <c:Fragment
+                                        fragmentName="rgssoa.view.fragment.soa.wizard1.filters.Ritenuta"
+                                        type="XML"
+                                    />
+                                    <c:Fragment
+                                        fragmentName="rgssoa.view.fragment.soa.wizard1.filters.BeneficiarioRettifica"
+                                        type="XML"
+                                    />
+                                    <c:Fragment
+                                        fragmentName="rgssoa.view.fragment.soa.wizard1.filters.ProspettiLiquidazione"
+                                        type="XML"
+                                    />
+                                    <c:Fragment
+                                        fragmentName="rgssoa.view.fragment.soa.wizard1.filters.DocumentiCosto"
+                                        type="XML"
+                                    />
+                                </Panel>
                                 <c:Fragment
                                     fragmentName="rgssoa.view.fragment.soa.table.scenario1.TableAddPosizioniScen1"
                                     type="XML"

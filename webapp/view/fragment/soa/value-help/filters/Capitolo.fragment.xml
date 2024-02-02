@@ -1,0 +1,24 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <SelectDialog
+        id="sdCapitolo"
+        noDataText="{i18n>noData}"
+        title="{i18n>labelCapitolo}"
+        search="onValueHelpChange"
+        confirm="onValueHelpCapitoloClose"
+        cancel="onValueHelpCapitoloClose"
+        app:FilterValueHelp="Capitolo"
+        items="{
+          path: 'Capitolo>/'
+		    }"
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{Capitolo>Capitolo}"
+        />
+    </SelectDialog>
+</c:FragmentDefinition>

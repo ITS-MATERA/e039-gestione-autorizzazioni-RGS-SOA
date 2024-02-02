@@ -238,6 +238,8 @@ sap.ui.define(
                     },
                   }
                 )
+              } else {
+                self._getPosizioniScen3()
               }
             },
             error: function () {

@@ -16,7 +16,7 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>soaFilterTipoBen}"
+                    text="{i18n>BeneficiarioRettificaFilterTipoBen}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -28,17 +28,8 @@
                     items="{
                         path: '/TipologiaBeneficiarioSet'
                     }"
-                    selectedKey="{Soa>/BuType}"
-                    editable="{= (
-                                ${FiltersWizard1>/CodRitenuta} ||
-                                ${FiltersWizard1>/CodEnte} ||
-                                ${FiltersWizard1>/DataEsigibilitaFrom} ||
-                                ${FiltersWizard1>/DataEsigibilitaTo}
-                            ) ||
-                            ${Utility>/Function} === 'Rettifica' 
-                            ? false : true
-                    }"
-                    change="onTipoBeneficiarioChange"
+                    selectedKey="{BeneficiarioRettifica>/Type}"
+                    editable="false"
                 >
                     <c:Item
                         key="{CodTipoBen}"
@@ -56,79 +47,12 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
-                <zcontrolmccross:MatchcodeCross
-                    whichMC="Beneficiario"
-                    viewId="{Utility>/ViewId}"
-                    value="{Soa>/Lifnr}"
-                    maxLength="10"
-                    editable="{= (
-                                ${FiltersWizard1>/CodRitenuta} ||
-                                ${FiltersWizard1>/CodEnte} ||
-                                ${FiltersWizard1>/DataEsigibilitaFrom} ||
-                                ${FiltersWizard1>/DataEsigibilitaTo}
-                            ) ||
-                            ${Utility>/Function} === 'Rettifica' 
-                            ? false : true
-                    }"
-                    change="onBeneficiarioChange"
+                <Input
+                    value="{BeneficiarioRettifica>/Lifnr}"
+                    editable="false"
                 >
-                    <zcontrolmccross:layoutData>
+                    <layoutData>
                         <l:GridData span="XL2 L2 M6 S12" />
-                    </zcontrolmccross:layoutData>
-                </zcontrolmccross:MatchcodeCross>
-            </l:Grid>
-        </content>
-        <content>
-            <l:Grid
-                defaultSpan="XL12 L12 M12 S12"
-                hSpacing="0.5"
-            >
-                <Text
-                    text="{i18n>soaFilterName}"
-                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </Text>
-                <Input
-                    value="{Soa>/Znomebensosp}"
-                    editable="false"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
-                    </layoutData>
-                </Input>
-                <Text
-                    text="{i18n>soaFilterSurname}"
-                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </Text>
-                <Input
-                    value="{Soa>/Zcognomebensosp}"
-                    editable="false"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
-                    </layoutData>
-                </Input>
-                <Text
-                    text="{i18n>soaFilterRagSociale}"
-                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </Text>
-                <Input
-                    value="{Soa>/Zragsocbensosp}"
-                    editable="false"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
                     </layoutData>
                 </Input>
             </l:Grid>
@@ -139,7 +63,7 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>soaFilterCF}"
+                    text="{i18n>BeneficiarioRettificaFilterName}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -147,7 +71,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Soa>/TaxnumCf}"
+                    value="{BeneficiarioRettifica>/Znomebensosp}"
                     editable="false"
                 >
                     <layoutData>
@@ -155,7 +79,7 @@
                     </layoutData>
                 </Input>
                 <Text
-                    text="{i18n>soaFilterCFEstero}"
+                    text="{i18n>BeneficiarioRettificaFilterSurname}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -163,7 +87,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Soa>/Taxnumxl}"
+                    value="{BeneficiarioRettifica>/Zcognomebensosp}"
                     editable="false"
                 >
                     <layoutData>
@@ -171,7 +95,7 @@
                     </layoutData>
                 </Input>
                 <Text
-                    text="{i18n>soaFilterPIVA}"
+                    text="{i18n>BeneficiarioRettificaFilterRagSociale}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -179,7 +103,62 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Soa>/TaxnumPiva}"
+                    value="{BeneficiarioRettifica>/Zragsocbensosp}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>BeneficiarioRettificaFilterCF}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{BeneficiarioRettifica>/TaxnumCf}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>BeneficiarioRettificaFilterCFEstero}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{BeneficiarioRettifica>/Taxnumxl}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>BeneficiarioRettificaFilterPIVA}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{BeneficiarioRettifica>/TaxnumPiva}"
                     editable="false"
                 >
                     <layoutData>

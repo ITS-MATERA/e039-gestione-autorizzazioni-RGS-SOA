@@ -230,6 +230,7 @@
                 <Text
                     text="{i18n>inputBic}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData
@@ -241,6 +242,7 @@
                 <Input
                     editable="false"
                     value="{Soa>/Swift}"
+                    visible="{= ${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -285,15 +287,65 @@
                 </Text>
                 <Input
                     visible="{= ${Soa>/Zwels} === 'ID4'}"
-                    editable="{= ${Utility>/EnableEdit} ? true : false}"
+                    editable="{= ${Utility>/EnableEdit} &amp;&amp; ${Soa>/Zcompres} ? true : false}"
                     value="{Soa>/Zzposfinent}"
                     maxLength="24"
-                    change="onPosFinanziariaEntrateChange"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Input>
+                <Text
+                    text="{i18n>labelEsercizio}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Soa>/Zwels} === 'ID4'}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
+                          path: '/GjahrPfMcSet'
+                        }"
+                    selectedKey="{Soa>/ZgjahrPf}"
+                    visible="{= ${Soa>/Zwels} === 'ID4'}"
+                >
+                    <c:Item
+                        key="{Anno}"
+                        text="{Anno}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </ComboBox>
+                <Text
+                    text="{i18n>labelCompetenzaResidui}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Soa>/Zwels} === 'ID4'}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
+                          path: '/CompetenzaResiduiSet'
+                        }"
+                    selectedKey="{Soa>/Zcompres}"
+                    visible="{= ${Soa>/Zwels} === 'ID4'}"
+                    selectionChange="onCompResChange"
+                >
+                    <c:Item
+                        key="{Zcompres}"
+                        text="{Descrizione}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </ComboBox>
                 <Text
                     text="{i18n>inputPurpose}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
