@@ -28,7 +28,7 @@
                     items="{
                         path: '/TipologiaBeneficiarioSet'
                     }"
-                    selectedKey="{Soa>/BuType}"
+                    selectedKey="{Soa>/TypeRic}"
                     editable="{= (
                                 ${FiltersWizard1>/CodRitenuta} ||
                                 ${FiltersWizard1>/CodEnte} ||
@@ -59,7 +59,7 @@
                 <zcontrolmccross:MatchcodeCross
                     whichMC="Beneficiario"
                     viewId="{Utility>/ViewId}"
-                    value="{Soa>/Lifnr}"
+                    value="{Soa>/Zlifnrric}"
                     maxLength="10"
                     editable="{= (
                                 ${FiltersWizard1>/CodRitenuta} ||
@@ -92,7 +92,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Soa>/Znomebensosp}"
+                    value="{Soa>/ZnomebensospRic}"
                     editable="false"
                 >
                     <layoutData>
@@ -108,7 +108,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Soa>/Zcognomebensosp}"
+                    value="{Soa>/ZcognomebensospRic}"
                     editable="false"
                 >
                     <layoutData>
@@ -124,7 +124,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Soa>/Zragsocbensosp}"
+                    value="{Soa>/ZragsocbensospRic}"
                     editable="false"
                 >
                     <layoutData>
@@ -147,7 +147,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Soa>/TaxnumCf}"
+                    value="{Soa>/TaxnumcfRic}"
                     editable="false"
                 >
                     <layoutData>
@@ -163,7 +163,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Soa>/Taxnumxl}"
+                    value="{Soa>/TaxnumxlRic}"
                     editable="false"
                 >
                     <layoutData>
@@ -179,7 +179,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Soa>/TaxnumPiva}"
+                    value="{Soa>/TaxnumRic}"
                     editable="false"
                 >
                     <layoutData>

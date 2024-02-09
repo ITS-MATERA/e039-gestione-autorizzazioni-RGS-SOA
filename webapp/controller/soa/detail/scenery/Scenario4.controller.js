@@ -48,7 +48,7 @@ sap.ui.define(
           //Load Models
           self.createModelStepScenarioDet();
           self.createModelUtilityDet(bDetailFromFunction, bRemoveFunctionButtons, "soa.detail.scenery.Scenario4");
-          self.setModelSop(oParameters, function () {
+          self.setModelSoa(oParameters, function () {
             self.enableFunctions();
             self.setMode(oParameters.Mode);
             self.setSedeBeneficiario();
@@ -79,7 +79,7 @@ sap.ui.define(
               self.resetWizard("wizScenario4");
               self.createModelStepScenarioDet();
               oModelUtility.setProperty("/EnableEdit", false)
-              self.setModelSop(oParameters, function () { });
+              self.setModelSoa(oParameters, function () { });
               break;
             }
             case "Workflow": {

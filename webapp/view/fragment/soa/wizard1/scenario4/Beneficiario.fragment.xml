@@ -41,7 +41,7 @@
                     viewId="{Utility>/ViewId}"
                     value="{Soa>/Lifnr}"
                     maxLength="10"
-                    change="onBeneficiarioChange"
+                    change="onBeneficiarioChangeScen4"
                     editable="{Utility>/EnableEdit}"
                 >
                     <zcontrolmccross:layoutData>

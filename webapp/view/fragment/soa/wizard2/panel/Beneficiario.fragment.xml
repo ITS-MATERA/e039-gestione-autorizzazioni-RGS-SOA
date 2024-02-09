@@ -58,7 +58,7 @@
 								${Soa>/Ztipopag} === '2' &amp;&amp; 
 								${Utility>/EnableEdit} ? true : false
 							}"
-                            change="onBeneficiarioChange"
+                            change="onBeneficiarioChangeWiz2"
                             maxLength="10"
                         />
                     </items>

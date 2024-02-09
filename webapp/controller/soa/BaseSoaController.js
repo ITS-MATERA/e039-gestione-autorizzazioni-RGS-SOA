@@ -372,8 +372,8 @@ sap.ui.define(
 
         if (!oStepScenario.wizard2) {
           oModelSoa.setProperty("/Zquoteesi", false);
-          this._createModelAnnoDocBen(oEvent.getParameter("value"))
-          if (!oModelSoa.getProperty("/Lifnr")) {
+          this._createModelAnnoDocBen()
+          if (!oModelSoa.getProperty("/Zlifnrric")) {
             oModelSoa.setProperty("/ZspecieSop", "");
             oModelSoa.setProperty("/DescZspecieSop", "");
           }
@@ -383,8 +383,25 @@ sap.ui.define(
           self.createModelModPagamento()
         }
 
-        this._setDataBeneficiario(oEvent.getParameter("value"))
+        this.setDataBeneficiario(oModelSoa.getProperty("/Zlifnrric"))
       },
+
+      onBeneficiarioChangeWiz2: function () {
+        var self = this;
+        var oModelSoa = self.getModel("Soa")
+
+        self._setSpecieSoaDesc("1");
+        self.setDataBeneficiario(oModelSoa.getProperty("/Lifnr"));
+      },
+
+      onBeneficiarioChangeScen4: async function () {
+        var self = this;
+        var oModelSoa = self.getModel("Soa")
+
+        self.createModelModPagamento()
+        self.setDataBeneficiario(oModelSoa.getProperty("/Lifnr"));
+      },
+
 
       onRitenutaChange: function (oEvent) {
         var self = this;
@@ -776,6 +793,13 @@ sap.ui.define(
           Zbdap: "",
           Zlifnrric: "",
           ZzTipoent: "",
+          TypeRic: "",
+          ZnomebensospRic: "",
+          ZcognomebensospRic: "",
+          ZragsocbensospRic: "",
+          TaxnumcfRic: "",
+          TaxnumxlRic: "",
+          TaxnumRic: "",
         };
 
         self.setModel(new JSONModel(oModelSoa), "Soa");
@@ -890,9 +914,10 @@ sap.ui.define(
       _createModelAnnoDocBen: function (sLifnr) {
         var self = this;
         var oModel = self.getModel();
+        var oSoa = self.getModel("Soa").getData()
         var aFilters = [];
 
-        self.setFilterEQ(aFilters, "Lifnr", sLifnr);
+        self.setFilterEQ(aFilters, "Lifnr", oSoa.Lifnr);
         self.getView().setBusy(true);
 
         oModel.read("/RicercaAnnoDocBeneSet", {
@@ -2637,8 +2662,8 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "ANNO", oModelSoa?.Gjahr);
         self.setFilterEQ(aFilters, "FASE", "GEST");
-        aFilters.push(new Filter("DATBIS", FilterOperator.GE, sCurrentDate));
-        aFilters.push(new Filter("DATAB", FilterOperator.LE, sCurrentDate));
+        // aFilters.push(new Filter("DATBIS", FilterOperator.GE, sCurrentDate));
+        // aFilters.push(new Filter("DATAB", FilterOperator.LE, sCurrentDate));
         self.setFilterEQ(aFilters, "MC", "X");
         self.setFilterEQ(aFilters, "REALE", "R");
 
@@ -4125,7 +4150,7 @@ sap.ui.define(
         });
       },
 
-      setModelSop: function (oParameters, callback) {
+      setModelSoa: function (oParameters, callback) {
         var self = this;
         var oModel = self.getModel();
         var oView = self.getView();
@@ -5479,7 +5504,7 @@ sap.ui.define(
           if (oSoa.Ztipopag === "4") {
             self.createModelModPagamento()
           }
-          self._setDataBeneficiario(obj?.Lifnr);
+          self.setDataBeneficiario(obj?.Lifnr);
           return;
         }
 
@@ -5511,10 +5536,12 @@ sap.ui.define(
         }
       },
 
-      _setDataBeneficiario: function (sLifnr) {
+      setDataBeneficiario: function (sLifnr) {
         var self = this;
         var oModelSoa = self.getModel("Soa");
         var oModel = self.getModel();
+        var oModelStepScenario = self.getModel("StepScenario")
+        var bWizard1 = oModelStepScenario.getProperty("/wizard1Step1")
 
         var sPath = self.getModel().createKey("/BeneficiarioSOASet", {
           Beneficiario: sLifnr,
@@ -5537,6 +5564,17 @@ sap.ui.define(
           oModelSoa.setProperty("/Zdscadenza", "");
           oModelSoa.setProperty("/BuType", "");
           oModelSoa.setProperty("/SeqnrZffermoAmmin", "")
+
+          if (bWizard1) {
+            oModelSoa.setProperty("/Zlifnrric", "");
+            oModelSoa.setProperty("/TypeRic", "");
+            oModelSoa.setProperty("/ZnomebensospRic", "");
+            oModelSoa.setProperty("/ZcognomebensospRic", "");
+            oModelSoa.setProperty("/ZragsocbensospRic", "");
+            oModelSoa.setProperty("/TaxnumcfRic", "");
+            oModelSoa.setProperty("/TaxnumRic", "");
+            oModelSoa.setProperty("/TaxnumxlRic", "");
+          }
           return
         }
 
@@ -5545,8 +5583,14 @@ sap.ui.define(
         oModel.read(sPath, {
           success: function (data, oResponse) {
             self.getView().setBusy(false);
+            oModelSoa.setProperty("/Lifnr", sLifnr);
+            if (bWizard1) {
+              oModelSoa.setProperty("/Zlifnrric", sLifnr);
+            }
+
             if (self.hasResponseError(oResponse)) {
               oModelSoa.setProperty("/Lifnr", "");
+              oModelSoa.setProperty("/Zlifnrric", "");
               oModelSoa.setProperty("/ZspecieSop", "");
               oModelSoa.setProperty("/DescZspecieSop", "");
             }
@@ -5565,6 +5609,17 @@ sap.ui.define(
             oModelSoa.setProperty("/BuType", data?.Type);
             oModelSoa.setProperty("/SeqnrZffermoAmmin", data?.SeqnrZffermoAmmin)
             self._setSpecieSoaDesc("1");
+
+
+            if (bWizard1) {
+              oModelSoa.setProperty("/TypeRic", data?.Type);
+              oModelSoa.setProperty("/ZnomebensospRic", data?.Nome);
+              oModelSoa.setProperty("/ZcognomebensospRic", data?.Cognome);
+              oModelSoa.setProperty("/ZragsocbensospRic", data?.RagSoc);
+              oModelSoa.setProperty("/TaxnumcfRic", data?.CodFisc);
+              oModelSoa.setProperty("/TaxnumRic", data?.PIva);
+              oModelSoa.setProperty("/TaxnumxlRic", data?.CodFiscEst);
+            }
           },
           error: function () {
             self.getView().setBusy(false);

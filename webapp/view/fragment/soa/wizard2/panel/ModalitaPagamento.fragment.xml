@@ -263,7 +263,6 @@
                     editable="{= 
 						(${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10') &amp;&amp; 
 						${Utility>/EnableEdit} &amp;&amp; 
-                        ${Utility>/isZcoordEsterPrevalorizzato} === false &amp;&amp;
                         ${Soa>/Iban} === ''? true : false}"
                     value="{Soa>/Zcoordest}"
                     visible="{= ${Soa>/Zwels} === 'ID6' || ${Soa>/Zwels} === 'ID10' ? true : false}"
