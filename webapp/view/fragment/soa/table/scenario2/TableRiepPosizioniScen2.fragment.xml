@@ -13,126 +13,129 @@
             </OverflowToolbar>
         </headerToolbar>
         <content>
-            <Table
-                items="{
+            <ScrollContainer>
+                <Table
+                    items="{
 					path: 'Soa>/data'
 				}"
-                fixedLayout="false"
-                growing="true"
-            >
-                <columns>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelAnnoRegDocumento}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelAbbrNRegDocumento}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelAbbrTipoDocumento}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelDataDocBeneficiario}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelNDocBeneficiario}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelDenomBeneficiario}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelImpDaOrdinare}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                        visible="{= ${Soa>/ZzCebenra} ? false : true}"
-                    >
-                        <header>
-                            <Text text="{i18n>labelDurc}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                        visible="{= ${Soa>/ZzCebenra} ? false : true}"
-                    >
-                        <header>
-                            <Text text="{i18n>labelFermoAmministrativo}" />
-                        </header>
-                    </Column>
-                </columns>
-                <items>
-                    <ColumnListItem
-                        vAlign="Middle"
-                        class="bgNotEditable"
-                    >
-                        <cells>
-                            <ObjectIdentifier text="{Soa>AnnoRegDoc}" />
-                            <ObjectIdentifier text="{Soa>Belnr}" />
-                            <Text text="{Soa>Blart}" />
-                            <Text
-                                text="{
+                    fixedLayout="false"
+                    growing="true"
+                    width="150%"
+                >
+                    <columns>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelAnnoRegDocumento}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelAbbrNRegDocumento}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelAbbrTipoDocumento}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelDataDocBeneficiario}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelNDocBeneficiario}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelDenomBeneficiario}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelImpDaOrdinare}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                            visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                        >
+                            <header>
+                                <Text text="{i18n>labelDurc}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                            visible="{= ${Soa>/ZzCebenra} ? false : true}"
+                        >
+                            <header>
+                                <Text text="{i18n>labelFermoAmministrativo}" />
+                            </header>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem
+                            vAlign="Middle"
+                            class="bgNotEditable"
+                        >
+                            <cells>
+                                <ObjectIdentifier text="{Soa>AnnoRegDoc}" />
+                                <ObjectIdentifier text="{Soa>Belnr}" />
+                                <Text text="{Soa>Blart}" />
+                                <Text
+                                    text="{
 								path: 'Soa>Bldat',
 								type: 'sap.ui.model.type.Date',
 								formatOptions: {
 									pattern: 'dd.MM.yyyy'
 								}
 							}"
-                            />
-                            <Text text="{Soa>Xblnr}" />
-                            <Text text="{Soa>ZbenaltName}" />
-                            <Text
-                                text="{
+                                />
+                                <Text text="{Soa>Xblnr}" />
+                                <Text text="{Soa>ZbenaltName}" />
+                                <Text
+                                    text="{
 								path: 'Soa>Zimpdaord',
 								formatter: '.formatter.convertImport'
 							}"
-                            />
-                            <Text
-                                text="{
+                                />
+                                <Text
+                                    text="{
 								path: 'Soa>Zdurc',
 								formatter: '.formatter.deleteFirstZeros'
 							}"
-                            />
-                            <Text text="{Soa>ZfermAmm}" />
-                        </cells>
-                    </ColumnListItem>
-                </items>
-            </Table>
+                                />
+                                <Text text="{Soa>ZfermAmm}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </ScrollContainer>
             <c:Fragment
                 fragmentName="rgssoa.view.fragment.soa.table.CalculatorNoEditable"
                 type="XML"

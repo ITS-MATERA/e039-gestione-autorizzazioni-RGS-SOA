@@ -862,7 +862,7 @@ sap.ui.define(
           isVersanteEditable: false,
           isLogVisible: false,
           CurrentDate: new Date(),
-          CurrentDateFormatted: formatter.dateToString(new Date()),
+          CurrentDateFormatted: formatter.formatDateAllType(new Date()),
           RemoveFunctionButtons: true,
           DetailFromFunction: true,
         });
@@ -3652,7 +3652,7 @@ sap.ui.define(
           ZqindirizQuietanzante: oSoa.Zqindiriz,
           ZqprovinciaQuietanzante: oSoa.Zqprovincia,
           Zbdap: oSoa.Zbdap,
-          Zlifnrric: oSoa.Zlifnrric,
+          Zlifnrric: oSoa.Lifnr,
 
           Classificazione: aClassificazioneDeep,
           Posizione: aPosizioniDeep,
@@ -4211,7 +4211,7 @@ sap.ui.define(
           EnableCancellazioneRichAnn: false,
 
           CurrentDate: new Date(),
-          CurrentDateFormatted: formatter.dateToString(new Date()),
+          CurrentDateFormatted: formatter.formatDateAllType(new Date()),
           RemoveFunctionButtons: bRemoveFunctionButtons,
           Function: "Dettaglio",
           Table: "Edit",
@@ -5502,6 +5502,11 @@ sap.ui.define(
           oModelSoa.setProperty("/Zcodinps", obj.Zcodinps);
           oModelSoa.setProperty("/Zperiodrifa", obj.Zperiodrifa ? obj.Zperiodrifa : null);
           oModelSoa.setProperty("/Zperiodrifda", obj.Zperiodrifda ? obj.Zperiodrifda : null);
+          return;
+        }
+
+        if (obj.ZshortxtNew) {
+          oModelSoa.setProperty("/DescHkont", obj.ZtxtNew)
           return;
         }
       },

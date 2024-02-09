@@ -114,5 +114,30 @@ sap.ui.define([], function () {
 
       return oDate
     },
+
+    formatDateAllType: function (sValue) {
+      var oDateFormat = sap.ui.core.format.DateFormat.getInstance({
+        pattern: "dd.MM.yyyy"
+      });
+      var sOutput = "";
+      var sType = typeof (sValue);
+      switch (sType) {
+        case 'object':
+          sOutput = oDateFormat.format(sValue);
+          break;
+        case 'string':
+          if (sValue != "" && sValue[0] != "0") {
+            if (sValue.length == 8) {
+              sOutput = sValue[6] + sValue[7] + "." + sValue[4] + sValue[5] + "." + sValue[0] + sValue[1] + sValue[2] + sValue[3];
+            } else {
+              sOutput = sValue[8] + sValue[9] + "." + sValue[5] + sValue[6] + "." + sValue[0] + sValue[1] + sValue[2] + sValue[3];
+            }
+          }
+          break;
+        default:
+          break;
+      }
+      return sOutput;
+    }
   };
 });

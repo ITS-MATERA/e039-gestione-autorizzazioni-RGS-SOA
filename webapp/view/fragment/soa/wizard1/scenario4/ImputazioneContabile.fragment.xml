@@ -65,6 +65,7 @@
                     </layoutData>
                 </Text>
                 <zcontrolmccross:MatchcodeCross
+                    id="iptContoCoge"
                     whichMC="ContoCoge"
                     viewId="{Utility>/ViewId}"
                     Budat="{Utility>/CurrentDateFormatted}"
