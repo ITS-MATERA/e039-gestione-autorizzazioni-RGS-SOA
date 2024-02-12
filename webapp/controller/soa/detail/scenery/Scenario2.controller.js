@@ -211,7 +211,7 @@ sap.ui.define(
           var self = this;
           var oModel = self.getModel();
           var oModelStepScenario = self.getModel("StepScenario");
-          var aFilters = self.setFiltersWizard1(true);
+          var aFilters = self.setFiltersWizard1();
           var oPanelCalculator = self.getView().byId("pnlCalculatorList");
           var aPositionsSoa = self.getModel("Soa").getProperty("/data")
           var oModelUtility = self.getModel("Utility")

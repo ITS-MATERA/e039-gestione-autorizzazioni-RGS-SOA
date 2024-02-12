@@ -391,13 +391,22 @@ sap.ui.define(
         var oModelSoa = self.getModel("Soa")
 
         self._setSpecieSoaDesc("1");
+        self._resetDataModalitaPagamento(true)
+        self.createModelSedeBeneficiario();
+        self.setIbanQuote();
+        self.setModalitaPagamentoQuote();
+        self.createModelModPagamento();
+        self.setSedeBeneficiario();
         self.setDataBeneficiario(oModelSoa.getProperty("/Lifnr"));
       },
 
       onBeneficiarioChangeScen4: async function () {
         var self = this;
         var oModelSoa = self.getModel("Soa")
+        var oModelUtility = self.getModel("Utility")
 
+        oModelUtility.setProperty("/isVersanteEditable", await self.checkLifnrInTvarvc());
+        self._setSpecieSoaDesc("1");
         self.createModelModPagamento()
         self.setDataBeneficiario(oModelSoa.getProperty("/Lifnr"));
       },
@@ -1659,6 +1668,12 @@ sap.ui.define(
           oModelSoa.setProperty("/Zcodinps", "");
           oModelSoa.setProperty("/Zdescvers", "");
           oModelSoa.setProperty("/Zcatpurpose", "");
+          oModelSoa.setProperty("/Zidsede", "");
+          oModelSoa.setProperty("/Zbdap", "");
+          oModelSoa.setProperty("/Ort01", "");
+          oModelSoa.setProperty("/RegioSede", "");
+          oModelSoa.setProperty("/Pstlz", "");
+          oModelSoa.setProperty("/Land1Sede", "");
           return
         }
 
@@ -5221,18 +5236,13 @@ sap.ui.define(
         self.setModel(oModelFiltersWizard1, "FiltersWizard1");
       },
 
-      setFiltersWizard1: function (bRettifica = false) {
+      setFiltersWizard1: function () {
         var self = this;
         var aFilters = [];
         var oSoa = self.getModel("Soa").getData();
         var oFilter = self.getModel("FiltersWizard1").getData();
 
-        if (bRettifica) {
-          self.setFilterEQ(aFilters, "Lifnr", oSoa.Zlifnrric)
-        } else {
-          self.setFilterEQ(aFilters, "Lifnr", oSoa.Lifnr);
-        }
-
+        self.setFilterEQ(aFilters, "Lifnr", oSoa.Zlifnrric)
         self.setFilterEQ(aFilters, "Ztipopag", oSoa.Ztipopag);
         self.setFilterEQ(aFilters, "Fipos", oSoa.Fipos);
         self.setFilterEQ(aFilters, "Fistl", oSoa.Fistl);
