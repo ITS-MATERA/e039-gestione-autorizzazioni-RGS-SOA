@@ -53,7 +53,6 @@
                         <Wizard
                             id="wizScenario1"
                             showNextButton="false"
-                            class=".sapMWizardStepTitle sapMWizardStep"
                         >
                             <WizardStep title="{i18n>titleWizard1DocContabili}">
                                 <Panel

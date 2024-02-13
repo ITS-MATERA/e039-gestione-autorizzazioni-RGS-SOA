@@ -33,8 +33,8 @@
                     selectedKey="{FiltersWizard1>/CodRitenuta}"
                     selectionChange="onRitenutaChange"
                     editable="{=
-						${Soa>/Lifnr} ||
-						${Soa>/BuType} ||
+						${Soa>/ZlifnrRic} ||
+						${Soa>/TypeRic} ||
 						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
@@ -64,8 +64,8 @@
                     change="onEnteBeneficiarioChange"
                     editable="{=
 						 ${Soa>/Witht} === 'S1' ||
-                        ${Soa>/Lifnr} ||
-						${Soa>/BuType} ||
+                        ${Soa>/ZlifnrRic} ||
+						${Soa>/TypeRic} ||
 						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
@@ -96,8 +96,8 @@
                 <CheckBox
                     selected="{FiltersWizard1>/QuoteEsigibili}"
                     editable="{=
-						${Soa>/Lifnr} ||
-						${Soa>/BuType} ||
+						${Soa>/ZlifnrRic} ||
+						${Soa>/TypeRic} ||
 						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
@@ -134,8 +134,8 @@
 					}"
                     editable="{=
 						${FiltersWizard1>/QuoteEsigibili} === false ||
-						${Soa>/Lifnr} ||
-						${Soa>/BuType} ||
+						${Soa>/ZlifnrRic} ||
+						${Soa>/TypeRic} ||
 						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"
@@ -164,8 +164,8 @@
 					}"
                     editable="{=
 						${FiltersWizard1>/QuoteEsigibili} === false ||
-						${Soa>/Lifnr} ||
-						${Soa>/BuType} ||
+						${Soa>/ZlifnrRic} ||
+						${Soa>/TypeRic} ||
 						${Utility>/Function} === 'Rettifica' 
 						? false : true
 					}"

@@ -153,33 +153,26 @@ sap.ui.define(
           var self = this;
           var oWizard = self.getView().byId("wizScenario4");
           var oModelStepScenario = self.getModel("StepScenario");
-          var oModelUtility = self.getModel("Utility");
-
           var bWizard1Step1 = oModelStepScenario.getProperty("/wizard1Step1");
           var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
           var bWizard2 = oModelStepScenario.getProperty("/wizard2");
           var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
-          var bRettifica = oModelUtility.getProperty(
-            "/Function" === "Rettifica"
-          );
-
           if (bWizard1Step1) {
-            if (self.checkPosizioniScen4()) {
-              self.setPosizioneScen4();
-            }
-          } else if (bWizard1Step2) {
             if (await self.checkWizard1()) {
               oModelStepScenario.setProperty("/wizard1Step1", false);
               oModelStepScenario.setProperty("/wizard1Step2", true);
-              oModelStepScenario.setProperty("/visibleBtnForward", false);
-              oModelStepScenario.setProperty(
-                "/visibleBtnInserisciProspLiquidazione",
-                true
-              );
-              self.setPosizioneScen4();
-              self.createModelSedeBeneficiario()
+              self.setSedeBeneficiario();
+              self.createModelModPagamento();
+              self.createModelSedeBeneficiario();
+              self.setPosizioneScen4()
             }
+          } else if (bWizard1Step2) {
+            oModelStepScenario.setProperty("/wizard1Step2", false);
+            oModelStepScenario.setProperty("/wizard2", true);
+            self.createModelSedeBeneficiario();
+            self.createModelModPagamento();
+            oWizard.nextStep();
           } else if (bWizard2) {
             self.checkWizard2(oWizard);
           } else if (bWizard3) {

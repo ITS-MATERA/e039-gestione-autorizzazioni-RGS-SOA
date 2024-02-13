@@ -101,6 +101,7 @@
 							pattern: 'dd.MM.yyyy'
 						}
 					}"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -124,6 +125,7 @@
 							pattern: 'dd.MM.yyyy'
 						}
 					}"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -141,6 +143,7 @@
                     id="iptCodInps"
                     value="{Soa>/Zcodinps}"
                     maxLength="17"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
