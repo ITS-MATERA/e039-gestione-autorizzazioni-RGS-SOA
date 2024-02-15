@@ -12,8 +12,9 @@
                 <Title text="{i18n>titleRiepilogoListProspettoLiquidazione}" />
             </OverflowToolbar>
         </headerToolbar>
-        <ScrollContainer>
-            <content>
+
+        <content>
+            <ScrollContainer>
                 <Table
                     items="{
 					path: 'Soa>/data'
