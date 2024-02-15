@@ -12,6 +12,11 @@
         showFooter="true"
         class="sapUiNoContentPadding"
     >
+        <f:title>
+            <f:DynamicPageTitle
+                visible="{= ${device>/resize/width} &lt; 1000 ? true : false}"
+            />
+        </f:title>
         <f:header>
             <f:DynamicPageHeader
                 pinnable="false"

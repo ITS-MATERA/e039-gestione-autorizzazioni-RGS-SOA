@@ -39,107 +39,112 @@
             </OverflowToolbar>
         </headerToolbar>
         <content>
-            <Table
-                id="tblEditPosizioniScen3"
-                mode="MultiSelect"
-                items="{
+            <ScrollContainer>
+                <Table
+                    id="tblEditPosizioniScen3"
+                    mode="MultiSelect"
+                    items="{
 					path: 'Soa>/data'
 				}"
-                selectionChange="onSelectedItemEdit"
-                fixedLayout="false"
-                growing="true"
-            >
-                <columns>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelProspetto}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelRigaProspetto}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelDescProspLiquidazione}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelAbbrNRegDocumento}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelImpLiquidato}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelImpOrdinato}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelImpDaOrdinare}" />
-                        </header>
-                    </Column>
-                </columns>
-                <items>
-                    <ColumnListItem vAlign="Middle">
-                        <cells>
-                            <Text text="{
+                    selectionChange="onSelectedItemEdit"
+                    fixedLayout="false"
+                    growing="true"
+                    width="150%"
+                >
+                    <columns>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelProspetto}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelRigaProspetto}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text
+                                    text="{i18n>labelDescProspLiquidazione}"
+                                />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelAbbrNRegDocumento}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelImpLiquidato}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelImpOrdinato}" />
+                            </header>
+                        </Column>
+                        <Column
+                            minScreenWidth="Desktop"
+                            demandPopin="true"
+                        >
+                            <header>
+                                <Text text="{i18n>labelImpDaOrdinare}" />
+                            </header>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem vAlign="Middle">
+                            <cells>
+                                <Text text="{
 								path: 'Soa>Znumliq'
 							}" />
-                            <Text text="{Soa>Zposizione}" />
-                            <Text text="{Soa>ZdescProsp}" />
-                            <Text text="{Soa>Belnr}" />
-                            <Text
-                                text="{
+                                <Text text="{Soa>Zposizione}" />
+                                <Text text="{Soa>ZdescProsp}" />
+                                <Text text="{Soa>Belnr}" />
+                                <Text
+                                    text="{
 								path: 'Soa>Zimpliq',
 								formatter: '.formatter.convertImport'
 							}"
-                            />
-                            <Text
-                                text="{
+                                />
+                                <Text
+                                    text="{
 								path: 'Soa>Zimppag',
 								formatter: '.formatter.convertImport'
 							}"
-                            />
-                            <Input
-                                id="iptImpDaOrd"
-                                change="onImpDaOrdinareChangeEdit"
-                                type="Number"
-                                value="{
+                                />
+                                <Input
+                                    id="iptImpDaOrd"
+                                    change="onImpDaOrdinareChangeEdit"
+                                    type="Number"
+                                    value="{
 									path: 'Soa>Zimpdaord'
 								}"
-                            />
-                        </cells>
-                    </ColumnListItem>
-                </items>
-            </Table>
+                                />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </ScrollContainer>
             <c:Fragment
                 fragmentName="rgssoa.view.fragment.soa.table.CalculatorEdit"
                 type="XML"

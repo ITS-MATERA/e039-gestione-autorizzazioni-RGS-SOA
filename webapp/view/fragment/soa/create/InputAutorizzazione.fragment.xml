@@ -395,6 +395,7 @@
                             datbis="99991231"
                             text="{Autorizzazione>/Fipos}"
                             semanticObject="ESAMINAMODIFICA"
+                            wrapping="true"
                         />
                         <layoutData>
                             <l:GridData span="XL2 L4 M4 S12" />
@@ -422,6 +423,7 @@
                             fictr="{Autorizzazione>/Fistl}"
                             datbis="99991231"
                             text="{Autorizzazione>/Fistl}"
+                            wrapping="true"
                         />
                         <layoutData>
                             <l:GridData span="XL2 L4 M4 S12" />

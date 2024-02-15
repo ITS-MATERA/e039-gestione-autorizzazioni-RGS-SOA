@@ -176,6 +176,7 @@
                     datbis="99991231"
                     text="{Soa>/Fipos}"
                     semanticObject="ESAMINAMODIFICA"
+                    wrapping="true"
                 />
                 <layoutData>
                     <l:GridData span="XL3 L4 M6 S12" />
@@ -199,6 +200,7 @@
                     fictr="{Soa>/Fistl}"
                     datbis="99991231"
                     text="{Soa>/Fistl}"
+                    wrapping="true"
                 />
                 <layoutData>
                     <l:GridData span="XL3 L4 M6 S12" />
