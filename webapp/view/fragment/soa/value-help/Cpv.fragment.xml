@@ -1,22 +1,58 @@
-<c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-  xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+<core:FragmentDefinition
+    id="valueHelpCodiceCPV"
+    xmlns="sap.ui.comp.valuehelpdialog"
+    xmlns:m="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
 >
-<SelectDialog
-		id="sdCpv"
-    noDataText="{i18n>noCpv}"
-		title="{i18n>labelCpv}"
-		search="onValueHelpChange"
-		confirm="onValueHelpCpvClose"
-		cancel="onValueHelpCpvClose"
-    app:input="iptCpv"
-		app:FilterValueHelp="Matnr"
-		items="{path: 'Cpv>/'}">		
-		<StandardListItem
-      iconDensityAware="false"
-      iconInset="false"
-      title="{Cpv>Matnr}"
-			description="{Cpv>Maktg}"/>
-	</SelectDialog>
-</c:FragmentDefinition>
+    <ValueHelpDialog
+        title="{i18n>labelCpv}"
+        ok="onValueHelpOkPress"
+        cancel="onValueHelpCancelPress"
+        afterClose="onValueHelpAfterClose"
+        supportRanges="false"
+        key="Zcpv"
+        descriptionKey="ZcpvDesc"
+        tokenDisplayBehaviour="idAndDescription"
+        supportMultiselect="false"
+    >
+        <filterBar>
+            <fb:FilterBar
+                id="idFilterBar"
+                search="onFilterBarSearch"
+                advancedMode="true"
+            >
+                <fb:filterGroupItems>
+                    <fb:FilterGroupItem
+                        groupName="__$INTERNAL$"
+                        name="Zcpv"
+                        label="{i18n>labelCpv}"
+                        visibleInFilterBar="true"
+                    >
+                        <fb:control>
+                            <m:SearchField
+                                id="Zcpv"
+                                placeholder="{i18n>insertCpv}"
+                                search="onFilterBarSearch"
+                            />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem
+                        groupName="__$INTERNAL$"
+                        name="ZcpvDesc"
+                        label="{i18n>labelDescrizione}"
+                        visibleInFilterBar="true"
+                    >
+                        <fb:control>
+                            <m:SearchField
+                                id="ZcpvDesc"
+                                placeholder="{i18n>insertDescrizione}"
+                                search="onFilterBarSearch"
+                            />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                </fb:filterGroupItems>
+            </fb:FilterBar>
+        </filterBar>
+    </ValueHelpDialog>
+</core:FragmentDefinition>

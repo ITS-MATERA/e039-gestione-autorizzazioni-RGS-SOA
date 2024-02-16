@@ -37,6 +37,7 @@
                     <c:Item
                         key="{SedeBeneficiario>Zidsede}"
                         text="{SedeBeneficiario>Stras}"
+                        app:Zversione="{SedeBeneficiario>ZversioneZfsedi}"
                     />
                     <layoutData>
                         <l:GridData span="XL3 L3 M5 S12" />

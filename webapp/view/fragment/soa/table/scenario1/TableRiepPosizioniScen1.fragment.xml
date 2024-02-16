@@ -86,10 +86,7 @@
                             demandPopin="true"
                         >
                             <header>
-                                <Text
-                                    text="{i18n>labelProspetto}"
-                                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
-                                />
+                                <Text text="{i18n>labelProspetto}" />
                             </header>
                         </Column>
                         <Column
@@ -97,10 +94,7 @@
                             demandPopin="true"
                         >
                             <header>
-                                <Text
-                                    text="{i18n>labelRigaProspetto}"
-                                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
-                                />
+                                <Text text="{i18n>labelRigaProspetto}" />
                             </header>
                         </Column>
                     </columns>

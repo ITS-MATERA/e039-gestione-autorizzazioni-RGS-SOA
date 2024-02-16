@@ -9,6 +9,11 @@ sap.ui.define(
     "sap/ui/export/Spreadsheet",
     "sap/ui/export/library",
     "sap/m/library",
+    'sap/m/Label',
+    'sap/ui/table/Column',
+    'sap/m/Column',
+    'sap/m/Text',
+    'sap/m/SearchField',
   ],
   function (
     BaseController,
@@ -19,7 +24,8 @@ sap.ui.define(
     MessageBox,
     Spreadsheet,
     exportLibrary,
-    mobileLibrary
+    mobileLibrary,
+    Label, UIColumn, MColumn, Text, SearchField
   ) {
     "use strict";
 
@@ -1531,6 +1537,10 @@ sap.ui.define(
       },
 
       onSedeBeneficiarioChange: function (oEvent) {
+        var self = this;
+        var oModelSoa = self.getModel("Soa")
+        oModelSoa.setProperty("/ZversioneZfsedi", oEvent?.getParameter("selectedItem")?.data("Zversione"))
+
         this.setSedeBeneficiario();
       },
 
@@ -2853,6 +2863,162 @@ sap.ui.define(
         aListClassificazione[sIndex].Belnr = await this._getCigDescription(oSelectedItem.getTitle());
         oModelClassificazione.setProperty("/Cig", aListClassificazione);
       },
+
+      onValueHelpCpv: async function (oEvent) {
+        var self = this;
+        var oModel = self.getModel()
+        var oColumnProductCode, oColumnProductName;
+
+        this._oVHD = sap.ui.xmlfragment("rgssoa.view.fragment.soa.value-help.Cpv", this);
+        this._oVHD.data("index", oEvent.getSource().data().index)
+
+        self.getView().setBusy(true);
+        var oCpv = await new Promise(async function (resolve, reject) {
+          await oModel.read("/CpvSet", {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              resolve(data);
+            },
+            error: function (e) {
+              self.getView().setBusy(false);
+              reject(e);
+            },
+          });
+        });
+
+        var oCpvModel = new JSONModel();
+        oCpvModel.setSizeLimit(10000);
+        oCpvModel.setProperty("/CpvSet", oCpv.results)
+        this.getView().addDependent(this._oVHD);
+
+        this._oBasicSearchField = new SearchField({
+          showSearchButton: true,
+          search: function (oEvent) {
+            this.onFilterBarSearch(oEvent);
+          }.bind(this),
+        });
+
+        var oFilterBar = this._oVHD.getFilterBar();
+        oFilterBar.setFilterBarExpanded(true);
+        oFilterBar.setBasicSearch(this._oBasicSearchField);
+
+        this._oVHD.getTableAsync().then(function (oTable) {
+          oTable.setModel(oCpvModel);
+
+          if (oTable.bindRows) {
+            // Bind rows to the ODataModel and add columns
+            oTable.bindAggregation("rows", {
+              path: "/CpvSet",
+            });
+
+            oColumnProductCode = new UIColumn({ label: new Label({ text: "CPV" }), template: new Text({ wrapping: false, text: "{Zcpv}" }) });
+            oColumnProductCode.data({
+              fieldName: "Zcpv"
+            });
+            oColumnProductName = new UIColumn({ label: new Label({ text: "Descrizione" }), template: new Text({ wrapping: false, text: "{ZcpvDesc}" }) });
+            oColumnProductName.data({
+              fieldName: "ZcpvDesc"
+            });
+            oTable.addColumn(oColumnProductCode);
+            oTable.addColumn(oColumnProductName);
+          }
+
+          // For Mobile the default table is sap.m.Table
+          if (oTable.bindItems) {
+            // Bind items to the ODataModel and add columns
+            oTable.bindAggregation("items", {
+              path: "/CpvSet",
+              template: new ColumnListItem({
+                cells: [new Label({ text: "{Zcpv}" }), new Label({ text: "{ZcpvDesc}" })]
+              }),
+            });
+            oTable.addColumn(new MColumn({ header: new Label({ text: "CPV" }) }));
+            oTable.addColumn(new MColumn({ header: new Label({ text: "Descrizione" }) }));
+          }
+
+          this._oVHD.update();
+        }.bind(this));
+
+        this._oVHD.open();
+      },
+
+      onValueHelpCancelPress: function () {
+        this._oVHD.close();
+      },
+
+      onValueHelpAfterClose: function () {
+        this._oVHD.destroy();
+      },
+
+      onValueHelpOkPress: function (oEvent) {
+        var self = this;
+
+        var aTokens = oEvent.getParameter("tokens");
+        var sKey = aTokens[0].mProperties.key;
+        var sText = aTokens[0].mProperties.text.split("(")[1].split(")")[0];
+
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cpv");
+
+        var oSource = oEvent.getSource()
+        var sIndex = oSource.data().index;
+
+        aListClassificazione[sIndex].Zcpv = sKey
+        aListClassificazione[sIndex].ZcpvDesc = sText
+        oModelClassificazione.setProperty("/Cpv", aListClassificazione);
+        this._oVHD.close();
+        this._oVHD.destroy();
+      },
+
+      onFilterBarSearch: function (oEvent) {
+        var sSearchQuery = this._oBasicSearchField.getValue();
+        var aSelectionSet = sap.ui
+          .getCore("idFilterBar")
+          .getElementById("idFilterBar")
+          .getFilterGroupItems();
+
+        var aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+          oControl = oControl.getControl();
+          if (oControl.getValue()) {
+            aResult.push(new Filter({
+              path: oControl.getId(),
+              operator: FilterOperator.Contains,
+              value1: oControl.getValue()
+            }));
+          }
+
+          return aResult;
+        }, []);
+
+
+        aFilters.push(new Filter({
+          filters: [
+            new Filter({ path: "Zcpv", operator: FilterOperator.Contains, value1: sSearchQuery }),
+            new Filter({ path: "ZcpvDesc", operator: FilterOperator.Contains, value1: sSearchQuery })
+          ],
+          and: false
+        }));
+
+        this._filterTable(aFilters);
+
+      },
+
+      _filterTable: function (oFilter) {
+        var oVHD = this._oVHD;
+
+        oVHD.getTableAsync().then(function (oTable) {
+          if (oTable.bindRows) {
+            console.log()
+            oTable.getBinding("rows").filter(oFilter);
+          }
+          if (oTable.bindItems) {
+            oTable.getBinding("items").filter(oFilter);
+          }
+
+          // This method must be called after binding update of the table.
+          oVHD.update();
+        });
+      },
       //#endregion
 
       //#region SELECTION CHANGE
@@ -2938,7 +3104,10 @@ sap.ui.define(
             self.getView().setBusy(false);
             aListClassificazione[sIndex].ZcpvDesc = data.ZcpvDesc;
             oModelClassificazione.setProperty("/Cpv", aListClassificazione);
-            self.hasResponseError(oResponse);
+            if (self.hasResponseError(oResponse)) {
+              aListClassificazione[sIndex].Zcpv = "";
+              oModelClassificazione.setProperty("/Cpv", aListClassificazione);
+            };
           },
           error: function () {
             self.getView().setBusy(false);

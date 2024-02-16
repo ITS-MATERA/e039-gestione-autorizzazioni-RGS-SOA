@@ -1,26 +1,26 @@
 <c:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-	<SelectDialog
-		id="sdCup"
-		noDataText="{i18n>noCup}"
-		title="{i18n>labelCup}"
-		search="onValueHelpChange"
-		confirm="onValueHelpCupClose"
-		cancel="onValueHelpCupClose"
-		app:input="iptCup"
-		app:FilterValueHelp="Zzcup"
-		items="{
+    <SelectDialog
+        id="sdCup"
+        noDataText="{i18n>noCup}"
+        title="{i18n>labelCup}"
+        search="onValueHelpChange"
+        confirm="onValueHelpCupClose"
+        cancel="onValueHelpCupClose"
+        app:input="iptCup"
+        app:FilterValueHelp="Zzcup"
+        items="{
 			path: 'Cup>/'
 		}"
-	>
-		<StandardListItem
-			iconDensityAware="false"
-			iconInset="false"
-			title="{Cup>Zzcup}"
-			description="{Cup>Belnr}"
-		/>
-	</SelectDialog>
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{Cup>Zzcup}"
+            description="{Cup>Belnr}"
+        />
+    </SelectDialog>
 </c:FragmentDefinition>
