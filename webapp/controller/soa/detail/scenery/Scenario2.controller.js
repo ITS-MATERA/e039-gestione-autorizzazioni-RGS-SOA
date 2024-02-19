@@ -216,7 +216,9 @@ sap.ui.define(
           var aPositionsSoa = self.getModel("Soa").getProperty("/data")
           var oModelUtility = self.getModel("Utility")
           var oSoa = self.getModel("Sop").getData()
+
           self.setFilterEQ(aFilters, "ZzTipoent", oSoa.ZzTipoent)
+          self.setFilterEQ(aFilters, "Zchiavesop", oSoa.Zchiavesop)
 
           self.getView().setBusy(true);
 

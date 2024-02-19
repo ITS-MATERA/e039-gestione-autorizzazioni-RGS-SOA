@@ -247,7 +247,10 @@
 									formatter: '.formatter.deleteFirstZeros'
 								}"
                             />
-                            <Text text="{ListSoa>DescStateSoa}" />
+                            <Text
+                                text="{ListSoa>DescStateSoa}"
+                                visible="{= ${Utility>/EnableInvioFirma} || ${Utility>/EnableFirma} || ${Utility>/EnableRevocaFirma} ? false : true}"
+                            />
                             <Input
                                 id="iptNumProtocollo"
                                 value="{

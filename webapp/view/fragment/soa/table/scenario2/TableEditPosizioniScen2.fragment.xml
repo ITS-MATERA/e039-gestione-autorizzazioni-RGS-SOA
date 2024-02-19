@@ -183,7 +183,9 @@
 								}"
                                 />
                                 <Text text="{Soa>Xblnr}" />
-                                <Text text="{Soa>ZbenaltName}" />
+                                <Text
+                                    text="{= ${Sop>ZzragSoc} ? ${Sop>ZzragSoc} : ${Sop>ZbenaltName}}"
+                                />
                                 <Text
                                     text="{
 									path: 'Soa>Wrbtr',

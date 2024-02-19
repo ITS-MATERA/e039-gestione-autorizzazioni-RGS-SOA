@@ -893,6 +893,7 @@ sap.ui.define(
       createModelUtilityReg: function (sView) {
         var self = this;
         var oModelUtility = new JSONModel({
+          Mode: "Registrazione",
           ViewId: sView,
           EnableEdit: true,
           isQuiet1Prevalorizzato: false,
@@ -970,10 +971,10 @@ sap.ui.define(
             HeaderIndex: "1",
             Index: oPosition.Index.toString(),
             Zimpdaord: oPosition.Zimpdaord,
-            Zimppag: oPosition.ZimppagOld ? oPosition.ZimppagOld : oPosition.Zimppag,
+            Zimppag: oUtility.Mode === 'Rettifica' ? oPosition.ZimppagOld : oPosition.Zimppag,
             Zimpres: oPosition.Zimpres,
-            Zimpliq: oPosition.ZimpliqOld ? oPosition.ZimpliqOld : oPosition.Zimpliq,
-            ZimpdaordOld: oPosition?.ZimpdaordOld ? oPosition?.ZimpdaordOld : null
+            Zimpliq: oUtility.Mode === 'Rettifica' ? oPosition.ZimpliqOld : oPosition.Zimpliq,
+            ZimpdaordOld: oUtility.Mode === 'Rettifica' ? oPosition?.ZimpdaordOld : null
           });
         });
 
@@ -4418,6 +4419,7 @@ sap.ui.define(
           EnableInvioFirma: false,
           EnableRegistrazioneRichAnn: false,
           EnableCancellazioneRichAnn: false,
+          Mode: "Rettifica",
 
           CurrentDate: new Date(),
           CurrentDateFormatted: formatter.formatDateAllType(new Date()),
