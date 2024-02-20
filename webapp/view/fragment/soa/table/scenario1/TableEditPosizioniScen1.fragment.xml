@@ -177,7 +177,9 @@
 								}
 							}"
                                 />
-                                <Text text="{Soa>ZbenaltName}" />
+                                <Text
+                                    text="{= ${Soa>ZzragSoc} ? ${Soa>ZzragSoc} : ${Soa>ZbenaltName}}"
+                                />
                                 <Text
                                     text="{
 								path: 'Soa>Zimpliq',

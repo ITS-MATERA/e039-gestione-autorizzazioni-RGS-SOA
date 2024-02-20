@@ -62,7 +62,7 @@
                 <Text
                     text="{i18n>inputCausaleValutaria}"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData
@@ -82,7 +82,7 @@
 								${Utility>/EnableEdit} ? true : false
 							}"
                     change="onCausaleValutariaChange"
-                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                    visible="{= ${Soa>/ZspecieSop} === '1' ? true : false}"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -96,7 +96,7 @@
                     <layoutData>
                         <l:GridData
                             span="XL2 L3 M5 S12"
-                            indentXL="{= ${Sop>/ZspecieSop} === '1' ? 0 : 1}"
+                            indentXL="{= ${Soa>/ZspecieSop} === '1' ? 0 : 1}"
                         />
                     </layoutData>
                 </Text>

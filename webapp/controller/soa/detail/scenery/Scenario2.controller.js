@@ -215,7 +215,7 @@ sap.ui.define(
           var oPanelCalculator = self.getView().byId("pnlCalculatorList");
           var aPositionsSoa = self.getModel("Soa").getProperty("/data")
           var oModelUtility = self.getModel("Utility")
-          var oSoa = self.getModel("Sop").getData()
+          var oSoa = self.getModel("Soa").getData()
 
           self.setFilterEQ(aFilters, "ZzTipoent", oSoa.ZzTipoent)
           self.setFilterEQ(aFilters, "Zchiavesop", oSoa.Zchiavesop)

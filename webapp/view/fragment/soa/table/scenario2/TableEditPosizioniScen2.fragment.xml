@@ -184,7 +184,7 @@
                                 />
                                 <Text text="{Soa>Xblnr}" />
                                 <Text
-                                    text="{= ${Sop>ZzragSoc} ? ${Sop>ZzragSoc} : ${Sop>ZbenaltName}}"
+                                    text="{= ${Soa>ZzragSoc} ? ${Soa>ZzragSoc} : ${Soa>ZbenaltName}}"
                                 />
                                 <Text
                                     text="{
