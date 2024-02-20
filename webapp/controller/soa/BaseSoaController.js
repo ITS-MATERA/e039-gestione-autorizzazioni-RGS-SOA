@@ -956,6 +956,7 @@ sap.ui.define(
         var oSoa = self.getModel("Soa").getData();
         var aPosizioni = oSoa.data;
         var aPosizioniFormatted = [];
+        var oUtility = self.getModel("Utility").getData()
         if (oSoa.Zimptot <= 0) {
           MessageBox.error("L'importo non può essere minore o uguale a 0");
           return;
@@ -2675,16 +2676,9 @@ sap.ui.define(
         var oModelSoa = self.getModel("Soa").getData();
         var aFilters = [];
         var oSourceData = oEvent.getSource().data();
-        var dialogName = oSourceData.dialogName;
         var oDialog = self.loadFragment(
           "rgssoa.view.fragment.soa.value-help.CodiceGestionale"
         );
-
-        var dCurrentDate = new Date();
-        var sCurrentDate =
-          dCurrentDate.getFullYear().toString() +
-          (dCurrentDate.getMonth() + 1).toString() +
-          dCurrentDate.getDate().toString();
 
         self.setFilterEQ(aFilters, "ANNO", oModelSoa?.Gjahr);
         self.setFilterEQ(aFilters, "FASE", "GEST");
@@ -2716,7 +2710,7 @@ sap.ui.define(
 
             var oModelJson = new JSONModel();
             oModelJson.setData(aCos);
-            var oSelectDialog = sap.ui.getCore().byId(dialogName);
+            var oSelectDialog = sap.ui.getCore().byId("sdCos");
             oSelectDialog?.setModel(oModelJson, "Cos");
             oSelectDialog?.data("index", oSourceData.index);
             oDialog.open();
@@ -2755,7 +2749,6 @@ sap.ui.define(
         //Load Models
         var oModelCup = self.getModel("ZSS4_COSP_CONTRATTO_SRV");
         var oSourceData = oEvent.getSource().data();
-        var dialogName = oSourceData.dialogName;
         var oDialog = self.loadFragment(
           "rgssoa.view.fragment.soa.value-help.Cup"
         );
@@ -2776,25 +2769,13 @@ sap.ui.define(
             );
             var oModelJson = new JSONModel();
             oModelJson.setData(aCup);
-            var oSelectDialog = sap.ui.getCore().byId(dialogName);
+            var oSelectDialog = sap.ui.getCore().byId("sdCup");
             oSelectDialog?.setModel(oModelJson, "Cup");
             oSelectDialog?.data("index", oSourceData.index);
             oDialog.open();
           },
           error: function () { },
         });
-
-        // oDataModel.read("/" + "CPVClassificazioneSet", {
-        //   success: function (data, oResponse) {
-        //     var oModelJson = new JSONModel();
-        //     oModelJson.setData(data.results);
-        //     var oSelectDialog = sap.ui.getCore().byId(dialogName);
-        //     oSelectDialog?.setModel(oModelJson, "Cpv");
-        //     oSelectDialog?.data("index", oSourceData.index);
-        //     oDialog.open();
-        //   },
-        //   error: function (error) {},
-        // });
       },
 
       onValueHelpCupClose: function (oEvent) {
@@ -4591,8 +4572,12 @@ sap.ui.define(
 
       createModelBeneficiarioRettifica: async function () {
         var self = this;
-
+        var oSoa = self.getModel("Soa").getData()
         var oBeneficiario = await self.setDataBenRettifica()
+
+        if (oSoa.ZspecieSop === "2") {
+          return
+        }
 
         var oModelBeneficiarioRettifica = new JSONModel({
           Lifnr: oBeneficiario.Lifnr,
